@@ -48,6 +48,11 @@ class User extends BaseUser
 	 */
 	private $authors;
 
+	/**
+	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Genre", mappedBy="addedBy")
+	 */
+	private $genres;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -194,5 +199,39 @@ class User extends BaseUser
     public function getBooks()
     {
         return $this->books;
+    }
+
+    /**
+     * Add genre
+     *
+     * @param \AppBundle\Entity\Genre $genre
+     *
+     * @return User
+     */
+    public function addGenre(\AppBundle\Entity\Genre $genre)
+    {
+        $this->genres[] = $genre;
+
+        return $this;
+    }
+
+    /**
+     * Remove genre
+     *
+     * @param \AppBundle\Entity\Genre $genre
+     */
+    public function removeGenre(\AppBundle\Entity\Genre $genre)
+    {
+        $this->genres->removeElement($genre);
+    }
+
+    /**
+     * Get genres
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGenres()
+    {
+        return $this->genres;
     }
 }

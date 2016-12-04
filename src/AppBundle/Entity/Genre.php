@@ -8,9 +8,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
- * @ORM\Table(name="books")
+ * @ORM\Table(name="genres")
  */
-class Book
+class Genre
 {
 	/**
 	 * @ORM\Id
@@ -26,35 +26,35 @@ class Book
 	private $createdAt;
 
 	/**
-	 * @ORM\Column(type="string", length=200)
+	 * @ORM\Column(type="string", length=100)
 	 * @Assert\NotBlank()
 	 * @Assert\Length(
-	 *      min = 1,
-	 *      max = 100,
-	 *      minMessage = "Название должно содержать хотя бы {{ limit }} символ",
+	 *      min = 2,
+	 *      max = 50,
+	 *      minMessage = "Название должно содержать хотя бы {{ limit }} символа",
 	 *      maxMessage = "Название не должно быть длинее {{ limit }} символов"
 	 * )
 	 */
 	private $name;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="Author", inversedBy="books")
-	 * @ORM\JoinColumn(name="author_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-	 */
-	private $author;
-
-	/**
-	 * @ORM\ManyToOne(targetEntity="User", inversedBy="books")
+	 * @ORM\ManyToOne(targetEntity="User", inversedBy="genres")
 	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
 	 */
 	private $addedBy;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="\AppBundle\Entity\Genre", inversedBy="books")
-	 * @ORM\JoinColumn(name="genre_id", referencedColumnName="id", nullable=true)
+	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Book", mappedBy="genre")
 	 */
-	private $genre;
+	private $books;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->books = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -71,7 +71,7 @@ class Book
      *
      * @param \DateTime $createdAt
      *
-     * @return Book
+     * @return Genre
      */
     public function setCreatedAt($createdAt)
     {
@@ -95,7 +95,7 @@ class Book
      *
      * @param string $name
      *
-     * @return Book
+     * @return Genre
      */
     public function setName($name)
     {
@@ -115,35 +115,11 @@ class Book
     }
 
     /**
-     * Set author
-     *
-     * @param \AppBundle\Entity\Author $author
-     *
-     * @return Book
-     */
-    public function setAuthor(\AppBundle\Entity\Author $author)
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    /**
-     * Get author
-     *
-     * @return \AppBundle\Entity\Author
-     */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
-
-    /**
      * Set addedBy
      *
      * @param \AppBundle\Entity\User $addedBy
      *
-     * @return Book
+     * @return Genre
      */
     public function setAddedBy(\AppBundle\Entity\User $addedBy)
     {
@@ -163,26 +139,36 @@ class Book
     }
 
     /**
-     * Set genre
+     * Add book
      *
-     * @param \AppBundle\Entity\Genre $genre
+     * @param \AppBundle\Entity\Book $book
      *
-     * @return Book
+     * @return Genre
      */
-    public function setGenre(\AppBundle\Entity\Genre $genre = null)
+    public function addBook(\AppBundle\Entity\Book $book)
     {
-        $this->genre = $genre;
+        $this->books[] = $book;
 
         return $this;
     }
 
     /**
-     * Get genre
+     * Remove book
      *
-     * @return \AppBundle\Entity\Genre
+     * @param \AppBundle\Entity\Book $book
      */
-    public function getGenre()
+    public function removeBook(\AppBundle\Entity\Book $book)
     {
-        return $this->genre;
+        $this->books->removeElement($book);
+    }
+
+    /**
+     * Get books
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBooks()
+    {
+        return $this->books;
     }
 }

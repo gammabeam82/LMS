@@ -30,3 +30,4 @@ security:
         - { path: ^/admin/, role: ROLE_ADMIN }
         - { path: ^/books/add, role: ROLE_ADMIN }
         - { path: ^/authors/add, role: ROLE_ADMIN }
+        - { path: ^/genres/add, role: ROLE_ADMIN }
