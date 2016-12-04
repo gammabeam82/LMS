@@ -1,0 +1,23 @@
+{
+  "name": "lms",
+  "description": "",
+  "main": "",
+  "authors": [
+    "<gammabeam82@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/gammabeam82/LMS",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "chosen": "^1.6.2",
+    "chosen-bootstrap": "^1.1.0"
+  }
+}

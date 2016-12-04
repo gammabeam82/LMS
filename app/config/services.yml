@@ -8,4 +8,12 @@ services:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
       gedmo.listener.softdeleteable:
-              class:        Gedmo\SoftDeleteable\SoftDeleteableListener
+          class: Gedmo\SoftDeleteable\SoftDeleteableListener
+
+      app.authors:
+          class: AppBundle\Service\Authors
+          arguments: ["@doctrine"]
+
+      app.books:
+          class: AppBundle\Service\Books
+          arguments: ["@doctrine"]

@@ -1,7 +1,8 @@
 {
-  "dependencies": {},
+  "dependencies": {
+    "bower": "^1.8.0"
+  },
   "devDependencies": {
-    "bootstrap": "^3.3.6",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.1",
     "gulp-clean-css": "^2.0.12",
@@ -10,7 +11,6 @@
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.2",
     "gulp-typescript": "^3.0.0",
-    "jquery": "^3.*",
     "typescript": "^2.0.3"
   }
 }

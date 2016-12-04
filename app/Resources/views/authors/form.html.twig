@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block title %}Добавление автора{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+
+		<div class="row">
+			<div class="col-xs-12">
+				<ol class="breadcrumb">
+					<li><a href="{{ path('homepage') }}">На главную</a></li>
+					<li><a href="{{ path('authors') }}">Авторы</a></li>
+					<li class="active">Добавление автора</li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="jumbotron">
+
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-6">
+
+				{% for flash_message in app.session.flashBag.get('notice') %}
+					<div class="panel panel-default">
+						<div class="panel-body bg-success">
+							{{ flash_message }}
+						</div>
+					</div>
+				{% endfor %}
+
+				{{ form_start(form) }}
+				{{ form_row(form.firstName) }}
+				{{ form_row(form.lastName) }}
+
+				<button type="submit" class="btn btn-success pull-right">
+					<i class="glyphicon glyphicon-plus"></i> Сохранить
+				</button>
+
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</div>
+{% endblock %}

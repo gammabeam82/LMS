@@ -1,0 +1,183 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="authors")
+ */
+class Author
+{
+	/**
+	 * @ORM\Id
+	 * @ORM\Column(type="integer")
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
+	protected $id;
+
+	/**
+	 * @Gedmo\Timestampable(on="create")
+	 * @ORM\Column(type="datetime")
+	 */
+	private $createdAt;
+
+	/**
+	 * @ORM\Column(type="string", length=100)
+	 * @Assert\NotBlank()
+	 * @Assert\Length(
+	 *      min = 2,
+	 *      max = 40,
+	 *      minMessage = "Имя должно содержать хотя бы {{ limit }} символа",
+	 *      maxMessage = "Имя не должно быть длинее {{ limit }} символов"
+	 * )
+	 */
+	private $firstName;
+
+	/**
+	 * @ORM\Column(type="string", length=100)
+	 * @Assert\NotBlank()
+	 * @Assert\Length(
+	 *      min = 2,
+	 *      max = 100,
+	 *      minMessage = "Фамилия содержать хотя бы {{ limit }} символа",
+	 *      maxMessage = "Фамилия не должна быть длинее {{ limit }} символов"
+	 * )
+	 */
+	private $lastName;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Book", mappedBy="author", cascade={"all"})
+	 */
+	private $books;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="\AppBundle\Entity\User", inversedBy="authors")
+	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+	 */
+	private $addedBy;
+
+
+	public function __construct()
+	{
+		$this->books = new ArrayCollection();
+	}
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Author
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set firstName
+     *
+     * @param string $firstName
+     *
+     * @return Author
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * Get firstName
+     *
+     * @return string
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * Set lastName
+     *
+     * @param string $lastName
+     *
+     * @return Author
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * Get lastName
+     *
+     * @return string
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * Set addedBy
+     *
+     * @param \AppBundle\Entity\User $addedBy
+     *
+     * @return Author
+     */
+    public function setAddedBy(\AppBundle\Entity\User $addedBy)
+    {
+        $this->addedBy = $addedBy;
+
+        return $this;
+    }
+
+    /**
+     * Get addedBy
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getAddedBy()
+    {
+        return $this->addedBy;
+    }
+
+	/**
+	 * @return string
+	 */
+    public function getFullName()
+	{
+		return "{$this->firstName} {$this->lastName}";
+	}
+}

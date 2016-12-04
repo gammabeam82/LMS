@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -37,13 +38,23 @@ class User extends BaseUser
 	 */
 	private $deletedAt;
 
+	/**
+	 * @ORM\OneToMany(targetEntity="Book", mappedBy="addedBy")
+	 */
+	private $books;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Author", mappedBy="addedBy")
+	 */
+	private $authors;
+
 	public function __construct()
 	{
 		parent::__construct();
-		// your own logic
+
+		$this->books = new ArrayCollection();
+		$this->authors = new ArrayCollection();
 	}
-
-
 
     /**
      * Set createdAt
@@ -115,5 +126,73 @@ class User extends BaseUser
     public function getDeletedAt()
     {
         return $this->deletedAt;
+    }
+
+    /**
+     * Add author
+     *
+     * @param \AppBundle\Entity\Author $author
+     *
+     * @return User
+     */
+    public function addAuthor(\AppBundle\Entity\Author $author)
+    {
+        $this->authors[] = $author;
+
+        return $this;
+    }
+
+    /**
+     * Remove author
+     *
+     * @param \AppBundle\Entity\Author $author
+     */
+    public function removeAuthor(\AppBundle\Entity\Author $author)
+    {
+        $this->authors->removeElement($author);
+    }
+
+    /**
+     * Get authors
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAuthors()
+    {
+        return $this->authors;
+    }
+
+    /**
+     * Add book
+     *
+     * @param \AppBundle\Entity\Book $book
+     *
+     * @return User
+     */
+    public function addBook(\AppBundle\Entity\Book $book)
+    {
+        $this->books[] = $book;
+
+        return $this;
+    }
+
+    /**
+     * Remove book
+     *
+     * @param \AppBundle\Entity\Book $book
+     */
+    public function removeBook(\AppBundle\Entity\Book $book)
+    {
+        $this->books->removeElement($book);
+    }
+
+    /**
+     * Get books
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBooks()
+    {
+        return $this->books;
     }
 }

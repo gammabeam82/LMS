@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block title %}Добавление книги{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('assets/vendor/chosen-bootstrap/chosen.bootstrap.min.css') }}"/>
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+
+		<div class="row">
+			<div class="col-xs-12">
+				<ol class="breadcrumb">
+					<li><a href="{{ path('homepage') }}">На главную</a></li>
+					<li><a href="{{ path('books') }}">Книги</a></li>
+					<li class="active">Добавление книги</li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12">
+				<div class="jumbotron">
+
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-6">
+
+				{% for flash_message in app.session.flashBag.get('notice') %}
+					<div class="panel panel-default">
+						<div class="panel-body bg-success">
+							{{ flash_message }}
+						</div>
+					</div>
+				{% endfor %}
+
+				{{ form_start(form) }}
+				{{ form_row(form.name) }}
+				{{ form_row(form.author, {'attr': {'class': 'chosen-select'} }) }}
+
+				<button type="submit" class="btn btn-success pull-right">
+					<i class="glyphicon glyphicon-plus"></i> Сохранить
+				</button>
+
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('assets/vendor/chosen/chosen.jquery.js') }}"></script>
+	<script src="{{ asset('assets/js/books-form.js') }}"></script>
+{% endblock %}
