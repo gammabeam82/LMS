@@ -1,0 +1,16 @@
+@import "colors";
+
+$content-top-margin: 30vh;
+
+@mixin border-top {
+  border-top: 1px solid $silver;
+}
+
+.content-container {
+  margin-top: $content-top-margin;
+}
+
+footer {
+  @include border-top;
+  background-color: $clouds;
+}
