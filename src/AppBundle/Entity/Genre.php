@@ -5,10 +5,15 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="genres")
+ * @UniqueEntity(
+ *     fields={"name"},
+ *     message="Жанр с таким названием уже существует."
+ * )
  */
 class Genre
 {
@@ -26,7 +31,7 @@ class Genre
 	private $createdAt;
 
 	/**
-	 * @ORM\Column(type="string", length=100)
+	 * @ORM\Column(type="string", length=100, unique=true)
 	 * @Assert\NotBlank()
 	 * @Assert\Length(
 	 *      min = 2,

@@ -5,6 +5,8 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
 use AppBundle\Filter\BookFilter;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class Books
 {
@@ -69,9 +71,29 @@ class Books
 	 */
 	public function remove(Book $book)
 	{
+		$file = $this->path."/".$book->getFile();
+		unlink($file);
+
 		$em = $this->doctrine->getManager();
 
 		$em->remove($book);
 		$em->flush();
+	}
+
+	/**
+	 * @param Book $book
+	 * @return BinaryFileResponse
+	 */
+	public function download(Book $book)
+	{
+		$file = $this->path."/".$book->getFile();
+		$fileName =
+			$book->getAuthor()->getShortName()."-".
+			$book->getName().".txt";
+
+		$response = new BinaryFileResponse($file);
+		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $fileName);
+
+		return $response;
 	}
 }

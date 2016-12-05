@@ -46,7 +46,7 @@
 				{{ form_row(form.name) }}
 				{{ form_row(form.author, {'attr': {'class': 'chosen-select'} }) }}
 				{{ form_row(form.genre, {'attr': {'class': 'chosen-select'} }) }}
-				{{ form_row(form.file, {'attr': {'class': 'upload'} }) }}
+				{{ form_row(form.file, {'attr': {'class': 'upload', 'accept': 'text/plain'} }) }}
 
 				<button type="submit" class="btn btn-success pull-right">
 					<i class="glyphicon glyphicon-plus"></i> Сохранить

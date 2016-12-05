@@ -126,17 +126,14 @@ class BooksController extends Controller
 	/**
 	 * @Route("/books/download/{id}", name="books_download")
 	 * @ParamConverter("book")
+	 *
+	 * @param Book $book
+	 * @return BinaryFileResponse
 	 */
 	public function downloadAction(Book $book)
 	{
-		$file = $this->getParameter("library")."/".$book->getFile();
-		$fileName =
-			$book->getAuthor()->getShortName()."-".
-			$book->getName().".txt";
+		$books = $this->get('app.books');
 
-		$response = new BinaryFileResponse($file);
-		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $fileName);
-
-		return $response;
+		return $books->download($book);
 	}
 }
