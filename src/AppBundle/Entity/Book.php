@@ -55,6 +55,13 @@ class Book
 	 */
 	private $genre;
 
+	/**
+	 * @ORM\Column(type="string", nullable=false)
+	 *
+	 * @Assert\NotBlank(message="Пожалуйста, выберите текстовый файл")
+	 * @Assert\File(mimeTypes={ "text/plain" })
+	 */
+	private $file;
 
     /**
      * Get id
@@ -184,5 +191,29 @@ class Book
     public function getGenre()
     {
         return $this->genre;
+    }
+
+    /**
+     * Set file
+     *
+     * @param string $file
+     *
+     * @return Book
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+
+    /**
+     * Get file
+     *
+     * @return string
+     */
+    public function getFile()
+    {
+        return $this->file;
     }
 }

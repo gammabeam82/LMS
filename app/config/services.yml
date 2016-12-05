@@ -16,7 +16,7 @@ services:
 
       app.books:
           class: AppBundle\Service\Books
-          arguments: ["@doctrine"]
+          arguments: ["@doctrine", "%library%"]
 
       app.genres:
            class: AppBundle\Service\Genres

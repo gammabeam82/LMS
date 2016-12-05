@@ -11,6 +11,27 @@
 
 {% block body %}
 
+	<div class="modal fade" id="Modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Внимание!</h4>
+				</div>
+				<div class="modal-body">
+					Действительно удалить книгу?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+					<a type="button" class="btn btn-danger delete-book" href="#">
+						<i class="glyphicon glyphicon-remove"></i> Удалить
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 	<div class="container-fluid">
 
 		<div class="row">
@@ -31,11 +52,29 @@
 		</div>
 
 		<div class="row">
+			<div class="col-xs-12">
+				{% for flash_message in app.session.flashBag.get('notice') %}
+					<div class="panel panel-default">
+						<div class="panel-body bg-success">
+							{{ flash_message }}
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="row">
 
 			{{ form_start(form) }}
 			<div class="col-xs-3">{{ form_row(form.name) }}</div>
-			<div class="col-xs-3">{{ form_row(form.author, {'attr': {'class': 'chosen-select'} }) }}</div>
-			<div class="col-xs-3">{{ form_row(form.genre, {'attr': {'class': 'chosen-select'} }) }}</div>
+			<div class="col-xs-3">{{ form_row(form.author, {'attr': {
+					'class': 'chosen-select',
+					'data-placeholder': 'Выбор автора'
+				} }) }}</div>
+			<div class="col-xs-3">{{ form_row(form.genre, {'attr': {
+					'class': 'chosen-select',
+					'data-placeholder': 'Выбор жанра'
+				} }) }}</div>
 
 			<div class="col-xs-3">
 				<button type="submit" class="btn btn-primary">Показать</button>
@@ -51,9 +90,14 @@
 
 				<table class="table table-striped table-hover">
 					<tr>
-						<th>Название</th>
+						<th>Книга</th>
 						<th>Автор</th>
 						<th>Жанр</th>
+						<th>
+							<a class="btn btn-success btn-sm" href="{{ path('books_add') }}">
+								<i class="glyphicon glyphicon-plus"></i> Добавить книгу
+							</a>
+						</th>
 					</tr>
 
 					{% for book in pagination %}
@@ -62,11 +106,23 @@
 							<td>{{ book.name }}</td>
 							<td>{{ book.author.shortName }}</td>
 							<td>{{ book.genre ? book.genre.name : "-" }}</td>
+							<td>
+								<a class="btn btn-primary btn-sm" href="{{ path('books_edit', {'id': book.id}) }}">
+									<i class="glyphicon glyphicon-pencil"></i> Редактировать
+								</a>
+								<button data-toggle="modal" data-target="#Modal" class="btn btn-danger btn-sm delete" data-path="{{ path('books_delete', {'id': book.id}) }}">
+									<i class="glyphicon glyphicon-remove"></i> Удалить
+								</button>
+							</td>
 						</tr>
 
 					{% endfor %}
 
 				</table>
+
+				<div class="navigation">
+					{{ knp_pagination_render(pagination) }}
+				</div>
 
 			</div>
 		</div>

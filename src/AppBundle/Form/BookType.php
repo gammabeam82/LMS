@@ -11,6 +11,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class BookType extends AbstractType
 {
@@ -31,6 +32,10 @@ class BookType extends AbstractType
 				'label' => 'Жанр',
 				'choice_label' => 'name',
 				'multiple' => false,
+			])
+			->add('file', FileType::class, [
+				'label' => 'Файл',
+				'required' => true
 			])
 		;
 	}

@@ -17,12 +17,12 @@ class BookFilterType extends AbstractType
 	{
 		$builder
 			->add('name', TextType::class, [
-				'label' => 'Название',
+				'label' => 'Книга',
 				'required' => false
 			])
 			->add('author', EntityType::class, [
 				'class' => 'AppBundle:Author',
-				'label' => 'Жанр',
+				'label' => 'Автор',
 				'choice_label' => 'shortName',
 				'multiple' => false,
 				'required' => false

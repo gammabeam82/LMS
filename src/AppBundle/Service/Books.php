@@ -15,12 +15,20 @@ class Books
 	 * @param Book $book
 	 * @return Book
 	 */
-	public function add(User $user, Book $book)
+	public function save(User $user, Book $book)
 	{
-		$em = $this->doctrine->getManager();
+		$file = $book->getFile();
+		$fileName = md5(uniqid(rand(), TRUE)).".".$file->guessExtension();
+
+		$file->move(
+			$this->path,
+			$fileName
+		);
 
 		$book->setAddedBy($user);
+		$book->setFile($fileName);
 
+		$em = $this->doctrine->getManager();
 		$em->persist($book);
 		$em->flush();
 
@@ -36,8 +44,7 @@ class Books
 		$repo = $this->doctrine->getRepository('AppBundle:Book');
 		$qb = $repo->createQueryBuilder('b');
 
-		$qb->orderBy('b.name', 'ASC');
-
+		$qb->orderBy('b.id', 'DESC');
 
 		if(!empty($filter->getName())) {
 			$qb->andWhere('b.name LIKE :name')
@@ -55,5 +62,16 @@ class Books
 		}
 
 		return $qb->getQuery();
+	}
+
+	/**
+	 * @param Book $book
+	 */
+	public function remove(Book $book)
+	{
+		$em = $this->doctrine->getManager();
+
+		$em->remove($book);
+		$em->flush();
 	}
 }

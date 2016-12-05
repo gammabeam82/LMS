@@ -11,6 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 class BooksController extends Controller
 {
@@ -59,7 +62,8 @@ class BooksController extends Controller
 		$form->handleRequest($request);
 
 		if($form->isSubmitted() && $form->isValid()) {
-			$books->add($this->getUser(), $book);
+
+			$books->save($this->getUser(), $book);
 
 			$this->addFlash('notice', 'Книга добавлена.');
 
@@ -69,5 +73,67 @@ class BooksController extends Controller
 		return $this->render('books/form.html.twig', [
 			'form' => $form->createView()
 		]);
+	}
+
+	/**
+	 * @Route("/books/edit/{id}", name="books_edit")
+	 * @ParamConverter("book")
+	 *
+	 * @param Request $request
+	 * @param Book $book
+	 * @return RedirectResponse|Response
+	 */
+	public function editAction(Request $request, Book $book)
+	{
+		$books = $this->get('app.books');
+
+		$form = $this->createForm(BookType::class, $book);
+		$form->handleRequest($request);
+
+		if($form->isSubmitted() && $form->isValid()) {
+
+			//TODO сделать сохранение
+
+			$this->addFlash('notice', 'Изменения сохранены.');
+
+			return $this->redirectToRoute('books_edit', [
+				'id' => $book->getId()
+			]);
+		}
+
+		return $this->render('books/edit.html.twig', [
+			'form' => $form->createView()
+		]);
+	}
+
+	/**
+	 * @Route("/books/delete/{id}", name="books_delete")
+	 * @ParamConverter("book")
+	 *
+	 * @param Book $book
+	 * @return RedirectResponse
+	 */
+	public function deleteAction(Book $book)
+	{
+		$books = $this->get('app.books');
+
+		$books->remove($book);
+
+		$this->addFlash('notice', 'Книга удалена');
+		return $this->redirectToRoute('books');
+	}
+
+	/**
+	 * @Route("/books/download/{id}", name="books_download")
+	 * @ParamConverter("book")
+	 */
+	public function downloadAction(Book $book)
+	{
+		$fileName = $this->getParameter("library")."/".$book->getFile();
+
+		$response = new BinaryFileResponse($fileName);
+		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT);
+
+		return $response;
 	}
 }

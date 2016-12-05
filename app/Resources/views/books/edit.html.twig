@@ -2,12 +2,11 @@
 
 {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
 
-{% block title %}Добавление книги{% endblock %}
+{% block title %}Редактирование книги{% endblock %}
 
 {% block stylesheets %}
 	{{ parent() }}
 	<link rel="stylesheet" href="{{ asset('assets/vendor/chosen-bootstrap/chosen.bootstrap.min.css') }}"/>
-	<link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-fileinput/css/fileinput.min.css') }}"/>
 {% endblock %}
 
 {% block body %}
@@ -18,7 +17,7 @@
 				<ol class="breadcrumb">
 					<li><a href="{{ path('homepage') }}">На главную</a></li>
 					<li><a href="{{ path('books') }}">Книги</a></li>
-					<li class="active">Добавление книги</li>
+					<li class="active">Редактирование книги</li>
 				</ol>
 			</div>
 		</div>
@@ -46,7 +45,6 @@
 				{{ form_row(form.name) }}
 				{{ form_row(form.author, {'attr': {'class': 'chosen-select'} }) }}
 				{{ form_row(form.genre, {'attr': {'class': 'chosen-select'} }) }}
-				{{ form_row(form.file, {'attr': {'class': 'upload'} }) }}
 
 				<button type="submit" class="btn btn-success pull-right">
 					<i class="glyphicon glyphicon-plus"></i> Сохранить
@@ -60,7 +58,6 @@
 
 {% block javascripts %}
 	{{ parent() }}
-	<script src="{{ asset('assets/vendor/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
 	<script src="{{ asset('assets/vendor/chosen/chosen.jquery.js') }}"></script>
 	<script src="{{ asset('assets/js/books-form.js') }}"></script>
 {% endblock %}
