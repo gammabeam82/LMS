@@ -27,8 +27,9 @@ class Book
 
 	/**
 	 * @ORM\Column(type="string", length=200)
-	 * @Assert\NotBlank()
+	 * @Assert\NotBlank(groups={"edit"})
 	 * @Assert\Length(
+	 *     	groups={"edit"},
 	 *      min = 1,
 	 *      max = 100,
 	 *      minMessage = "Название должно содержать хотя бы {{ limit }} символ",
@@ -59,7 +60,9 @@ class Book
 	 * @ORM\Column(type="string", nullable=false)
 	 *
 	 * @Assert\NotBlank(message="Пожалуйста, выберите текстовый файл")
-	 * @Assert\File(mimeTypes={ "text/plain" })
+	 * @Assert\File(
+	 *     mimeTypes={ "text/plain" }
+	 *	 )
 	 */
 	private $file;
 

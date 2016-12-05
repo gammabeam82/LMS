@@ -17,18 +17,19 @@ class Books
 	 * @param Book $book
 	 * @return Book
 	 */
-	public function save(User $user, Book $book)
+	public function save(User $user, Book $book, $isCreating = true)
 	{
-		$file = $book->getFile();
-		$fileName = md5(uniqid(rand(), TRUE)).".".$file->guessExtension();
+		if(false !== $isCreating) {
+			$file = $book->getFile();
+			$fileName = md5(uniqid(rand(), TRUE)).".".$file->guessExtension();
 
-		$file->move(
-			$this->path,
-			$fileName
-		);
-
-		$book->setAddedBy($user);
-		$book->setFile($fileName);
+			$file->move(
+				$this->path,
+				$fileName
+			);
+			$book->setFile($fileName);
+			$book->setAddedBy($user);
+		}
 
 		$em = $this->doctrine->getManager();
 		$em->persist($book);

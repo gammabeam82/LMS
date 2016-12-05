@@ -19,7 +19,7 @@
 					<h4 class="modal-title" id="myModalLabel">Внимание!</h4>
 				</div>
 				<div class="modal-body">
-					Действительно удалить книгу?
+					Действительно удалить книгу <span class="book-name"></span>?
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
@@ -77,8 +77,12 @@
 				} }) }}</div>
 
 			<div class="col-xs-3">
-				<button type="submit" class="btn btn-primary">Показать</button>
-				<a role="button" class="btn btn-default" href="{{ path('books') }}">Сбросить</a>
+				<button type="submit" class="btn btn-primary">
+					<i class="glyphicon glyphicon-search"></i> Показать
+				</button>
+				<a role="button" class="btn btn-default" href="{{ path('books') }}">
+					<i class="glyphicon glyphicon-remove-circle"></i> Сбросить
+				</a>
 			</div>
 
 			{{ form_end(form) }}
@@ -101,21 +105,23 @@
 					</tr>
 
 					{% for book in pagination %}
-
 						<tr>
-							<td>{{ book.name }}</td>
+							<td>
+								<b>
+									<a class="download" href="{{ path('books_download', {'id': book.id}) }}">{{ book.name }}</a>
+								</b>
+							</td>
 							<td>{{ book.author.shortName }}</td>
 							<td>{{ book.genre ? book.genre.name : "-" }}</td>
 							<td>
 								<a class="btn btn-primary btn-sm" href="{{ path('books_edit', {'id': book.id}) }}">
-									<i class="glyphicon glyphicon-pencil"></i> Редактировать
+									<i class="glyphicon glyphicon-edit"></i> Редактировать
 								</a>
-								<button data-toggle="modal" data-target="#Modal" class="btn btn-danger btn-sm delete" data-path="{{ path('books_delete', {'id': book.id}) }}">
+								<button data-name="{{ book.name }}" data-toggle="modal" data-target="#Modal" class="btn btn-danger btn-sm delete" data-path="{{ path('books_delete', {'id': book.id}) }}">
 									<i class="glyphicon glyphicon-remove"></i> Удалить
 								</button>
 							</td>
 						</tr>
-
 					{% endfor %}
 
 				</table>
