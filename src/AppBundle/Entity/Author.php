@@ -180,4 +180,12 @@ class Author
 	{
 		return "{$this->firstName} {$this->lastName}";
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getShortName()
+	{
+		return mb_substr($this->getFirstName(), 0, 1).". {$this->lastName}";
+	}
 }

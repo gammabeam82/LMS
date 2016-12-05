@@ -4,6 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Book;
 use AppBundle\Form\BookType;
+use AppBundle\Filter\BookFilter;
+use AppBundle\Filter\Form\BookFilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,10 +16,31 @@ class BooksController extends Controller
 {
 	/**
 	 * @Route("/books", name="books")
+	 *
+	 * @param Request $request
+	 * @return Response
 	 */
-	public function indexAction()
+	public function indexAction(Request $request)
 	{
-		return $this->render('books/index.html.twig', [ ]);
+		$paginator = $this->get('knp_paginator');
+
+		$books = $this->get('app.books');
+
+		$filter = new BookFilter();
+
+		$form = $this->createForm(BookFilterType::class, $filter);
+		$form->handleRequest($request);
+
+		$query = $books->getFilteredBooks($filter);
+
+		$pagination = $paginator->paginate(
+			$query, $request->query->getInt('page', 1), 10
+		);
+
+		return $this->render('books/index.html.twig', [
+			'form' => $form->createView(),
+			'pagination' => $pagination
+		]);
 	}
 
 	/**
