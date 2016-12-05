@@ -129,10 +129,13 @@ class BooksController extends Controller
 	 */
 	public function downloadAction(Book $book)
 	{
-		$fileName = $this->getParameter("library")."/".$book->getFile();
+		$file = $this->getParameter("library")."/".$book->getFile();
+		$fileName =
+			$book->getAuthor()->getShortName()."-".
+			$book->getName().".txt";
 
-		$response = new BinaryFileResponse($fileName);
-		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT);
+		$response = new BinaryFileResponse($file);
+		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $fileName);
 
 		return $response;
 	}
