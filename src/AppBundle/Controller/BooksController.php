@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use AppBundle\Form\BookEditType;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BooksController extends Controller
 {
@@ -133,12 +134,18 @@ class BooksController extends Controller
 	 * @ParamConverter("book")
 	 *
 	 * @param Book $book
-	 * @return BinaryFileResponse
+	 * @return bool|BinaryFileResponse|NotFoundHttpException
 	 */
 	public function downloadAction(Book $book)
 	{
 		$books = $this->get('app.books');
 
-		return $books->download($book);
+		$response = $books->download($book);
+
+		if(false === $response instanceof BinaryFileResponse) {
+			return $this->createNotFoundException("Файл не найден.");
+		}
+
+		return $response;
 	}
 }

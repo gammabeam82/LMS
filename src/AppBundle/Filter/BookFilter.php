@@ -2,9 +2,12 @@
 
 namespace AppBundle\Filter;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Entity\Author;
+use AppBundle\Entity\Genre;
 
 class BookFilter
 {
@@ -20,34 +23,16 @@ class BookFilter
 	private $name;
 
 	/**
-	 * @var string
+	 * @var ArrayCollection
 	 */
 	private $author;
 
 	/**
-	 * @var string
+	 * @var ArrayCollection
 	 */
 	private $genre;
 
-
-
 	/**
-	 * Set name
-	 *
-	 * @param string $name
-	 *
-	 * @return BookFilter
-	 */
-	public function setName($name)
-	{
-		$this->name = $name;
-
-		return $this;
-	}
-
-	/**
-	 * Get name
-	 *
 	 * @return string
 	 */
 	public function getName()
@@ -56,23 +41,32 @@ class BookFilter
 	}
 
 	/**
-	 * Set author
-	 *
-	 * @param string $author
-	 *
-	 * @return BookFilter
+	 * @param string $name
 	 */
-	public function setAuthor($author)
+	public function setName($name)
 	{
-		$this->author = $author;
-
-		return $this;
+		$this->name = $name;
 	}
 
 	/**
-	 * Get author
-	 *
-	 * @return string
+	 * @param Author $author
+	 */
+	public function addAuthor(Author $author)
+	{
+		$this->author[] = $author;
+
+	}
+
+	/**
+	 * @param Author $author
+	 */
+	public function removeAuthor($author)
+	{
+		$this->author->removeElement($author);
+	}
+
+	/**
+	 * @return ArrayCollection
 	 */
 	public function getAuthor()
 	{
@@ -80,27 +74,27 @@ class BookFilter
 	}
 
 	/**
-	 * Set genre
-	 *
-	 * @param string $genre
-	 *
-	 * @return BookFilter
+	 * @param Genre $genre
 	 */
-	public function setGenre($genre)
+	public function addGenre(Genre $genre)
 	{
-		$this->genre = $genre;
+		$this->genre[] = $genre;
 
-		return $this;
 	}
 
 	/**
-	 * Get genre
-	 *
-	 * @return string
+	 * @param Genre $genre
+	 */
+	public function removeGenre($genre)
+	{
+		$this->genre->removeElement($genre);
+	}
+
+	/**
+	 * @return ArrayCollection
 	 */
 	public function getGenre()
 	{
 		return $this->genre;
 	}
-
 }

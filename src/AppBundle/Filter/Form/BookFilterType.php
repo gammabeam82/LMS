@@ -24,14 +24,14 @@ class BookFilterType extends AbstractType
 				'class' => 'AppBundle:Author',
 				'label' => 'Автор',
 				'choice_label' => 'shortName',
-				'multiple' => false,
+				'multiple' => true,
 				'required' => false
 			])
 			->add('genre', EntityType::class, [
 				'class' => 'AppBundle:Genre',
 				'label' => 'Жанр',
 				'choice_label' => 'name',
-				'multiple' => false,
+				'multiple' => true,
 				'required' => false
 			])
 		;

@@ -54,13 +54,13 @@ class Books
 				->setParameter(':name', "%".$filter->getName()."%");
 		}
 
-		if($filter->getAuthor()) {
-			$qb->andWhere('b.author = :author')
+		if($filter->getAuthor() && count($filter->getAuthor())) {
+			$qb->andWhere('b.author IN (:author)')
 				->setParameter('author', $filter->getAuthor());
 		}
 
-		if($filter->getGenre()) {
-			$qb->andWhere('b.genre = :genre')
+		if($filter->getGenre() && count($filter->getGenre())) {
+			$qb->andWhere('b.genre IN (:genre)')
 				->setParameter('genre', $filter->getGenre());
 		}
 
@@ -83,11 +83,16 @@ class Books
 
 	/**
 	 * @param Book $book
-	 * @return BinaryFileResponse
+	 * @return bool|BinaryFileResponse
 	 */
 	public function download(Book $book)
 	{
 		$file = $this->path."/".$book->getFile();
+
+		if(false === file_exists($file)) {
+			return false;
+		}
+
 		$fileName =
 			$book->getAuthor()->getShortName()."-".
 			$book->getName().".txt";
