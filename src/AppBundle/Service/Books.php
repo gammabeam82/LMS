@@ -19,9 +19,9 @@ class Books
 	 */
 	public function save(User $user, Book $book, $isCreating = true)
 	{
-		if(false !== $isCreating) {
+		if (false !== $isCreating) {
 			$file = $book->getFile();
-			$fileName = md5(uniqid(rand(), TRUE)).".".$file->guessExtension();
+			$fileName = md5(uniqid(rand(), TRUE)) . "." . $file->guessExtension();
 
 			$file->move(
 				$this->path,
@@ -49,19 +49,29 @@ class Books
 
 		$qb->orderBy('b.id', 'DESC');
 
-		if(!empty($filter->getName())) {
+		if (!empty($filter->getName())) {
 			$qb->andWhere('b.name LIKE :name')
-				->setParameter(':name', "%".$filter->getName()."%");
+				->setParameter(':name', "%" . $filter->getName() . "%");
 		}
 
-		if($filter->getAuthor() && count($filter->getAuthor())) {
+		if ($filter->getAuthor() && count($filter->getAuthor())) {
 			$qb->andWhere('b.author IN (:author)')
 				->setParameter('author', $filter->getAuthor());
 		}
 
-		if($filter->getGenre() && count($filter->getGenre())) {
+		if ($filter->getGenre() && count($filter->getGenre())) {
 			$qb->andWhere('b.genre IN (:genre)')
 				->setParameter('genre', $filter->getGenre());
+		}
+
+		if (!empty($filter->getSearch())) {
+			$qb->join('b.author', 'a');
+			$expr = $qb->expr()->orX(
+				'b.name LIKE :sr',
+				'a.lastName LIKE :sr'
+			);
+			$qb->andWhere($expr);
+			$qb->setParameter('sr', "%" . $filter->getSearch() . "%");
 		}
 
 		return $qb->getQuery();
@@ -72,7 +82,7 @@ class Books
 	 */
 	public function remove(Book $book)
 	{
-		$file = $this->path."/".$book->getFile();
+		$file = $this->path . "/" . $book->getFile();
 		unlink($file);
 
 		$em = $this->doctrine->getManager();
@@ -87,15 +97,15 @@ class Books
 	 */
 	public function download(Book $book)
 	{
-		$file = $this->path."/".$book->getFile();
+		$file = $this->path . "/" . $book->getFile();
 
-		if(false === file_exists($file)) {
+		if (false === file_exists($file)) {
 			return false;
 		}
 
 		$fileName =
-			$book->getAuthor()->getShortName()."-".
-			$book->getName().".txt";
+			$book->getAuthor()->getShortName() . "-" .
+			$book->getName() . ".txt";
 
 		$response = new BinaryFileResponse($file);
 		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $fileName);

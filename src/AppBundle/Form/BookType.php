@@ -31,7 +31,8 @@ class BookType extends AbstractType
 				'class' => 'AppBundle:Genre',
 				'label' => 'Жанр',
 				'choice_label' => 'name',
-				'multiple' => false,
+				'required' => false,
+				'multiple' => false
 			])
 			->add('file', FileType::class, [
 				'label' => 'Файл',

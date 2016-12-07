@@ -28,22 +28,22 @@ class BooksController extends Controller
 	{
 		$paginator = $this->get('knp_paginator');
 
-		$books = $this->get('app.books');
+		$bookService = $this->get('app.books');
 
 		$filter = new BookFilter();
 
 		$form = $this->createForm(BookFilterType::class, $filter);
 		$form->handleRequest($request);
 
-		$query = $books->getFilteredBooks($filter);
+		$query = $bookService->getFilteredBooks($filter);
 
-		$pagination = $paginator->paginate(
+		$books = $paginator->paginate(
 			$query, $request->query->getInt('page', 1), 10
 		);
 
 		return $this->render('books/index.html.twig', [
 			'form' => $form->createView(),
-			'pagination' => $pagination
+			'books' => $books
 		]);
 	}
 

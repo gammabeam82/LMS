@@ -2,14 +2,12 @@
 
 namespace AppBundle\Filter\Form;
 
-use AppBundle\Entity\Author;
-use AppBundle\Entity\Genre;
-
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class BookFilterType extends AbstractType
 {
@@ -34,6 +32,7 @@ class BookFilterType extends AbstractType
 				'multiple' => true,
 				'required' => false
 			])
+			->add('search', HiddenType::class, [])
 		;
 	}
 

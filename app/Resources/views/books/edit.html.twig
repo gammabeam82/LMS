@@ -15,7 +15,6 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<ol class="breadcrumb">
-					<li><a href="{{ path('homepage') }}">На главную</a></li>
 					<li><a href="{{ path('books') }}">Книги</a></li>
 					<li class="active">Редактирование книги</li>
 				</ol>
@@ -44,7 +43,7 @@
 				{{ form_start(form) }}
 				{{ form_row(form.name) }}
 				{{ form_row(form.author, {'attr': {'class': 'chosen-select'} }) }}
-				{{ form_row(form.genre, {'attr': {'class': 'chosen-select'} }) }}
+				{{ form_row(form.genre, {'attr': {'class': 'chosen-select', 'data-placeholder': 'Выбор жанра'} }) }}
 
 				<button type="submit" class="btn btn-success pull-right">
 					<i class="glyphicon glyphicon-ok-circle"></i> Сохранить

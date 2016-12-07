@@ -33,6 +33,11 @@ class BookFilter
 	private $genre;
 
 	/**
+	 * @var string
+	 */
+	private $search;
+
+	/**
 	 * @return string
 	 */
 	public function getName()
@@ -96,5 +101,21 @@ class BookFilter
 	public function getGenre()
 	{
 		return $this->genre;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getSearch()
+	{
+		return $this->search;
+	}
+
+	/**
+	 * @param string $search
+	 */
+	public function setSearch($search)
+	{
+		$this->search = $search;
 	}
 }

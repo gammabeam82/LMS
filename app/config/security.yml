@@ -28,6 +28,10 @@ security:
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/books$, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/books/add, role: ROLE_ADMIN }
-        - { path: ^/authors/add, role: ROLE_ADMIN }
-        - { path: ^/genres/add, role: ROLE_ADMIN }
+        - { path: ^/books/delete, role: ROLE_ADMIN }
+        - { path: ^/books/edit, role: ROLE_ADMIN }
+
+        - { path: ^/authors, role: ROLE_ADMIN }
+        - { path: ^/genres, role: ROLE_ADMIN }
