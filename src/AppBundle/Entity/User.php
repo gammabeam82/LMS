@@ -59,6 +59,7 @@ class User extends BaseUser
 
 		$this->books = new ArrayCollection();
 		$this->authors = new ArrayCollection();
+		$this->genres = new ArrayCollection();
 	}
 
     /**
