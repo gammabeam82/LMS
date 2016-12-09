@@ -48,9 +48,9 @@
 				</li>
 			</ul>
 
-			<form class="navbar-form navbar-right" name="book_filter" method="GET">
+			<form class="navbar-form navbar-right" name="book_filter" method="GET" action="{{ path('books') }}">
 				<div class="form-group">
-					<input type="text" class="form-control" placeholder="" name="book_filter[search]"/>
+					<input type="text" class="form-control" placeholder="" name="book_filter[search]" data-toggle="tooltip" data-placement="bottom" title="Поиск книги или автора"/>
 				</div>
 				<button type="submit" class="btn btn-default">
 					<i class="glyphicon glyphicon-search"></i> Искать

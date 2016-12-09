@@ -28,7 +28,7 @@ class GenresController extends Controller
 	 */
 	public function addAction(Request $request)
 	{
-		$genres = $this->get('app.genres');
+		$genreService = $this->get('app.genres');
 
 		$genre = new Genre();
 
@@ -36,7 +36,7 @@ class GenresController extends Controller
 		$form->handleRequest($request);
 
 		if($form->isSubmitted() && $form->isValid()) {
-			$genres->add($this->getUser(), $form->getData());
+			$genreService->add($this->getUser(), $form->getData());
 
 			$this->addFlash('notice', 'Жанр добавлен.');
 

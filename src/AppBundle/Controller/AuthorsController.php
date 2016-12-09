@@ -28,7 +28,7 @@ class AuthorsController extends Controller
 	 */
 	public function addAction(Request $request)
 	{
-		$authors = $this->get('app.authors');
+		$authorService = $this->get('app.authors');
 
 		$author = new Author();
 
@@ -36,7 +36,7 @@ class AuthorsController extends Controller
 		$form->handleRequest($request);
 
 		if($form->isSubmitted() && $form->isValid()) {
-			$authors->add($this->getUser(), $form->getData());
+			$authorService->add($this->getUser(), $form->getData());
 
 			$this->addFlash('notice', 'Автор добавлен.');
 

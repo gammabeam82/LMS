@@ -50,8 +50,8 @@ class Books
 		$qb->orderBy('b.id', 'DESC');
 
 		if (!empty($filter->getName())) {
-			$qb->andWhere('b.name LIKE :name')
-				->setParameter(':name', "%" . $filter->getName() . "%");
+			$qb->andWhere($qb->expr()->like('LOWER(b.name)', ':name'))
+				->setParameter('name', "%" . strtolower($filter->getName()) . "%");
 		}
 
 		if ($filter->getAuthor() && count($filter->getAuthor())) {
@@ -67,11 +67,11 @@ class Books
 		if (!empty($filter->getSearch())) {
 			$qb->join('b.author', 'a');
 			$expr = $qb->expr()->orX(
-				'b.name LIKE :sr',
-				'a.lastName LIKE :sr'
+				'LOWER(b.name) LIKE :sr',
+				'LOWER(a.lastName) LIKE :sr'
 			);
 			$qb->andWhere($expr);
-			$qb->setParameter('sr', "%" . $filter->getSearch() . "%");
+			$qb->setParameter('sr', "%" . strtolower($filter->getSearch()) . "%");
 		}
 
 		return $qb->getQuery();

@@ -55,7 +55,7 @@ class BooksController extends Controller
 	 */
 	public function addAction(Request $request)
 	{
-		$books = $this->get('app.books');
+		$bookService = $this->get('app.books');
 
 		$book = new Book();
 
@@ -64,7 +64,7 @@ class BooksController extends Controller
 
 		if($form->isSubmitted() && $form->isValid()) {
 
-			$books->save($this->getUser(), $book);
+			$bookService->save($this->getUser(), $book);
 
 			$this->addFlash('notice', 'Книга добавлена.');
 
@@ -86,7 +86,7 @@ class BooksController extends Controller
 	 */
 	public function editAction(Request $request, Book $book)
 	{
-		$books = $this->get('app.books');
+		$bookService = $this->get('app.books');
 
 		$form = $this->createForm(BookEditType::class, $book);
 		$form->handleRequest($request);
@@ -97,7 +97,7 @@ class BooksController extends Controller
 			$errors = $validator->validate($book, null, 'edit');
 
 			if(!count($errors)) {
-				$books->save($this->getUser(), $book, false);
+				$bookService->save($this->getUser(), $book, false);
 			}
 
 			$this->addFlash('notice', 'Изменения сохранены.');
@@ -121,9 +121,9 @@ class BooksController extends Controller
 	 */
 	public function deleteAction(Book $book)
 	{
-		$books = $this->get('app.books');
+		$bookService = $this->get('app.books');
 
-		$books->remove($book);
+		$bookService->remove($book);
 
 		$this->addFlash('notice', 'Книга удалена');
 		return $this->redirectToRoute('books');
@@ -138,9 +138,9 @@ class BooksController extends Controller
 	 */
 	public function downloadAction(Book $book)
 	{
-		$books = $this->get('app.books');
+		$bookService = $this->get('app.books');
 
-		$response = $books->download($book);
+		$response = $bookService->download($book);
 
 		if(false === $response instanceof BinaryFileResponse) {
 			return $this->createNotFoundException("Файл не найден.");

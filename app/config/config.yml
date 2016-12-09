@@ -104,3 +104,8 @@ stof_doctrine_extensions:
         default:
             timestampable: true
             softdeleteable: true
+
+assetic:
+    filters:
+        scssphp:
+            formatter: 'Leafo\ScssPhp\Formatter\Compressed'
