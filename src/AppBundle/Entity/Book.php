@@ -57,6 +57,11 @@ class Book
 	private $genre;
 
 	/**
+	 * @ORM\Column(type="integer", nullable=true)
+	 */
+	private $views;
+
+	/**
 	 * @ORM\Column(type="string", nullable=false)
 	 *
 	 * @Assert\NotBlank(message="Пожалуйста, выберите текстовый файл")
@@ -218,5 +223,29 @@ class Book
     public function getFile()
     {
         return $this->file;
+    }
+
+    /**
+     * Set views
+     *
+     * @param integer $views
+     *
+     * @return Book
+     */
+    public function setViews($views)
+    {
+        $this->views = $views;
+
+        return $this;
+    }
+
+    /**
+     * Get views
+     *
+     * @return integer
+     */
+    public function getViews()
+    {
+        return $this->views;
     }
 }

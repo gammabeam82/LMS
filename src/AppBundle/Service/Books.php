@@ -48,6 +48,7 @@ class Books
 			);
 			$book->setFile($fileName);
 			$book->setAddedBy($user);
+			$book->setViews(0);
 		}
 
 		$em = $this->doctrine->getManager();
@@ -137,6 +138,12 @@ class Books
 		$fileName =
 			$book->getAuthor()->getShortName() . "-" .
 			$book->getName() . ".txt";
+
+		$book->setViews($book->getViews() + 1);
+
+		$em = $this->doctrine->getManager();
+		$em->persist($book);
+		$em->flush();
 
 		$response = new BinaryFileResponse($file);
 		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $fileName);
