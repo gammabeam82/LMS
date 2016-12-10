@@ -13,7 +13,7 @@ class AuthorFilterType extends AbstractType
 	{
 		$builder
 			->add('lastName', TextType::class, [
-				'label' => 'Фамилия',
+				'label' => 'Автор',
 				'required' => false
 			]);
 	}

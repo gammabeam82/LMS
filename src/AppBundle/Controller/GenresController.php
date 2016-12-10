@@ -64,6 +64,10 @@ class GenresController extends Controller
 	/**
 	 * @Route("/genres/edit/{id}", name="genres_edit")
 	 * @ParamConverter("genre")
+	 *
+	 * @param Request $request
+	 * @param Genre $genre
+	 * @return RedirectResponse|Response
 	 */
 	public function editAction(Request $request, Genre $genre)
 	{

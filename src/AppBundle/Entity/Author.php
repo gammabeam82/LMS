@@ -194,7 +194,7 @@ class Author
 	 *
 	 * @param \AppBundle\Entity\Book $book
 	 *
-	 * @return Genre
+	 * @return Author
 	 */
 	public function addBook(\AppBundle\Entity\Book $book)
 	{

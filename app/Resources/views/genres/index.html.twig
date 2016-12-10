@@ -67,7 +67,7 @@
 						<tr>
 							<td>{{ genre.name }}</td>
 							<td>
-								<a href="#" class="btn {{ genre.books | length ? 'btn-success' : 'btn-default' }}">
+								<a href="{{ path('books', {'book_filter[genre][]': genre.id}) }}" class="btn {{ genre.books | length ? 'btn-success' : 'btn-default disabled' }}">
 									{{ genre.books | length }}
 								</a>
 							</td>
