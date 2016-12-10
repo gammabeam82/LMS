@@ -24,6 +24,7 @@ class Authors
 	/**
 	 * @param User $user
 	 * @param Author $author
+	 * @param bool $isCreating
 	 * @return Author
 	 */
 	public function save(User $user, Author $author, $isCreating = true)

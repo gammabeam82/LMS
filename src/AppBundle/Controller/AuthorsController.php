@@ -79,6 +79,10 @@ class AuthorsController extends Controller
 	/**
 	 * @Route("/authors/edit/{id}", name="authors_edit")
 	 * @ParamConverter("author")
+	 *
+	 * @param Request $request
+	 * @param Author $author
+	 * @return RedirectResponse|Response
 	 */
 	public function editAction(Request $request, Author $author)
 	{

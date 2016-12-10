@@ -29,13 +29,13 @@
 
 	<div class="container-fluid">
 
-	<div class="row">
-		<div class="col-xs-12">
-			<ol class="breadcrumb">
-				<li class="active">Авторы</li>
-			</ol>
+		<div class="row">
+			<div class="col-xs-12">
+				<ol class="breadcrumb">
+					<li class="active">Авторы</li>
+				</ol>
+			</div>
 		</div>
-	</div>
 
 
 		<div class="row">
@@ -83,17 +83,6 @@
 
 		</div>
 
-	<div class="row">
-		<div class="col-xs-12">
-			{% for flash_message in app.session.flashBag.get('notice') %}
-				<div class="panel panel-default">
-					<div class="panel-body bg-success">
-						{{ flash_message }}
-					</div>
-				</div>
-			{% endfor %}
-		</div>
-	</div>
 
 		<div class="row">
 			<div class="col-xs-12">

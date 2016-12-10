@@ -4,4 +4,98 @@
 
 {% block body %}
 
+	<div class="modal fade" id="Modal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Внимание!</h4>
+				</div>
+				<div class="modal-body">
+					Действительно удалить жанр <span class="genre-name"></span>?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+					<a type="button" class="btn btn-danger delete-genre" href="#">
+						<i class="glyphicon glyphicon-remove"></i> Удалить
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="container-fluid">
+
+		<div class="row">
+			<div class="col-xs-12">
+				<ol class="breadcrumb">
+					<li class="active">Жанры</li>
+				</ol>
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-xs-12">
+				{% for flash_message in app.session.flashBag.get('notice') %}
+					<div class="panel panel-default">
+						<div class="panel-body bg-success">
+							{{ flash_message }}
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+
+
+		<div class="row">
+			<div class="col-xs-12">
+
+				<table class="table table-striped table-hover">
+					<tr>
+						<th>Жанр</th>
+						<th>Книги</th>
+						<th>
+							<a class="btn btn-success btn-sm {{ is_granted('ROLE_ADMIN') ? '' : 'disabled' }}" href="{{ path('genres_add') }}">
+								<i class="glyphicon glyphicon-plus"></i> Добавить жанр
+							</a>
+						</th>
+					</tr>
+
+					{% for genre in genres %}
+						<tr>
+							<td>{{ genre.name }}</td>
+							<td>
+								<a href="#" class="btn {{ genre.books | length ? 'btn-success' : 'btn-default' }}">
+									{{ genre.books | length }}
+								</a>
+							</td>
+							<td>
+								<a class="btn btn-primary btn-sm {{ is_granted('ROLE_ADMIN') ? '' : 'disabled' }}" href="{{ path('genres_edit', {'id': genre.id}) }}">
+									<i class="glyphicon glyphicon-edit"></i> Редактировать
+								</a>
+								<button data-name="{{ genre.name }}" data-toggle="modal" data-target="#Modal" class="btn btn-danger btn-sm delete {{ is_granted('ROLE_ADMIN') ? '' : 'disabled' }}" data-path="{{ path('genres_delete', {'id': genre.id}) }}">
+									<i class="glyphicon glyphicon-remove"></i> Удалить
+								</button>
+							</td>
+						</tr>
+					{% endfor %}
+
+				</table>
+
+				<div class="navigation">
+					{{ knp_pagination_render(genres) }}
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('assets/js/genres-index.js') }}"></script>
 {% endblock %}

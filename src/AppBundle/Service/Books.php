@@ -33,6 +33,7 @@ class Books
 	/**
 	 * @param User $user
 	 * @param Book $book
+	 * @param bool $isCreating
 	 * @return Book
 	 */
 	public function save(User $user, Book $book, $isCreating = true)
