@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 class BookFilterType extends AbstractType
 {
@@ -33,6 +34,28 @@ class BookFilterType extends AbstractType
 				'required' => false
 			])
 			->add('search', HiddenType::class, [])
+			->add('createdAtStart', DateType::class, [
+				'label' => 'Добавлена от',
+				'widget' => 'single_text',
+				'format' => 'dd.MM.yyyy',
+				'attr' => [
+					'class' => 'form-control datepicker',
+					'data-provide' => 'datepicker',
+					'format' => 'DD.MM.YYY'
+				],
+				'required' => false,
+			])
+			->add('createdAtEnd', DateType::class, [
+				'label' => 'Добавлена до',
+				'widget' => 'single_text',
+				'format' => 'dd.MM.yyyy',
+				'attr' => [
+					'class' => 'form-control datepicker',
+					'data-provide' => 'datepicker',
+					'format' => 'DD.MM.YYY'
+				],
+				'required' => false,
+			])
 		;
 	}
 

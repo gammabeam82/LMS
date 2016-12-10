@@ -7,10 +7,28 @@ use AppBundle\Entity\User;
 use AppBundle\Filter\BookFilter;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 
 class Books
 {
-	use DoctrineTrait;
+	/**
+	 * @var Registry
+	 */
+	private $doctrine;
+
+	/**
+	 * @var string
+	 */
+	private $path;
+
+	/**
+	 * @param Registry $doctrine
+	 */
+	public function __construct(Registry $doctrine, $path)
+	{
+		$this->doctrine = $doctrine;
+		$this->path = $path;
+	}
 
 	/**
 	 * @param User $user
@@ -74,6 +92,16 @@ class Books
 			$qb->setParameter('sr', "%" . strtolower($filter->getSearch()) . "%");
 		}
 
+		if ($filter->getCreatedAtStart()) {
+			$qb->andWhere('b.createdAt >= :createdAtStart');
+			$qb->setParameter('createdAtStart', $filter->getCreatedAtStart());
+		}
+
+		if ($filter->getCreatedAtEnd()) {
+			$qb->andWhere('b.createdAt <= :createdAtEnd');
+			$qb->setParameter('createdAtEnd', $filter->getCreatedAtEnd());
+		}
+
 		return $qb->getQuery();
 	}
 
@@ -83,7 +111,9 @@ class Books
 	public function remove(Book $book)
 	{
 		$file = $this->path . "/" . $book->getFile();
-		unlink($file);
+		if(false !== file_exists($file)) {
+			unlink($file);
+		}
 
 		$em = $this->doctrine->getManager();
 

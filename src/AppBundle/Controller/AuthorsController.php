@@ -9,15 +9,43 @@ use AppBundle\Entity\Author;
 use AppBundle\Form\AuthorType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use AppBundle\Filter\AuthorFilter;
+use AppBundle\Filter\Form\AuthorFilterType;
 
 class AuthorsController extends Controller
 {
 	/**
 	 * @Route("/authors", name="authors")
+	 *
+	 * @param Request $request
+	 * @return Response
 	 */
-	public function indexAction()
+	public function indexAction(Request $request)
 	{
-		return $this->render('authors/index.html.twig', [ ]);
+		$paginator = $this->get('knp_paginator');
+
+		$authorService = $this->get('app.authors');
+
+		$filter = new AuthorFilter();
+
+		$form = $this->createForm(AuthorFilterType::class, $filter);
+		$form->handleRequest($request);
+
+		if($form->isSubmitted() && !$form->isValid()) {
+			$this->addFlash('error', 'Ошибка в параметрах фильтра.');
+		}
+
+		$query = $authorService->getFilteredAuthors($filter);
+
+		$authors = $paginator->paginate(
+			$query, $request->query->getInt('page', 1), 15
+		);
+
+		return $this->render('authors/index.html.twig', [
+			'authors' => $authors,
+			'form' => $form->createView()
+		]);
 	}
 
 	/**
@@ -36,7 +64,7 @@ class AuthorsController extends Controller
 		$form->handleRequest($request);
 
 		if($form->isSubmitted() && $form->isValid()) {
-			$authorService->add($this->getUser(), $form->getData());
+			$authorService->save($this->getUser(), $form->getData());
 
 			$this->addFlash('notice', 'Автор добавлен.');
 
@@ -46,5 +74,48 @@ class AuthorsController extends Controller
 		return $this->render('authors/form.html.twig', [
 			'form' => $form->createView()
 		]);
+	}
+
+	/**
+	 * @Route("/authors/edit/{id}", name="authors_edit")
+	 * @ParamConverter("author")
+	 */
+	public function editAction(Request $request, Author $author)
+	{
+		$authorService = $this->get('app.authors');
+
+		$form = $this->createForm(AuthorType::class, $author);
+		$form->handleRequest($request);
+
+		if($form->isSubmitted() && $form->isValid()) {
+			$authorService->save($this->getUser(), $form->getData(), false);
+
+			$this->addFlash('notice', 'Изменения сохранены.');
+
+			return $this->redirectToRoute('authors');
+		}
+
+		return $this->render('authors/edit.html.twig', [
+			'form' => $form->createView(),
+			'author' => $author
+		]);
+	}
+
+	/**
+	 * @Route("/authors/delete/{id}", name="authors_delete")
+	 * @ParamConverter("author")
+	 *
+	 * @param Author $author
+	 * @return RedirectResponse
+	 */
+	public function deleteAction(Author $author)
+	{
+		$authorService = $this->get('app.authors');
+
+		$authorService->remove($author);
+
+		$this->addFlash('notice', 'Автор удален.');
+
+		return $this->redirectToRoute('authors');
 	}
 }

@@ -3,8 +3,6 @@
 namespace AppBundle\Filter;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Entity\Author;
 use AppBundle\Entity\Genre;
@@ -36,6 +34,18 @@ class BookFilter
 	 * @var string
 	 */
 	private $search;
+
+	/**
+	 * @var \DateTime
+	 */
+	private $createdAtStart;
+
+	/**
+	 * @var \DateTime
+	 *
+	 * @Assert\Expression("!this.getCreatedAtEnd() || this.getCreatedAtStart() <= this.getCreatedAtEnd()", message="Дата окончания должна быть позже или равна дате начала.")
+	 */
+	private $createdAtEnd;
 
 	/**
 	 * @return string
@@ -118,4 +128,37 @@ class BookFilter
 	{
 		$this->search = $search;
 	}
+
+	/**
+ 	* @return \DateTime
+ 	*/
+	public function getCreatedAtStart()
+	{
+		return $this->createdAtStart;
+	}
+
+	/**
+	 * @param \DateTime $createdAtStart
+	 */
+	public function setCreatedAtStart($createdAtStart)
+	{
+		$this->createdAtStart = $createdAtStart;
+	}
+
+	/**
+	 * @return \DateTime
+	 */
+	public function getCreatedAtEnd()
+	{
+		return $this->createdAtEnd;
+	}
+
+	/**
+	 * @param \DateTime $createdAtEnd
+	 */
+	public function setCreatedAtEnd($createdAtEnd)
+	{
+		$this->createdAtEnd = $createdAtEnd;
+	}
+
 }

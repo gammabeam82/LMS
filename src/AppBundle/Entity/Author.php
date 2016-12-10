@@ -188,4 +188,39 @@ class Author
 	{
 		return mb_substr($this->getFirstName(), 0, 1).". {$this->lastName}";
 	}
+
+	/**
+	 * Add book
+	 *
+	 * @param \AppBundle\Entity\Book $book
+	 *
+	 * @return Genre
+	 */
+	public function addBook(\AppBundle\Entity\Book $book)
+	{
+		$this->books[] = $book;
+
+		return $this;
+	}
+
+	/**
+	 * Remove book
+	 *
+	 * @param \AppBundle\Entity\Book $book
+	 */
+	public function removeBook(\AppBundle\Entity\Book $book)
+	{
+		$this->books->removeElement($book);
+	}
+
+	/**
+	 * Get books
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getBooks()
+	{
+		return $this->books;
+	}
+
 }

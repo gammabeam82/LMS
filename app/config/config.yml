@@ -6,7 +6,7 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
+    locale: ru
     library: "%kernel.root_dir%/../var/books"
 
 framework:
@@ -105,7 +105,8 @@ stof_doctrine_extensions:
             timestampable: true
             softdeleteable: true
 
-assetic:
-    filters:
-        scssphp:
-            formatter: 'Leafo\ScssPhp\Formatter\Compressed'
+#assetic:
+#   filters:
+#       cssrewrite: ~
+#       scssphp:
+#        formatter: 'Leafo\ScssPhp\Formatter\Compressed'

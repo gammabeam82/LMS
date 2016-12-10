@@ -3,10 +3,22 @@
 namespace AppBundle\Service;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Genre;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 
 class Genres
 {
-	use DoctrineTrait;
+	/**
+	 * @var Registry
+	 */
+	private $doctrine;
+
+	/**
+	 * @param Registry $doctrine
+	 */
+	public function __construct(Registry $doctrine)
+	{
+		$this->doctrine = $doctrine;
+	}
 
 	/**
 	 * @param User $user

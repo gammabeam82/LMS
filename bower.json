@@ -20,6 +20,7 @@
     "chosen": "^1.6.2",
     "chosen-bootstrap": "^1.1.0",
     "bootstrap-fileinput": "^4.3.5",
-    "PACE": "pace#^1.0.2"
+    "PACE": "pace#^1.0.2",
+    "eonasdan-bootstrap-datetimepicker": "^4.17.43"
   }
 }

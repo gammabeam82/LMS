@@ -3,25 +3,71 @@
 namespace AppBundle\Service;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Author;
+use AppBundle\Filter\AuthorFilter;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 
 class Authors
 {
-	use DoctrineTrait;
+	/**
+	 * @var Registry
+	 */
+	private $doctrine;
+
+	/**
+	 * @param Registry $doctrine
+	 */
+	public function __construct(Registry $doctrine)
+	{
+		$this->doctrine = $doctrine;
+	}
 
 	/**
 	 * @param User $user
 	 * @param Author $author
 	 * @return Author
 	 */
-	public function add(User $user, Author $author)
+	public function save(User $user, Author $author, $isCreating = true)
 	{
-		$em = $this->doctrine->getManager();
+		if(false !== $isCreating) {
+			$author->setAddedBy($user);
+		}
 
-		$author->setAddedBy($user);
+		$em = $this->doctrine->getManager();
 
 		$em->persist($author);
 		$em->flush();
 
 		return $author;
+	}
+
+	/**
+	 * @param AuthorFilter $filter
+	 * @return mixed
+	 */
+	public function getFilteredAuthors(AuthorFilter $filter)
+	{
+		$repo = $this->doctrine->getRepository('AppBundle:Author');
+		$qb = $repo->createQueryBuilder('a');
+
+		if (!empty($filter->getLastName())) {
+			$qb->andWhere($qb->expr()->like('LOWER(a.lastName)', ':name'))
+				->setParameter('name', "%" . strtolower($filter->getLastName()) . "%");
+		}
+
+		$qb->orderBy('a.id', 'DESC');
+
+		return $qb->getQuery();
+	}
+
+	/**
+	 * @param Author $author
+	 */
+	public function remove(Author $author)
+	{
+
+		$em = $this->doctrine->getManager();
+
+		//$em->remove($author);
+		//$em->flush();
 	}
 }

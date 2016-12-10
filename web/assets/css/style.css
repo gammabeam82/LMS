@@ -1,0 +1,22 @@
+.jumbotron {
+	height: 25vh;
+	border-radius: 0 !important;
+	background-image: url('../images/books.png');
+	background-size: contain;
+	margin-top: 0;
+}
+
+.navbar {
+	margin: 0;
+}
+
+.delete {
+	margin: 0 20px;
+}
+
+footer {
+	background-color: #ECF0F1;
+	border-top: 1px solid #BDC3C7;
+	min-height: 30vh;
+	margin-top: 50px;
+}

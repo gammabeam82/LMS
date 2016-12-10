@@ -35,10 +35,14 @@ class BooksController extends Controller
 		$form = $this->createForm(BookFilterType::class, $filter);
 		$form->handleRequest($request);
 
+		if($form->isSubmitted() && !$form->isValid()) {
+			$this->addFlash('error', 'Ошибка в параметрах фильтра.');
+		}
+
 		$query = $bookService->getFilteredBooks($filter);
 
 		$books = $paginator->paginate(
-			$query, $request->query->getInt('page', 1), 10
+			$query, $request->query->getInt('page', 1), 15
 		);
 
 		return $this->render('books/index.html.twig', [
@@ -102,13 +106,13 @@ class BooksController extends Controller
 
 			$this->addFlash('notice', 'Изменения сохранены.');
 
-			return $this->redirectToRoute('books_edit', [
-				'id' => $book->getId()
+			return $this->redirectToRoute('books', [
 			]);
 		}
 
 		return $this->render('books/edit.html.twig', [
-			'form' => $form->createView()
+			'form' => $form->createView(),
+			'book' => $book
 		]);
 	}
 
@@ -126,6 +130,7 @@ class BooksController extends Controller
 		$bookService->remove($book);
 
 		$this->addFlash('notice', 'Книга удалена');
+
 		return $this->redirectToRoute('books');
 	}
 
