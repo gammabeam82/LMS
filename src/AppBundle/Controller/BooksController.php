@@ -153,4 +153,18 @@ class BooksController extends Controller
 
 		return $response;
 	}
+
+	/**
+	 * @Route("/books/view/{id}", name="books_view")
+	 * @ParamConverter("book")
+	 *
+	 * @param Book $book
+	 * @return Response
+	 */
+	public function viewAction(Book $book)
+	{
+		return $this->render('books/view.html.twig', [
+			'book' => $book
+		]);
+	}
 }

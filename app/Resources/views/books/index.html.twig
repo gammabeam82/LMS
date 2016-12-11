@@ -130,7 +130,7 @@
 						<tr>
 							<td>
 								<b>
-									<a class="download" href="{{ path('books_download', {'id': book.id}) }}">{{ book.name }}</a>
+									<a href="{{ path('books_view', {'id': book.id}) }}">{{ book.name }}</a>
 								</b>
 							</td>
 							<td>{{ book.author.shortName }}</td>

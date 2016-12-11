@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ book.name }}{% endblock %}
+
+
+{% block body %}
+	<div class="container-fluid">
+
+		<div class="row">
+			<div class="col-xs-12">
+				<ol class="breadcrumb">
+					<li><a href="{{ path('books') }}">Книги</a></li>
+					<li><a href="{{ path('books', {'book_filter[author][]': book.author.id}) }}">{{ book.author.shortName }}</a></li>
+					<li class="active">{{ book.name }}</li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-8">
+				<dl class="dl-horizontal">
+					<dt>Автор:</dt>
+					<dd>{{ book.author.fullName }}</dd>
+					<dt>Название:</dt>
+					<dd>{{ book.name }}</dd>
+					<dt>Дата добавления:</dt>
+					<dd>{{ book.createdAt | date("d.m.Y H:i") }}</dd>
+					<dt>Количество загрузок:</dt>
+					<dd>{{ book.views }}</dd>
+					<dd>
+						<br/><br/>
+						<a href="{{ path('books_download', {'id': book.id}) }}" class="btn btn-success">
+							<i class="glyphicon glyphicon-cloud-download"></i> Скачать
+						</a>
+					</dd>
+				</dl>
+			</div>
+		</div>
+	</div>
+{% endblock %}
