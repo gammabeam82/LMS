@@ -27,10 +27,24 @@ class Ratings
 	 * @param Rating $rating
 	 * @return Rating
 	 */
-	public function save(User $user, Book $book, Rating $rating)
+	public function save(User $user, Book $book, Rating $newRating)
 	{
-		$rating->setUser($user);
-		$rating->setBook($book);
+		$repo = $this->doctrine->getRepository('AppBundle:Rating');
+
+		$rating = $repo->findOneBy([
+			'book' => $book,
+			'user' => $user
+		]);
+
+		if(null === $rating) {
+			$newRating->setUser($user);
+			$newRating->setBook($book);
+			$rating = $newRating;
+		} else {
+			$rating->setValue(
+				$newRating->getValue()
+			);
+		}
 
 		$em = $this->doctrine->getManager();
 		$em->persist($rating);
