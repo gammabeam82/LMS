@@ -53,6 +53,11 @@ class User extends BaseUser
 	 */
 	private $genres;
 
+	/**
+	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Rating", mappedBy="user")
+	 */
+	private $ratings;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -60,6 +65,7 @@ class User extends BaseUser
 		$this->books = new ArrayCollection();
 		$this->authors = new ArrayCollection();
 		$this->genres = new ArrayCollection();
+		$this->ratings = new ArrayCollection();
 	}
 
     /**
@@ -234,5 +240,39 @@ class User extends BaseUser
     public function getGenres()
     {
         return $this->genres;
+    }
+
+    /**
+     * Add rating
+     *
+     * @param \AppBundle\Entity\Rating $rating
+     *
+     * @return User
+     */
+    public function addRating(\AppBundle\Entity\Rating $rating)
+    {
+        $this->ratings[] = $rating;
+
+        return $this;
+    }
+
+    /**
+     * Remove rating
+     *
+     * @param \AppBundle\Entity\Rating $rating
+     */
+    public function removeRating(\AppBundle\Entity\Rating $rating)
+    {
+        $this->ratings->removeElement($rating);
+    }
+
+    /**
+     * Get ratings
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRatings()
+    {
+        return $this->ratings;
     }
 }

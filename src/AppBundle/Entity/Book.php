@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -70,6 +71,19 @@ class Book
 	 *	 )
 	 */
 	private $file;
+
+	/**
+	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Rating", mappedBy="book")
+	 */
+	private $ratings;
+
+	/**
+	 * Book constructor.
+	 */
+	public function __construct()
+	{
+		$this->ratings = new ArrayCollection();
+	}
 
     /**
      * Get id
@@ -247,5 +261,39 @@ class Book
     public function getViews()
     {
         return $this->views;
+    }
+
+    /**
+     * Add rating
+     *
+     * @param \AppBundle\Entity\Rating $rating
+     *
+     * @return Book
+     */
+    public function addRating(\AppBundle\Entity\Rating $rating)
+    {
+        $this->ratings[] = $rating;
+
+        return $this;
+    }
+
+    /**
+     * Remove rating
+     *
+     * @param \AppBundle\Entity\Rating $rating
+     */
+    public function removeRating(\AppBundle\Entity\Rating $rating)
+    {
+        $this->ratings->removeElement($rating);
+    }
+
+    /**
+     * Get ratings
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRatings()
+    {
+        return $this->ratings;
     }
 }
