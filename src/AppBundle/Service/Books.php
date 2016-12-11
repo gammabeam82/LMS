@@ -104,6 +104,10 @@ class Books
 			$qb->setParameter('createdAtEnd', $filter->getCreatedAtEnd());
 		}
 
+		if ($filter->getMostPopular()) {
+			$qb->orderBy('b.views', 'DESC');
+		}
+
 		return $qb->getQuery();
 	}
 

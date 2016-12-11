@@ -48,6 +48,11 @@ class BookFilter
 	private $createdAtEnd;
 
 	/**
+	 * @var boolean
+	 */
+	private $mostPopular;
+
+	/**
 	 * @return string
 	 */
 	public function getName()
@@ -159,6 +164,22 @@ class BookFilter
 	public function setCreatedAtEnd($createdAtEnd)
 	{
 		$this->createdAtEnd = $createdAtEnd;
+	}
+
+	/**
+	 * @return boolean
+	 */
+	public function getMostPopular()
+	{
+		return $this->mostPopular;
+	}
+
+	/**
+	 * @param boolean $mostPopular
+	 */
+	public function setMostPopular($mostPopular)
+	{
+		$this->mostPopular = $mostPopular;
 	}
 
 }

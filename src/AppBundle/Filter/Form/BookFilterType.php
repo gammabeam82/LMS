@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class BookFilterType extends AbstractType
 {
@@ -55,6 +56,10 @@ class BookFilterType extends AbstractType
 					'format' => 'DD.MM.YYY'
 				],
 				'required' => false,
+			])
+			->add('mostPopular', CheckboxType::class, [
+				'label' => 'Сначала популярные',
+				'required' => false
 			])
 		;
 	}
