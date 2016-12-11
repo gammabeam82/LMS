@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table(name="books")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Book
 {
@@ -311,5 +312,15 @@ class Book
 		}
 
 		return "-";
+	}
+
+	/**
+	 * @ORM\PreRemove
+	 */
+	public function removeFile()
+	{
+		if(false !== file_exists($this->file)) {
+			unlink($this->file);
+		}
 	}
 }

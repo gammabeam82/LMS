@@ -34,7 +34,6 @@ class Authors
 		}
 
 		$em = $this->doctrine->getManager();
-
 		$em->persist($author);
 		$em->flush();
 
@@ -65,10 +64,8 @@ class Authors
 	 */
 	public function remove(Author $author)
 	{
-
 		$em = $this->doctrine->getManager();
-
-		//$em->remove($author);
-		//$em->flush();
+		$em->remove($author);
+		$em->flush();
 	}
 }

@@ -40,7 +40,7 @@ class Books
 	{
 		if (false !== $isCreating) {
 			$file = $book->getFile();
-			$fileName = md5(uniqid(rand(), TRUE)) . "." . $file->guessExtension();
+			$fileName = $this->path."/".md5(uniqid(rand(), TRUE)) . "." . $file->guessExtension();
 
 			$file->move(
 				$this->path,
@@ -116,13 +116,11 @@ class Books
 	 */
 	public function remove(Book $book)
 	{
-		$file = $this->path . "/" . $book->getFile();
-		if(false !== file_exists($file)) {
-			unlink($file);
+		if(false !== file_exists($book->getFile())) {
+			unlink($book->getFile());
 		}
 
 		$em = $this->doctrine->getManager();
-
 		$em->remove($book);
 		$em->flush();
 	}
@@ -133,9 +131,8 @@ class Books
 	 */
 	public function download(Book $book)
 	{
-		$file = $this->path . "/" . $book->getFile();
 
-		if (false === file_exists($file)) {
+		if (false === file_exists($book->getFile())) {
 			return false;
 		}
 
@@ -149,7 +146,7 @@ class Books
 		$em->persist($book);
 		$em->flush();
 
-		$response = new BinaryFileResponse($file);
+		$response = new BinaryFileResponse($book->getFile());
 		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $fileName);
 
 		return $response;
