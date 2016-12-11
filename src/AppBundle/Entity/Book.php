@@ -296,4 +296,20 @@ class Book
     {
         return $this->ratings;
     }
+
+	/**
+	 * @return float|int|string
+	 */
+    public function getAverageRating()
+	{
+		if(0 !== count($this->ratings)) {
+			$sum = 0;
+			foreach($this->ratings as $rating){
+				$sum += $rating->getValue();
+			}
+			return round(($sum / count($this->ratings)), 2);
+		}
+
+		return "-";
+	}
 }

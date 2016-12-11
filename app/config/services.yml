@@ -21,3 +21,7 @@ services:
       app.genres:
            class: AppBundle\Service\Genres
            arguments: ["@doctrine"]
+
+      app.ratings:
+            class: AppBundle\Service\Ratings
+            arguments: ["@doctrine"]

@@ -3,7 +3,9 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Book;
+use AppBundle\Entity\Rating;
 use AppBundle\Form\BookType;
+use AppBundle\Form\RatingType;
 use AppBundle\Filter\BookFilter;
 use AppBundle\Filter\Form\BookFilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -129,7 +131,7 @@ class BooksController extends Controller
 
 		$bookService->remove($book);
 
-		$this->addFlash('notice', 'Книга удалена');
+		$this->addFlash('notice', 'Книга удалена.');
 
 		return $this->redirectToRoute('books');
 	}
@@ -158,13 +160,28 @@ class BooksController extends Controller
 	 * @Route("/books/view/{id}", name="books_view")
 	 * @ParamConverter("book")
 	 *
+	 * @param Request $request
 	 * @param Book $book
 	 * @return Response
 	 */
-	public function viewAction(Book $book)
+	public function viewAction(Request $request, Book $book)
 	{
+		$rating = new Rating();
+
+		$form = $this->createForm(RatingType::class, $rating);
+		$form->handleRequest($request);
+
+		if($form->isSubmitted() && $form->isValid()) {
+			$ratingService = $this->get('app.ratings');
+
+			$ratingService->save($this->getUser(), $book, $form->getData());
+
+			$this->addFlash('notice', 'Оценка принята.');
+		}
+
 		return $this->render('books/view.html.twig', [
-			'book' => $book
+			'book' => $book,
+			'form' => $form->createView()
 		]);
 	}
 }

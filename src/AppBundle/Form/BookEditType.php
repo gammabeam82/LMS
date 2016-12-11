@@ -2,9 +2,6 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Author;
-use AppBundle\Entity\Genre;
-
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;

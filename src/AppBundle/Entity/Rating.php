@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -31,6 +32,7 @@ class Rating
 
 	/**
 	 * @ORM\Column(type="integer")
+	 * @Assert\Expression("this.getValue() >= 1 && this.getValue() <= 5")
 	 */
 	private $value;
 

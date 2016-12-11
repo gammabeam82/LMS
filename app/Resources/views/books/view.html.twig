@@ -1,7 +1,13 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
 {% block title %}{{ book.name }}{% endblock %}
 
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="stylesheet" href="{{ asset('assets/vendor/chosen-bootstrap/chosen.bootstrap.min.css') }}"/>
+{% endblock %}
 
 {% block body %}
 	<div class="container-fluid">
@@ -17,7 +23,7 @@
 		</div>
 
 		<div class="row">
-			<div class="col-xs-8">
+			<div class="col-xs-3">
 				<dl class="dl-horizontal">
 					<dt>Автор:</dt>
 					<dd>{{ book.author.fullName }}</dd>
@@ -27,14 +33,43 @@
 					<dd>{{ book.createdAt | date("d.m.Y H:i") }}</dd>
 					<dt>Количество загрузок:</dt>
 					<dd>{{ book.views }}</dd>
-					<dd>
-						<br/><br/>
-						<a href="{{ path('books_download', {'id': book.id}) }}" class="btn btn-success">
-							<i class="glyphicon glyphicon-cloud-download"></i> Скачать
-						</a>
-					</dd>
+					<dt>Рейтинг</dt>
+					<dd>{{ book.averageRating }}</dd>
 				</dl>
+				<a href="{{ path('books_download', {'id': book.id}) }}" class="btn btn-success pull-right">
+					<i class="glyphicon glyphicon-cloud-download"></i> Скачать
+				</a>
 			</div>
 		</div>
+
+		<div class="row">
+			<div class="col-xs-3">
+				<hr/>
+
+				{% for flash_message in app.session.flashBag.get('notice') %}
+					<div class="panel panel-default">
+						<div class="panel-body bg-success">
+							{{ flash_message }}
+						</div>
+					</div>
+				{% endfor %}
+
+				{{ form_start(form) }}
+				{{ form_row(form.value, {'attr': {'class': 'chosen-select', 'data-placeholder': ' '} }) }}
+
+				<button type="submit" class="btn btn-primary pull-right">
+					<i class="glyphicon glyphicon-star"></i> Оценить
+				</button>
+
+				{{ form_end(form) }}
+			</div>
+		</div>
+
 	</div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('assets/vendor/chosen/chosen.jquery.js') }}"></script>
+	<script src="{{ asset('assets/js/books-view.js') }}"></script>
 {% endblock %}

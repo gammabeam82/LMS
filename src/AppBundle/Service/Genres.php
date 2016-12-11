@@ -46,7 +46,6 @@ class Genres
 		}
 
 		$em = $this->doctrine->getManager();
-
 		$em->persist($genre);
 		$em->flush();
 

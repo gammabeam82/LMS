@@ -121,6 +121,7 @@
 						<th>Автор</th>
 						<th>Жанр</th>
 						<th>{{ knp_pagination_sortable(books, 'Дата добавления', 'b.createdAt') }}</th>
+						<th>Рейтинг</th>
 						<th>
 							<a class="btn btn-success btn-sm {{ is_granted('ROLE_ADMIN') ? '' : 'disabled' }}" href="{{ path('books_add') }}">
 								<i class="glyphicon glyphicon-plus"></i> Добавить книгу
@@ -138,6 +139,7 @@
 							<td>{{ book.author.shortName }}</td>
 							<td>{{ book.genre ? book.genre.name : "-" }}</td>
 							<td>{{ book.createdAt | date("d.m.Y H:i") }}</td>
+							<td>{{ book.averageRating }}</td>
 							<td>
 								<a class="btn btn-primary btn-sm {{ is_granted('ROLE_ADMIN') ? '' : 'disabled' }}" href="{{ path('books_edit', {'id': book.id}) }}">
 									<i class="glyphicon glyphicon-edit"></i> Редактировать
