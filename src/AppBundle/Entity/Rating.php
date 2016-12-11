@@ -20,13 +20,13 @@ class Rating
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="User", inversedBy="ratings")
-	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
 	 */
 	private $user;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="Book", inversedBy="ratings")
-	 * @ORM\JoinColumn(name="book_id", referencedColumnName="id", nullable=false)
+	 * @ORM\JoinColumn(name="book_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
 	 */
 	private $book;
 

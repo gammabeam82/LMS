@@ -47,13 +47,13 @@ class Book
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="User", inversedBy="books")
-	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
+	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
 	 */
 	private $addedBy;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="\AppBundle\Entity\Genre", inversedBy="books")
-	 * @ORM\JoinColumn(name="genre_id", referencedColumnName="id", nullable=true)
+	 * @ORM\JoinColumn(name="genre_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
 	 */
 	private $genre;
 
