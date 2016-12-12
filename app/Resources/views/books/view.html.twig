@@ -33,7 +33,7 @@
 					<dd>{{ book.createdAt | date("d.m.Y H:i") }}</dd>
 					<dt>Количество загрузок:</dt>
 					<dd>{{ book.views }}</dd>
-					<dt>Рейтинг</dt>
+					<dt>Рейтинг:</dt>
 					<dd>{{ book.averageRating }}</dd>
 				</dl>
 				<a href="{{ path('books_download', {'id': book.id}) }}" class="btn btn-success pull-right">
