@@ -40,13 +40,13 @@ class Books
 	{
 		if (false !== $isCreating) {
 			$file = $book->getFile();
-			$fileName = $this->path."/".md5(uniqid(rand(), TRUE)) . "." . $file->guessExtension();
+			$fileName = md5(uniqid(rand(), TRUE)) . "." . $file->guessExtension();
 
 			$file->move(
 				$this->path,
 				$fileName
 			);
-			$book->setFile($fileName);
+			$book->setFile($this->path . "/" . $fileName);
 			$book->setAddedBy($user);
 			$book->setViews(0);
 		}
