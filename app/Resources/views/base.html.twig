@@ -27,33 +27,47 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="{{ path('homepage') }}"><i class="glyphicon"></i> На главную</a>
+			<a class="navbar-brand" href="{{ path('homepage') }}">
+				<i class="glyphicon"></i> {{ 'navigation.home' | trans }}
+			</a>
 		</div>
 
 
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<ul class="nav navbar-nav">
-				<li><a href="{{ path('books') }}"><i class="glyphicon glyphicon-book"></i> Книги</a></li>
-				<li><a href="{{ path('genres') }}"><i class="glyphicon glyphicon-tags"></i> Жанры</a></li>
-				<li><a href="{{ path('authors') }}"><i class="glyphicon glyphicon-user"></i> Авторы</a></li>
-					{% if is_granted('IS_AUTHENTICATED_FULLY')%}
-						<li>
-							<a href="{{ path('fos_user_security_logout') }}">
-							<i class="glyphicon glyphicon-log-out"></i> Выход
-							</a>
-						</li>
-					{% else %}
-						<li>
-							<a href="{{ path('fos_user_security_login') }}">
-							<i class="glyphicon glyphicon-log-in"></i> Вход
-							</a>
-						</li>
-						<li>
-							<a href="{{ path('fos_user_registration_register') }}">
-								<i class="glyphicon glyphicon-plus-sign"></i> Регистрация
-							</a>
-						</li>
-					{% endif %}
+				<li>
+					<a href="{{ path('books') }}">
+						<i class="glyphicon glyphicon-book"></i> {{ 'navigation.books' | trans }}
+					</a>
+				</li>
+				<li>
+					<a href="{{ path('genres') }}">
+						<i class="glyphicon glyphicon-tags"></i> {{ 'navigation.genres' | trans }}
+					</a>
+				</li>
+				<li>
+					<a href="{{ path('authors') }}">
+						<i class="glyphicon glyphicon-user"></i> {{ 'navigation.authors' | trans }}
+					</a>
+				</li>
+				{% if is_granted('IS_AUTHENTICATED_FULLY')%}
+					<li>
+						<a href="{{ path('fos_user_security_logout') }}">
+						<i class="glyphicon glyphicon-log-out"></i> {{ 'navigation.logout' | trans }}
+						</a>
+					</li>
+				{% else %}
+					<li>
+						<a href="{{ path('fos_user_security_login') }}">
+						<i class="glyphicon glyphicon-log-in"></i> {{ 'navigation.login' | trans }}
+						</a>
+					</li>
+					<li>
+						<a href="{{ path('fos_user_registration_register') }}">
+							<i class="glyphicon glyphicon-plus-sign"></i> {{ 'navigation.register' | trans }}
+						</a>
+					</li>
+				{% endif %}
 			</ul>
 
 			<form class="navbar-form navbar-right" name="book_filter" method="GET" action="{{ path('books') }}">
@@ -61,7 +75,7 @@
 					<input type="text" class="form-control" placeholder="" name="book_filter[search]" data-toggle="tooltip" data-placement="bottom" title="Поиск книги или автора"/>
 				</div>
 				<button type="submit" class="btn btn-default">
-					<i class="glyphicon glyphicon-search"></i> Искать
+					<i class="glyphicon glyphicon-search"></i> {{ 'actions.search' | trans }}
 				</button>
 			</form>
 

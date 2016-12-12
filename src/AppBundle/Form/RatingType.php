@@ -13,13 +13,13 @@ class RatingType extends AbstractType
 	{
 		$builder
 			->add('value', ChoiceType::class, [
-				'label' => 'Оценка',
+				'label' => 'book.value.label',
 				'choices' => [
-					'Отлично' => '5',
-					'Хорошо' => '4',
-					'Нормально' => '3',
-					'Плохо' => '2',
-					'Ужасно' => '1'
+					'book.value.5' => '5',
+					'book.value.4' => '4',
+					'book.value.3' => '3',
+					'book.value.2' => '2',
+					'book.value.1' => '1'
 				]
 			])
 		;
