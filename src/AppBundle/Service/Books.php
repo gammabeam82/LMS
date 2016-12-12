@@ -116,10 +116,6 @@ class Books
 	 */
 	public function remove(Book $book)
 	{
-		if(false !== file_exists($book->getFile())) {
-			unlink($book->getFile());
-		}
-
 		$em = $this->doctrine->getManager();
 		$em->remove($book);
 		$em->flush();
