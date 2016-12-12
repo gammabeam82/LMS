@@ -19,7 +19,7 @@ security:
             form_login:
                 provider: fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
-                default_target_path: default_security_target
+                #default_target_path: default_security_target
             logout:       true
             anonymous:    true
 
@@ -30,11 +30,12 @@ security:
         - { path: ^/admin/, role: ROLE_ADMIN }
 
         - { path: ^/books$, role: IS_AUTHENTICATED_FULLY }
-        - { path: ^/books/download, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/books/download/, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/books/view/, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/books/, role: ROLE_ADMIN }
 
-        - { path: ^/books/add, role: ROLE_ADMIN }
-        - { path: ^/books/delete, role: ROLE_ADMIN }
-        - { path: ^/books/edit, role: ROLE_ADMIN }
+        - { path: ^/authors$, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/authors/, role: ROLE_ADMIN }
 
-        - { path: ^/authors, role: ROLE_ADMIN }
-        - { path: ^/genres, role: ROLE_ADMIN }
+        - { path: ^/genres$, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/genres/, role: ROLE_ADMIN }

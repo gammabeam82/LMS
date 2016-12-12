@@ -92,9 +92,11 @@
 						<th>{{ knp_pagination_sortable(authors, 'Автор', 'a.lastName') }}</th>
 						<th>Книги</th>
 						<th>
-							<a class="btn btn-success btn-sm {{ is_granted('ROLE_ADMIN') ? '' : 'disabled' }}" href="{{ path('authors_add') }}">
-								<i class="glyphicon glyphicon-plus"></i> Добавить автора
-							</a>
+							{% if is_granted('ROLE_ADMIN') %}
+								<a class="btn btn-success btn-sm" href="{{ path('authors_add') }}">
+									<i class="glyphicon glyphicon-plus"></i> Добавить автора
+								</a>
+							{% endif %}
 						</th>
 					</tr>
 
@@ -107,12 +109,14 @@
 								</a>
 							</td>
 							<td>
-								<a class="btn btn-primary btn-sm {{ is_granted('ROLE_ADMIN') ? '' : 'disabled' }}" href="{{ path('authors_edit', {'id': author.id}) }}">
-									<i class="glyphicon glyphicon-edit"></i> Редактировать
-								</a>
-								<button data-name="{{ author.shortName }}" data-toggle="modal" data-target="#Modal" class="btn btn-danger btn-sm delete {{ is_granted('ROLE_ADMIN') ? '' : 'disabled' }}" data-path="{{ path('authors_delete', {'id': author.id}) }}">
-									<i class="glyphicon glyphicon-remove"></i> Удалить
-								</button>
+								{% if is_granted('ROLE_ADMIN') %}
+									<a class="btn btn-primary btn-sm" href="{{ path('authors_edit', {'id': author.id}) }}">
+										<i class="glyphicon glyphicon-edit"></i> Редактировать
+									</a>
+									<button data-name="{{ author.shortName }}" data-toggle="modal" data-target="#Modal" class="btn btn-danger btn-sm delete" data-path="{{ path('authors_delete', {'id': author.id}) }}">
+										<i class="glyphicon glyphicon-remove"></i> Удалить
+									</button>
+								{% endif %}
 							</td>
 						</tr>
 					{% endfor %}

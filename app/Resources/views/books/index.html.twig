@@ -123,9 +123,11 @@
 						<th>{{ knp_pagination_sortable(books, 'Дата добавления', 'b.createdAt') }}</th>
 						<th>Рейтинг</th>
 						<th>
-							<a class="btn btn-success btn-sm {{ is_granted('ROLE_ADMIN') ? '' : 'disabled' }}" href="{{ path('books_add') }}">
-								<i class="glyphicon glyphicon-plus"></i> Добавить книгу
-							</a>
+							{% if is_granted('ROLE_ADMIN') %}
+								<a class="btn btn-success btn-sm" href="{{ path('books_add') }}">
+									<i class="glyphicon glyphicon-plus"></i> Добавить книгу
+								</a>
+							{% endif %}
 						</th>
 					</tr>
 
@@ -141,12 +143,14 @@
 							<td>{{ book.createdAt | date("d.m.Y H:i") }}</td>
 							<td>{{ book.averageRating }}</td>
 							<td>
-								<a class="btn btn-primary btn-sm {{ is_granted('ROLE_ADMIN') ? '' : 'disabled' }}" href="{{ path('books_edit', {'id': book.id}) }}">
-									<i class="glyphicon glyphicon-edit"></i> Редактировать
-								</a>
-								<button data-name="{{ book.name }}" data-toggle="modal" data-target="#Modal" class="btn btn-danger btn-sm delete {{ is_granted('ROLE_ADMIN') ? '' : 'disabled' }}" data-path="{{ path('books_delete', {'id': book.id}) }}">
-									<i class="glyphicon glyphicon-remove"></i> Удалить
-								</button>
+								{% if is_granted('ROLE_ADMIN') %}
+									<a class="btn btn-primary btn-sm" href="{{ path('books_edit', {'id': book.id}) }}">
+										<i class="glyphicon glyphicon-edit"></i> Редактировать
+									</a>
+									<button data-name="{{ book.name }}" data-toggle="modal" data-target="#Modal" class="btn btn-danger btn-sm delete" data-path="{{ path('books_delete', {'id': book.id}) }}">
+										<i class="glyphicon glyphicon-remove"></i> Удалить
+									</button>
+								{% endif %}
 							</td>
 						</tr>
 					{% endfor %}
