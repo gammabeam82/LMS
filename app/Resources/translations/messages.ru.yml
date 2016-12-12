@@ -10,10 +10,18 @@ navigation:
 actions:
   show: 'Показать'
   search: 'Искать'
+  cancel: 'Отмена'
+  delete: 'Удалить'
+  save: 'Сохранить'
+  reset: 'Сбросить'
+  add_book: 'Добавить книгу'
+  edit: 'Редактировать'
 
 book:
   book: 'Книга'
+  books: 'Книги'
   author: 'Автор'
+  genre: 'Жанр'
   name: 'Название'
   rating: 'Рейтинг'
   date: 'Дата добавления'
@@ -30,3 +38,18 @@ book:
 
 author:
   author: 'Автор'
+
+messages:
+  caution: 'Внимание!'
+  delete: 'Действительно удалить книгу'
+  author_select: 'Выбор автора'
+  genre_select: 'Выбор жанра'
+  added_from: 'Добавлена от'
+  added_to: 'Добавлена до'
+  popular: 'Сначала популярные'
+  filter_error: 'Ошибка в параметрах фильтра.'
+  book_added: 'Книга добавлена.'
+  book_deleted: 'Книга удалена.'
+  changes_accepted: 'Изменения сохранены.'
+  file_not_found: 'Файл не найден!'
+  vote_success: 'Оценка принята.'

@@ -17,26 +17,26 @@ class BookFilterType extends AbstractType
 	{
 		$builder
 			->add('name', TextType::class, [
-				'label' => 'Книга',
+				'label' => 'book.book',
 				'required' => false
 			])
 			->add('author', EntityType::class, [
 				'class' => 'AppBundle:Author',
-				'label' => 'Автор',
+				'label' => 'book.author',
 				'choice_label' => 'shortName',
 				'multiple' => true,
 				'required' => false
 			])
 			->add('genre', EntityType::class, [
 				'class' => 'AppBundle:Genre',
-				'label' => 'Жанр',
+				'label' => 'book.genre',
 				'choice_label' => 'name',
 				'multiple' => true,
 				'required' => false
 			])
 			->add('search', HiddenType::class, [])
 			->add('createdAtStart', DateType::class, [
-				'label' => 'Добавлена от',
+				'label' => 'messages.added_from',
 				'widget' => 'single_text',
 				'format' => 'dd.MM.yyyy',
 				'attr' => [
@@ -47,7 +47,7 @@ class BookFilterType extends AbstractType
 				'required' => false,
 			])
 			->add('createdAtEnd', DateType::class, [
-				'label' => 'Добавлена до',
+				'label' => 'messages.added_to',
 				'widget' => 'single_text',
 				'format' => 'dd.MM.yyyy',
 				'attr' => [
@@ -58,7 +58,7 @@ class BookFilterType extends AbstractType
 				'required' => false,
 			])
 			->add('mostPopular', CheckboxType::class, [
-				'label' => 'Сначала популярные',
+				'label' => 'messages.popular',
 				'required' => false
 			])
 		;

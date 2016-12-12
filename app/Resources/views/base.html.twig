@@ -53,13 +53,13 @@
 				{% if is_granted('IS_AUTHENTICATED_FULLY')%}
 					<li>
 						<a href="{{ path('fos_user_security_logout') }}">
-						<i class="glyphicon glyphicon-log-out"></i> {{ 'navigation.logout' | trans }}
+							<i class="glyphicon glyphicon-log-out"></i> {{ 'navigation.logout' | trans }}
 						</a>
 					</li>
 				{% else %}
 					<li>
 						<a href="{{ path('fos_user_security_login') }}">
-						<i class="glyphicon glyphicon-log-in"></i> {{ 'navigation.login' | trans }}
+							<i class="glyphicon glyphicon-log-in"></i> {{ 'navigation.login' | trans }}
 						</a>
 					</li>
 					<li>

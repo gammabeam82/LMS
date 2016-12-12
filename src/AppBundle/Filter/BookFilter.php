@@ -15,7 +15,7 @@ class BookFilter
 	 *
 	 * @Assert\Length(
 	 *      max = 100,
-	 *      maxMessage = "Название не должно быть длинее {{ limit }} символов"
+	 *      maxMessage = "book.name_error"
 	 * )
 	 */
 	private $name;
@@ -43,7 +43,10 @@ class BookFilter
 	/**
 	 * @var \DateTime
 	 *
-	 * @Assert\Expression("!this.getCreatedAtEnd() || this.getCreatedAtStart() <= this.getCreatedAtEnd()", message="Дата окончания должна быть позже или равна дате начала.")
+	 * @Assert\Expression(
+	 *     "!this.getCreatedAtEnd() || this.getCreatedAtStart() <= this.getCreatedAtEnd()",
+	 *     message="book.date_error"
+	 * )
 	 */
 	private $createdAtEnd;
 

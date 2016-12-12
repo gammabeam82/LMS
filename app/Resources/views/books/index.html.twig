@@ -17,15 +17,15 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">Внимание!</h4>
+					<h4 class="modal-title" id="myModalLabel">{{ 'messages.caution' | trans }}</h4>
 				</div>
 				<div class="modal-body">
-					Действительно удалить книгу <span class="book-name"></span>?
+					{{ 'messages.delete' | trans }} <span class="book-name"></span>?
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">{{ 'actions.cancel' | trans }}</button>
 					<a type="button" class="btn btn-danger delete-book" href="#">
-						<i class="glyphicon glyphicon-remove"></i> Удалить
+						<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
 					</a>
 				</div>
 			</div>
@@ -38,7 +38,7 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<ol class="breadcrumb">
-					<li class="active">Книги</li>
+					<li class="active">{{ 'navigation.books' | trans }}</li>
 				</ol>
 			</div>
 		</div>
@@ -71,13 +71,13 @@
 			<div class="col-xs-3">
 				{{ form_row(form.author, {'attr': {
 					'class': 'chosen-select',
-					'data-placeholder': 'Выбор автора'
+					'data-placeholder': 'messages.author_select' | trans
 				} }) }}
 			</div>
 			<div class="col-xs-3">
 				{{ form_row(form.genre, {'attr': {
 					'class': 'chosen-select',
-					'data-placeholder': 'Выбор жанра'
+					'data-placeholder': 'messages.genre_select' | trans
 				} }) }}
 			</div>
 
@@ -100,10 +100,10 @@
 
 			<div class="col-xs-3">
 				<button type="submit" class="btn btn-primary">
-					<i class="glyphicon glyphicon-search"></i> Показать
+					<i class="glyphicon glyphicon-search"></i> {{ 'actions.show' | trans }}
 				</button>
 				<a role="button" class="btn btn-default" href="{{ path('books') }}">
-					<i class="glyphicon glyphicon-remove-circle"></i> Сбросить
+					<i class="glyphicon glyphicon-remove-circle"></i> {{ 'actions.reset' | trans }}
 				</a>
 				<br/><br/>
 			</div>
@@ -117,15 +117,15 @@
 
 				<table class="table table-striped table-hover">
 					<tr>
-						<th>Название</th>
-						<th>Автор</th>
-						<th>Жанр</th>
-						<th>{{ knp_pagination_sortable(books, 'Дата добавления', 'b.createdAt') }}</th>
-						<th>Рейтинг</th>
+						<th>{{ 'book.name' | trans }}</th>
+						<th>{{ 'book.author' | trans }}</th>
+						<th>{{ 'book.genre' | trans }}</th>
+						<th>{{ knp_pagination_sortable(books, 'book.date' | trans, 'b.createdAt') }}</th>
+						<th>{{ 'book.rating' | trans }}</th>
 						<th>
 							{% if is_granted('ROLE_ADMIN') %}
 								<a class="btn btn-success btn-sm" href="{{ path('books_add') }}">
-									<i class="glyphicon glyphicon-plus"></i> Добавить книгу
+									<i class="glyphicon glyphicon-plus"></i> {{ 'actions.add_book' | trans }}
 								</a>
 							{% endif %}
 						</th>
@@ -145,10 +145,10 @@
 							<td>
 								{% if is_granted('ROLE_ADMIN') %}
 									<a class="btn btn-primary btn-sm" href="{{ path('books_edit', {'id': book.id}) }}">
-										<i class="glyphicon glyphicon-edit"></i> Редактировать
+										<i class="glyphicon glyphicon-edit"></i> {{ 'actions.edit' | trans }}
 									</a>
 									<button data-name="{{ book.name }}" data-toggle="modal" data-target="#Modal" class="btn btn-danger btn-sm delete" data-path="{{ path('books_delete', {'id': book.id}) }}">
-										<i class="glyphicon glyphicon-remove"></i> Удалить
+										<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
 									</button>
 								{% endif %}
 							</td>

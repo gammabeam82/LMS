@@ -32,13 +32,15 @@ class BooksController extends Controller
 
 		$bookService = $this->get('app.books');
 
+		$translator = $this->get('translator');
+
 		$filter = new BookFilter();
 
 		$form = $this->createForm(BookFilterType::class, $filter);
 		$form->handleRequest($request);
 
 		if($form->isSubmitted() && !$form->isValid()) {
-			$this->addFlash('error', 'Ошибка в параметрах фильтра.');
+			$this->addFlash('error', $translator->trans('messages.filter_error'));
 		}
 
 		$query = $bookService->getFilteredBooks($filter);
@@ -72,7 +74,9 @@ class BooksController extends Controller
 
 			$bookService->save($this->getUser(), $book);
 
-			$this->addFlash('notice', 'Книга добавлена.');
+			$translator = $this->get('translator');
+
+			$this->addFlash('notice', $translator->trans('messages.book_added'));
 
 			return $this->redirectToRoute('books_add');
 		}
@@ -99,6 +103,8 @@ class BooksController extends Controller
 
 		if($form->isSubmitted()) {
 
+			$translator = $this->get('translator');
+
 			$validator = $this->get('validator');
 			$errors = $validator->validate($book, null, 'edit');
 
@@ -106,7 +112,7 @@ class BooksController extends Controller
 				$bookService->save($this->getUser(), $book, false);
 			}
 
-			$this->addFlash('notice', 'Изменения сохранены.');
+			$this->addFlash('notice', $translator->trans('messages.changes_accepted'));
 
 			return $this->redirectToRoute('books', [
 			]);
@@ -129,9 +135,11 @@ class BooksController extends Controller
 	{
 		$bookService = $this->get('app.books');
 
+		$translator = $this->get('translator');
+
 		$bookService->remove($book);
 
-		$this->addFlash('notice', 'Книга удалена.');
+		$this->addFlash('notice', $translator->trans('messages.book_deleted'));
 
 		return $this->redirectToRoute('books');
 	}
@@ -150,7 +158,8 @@ class BooksController extends Controller
 		$response = $bookService->download($book);
 
 		if(false === $response instanceof BinaryFileResponse) {
-			return $this->createNotFoundException("Файл не найден.");
+			$translator = $this->get('translator');
+			return $this->createNotFoundException($translator->trans('messages.file_not_found'));
 		}
 
 		return $response;
@@ -174,9 +183,11 @@ class BooksController extends Controller
 		if($form->isSubmitted() && $form->isValid()) {
 			$ratingService = $this->get('app.ratings');
 
+			$translator = $this->get('translator');
+
 			$ratingService->save($this->getUser(), $book, $form->getData());
 
-			$this->addFlash('notice', 'Оценка принята.');
+			$this->addFlash('notice', $translator->trans('messages.vote_success'));
 		}
 
 		return $this->render('books/view.html.twig', [
