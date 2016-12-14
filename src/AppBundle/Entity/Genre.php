@@ -12,7 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="genres")
  * @UniqueEntity(
  *     fields={"name"},
- *     message="Жанр с таким названием уже существует."
+ *     message="genre.unique"
  * )
  */
 class Genre
@@ -36,8 +36,8 @@ class Genre
 	 * @Assert\Length(
 	 *      min = 2,
 	 *      max = 50,
-	 *      minMessage = "Название должно содержать хотя бы {{ limit }} символа",
-	 *      maxMessage = "Название не должно быть длинее {{ limit }} символов"
+	 *      minMessage = "genre.name_min",
+	 *      maxMessage = "genre.name_max"
 	 * )
 	 */
 	private $name;
