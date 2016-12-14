@@ -34,8 +34,8 @@ class Book
 	 *     	groups={"edit"},
 	 *      min = 1,
 	 *      max = 100,
-	 *      minMessage = "Название должно содержать хотя бы {{ limit }} символ",
-	 *      maxMessage = "Название не должно быть длинее {{ limit }} символов"
+	 *      minMessage = "book.name_min",
+	 *      maxMessage = "book.name_max"
 	 * )
 	 */
 	private $name;
@@ -66,7 +66,7 @@ class Book
 	/**
 	 * @ORM\Column(type="string", nullable=false)
 	 *
-	 * @Assert\NotBlank(message="Пожалуйста, выберите текстовый файл")
+	 * @Assert\NotBlank(message="book.file_error")
 	 * @Assert\File(
 	 *     mimeTypes={ "text/plain" }
 	 *	 )

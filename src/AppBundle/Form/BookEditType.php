@@ -13,17 +13,17 @@ class BookEditType extends BookType
 	{
 		$builder
 			->add('name', TextType::class, [
-				'label' => 'Название'
+				'label' => 'book.name'
 			])
 			->add('author', EntityType::class, [
 				'class' => 'AppBundle:Author',
-				'label' => 'Автор',
+				'label' => 'book.author',
 				'choice_label' => 'fullName',
 				'multiple' => false,
 			])
 			->add('genre', EntityType::class, [
 				'class' => 'AppBundle:Genre',
-				'label' => 'Жанр',
+				'label' => 'book.genre',
 				'choice_label' => 'name',
 				'multiple' => false,
 			])

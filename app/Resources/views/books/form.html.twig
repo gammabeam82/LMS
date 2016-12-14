@@ -2,7 +2,7 @@
 
 {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
 
-{% block title %}Добавление книги{% endblock %}
+{% block title %}{{ 'book.add' | trans }}{% endblock %}
 
 {% block stylesheets %}
 	{{ parent() }}
@@ -16,8 +16,8 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<ol class="breadcrumb">
-					<li><a href="{{ path('books') }}">Книги</a></li>
-					<li class="active">Добавление книги</li>
+					<li><a href="{{ path('books') }}">{{ 'book.books' | trans }}</a></li>
+					<li class="active">{{ 'book.add' | trans }}</li>
 				</ol>
 			</div>
 		</div>
@@ -36,11 +36,11 @@
 				{{ form_start(form) }}
 				{{ form_row(form.name) }}
 				{{ form_row(form.author, {'attr': {'class': 'chosen-select'} }) }}
-				{{ form_row(form.genre, {'attr': {'class': 'chosen-select', 'data-placeholder': 'Выбор жанра'} }) }}
+				{{ form_row(form.genre, {'attr': {'class': 'chosen-select', 'data-placeholder': 'messages.genre_select' | trans } }) }}
 				{{ form_row(form.file, {'attr': {'class': 'upload', 'accept': 'text/plain'} }) }}
 
 				<button type="submit" class="btn btn-success pull-right">
-					<i class="glyphicon glyphicon-plus"></i> Сохранить
+					<i class="glyphicon glyphicon-plus"></i> {{ 'actions.save' | trans }}
 				</button>
 
 				{{ form_end(form) }}
