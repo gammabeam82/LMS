@@ -13,7 +13,7 @@ class GenreType extends AbstractType
 	{
 		$builder
 			->add('name', TextType::class, [
-				'label' => 'Название'
+				'label' => 'messages.name'
 			])
 		;
 	}
@@ -24,6 +24,5 @@ class GenreType extends AbstractType
 			'data_class' => 'AppBundle\Entity\Genre',
 		]);
 	}
-
 
 }

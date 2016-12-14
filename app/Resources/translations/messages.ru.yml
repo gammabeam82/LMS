@@ -15,6 +15,7 @@ actions:
   save: 'Сохранить'
   reset: 'Сбросить'
   add_book: 'Добавить книгу'
+  add_genre: 'Добавить жанр'
   edit: 'Редактировать'
 
 book:
@@ -42,6 +43,12 @@ book:
 author:
   author: 'Автор'
 
+genre:
+  genre: 'Жанр'
+  genres: 'Жанры'
+  add: 'Добавление жанра'
+  edit: 'Редактирование жанра'
+
 messages:
   caution: 'Внимание!'
   delete: 'Действительно удалить книгу'
@@ -56,3 +63,7 @@ messages:
   changes_accepted: 'Изменения сохранены.'
   file_not_found: 'Файл не найден!'
   vote_success: 'Оценка принята.'
+  genre_added: 'Жанр добавлен.'
+  genre_deleted: 'Жанр удален.'
+  genre_delete: 'Действительно удалить жанр'
+  name: 'Название'

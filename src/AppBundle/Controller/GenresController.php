@@ -49,9 +49,12 @@ class GenresController extends Controller
 		$form->handleRequest($request);
 
 		if($form->isSubmitted() && $form->isValid()) {
+
+			$translator = $this->get('translator');
+
 			$genreService->save($this->getUser(), $form->getData());
 
-			$this->addFlash('notice', 'Жанр добавлен.');
+			$this->addFlash('notice', $translator->trans('messages.genre_added'));
 
 			return $this->redirectToRoute('genres_add');
 		}
@@ -77,9 +80,12 @@ class GenresController extends Controller
 		$form->handleRequest($request);
 
 		if($form->isSubmitted() && $form->isValid()) {
+
+			$translator = $this->get('translator');
+
 			$genreService->save($this->getUser(), $form->getData(), false);
 
-			$this->addFlash('notice', 'Изменения сохранены.');
+			$this->addFlash('notice', $translator->trans('messages.changes_accepted'));
 
 			return $this->redirectToRoute('genres');
 		}
@@ -101,9 +107,11 @@ class GenresController extends Controller
 	{
 		$genreService = $this->get('app.genres');
 
+		$translator = $this->get('translator');
+
 		$genreService->remove($genre);
 
-		$this->addFlash('notice', 'Жанр удален.');
+		$this->addFlash('notice', $translator->trans('messages.genre_deleted'));
 
 		return $this->redirectToRoute('genres');
 	}
