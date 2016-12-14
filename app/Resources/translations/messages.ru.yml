@@ -16,6 +16,7 @@ actions:
   reset: 'Сбросить'
   add_book: 'Добавить книгу'
   add_genre: 'Добавить жанр'
+  add_author: 'Добавить автора'
   edit: 'Редактировать'
 
 book:
@@ -42,6 +43,11 @@ book:
 
 author:
   author: 'Автор'
+  authors: 'Авторы'
+  add: 'Добавление автора'
+  edit: 'Редактирование автора'
+  first_name: 'Имя'
+  last_name: 'Фамилия'
 
 genre:
   genre: 'Жанр'
@@ -67,3 +73,6 @@ messages:
   genre_deleted: 'Жанр удален.'
   genre_delete: 'Действительно удалить жанр'
   name: 'Название'
+  author_added: 'Автор добавлен.'
+  author_deleted: 'Автор удален.'
+  author_delete: 'Действительно удалить автора'

@@ -27,13 +27,15 @@ class AuthorsController extends Controller
 
 		$authorService = $this->get('app.authors');
 
+		$translator = $this->get('translator');
+
 		$filter = new AuthorFilter();
 
 		$form = $this->createForm(AuthorFilterType::class, $filter);
 		$form->handleRequest($request);
 
 		if($form->isSubmitted() && !$form->isValid()) {
-			$this->addFlash('error', 'Ошибка в параметрах фильтра.');
+			$this->addFlash('error', $translator->trans('messages.filter_error'));
 		}
 
 		$query = $authorService->getFilteredAuthors($filter);
@@ -64,9 +66,12 @@ class AuthorsController extends Controller
 		$form->handleRequest($request);
 
 		if($form->isSubmitted() && $form->isValid()) {
+
 			$authorService->save($this->getUser(), $form->getData());
 
-			$this->addFlash('notice', 'Автор добавлен.');
+			$translator = $this->get('translator');
+
+			$this->addFlash('notice', $translator->trans('messages.author_added'));
 
 			return $this->redirectToRoute('authors_add');
 		}
@@ -92,9 +97,12 @@ class AuthorsController extends Controller
 		$form->handleRequest($request);
 
 		if($form->isSubmitted() && $form->isValid()) {
+
+			$translator = $this->get('translator');
+
 			$authorService->save($this->getUser(), $form->getData(), false);
 
-			$this->addFlash('notice', 'Изменения сохранены.');
+			$this->addFlash('notice', $translator->trans('messages.changes_accepted'));
 
 			return $this->redirectToRoute('authors');
 		}
@@ -116,9 +124,11 @@ class AuthorsController extends Controller
 	{
 		$authorService = $this->get('app.authors');
 
+		$translator = $this->get('translator');
+
 		$authorService->remove($author);
 
-		$this->addFlash('notice', 'Автор удален.');
+		$this->addFlash('notice', $translator->trans('messages.author_deleted'));
 
 		return $this->redirectToRoute('authors');
 	}

@@ -2,7 +2,7 @@
 
 {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
 
-{% block title %}Добавление автора{% endblock %}
+{% block title %}{{ 'author.add' | trans }}{% endblock %}
 
 {% block body %}
 	<div class="container-fluid">
@@ -10,8 +10,8 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<ol class="breadcrumb">
-					<li><a href="{{ path('authors') }}">Авторы</a></li>
-					<li class="active">Добавление автора</li>
+					<li><a href="{{ path('authors') }}">{{ 'author.authors' | trans }}</a></li>
+					<li class="active">{{ 'author.add' | trans }}</li>
 				</ol>
 			</div>
 		</div>
@@ -32,7 +32,7 @@
 				{{ form_row(form.lastName) }}
 
 				<button type="submit" class="btn btn-success pull-right">
-					<i class="glyphicon glyphicon-plus"></i> Сохранить
+					<i class="glyphicon glyphicon-plus"></i> {{ 'actions.save' | trans }}
 				</button>
 
 				{{ form_end(form) }}

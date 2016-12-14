@@ -2,7 +2,7 @@
 
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
-{% block title %}Авторы{% endblock %}
+{% block title %}{{ 'author.authors' | trans }}{% endblock %}
 
 {% block body %}
 
@@ -11,15 +11,15 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">Внимание!</h4>
+					<h4 class="modal-title" id="myModalLabel">{{ 'messages.caution' | trans }}</h4>
 				</div>
 				<div class="modal-body">
-					Действительно удалить автора <span class="author-name"></span>?
+					{{ 'messages.author_delete' | trans }} <span class="author-name"></span>?
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">{{ 'actions.cancel' | trans }}</button>
 					<a type="button" class="btn btn-danger delete-author" href="#">
-						<i class="glyphicon glyphicon-remove"></i> Удалить
+						<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
 					</a>
 				</div>
 			</div>
@@ -32,7 +32,7 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<ol class="breadcrumb">
-					<li class="active">Авторы</li>
+					<li class="active">{{ 'author.authors' | trans }}</li>
 				</ol>
 			</div>
 		</div>
@@ -71,10 +71,10 @@
 
 			<div class="col-xs-3">
 				<button type="submit" class="btn btn-primary">
-					<i class="glyphicon glyphicon-search"></i> Показать
+					<i class="glyphicon glyphicon-search"></i> {{ 'actions.show' | trans }}
 				</button>
 				<a role="button" class="btn btn-default" href="{{ path('authors') }}">
-					<i class="glyphicon glyphicon-remove-circle"></i> Сбросить
+					<i class="glyphicon glyphicon-remove-circle"></i> {{ 'actions.reset' | trans }}
 				</a>
 				<br/><br/>
 			</div>
@@ -94,7 +94,7 @@
 						<th>
 							{% if is_granted('ROLE_ADMIN') %}
 								<a class="btn btn-success btn-sm" href="{{ path('authors_add') }}">
-									<i class="glyphicon glyphicon-plus"></i> Добавить автора
+									<i class="glyphicon glyphicon-plus"></i> {{ 'actions.add_author' | trans }}
 								</a>
 							{% endif %}
 						</th>
@@ -111,10 +111,10 @@
 							<td>
 								{% if is_granted('ROLE_ADMIN') %}
 									<a class="btn btn-primary btn-sm" href="{{ path('authors_edit', {'id': author.id}) }}">
-										<i class="glyphicon glyphicon-edit"></i> Редактировать
+										<i class="glyphicon glyphicon-edit"></i> {{ 'actions.edit' | trans }}
 									</a>
 									<button data-name="{{ author.shortName }}" data-toggle="modal" data-target="#Modal" class="btn btn-danger btn-sm delete" data-path="{{ path('authors_delete', {'id': author.id}) }}">
-										<i class="glyphicon glyphicon-remove"></i> Удалить
+										<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
 									</button>
 								{% endif %}
 							</td>

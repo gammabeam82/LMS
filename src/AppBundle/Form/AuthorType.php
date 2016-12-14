@@ -13,10 +13,10 @@ class AuthorType extends AbstractType
 	{
 		$builder
 			->add('firstName', TextType::class, [
-				'label' => 'Имя'
+				'label' => 'author.first_name'
 			])
 			->add('lastName', TextType::class, [
-				'label' => 'Фамилия'
+				'label' => 'author.last_name'
 			])
 		;
 	}

@@ -32,8 +32,8 @@ class Author
 	 * @Assert\Length(
 	 *      min = 2,
 	 *      max = 40,
-	 *      minMessage = "Имя должно содержать хотя бы {{ limit }} символа",
-	 *      maxMessage = "Имя не должно быть длинее {{ limit }} символов"
+	 *      minMessage = "author.first_name_min",
+	 *      maxMessage = "author.first_name_max"
 	 * )
 	 */
 	private $firstName;
@@ -44,8 +44,8 @@ class Author
 	 * @Assert\Length(
 	 *      min = 2,
 	 *      max = 100,
-	 *      minMessage = "Фамилия содержать хотя бы {{ limit }} символа",
-	 *      maxMessage = "Фамилия не должна быть длинее {{ limit }} символов"
+	 *      minMessage = "author.last_name_min",
+	 *      maxMessage = "author.last_name_max"
 	 * )
 	 */
 	private $lastName;

@@ -11,8 +11,8 @@ class AuthorFilter
 	 * @var string
 	 *
 	 * @Assert\Length(
-	 *      max = 50,
-	 *      maxMessage = "Фамилия не должна быть длинее {{ limit }} символов"
+	 *      max = 100,
+	 *      maxMessage = "author.last_name_max"
 	 * )
 	 */
 	private $lastName;
