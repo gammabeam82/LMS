@@ -22,14 +22,18 @@ class Comments
 	}
 
 	/**
+	 * @param Book $book
 	 * @return mixed
 	 */
-	public function getQuery()
+	public function getQuery(Book $book)
 	{
 		$repo = $this->doctrine->getRepository('AppBundle:Comment');
 		$qb = $repo->createQueryBuilder('c');
 
-		$qb->orderBy('g.id', 'DESC');
+		$qb->andWhere('c.book = :book');
+		$qb->setParameter('book', $book);
+
+		$qb->orderBy('c.id', 'DESC');
 
 		return $qb->getQuery();
 	}

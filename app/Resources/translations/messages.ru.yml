@@ -80,3 +80,6 @@ messages:
   author_deleted: 'Автор удален.'
   author_delete: 'Действительно удалить автора'
   comment_added: 'Комментарий добавлен.'
+
+Previous: 'Предыдущая'
+Next: 'Следующая'

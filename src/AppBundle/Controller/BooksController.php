@@ -173,7 +173,7 @@ class BooksController extends Controller
 	 *
 	 * @param Request $request
 	 * @param Book $book
-	 * @return Response
+	 * @return RedirectResponse|Response
 	 */
 	public function viewAction(Request $request, Book $book)
 	{
@@ -204,12 +204,27 @@ class BooksController extends Controller
 			$commentService->save($this->getUser(), $book, $commentForm->getData());
 
 			$this->addFlash('notice.comment', $translator->trans('messages.comment_added'));
+
+			return $this->redirectToRoute('books_view', [
+				'id' => $book->getId()
+			]);
 		}
+
+		$paginator = $this->get('knp_paginator');
+
+		$commentService = $this->get('app.comments');
+
+		$query = $commentService->getQuery($book);
+
+		$comments = $paginator->paginate(
+			$query, $request->query->getInt('page', 1), 5
+		);
 
 		return $this->render('books/view.html.twig', [
 			'book' => $book,
 			'form' => $ratingForm->createView(),
-			'comment_form' => $commentForm->createView()
+			'comment_form' => $commentForm->createView(),
+			'comments' => $comments
 		]);
 	}
 }
