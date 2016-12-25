@@ -79,11 +79,17 @@ class Book
 	private $ratings;
 
 	/**
+	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Comment", mappedBy="book")
+	 */
+	private $comments;
+
+	/**
 	 * Book constructor.
 	 */
 	public function __construct()
 	{
 		$this->ratings = new ArrayCollection();
+		$this->comments = new ArrayCollection();
 	}
 
     /**
@@ -323,4 +329,38 @@ class Book
 			unlink($this->file);
 		}
 	}
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     *
+     * @return Book
+     */
+    public function addComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     */
+    public function removeComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
 }

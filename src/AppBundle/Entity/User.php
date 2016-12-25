@@ -58,6 +58,11 @@ class User extends BaseUser
 	 */
 	private $ratings;
 
+	/**
+	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Comment", mappedBy="user")
+	 */
+	private $comments;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -66,6 +71,7 @@ class User extends BaseUser
 		$this->authors = new ArrayCollection();
 		$this->genres = new ArrayCollection();
 		$this->ratings = new ArrayCollection();
+		$this->comments = new ArrayCollection();
 	}
 
     /**
@@ -274,5 +280,39 @@ class User extends BaseUser
     public function getRatings()
     {
         return $this->ratings;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     *
+     * @return User
+     */
+    public function addComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     */
+    public function removeComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }
