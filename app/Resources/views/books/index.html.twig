@@ -2,7 +2,7 @@
 
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
-{% block title %}Книги{% endblock %}
+{% block title %}{{ 'book.books' | trans }}{% endblock %}
 
 {% block stylesheets %}
 	{{ parent() }}
@@ -38,7 +38,7 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<ol class="breadcrumb">
-					<li class="active">{{ 'navigation.books' | trans }}</li>
+					<li class="active">{{ 'book.books' | trans }}</li>
 				</ol>
 			</div>
 		</div>

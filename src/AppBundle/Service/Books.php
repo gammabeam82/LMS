@@ -22,7 +22,9 @@ class Books
 	private $path;
 
 	/**
+	 * Books constructor.
 	 * @param Registry $doctrine
+	 * @param string $path
 	 */
 	public function __construct(Registry $doctrine, $path)
 	{
@@ -46,6 +48,7 @@ class Books
 				$this->path,
 				$fileName
 			);
+
 			$book->setFile($this->path . "/" . $fileName);
 			$book->setAddedBy($user);
 			$book->setViews(0);
