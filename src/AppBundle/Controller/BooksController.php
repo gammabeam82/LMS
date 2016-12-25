@@ -3,9 +3,11 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Book;
+use AppBundle\Entity\Comment;
 use AppBundle\Entity\Rating;
 use AppBundle\Form\BookType;
 use AppBundle\Form\RatingType;
+use AppBundle\Form\CommentType;
 use AppBundle\Filter\BookFilter;
 use AppBundle\Filter\Form\BookFilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -175,24 +177,39 @@ class BooksController extends Controller
 	 */
 	public function viewAction(Request $request, Book $book)
 	{
+		$comment = new Comment();
 		$rating = new Rating();
 
-		$form = $this->createForm(RatingType::class, $rating);
-		$form->handleRequest($request);
+		$ratingForm = $this->createForm(RatingType::class, $rating);
+		$ratingForm->handleRequest($request);
 
-		if($form->isSubmitted() && $form->isValid()) {
+		if($ratingForm->isSubmitted() && $ratingForm->isValid()) {
 			$ratingService = $this->get('app.ratings');
 
 			$translator = $this->get('translator');
 
-			$ratingService->save($this->getUser(), $book, $form->getData());
+			$ratingService->save($this->getUser(), $book, $ratingForm->getData());
 
 			$this->addFlash('notice', $translator->trans('messages.vote_success'));
 		}
 
+		$commentForm = $this->createForm(CommentType::class, $comment);
+		$commentForm->handleRequest($request);
+
+		if($commentForm->isSubmitted() && $commentForm->isValid()) {
+			$commentService = $this->get('app.comments');
+
+			$translator = $this->get('translator');
+
+			$commentService->save($this->getUser(), $book, $commentForm->getData());
+
+			$this->addFlash('notice.comment', $translator->trans('messages.comment_added'));
+		}
+
 		return $this->render('books/view.html.twig', [
 			'book' => $book,
-			'form' => $form->createView()
+			'form' => $ratingForm->createView(),
+			'comment_form' => $commentForm->createView()
 		]);
 	}
 }

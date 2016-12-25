@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+{% form_theme comment_form 'bootstrap_3_layout.html.twig' %}
 
 {% block title %}{{ book.name }}{% endblock %}
 
@@ -43,11 +44,9 @@
 				<a href="{{ path('books_download', {'id': book.id}) }}" class="btn btn-success pull-right">
 					<i class="glyphicon glyphicon-cloud-download"></i> {{ 'book.download' | trans }}
 				</a>
-			</div>
-		</div>
 
-		<div class="row">
-			<div class="col-xs-3">
+				<br/>
+				<br/>
 				<hr/>
 
 				{% for flash_message in app.session.flashBag.get('notice') %}
@@ -66,7 +65,27 @@
 				</button>
 
 				{{ form_end(form) }}
+
 			</div>
+
+			<div class="col-xs-8">
+				{% for flash_message in app.session.flashBag.get('notice.comment') %}
+					<div class="panel panel-default">
+						<div class="panel-body bg-success">
+							{{ flash_message }}
+						</div>
+					</div>
+				{% endfor %}
+				{{ form_start(comment_form) }}
+				{{ form_row(comment_form.message) }}
+
+				<button type="submit" class="btn btn-success pull-right">
+					<i class="glyphicon glyphicon-plus"></i> {{ 'actions.save' | trans }}
+				</button>
+
+				{{ form_end(comment_form) }}
+			</div>
+
 		</div>
 
 	</div>

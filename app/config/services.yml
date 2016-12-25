@@ -25,3 +25,7 @@ services:
       app.ratings:
             class: AppBundle\Service\Ratings
             arguments: ["@doctrine"]
+
+      app.comments:
+            class: AppBundle\Service\Comments
+            arguments: ["@doctrine"]
