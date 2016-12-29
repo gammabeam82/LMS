@@ -50,7 +50,7 @@
 						<i class="glyphicon glyphicon-user"></i> {{ 'navigation.authors' | trans }}
 					</a>
 				</li>
-				{% if is_granted('IS_AUTHENTICATED_FULLY')%}
+				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 					<li>
 						<a href="{{ path('fos_user_security_logout') }}">
 							<i class="glyphicon glyphicon-log-out"></i> {{ 'navigation.logout' | trans }}
@@ -74,7 +74,7 @@
 				<div class="form-group">
 					<input type="text" class="form-control" placeholder="" name="book_filter[search]" data-toggle="tooltip" data-placement="bottom" title="Поиск книги или автора"/>
 				</div>
-				<button type="submit" class="btn btn-default">
+				<button type="submit" class="btn btn-default {{ is_granted('IS_AUTHENTICATED_FULLY') ? '' : 'disabled' }}">
 					<i class="glyphicon glyphicon-search"></i> {{ 'actions.search' | trans }}
 				</button>
 			</form>
