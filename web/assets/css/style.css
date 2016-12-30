@@ -28,3 +28,9 @@ body {
 .margin-top-10 {
 	margin-top: 10vh;
 }
+
+dd {
+	border-bottom: 1px solid #ECF0F1;
+	margin-top: 4px;
+	margin-bottom: 20px;
+}
