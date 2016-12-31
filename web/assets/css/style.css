@@ -34,3 +34,7 @@ dd {
 	margin-top: 4px;
 	margin-bottom: 20px;
 }
+
+dd a {
+	text-decoration: none !important;
+}

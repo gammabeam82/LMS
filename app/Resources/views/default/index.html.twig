@@ -45,13 +45,17 @@
 							<dt>
 								{{ comment.user }}
 							</dt>
-							<dd>
-							<span class="text-muted">
-								<i class="glyphicon glyphicon-time"></i>
-								{{ comment.postedAt | date('d.m.Y H:i') }}
-							</span>
+							<dd class="comment">
+								<span class="text-muted">
+									<i class="glyphicon glyphicon-time"></i>
+									{{ comment.postedAt | date('d.m.Y H:i:s') }}
+								</span>
+								<a href="{{ path('books_view', { 'id': comment.book.id }) }}#c{{ comment.id }}">
+									<i class="glyphicon glyphicon-circle-arrow-right"></i>
+								</a>
 								<br/>
 								{{ comment.message }}
+								<br/>
 							</dd>
 						{% endfor %}
 					</dl>
