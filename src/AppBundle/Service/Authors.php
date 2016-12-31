@@ -50,8 +50,8 @@ class Authors
 		$qb = $repo->createQueryBuilder('a');
 
 		if (!empty($filter->getLastName())) {
-			$qb->andWhere($qb->expr()->like('LOWER(a.lastName)', ':name'))
-				->setParameter('name', "%" . strtolower($filter->getLastName()) . "%");
+			$qb->andWhere($qb->expr()->like('LOWER(a.lastName)', ':name'));
+			$qb->setParameter('name', "%" . mb_strtolower($filter->getLastName()) . "%");
 		}
 
 		$qb->orderBy('a.id', 'DESC');

@@ -74,7 +74,7 @@ class Books
 
 		if (!empty($filter->getName())) {
 			$qb->andWhere($qb->expr()->like('LOWER(b.name)', ':name'))
-				->setParameter('name', "%" . strtolower($filter->getName()) . "%");
+				->setParameter('name', "%" . mb_strtolower($filter->getName()) . "%");
 		}
 
 		if ($filter->getAuthor() && count($filter->getAuthor())) {
@@ -94,7 +94,7 @@ class Books
 				'LOWER(a.lastName) LIKE :sr'
 			);
 			$qb->andWhere($expr);
-			$qb->setParameter('sr', "%" . strtolower($filter->getSearch()) . "%");
+			$qb->setParameter('sr', "%" . mb_strtolower($filter->getSearch()) . "%");
 		}
 
 		if ($filter->getCreatedAtStart()) {
