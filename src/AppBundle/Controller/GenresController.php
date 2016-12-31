@@ -25,7 +25,7 @@ class GenresController extends Controller
 		$query = $genreService->getQuery();
 
 		$genres = $paginator->paginate(
-			$query, $request->query->getInt('page', 1), 15
+			$query, $request->query->getInt('page', 1), $this->getParameter('genres_per_page')
 		);
 
 		return $this->render('genres/index.html.twig', [

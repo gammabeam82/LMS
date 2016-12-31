@@ -41,7 +41,7 @@ class AuthorsController extends Controller
 		$query = $authorService->getFilteredAuthors($filter);
 
 		$authors = $paginator->paginate(
-			$query, $request->query->getInt('page', 1), 15
+			$query, $request->query->getInt('page', 1), $this->getParameter('authors_per_page')
 		);
 
 		return $this->render('authors/index.html.twig', [

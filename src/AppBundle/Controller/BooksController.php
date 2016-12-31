@@ -48,7 +48,7 @@ class BooksController extends Controller
 		$query = $bookService->getFilteredBooks($filter);
 
 		$books = $paginator->paginate(
-			$query, $request->query->getInt('page', 1), 15
+			$query, $request->query->getInt('page', 1), $this->getParameter('books_per_page')
 		);
 
 		return $this->render('books/index.html.twig', [
@@ -217,7 +217,7 @@ class BooksController extends Controller
 		$query = $commentService->getQuery($book);
 
 		$comments = $paginator->paginate(
-			$query, $request->query->getInt('page', 1), 5
+			$query, $request->query->getInt('page', 1), $this->getParameter('comments_per_page')
 		);
 
 		return $this->render('books/view.html.twig', [
