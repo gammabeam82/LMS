@@ -38,3 +38,7 @@ dd {
 dd a {
 	text-decoration: none !important;
 }
+
+.cloud {
+	min-height: 100px;
+}

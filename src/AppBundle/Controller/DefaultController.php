@@ -19,7 +19,7 @@ class DefaultController extends Controller
 
 		$commentService = $this->get('app.comments');
 
-		$books = $paginator->paginate($bookService->getFilteredBooks(new BookFilter()), 1, 5);
+		$books = $paginator->paginate($bookService->getFilteredBooks(new BookFilter()), 1, 30);
 
 		$comments = $paginator->paginate($commentService->getQuery(), 1, 5);
 

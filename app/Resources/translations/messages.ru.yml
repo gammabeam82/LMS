@@ -59,6 +59,7 @@ comment:
   comment: 'Комментарий'
 
 messages:
+  title: 'Библиотека'
   caution: 'Внимание!'
   delete: 'Действительно удалить книгу'
   author_select: 'Выбор автора'

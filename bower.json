@@ -22,6 +22,8 @@
     "bootstrap-fileinput": "^4.3.5",
     "PACE": "pace#^1.0.2",
     "eonasdan-bootstrap-datetimepicker": "^4.17.43",
-    "jqcloud2": "^2.0.2"
+    "jqcloud2": "^2.0.2",
+    "animate.css": "^3.5.2",
+    "waypoints": "^4.0.1"
   }
 }
