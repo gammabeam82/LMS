@@ -57,32 +57,35 @@
 			</div>
 		</div>
 
-
-
-		{{ form_start(form) }}
 		<div class="row">
-
-			<div class="col-xs-3">
-				{{ form_row(form.lastName) }}
-			</div>
-
-		</div>
-		<div class="row">
-
-			<div class="col-xs-3">
-				<button type="submit" class="btn btn-primary">
-					<i class="glyphicon glyphicon-search"></i> {{ 'actions.show' | trans }}
+			<div class="col-xs-12">
+				<button class="btn btn-default filter-toggle" type="button" data-toggle="collapse" data-target="#filter">
+					<i class="glyphicon glyphicon-collapse-down"></i> Фильтр
 				</button>
-				<a role="button" class="btn btn-default" href="{{ path('authors') }}">
-					<i class="glyphicon glyphicon-remove-circle"></i> {{ 'actions.reset' | trans }}
-				</a>
-				<br/><br/>
+				<hr/>
 			</div>
-
-			{{ form_end(form) }}
-
 		</div>
 
+		<div class="collapse" id="filter">
+			<div class="row">
+				{{ form_start(form) }}
+				<div class="col-xs-3">
+					{{ form_row(form.lastName) }}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-3">
+					<button type="submit" class="btn btn-primary">
+						<i class="glyphicon glyphicon-search"></i> {{ 'actions.show' | trans }}
+					</button>
+					<a role="button" class="btn btn-default" href="{{ path('authors') }}">
+						<i class="glyphicon glyphicon-remove-circle"></i> {{ 'actions.reset' | trans }}
+					</a>
+					<br/><br/>
+				</div>
+				{{ form_end(form) }}
+			</div>
+		</div>
 
 		<div class="row">
 			<div class="col-xs-12">
@@ -137,4 +140,13 @@
 {% block javascripts %}
 	{{ parent() }}
 	<script src="{{ asset('assets/js/authors-index.js') }}"></script>
+
+	{% if app.request.query.get('author_filter') %}
+		<script>
+			$(document).ready(function() {
+				$('.filter-toggle').click();
+			});
+		</script>
+	{% endif %}
+
 {% endblock %}

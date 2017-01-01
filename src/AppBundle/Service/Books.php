@@ -73,18 +73,18 @@ class Books
 		$qb->orderBy('b.id', 'DESC');
 
 		if (!empty($filter->getName())) {
-			$qb->andWhere($qb->expr()->like('LOWER(b.name)', ':name'))
-				->setParameter('name', "%" . mb_strtolower($filter->getName()) . "%");
+			$qb->andWhere($qb->expr()->like('LOWER(b.name)', ':name'));
+			$qb->setParameter('name', "%" . mb_strtolower($filter->getName()) . "%");
 		}
 
 		if ($filter->getAuthor() && count($filter->getAuthor())) {
-			$qb->andWhere('b.author IN (:author)')
-				->setParameter('author', $filter->getAuthor());
+			$qb->andWhere('b.author IN (:author)');
+			$qb->setParameter('author', $filter->getAuthor());
 		}
 
 		if ($filter->getGenre() && count($filter->getGenre())) {
-			$qb->andWhere('b.genre IN (:genre)')
-				->setParameter('genre', $filter->getGenre());
+			$qb->andWhere('b.genre IN (:genre)');
+			$qb->setParameter('genre', $filter->getGenre());
 		}
 
 		if (!empty($filter->getSearch())) {

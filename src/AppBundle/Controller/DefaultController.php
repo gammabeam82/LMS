@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Filter\BookFilter;
 
@@ -10,6 +11,8 @@ class DefaultController extends Controller
 {
 	/**
 	 * @Route("/", name="homepage")
+	 *
+	 * @return Response
 	 */
 	public function indexAction()
 	{
