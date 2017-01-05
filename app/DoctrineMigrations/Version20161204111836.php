@@ -30,7 +30,6 @@ class Version20161204111836 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE books DROP CONSTRAINT fk_4a1b2a92f675f31b');
         $this->addSql('ALTER TABLE books ADD CONSTRAINT fk_4a1b2a92f675f31b FOREIGN KEY (author_id) REFERENCES authors (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
