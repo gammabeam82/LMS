@@ -185,4 +185,20 @@ class BookFilter
 		$this->mostPopular = $mostPopular;
 	}
 
+	/**
+	 * @param ArrayCollection $author
+	 */
+	public function setAuthor($author)
+	{
+		$this->author = $author;
+	}
+
+	/**
+	 * @param ArrayCollection $genre
+	 */
+	public function setGenre($genre)
+	{
+		$this->genre = $genre;
+	}
+
 }

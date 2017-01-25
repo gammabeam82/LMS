@@ -34,6 +34,8 @@ class BooksController extends Controller
 
 		$bookService = $this->get('app.books');
 
+		$sessionService = $this->get('app.sessions');
+
 		$translator = $this->get('translator');
 
 		$filter = new BookFilter();
@@ -41,7 +43,7 @@ class BooksController extends Controller
 		$form = $this->createForm(BookFilterType::class, $filter);
 		$form->handleRequest($request);
 
-		if($form->isSubmitted() && !$form->isValid()) {
+		if(false === $sessionService->updateFilterFromSession($form, $filter)) {
 			$this->addFlash('error', $translator->trans('messages.filter_error'));
 		}
 
@@ -53,7 +55,8 @@ class BooksController extends Controller
 
 		return $this->render('books/index.html.twig', [
 			'form' => $form->createView(),
-			'books' => $books
+			'books' => $books,
+			'filterName' => substr(md5(get_class($filter)), 0, 10)
 		]);
 	}
 
