@@ -29,3 +29,7 @@ services:
       app.comments:
             class: AppBundle\Service\Comments
             arguments: ["@doctrine"]
+
+      app.sessions:
+            class: AppBundle\Service\Sessions
+            arguments: ["@request_stack", "@doctrine"]

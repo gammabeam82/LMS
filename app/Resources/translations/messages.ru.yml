@@ -84,6 +84,7 @@ messages:
   recent_books: 'Последние добавленные книги'
   recent_comments: 'Последние комментарии'
   recent_news: 'Новости'
+  filter: 'Фильтр'
 
 Previous: 'Предыдущая'
 Next: 'Следующая'

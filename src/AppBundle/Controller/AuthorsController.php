@@ -27,6 +27,8 @@ class AuthorsController extends Controller
 
 		$authorService = $this->get('app.authors');
 
+		$sessionService = $this->get('app.sessions');
+
 		$translator = $this->get('translator');
 
 		$filter = new AuthorFilter();
@@ -34,7 +36,7 @@ class AuthorsController extends Controller
 		$form = $this->createForm(AuthorFilterType::class, $filter);
 		$form->handleRequest($request);
 
-		if($form->isSubmitted() && !$form->isValid()) {
+		if(false === $sessionService->updateFilterFromSession($form, $filter)) {
 			$this->addFlash('error', $translator->trans('messages.filter_error'));
 		}
 
@@ -46,7 +48,8 @@ class AuthorsController extends Controller
 
 		return $this->render('authors/index.html.twig', [
 			'authors' => $authors,
-			'form' => $form->createView()
+			'form' => $form->createView(),
+			'filterName' => substr(md5(get_class($filter)), 0, 10)
 		]);
 	}
 
