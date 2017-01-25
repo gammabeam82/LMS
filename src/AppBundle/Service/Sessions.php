@@ -20,6 +20,7 @@ class Sessions
 	/**
 	 * Sessions constructor.
 	 * @param RequestStack $requestStack
+	 * @param Registry $doctrine
 	 */
 	public function __construct(RequestStack $requestStack, Registry $doctrine)
 	{
