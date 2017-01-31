@@ -23,10 +23,13 @@ class Comments
 
 	/**
 	 * @param Book|null $book
-	 * @return mixed
+	 * @return \Doctrine\ORM\Query
 	 */
 	public function getQuery(Book $book = null)
 	{
+		/**
+		 * @var \Doctrine\ORM\EntityRepository $repo
+		 */
 		$repo = $this->doctrine->getRepository('AppBundle:Comment');
 		$qb = $repo->createQueryBuilder('c');
 
@@ -45,7 +48,6 @@ class Comments
 	 * @param User $user
 	 * @param Book $book
 	 * @param Comment $comment
-	 * @return Comment
 	 */
 	public function save(User $user, Book $book, Comment $comment)
 	{
@@ -57,7 +59,6 @@ class Comments
 		$em->persist($comment);
 		$em->flush();
 
-		return $comment;
 	}
 
 	/**

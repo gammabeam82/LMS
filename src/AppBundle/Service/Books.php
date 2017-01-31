@@ -36,11 +36,13 @@ class Books
 	 * @param User $user
 	 * @param Book $book
 	 * @param bool $isCreating
-	 * @return Book
 	 */
 	public function save(User $user, Book $book, $isCreating = true)
 	{
 		if (false !== $isCreating) {
+			/**
+			 * @var \Symfony\Component\HttpFoundation\File\File $file
+			 */
 			$file = $book->getFile();
 			$fileName = md5(uniqid(rand(), TRUE)) . "." . $file->guessExtension();
 
@@ -58,15 +60,17 @@ class Books
 		$em->persist($book);
 		$em->flush();
 
-		return $book;
 	}
 
 	/**
 	 * @param BookFilter $filter
-	 * @return mixed
+	 * @return \Doctrine\ORM\Query
 	 */
 	public function getFilteredBooks(BookFilter $filter)
 	{
+		/**
+		 * @var \Doctrine\ORM\EntityRepository $repo
+		 */
 		$repo = $this->doctrine->getRepository('AppBundle:Book');
 		$qb = $repo->createQueryBuilder('b');
 

@@ -26,7 +26,6 @@ class Authors
 	 * @param User $user
 	 * @param Author $author
 	 * @param bool $isCreating
-	 * @return Author
 	 */
 	public function save(User $user, Author $author, $isCreating = true)
 	{
@@ -38,15 +37,17 @@ class Authors
 		$em->persist($author);
 		$em->flush();
 
-		return $author;
 	}
 
 	/**
 	 * @param AuthorFilter $filter
-	 * @return mixed
+	 * @return \Doctrine\ORM\Query
 	 */
 	public function getFilteredAuthors(AuthorFilter $filter)
 	{
+		/**
+		 * @var \Doctrine\ORM\EntityRepository $repo
+		 */
 		$repo = $this->doctrine->getRepository('AppBundle:Author');
 		$qb = $repo->createQueryBuilder('a');
 

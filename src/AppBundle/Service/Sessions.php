@@ -45,6 +45,9 @@ class Sessions
 			$session->remove($filterName);
 		}
 
+		/**
+		 * @var \Symfony\Component\Form\Form $form
+		 */
 		if ($form->isSubmitted()) {
 			if ($form->isValid()) {
 				$session->set($filterName, serialize($form->getData()));
@@ -76,7 +79,6 @@ class Sessions
 
 					$filter->$setter($value);
 				}
-				return true;
 			}
 		}
 	}

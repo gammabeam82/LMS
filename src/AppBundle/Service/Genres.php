@@ -21,10 +21,13 @@ class Genres
 	}
 
 	/**
-	 * @return mixed
+	 * @return \Doctrine\ORM\Query
 	 */
 	public function getQuery()
 	{
+		/**
+		 * @var \Doctrine\ORM\EntityRepository $repo
+		 */
 		$repo = $this->doctrine->getRepository('AppBundle:Genre');
 		$qb = $repo->createQueryBuilder('g');
 
@@ -37,7 +40,6 @@ class Genres
 	 * @param User $user
 	 * @param Genre $genre
 	 * @param bool $isCreating
-	 * @return Genre
 	 */
 	public function save(User $user, Genre $genre, $isCreating = true)
 	{
@@ -49,7 +51,6 @@ class Genres
 		$em->persist($genre);
 		$em->flush();
 
-		return $genre;
 	}
 
 	/**

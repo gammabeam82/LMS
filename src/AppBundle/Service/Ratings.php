@@ -25,10 +25,12 @@ class Ratings
 	 * @param User $user
 	 * @param Book $book
 	 * @param Rating $rating
-	 * @return Rating
 	 */
 	public function save(User $user, Book $book, Rating $newRating)
 	{
+		/**
+		 * @var \Doctrine\ORM\EntityRepository $repo
+		 */
 		$repo = $this->doctrine->getRepository('AppBundle:Rating');
 
 		$rating = $repo->findOneBy([
@@ -50,7 +52,6 @@ class Ratings
 		$em->persist($rating);
 		$em->flush();
 
-		return $rating;
 	}
 
 }
