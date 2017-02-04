@@ -85,6 +85,7 @@ messages:
   recent_comments: 'Последние комментарии'
   recent_news: 'Новости'
   filter: 'Фильтр'
+  created_at: 'Дата добавления'
 
 Previous: 'Предыдущая'
 Next: 'Следующая'

@@ -36,7 +36,7 @@ class BookFilterType extends AbstractType
 			])
 			->add('search', HiddenType::class, [])
 			->add('createdAtStart', DateType::class, [
-				'label' => 'messages.added_from',
+				'label' => 'messages.created_at',
 				'widget' => 'single_text',
 				'format' => 'dd.MM.yyyy',
 				'attr' => [
@@ -47,7 +47,7 @@ class BookFilterType extends AbstractType
 				'required' => false,
 			])
 			->add('createdAtEnd', DateType::class, [
-				'label' => 'messages.added_to',
+				'label' => '',
 				'widget' => 'single_text',
 				'format' => 'dd.MM.yyyy',
 				'attr' => [
