@@ -86,6 +86,7 @@ messages:
   recent_news: 'Новости'
   filter: 'Фильтр'
   created_at: 'Дата добавления'
+  confirm_delete: 'Действительно удалить'
 
 Previous: 'Предыдущая'
 Next: 'Следующая'

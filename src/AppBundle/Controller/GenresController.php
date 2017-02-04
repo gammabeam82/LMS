@@ -60,7 +60,8 @@ class GenresController extends Controller
 		}
 
 		return $this->render('genres/form.html.twig', [
-			'form' => $form->createView()
+			'form' => $form->createView(),
+			'genre' => $genre
 		]);
 	}
 
@@ -90,7 +91,7 @@ class GenresController extends Controller
 			return $this->redirectToRoute('genres');
 		}
 
-		return $this->render('genres/edit.html.twig', [
+		return $this->render('genres/form.html.twig', [
 			'form' => $form->createView(),
 			'genre' => $genre
 		]);

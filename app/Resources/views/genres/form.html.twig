@@ -2,7 +2,13 @@
 
 {% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
 
-{% block title %}{{ 'genre.add' | trans }}{% endblock %}
+{% block title %}
+	{% if genre.id %}
+		{{ 'genre.edit' | trans }}
+	{% else %}
+		{{ 'genre.add' | trans }}
+	{% endif %}
+{% endblock %}
 
 {% block body %}
 	<div class="container-fluid">
@@ -11,7 +17,13 @@
 			<div class="col-xs-12">
 				<ol class="breadcrumb">
 					<li><a href="{{ path('genres') }}">{{ 'genre.genres' | trans }}</a></li>
-					<li class="active">{{ 'genre.add' | trans }}</li>
+					<li class="active">
+						{% if genre.id %}
+							{{ genre.name }}
+						{% else %}
+							{{ 'genre.add' | trans }}
+						{% endif %}
+					</li>
 				</ol>
 			</div>
 		</div>
@@ -30,6 +42,12 @@
 				{{ form_start(form) }}
 				{{ form_row(form.name) }}
 
+				{% if genre.id %}
+					<button data-name="{{ genre.name }}" data-toggle="modal" data-target="#Modal" class="btn btn-danger delete pull-right" data-path="{{ path('genres_delete', {'id': genre.id}) }}">
+						<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
+					</button>
+				{% endif %}
+
 				<button type="submit" class="btn btn-success pull-right">
 					<i class="glyphicon glyphicon-plus"></i> {{ 'actions.save' | trans }}
 				</button>
@@ -38,4 +56,10 @@
 			</div>
 		</div>
 	</div>
+{% endblock %}
+
+{% block modal %}
+	{% if genre.id %}
+		{% include('modal-delete.html.twig') %}
+	{% endif %}
 {% endblock %}
