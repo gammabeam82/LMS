@@ -80,7 +80,8 @@ class AuthorsController extends Controller
 		}
 
 		return $this->render('authors/form.html.twig', [
-			'form' => $form->createView()
+			'form' => $form->createView(),
+			'author' => $author
 		]);
 	}
 
@@ -110,7 +111,7 @@ class AuthorsController extends Controller
 			return $this->redirectToRoute('authors');
 		}
 
-		return $this->render('authors/edit.html.twig', [
+		return $this->render('authors/form.html.twig', [
 			'form' => $form->createView(),
 			'author' => $author
 		]);

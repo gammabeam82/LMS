@@ -42,15 +42,15 @@
 				{{ form_start(form) }}
 				{{ form_row(form.name) }}
 
+				<button type="submit" class="btn btn-success pull-right">
+					<i class="glyphicon glyphicon-plus"></i> {{ 'actions.save' | trans }}
+				</button>
+
 				{% if genre.id %}
 					<button data-name="{{ genre.name }}" data-toggle="modal" data-target="#Modal" class="btn btn-danger delete pull-right" data-path="{{ path('genres_delete', {'id': genre.id}) }}">
 						<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
 					</button>
 				{% endif %}
-
-				<button type="submit" class="btn btn-success pull-right">
-					<i class="glyphicon glyphicon-plus"></i> {{ 'actions.save' | trans }}
-				</button>
 
 				{{ form_end(form) }}
 			</div>

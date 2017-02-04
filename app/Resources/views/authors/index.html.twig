@@ -5,28 +5,6 @@
 {% block title %}{{ 'author.authors' | trans }}{% endblock %}
 
 {% block body %}
-
-	<div class="modal fade" id="Modal" tabindex="-1" role="dialog">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header bg-warning">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">{{ 'messages.caution' | trans }}</h4>
-				</div>
-				<div class="modal-body">
-					{{ 'messages.author_delete' | trans }} <span class="author-name"></span>?
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">{{ 'actions.cancel' | trans }}</button>
-					<a type="button" class="btn btn-danger delete-author" href="#">
-						<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
-					</a>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
 	<div class="container-fluid">
 
 		<div class="row">
@@ -139,7 +117,6 @@
 
 {% block javascripts %}
 	{{ parent() }}
-	<script src="{{ asset('assets/js/authors-index.js') }}"></script>
 
 	{% if app.request.query.get('author_filter') or app.session.get(filterName) %}
 		<script>
@@ -149,4 +126,10 @@
 		</script>
 	{% endif %}
 
+{% endblock %}
+
+{% block modal %}
+	{% if authors|length > 0 %}
+		{% include('modal-delete.html.twig') %}
+	{% endif %}
 {% endblock %}
