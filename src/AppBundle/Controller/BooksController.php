@@ -56,7 +56,7 @@ class BooksController extends Controller
 		return $this->render('books/index.html.twig', [
 			'form' => $form->createView(),
 			'books' => $books,
-			'filterName' => substr(md5(get_class($filter)), 0, 10)
+			'filterName' => $sessionService->getFilterName($filter)
 		]);
 	}
 

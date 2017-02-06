@@ -39,7 +39,7 @@ class Sessions
 
 		$session = $request->getSession();
 
-		$filterName = substr(md5(get_class($filter)), 0, 10);
+		$filterName = $this->getFilterName($filter);
 
 		if ($request->get('reset')) {
 			$session->remove($filterName);
@@ -81,5 +81,14 @@ class Sessions
 				}
 			}
 		}
+	}
+
+	/**
+	 * @param $filter
+	 * @return string
+	 */
+	public function getFilterName($filter)
+	{
+		return substr(md5(get_class($filter)), 0, 10);
 	}
 }

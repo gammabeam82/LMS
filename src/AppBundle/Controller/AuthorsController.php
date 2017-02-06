@@ -49,7 +49,7 @@ class AuthorsController extends Controller
 		return $this->render('authors/index.html.twig', [
 			'authors' => $authors,
 			'form' => $form->createView(),
-			'filterName' => substr(md5(get_class($filter)), 0, 10)
+			'filterName' => $sessionService->getFilterName($filter)
 		]);
 	}
 
