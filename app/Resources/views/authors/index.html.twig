@@ -94,9 +94,15 @@
 									<a class="btn btn-primary btn-sm" href="{{ path('authors_edit', {'id': author.id}) }}">
 										<i class="glyphicon glyphicon-edit"></i> {{ 'actions.edit' | trans }}
 									</a>
-									<button data-name="{{ author.shortName }}" data-toggle="modal" data-target="#Modal" class="btn btn-danger btn-sm delete" data-path="{{ path('authors_delete', {'id': author.id}) }}">
-										<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
-									</button>
+									{% if author.isDeletable %}
+										<button data-name="{{ author.shortName }}" data-toggle="modal" data-target="#Modal" class="btn btn-sm delete btn-danger" data-path="{{ path('authors_delete', {'id': author.id}) }}">
+											<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
+										</button>
+									{% else %}
+										<button data-name="{{ author.shortName }}" class="btn btn-sm delete btn-default disabled" data-path="#">
+											<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
+										</button>
+									{% endif %}
 								{% endif %}
 							</td>
 						</tr>

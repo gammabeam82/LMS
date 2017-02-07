@@ -176,4 +176,12 @@ class Genre
     {
         return $this->books;
     }
+
+	/**
+	 * @return bool
+	 */
+	public function isDeletable()
+	{
+		return count($this->getBooks()) < 1;
+	}
 }

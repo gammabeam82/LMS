@@ -47,7 +47,7 @@
 					<i class="glyphicon glyphicon-plus"></i> {{ 'actions.save' | trans }}
 				</button>
 
-				{% if author.id %}
+				{% if author.id and author.isDeletable %}
 					<button data-name="{{ author.shortName }}" data-toggle="modal" data-target="#Modal" class="btn btn-danger delete pull-right" data-path="{{ path('authors_delete', {'id': author.id}) }}">
 						<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
 					</button>
