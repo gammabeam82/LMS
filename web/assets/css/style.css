@@ -29,6 +29,11 @@ body {
 	margin-top: 10vh;
 }
 
+.fos-error-container {
+	padding: 8px;
+	margin-bottom: 20px;
+}
+
 dd {
 	border-bottom: 1px solid #ECF0F1;
 	margin-top: 4px;
