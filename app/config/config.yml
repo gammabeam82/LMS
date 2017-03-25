@@ -84,6 +84,9 @@ fos_user:
     db_driver: orm # other valid values are 'mongodb' and 'couchdb'
     firewall_name: main
     user_class: AppBundle\Entity\User
+    from_email:
+      address: noreply@test.test
+      sender_name: registration
 
 knp_paginator:
     page_range: 5                      # default page range used in pagination control
@@ -108,9 +111,3 @@ stof_doctrine_extensions:
         default:
             timestampable: true
             softdeleteable: true
-
-#assetic:
-#   filters:
-#       cssrewrite: ~
-#       scssphp:
-#        formatter: 'Leafo\ScssPhp\Formatter\Compressed'
