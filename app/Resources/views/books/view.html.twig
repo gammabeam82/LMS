@@ -79,6 +79,12 @@
 				{{ form_start(comment_form) }}
 				{{ form_row(comment_form.message, { 'attr': { 'rows': 3 } }) }}
 
+				<div class="progress" data-min="{{ commentLength.min }}" data-max="{{ commentLength.max }}">
+					<div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width: 6%">
+						0
+					</div>
+				</div>
+
 				<button type="submit" class="btn btn-success pull-right">
 					<i class="glyphicon glyphicon-plus"></i> {{ 'actions.save' | trans }}
 				</button>

@@ -183,6 +183,12 @@ class BooksController extends Controller
 		$comment = new Comment();
 		$rating = new Rating();
 
+		$validator = $this->get('validator');
+		$metaData = $validator->getMetadataFor($comment)
+			->properties['message'];
+
+		$lengthConstraint = $metaData->constraints[0];
+
 		$ratingForm = $this->createForm(RatingType::class, $rating);
 		$ratingForm->handleRequest($request);
 
@@ -227,7 +233,11 @@ class BooksController extends Controller
 			'book' => $book,
 			'form' => $ratingForm->createView(),
 			'comment_form' => $commentForm->createView(),
-			'comments' => $comments
+			'comments' => $comments,
+			'commentLength' => [
+				'min' => $lengthConstraint->min,
+				'max' => $lengthConstraint->max
+			]
 		]);
 	}
 }
