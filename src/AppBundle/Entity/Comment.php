@@ -46,7 +46,7 @@ class Comment
 	/**
 	 * @ORM\Column(type="string", length=1000)
 	 * @Assert\Length(
-	 *      min = 1,
+	 *      min = 2,
 	 *      max = 1000,
 	 *      minMessage = "comment.message_min",
 	 *      maxMessage = "comment.message_max"
