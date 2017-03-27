@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Doctrine\ORM\EntityRepository;
 
 class BookType extends AbstractType
 {
@@ -19,12 +20,20 @@ class BookType extends AbstractType
 			])
 			->add('author', EntityType::class, [
 				'class' => 'AppBundle:Author',
+				'query_builder' => function (EntityRepository $er) {
+					return $er->createQueryBuilder('a')
+						->orderBy('a.lastName', 'ASC');
+				},
 				'label' => 'book.author',
 				'choice_label' => 'fullName',
-				'multiple' => false,
+				'multiple' => false
 			])
 			->add('genre', EntityType::class, [
 				'class' => 'AppBundle:Genre',
+				'query_builder' => function (EntityRepository $er) {
+					return $er->createQueryBuilder('g')
+						->orderBy('g.name', 'ASC');
+				},
 				'label' => 'book.genre',
 				'choice_label' => 'name',
 				'required' => false,
@@ -33,8 +42,7 @@ class BookType extends AbstractType
 			->add('file', FileType::class, [
 				'label' => 'book.file',
 				'required' => false
-			])
-		;
+			]);
 	}
 
 	public function configureOptions(OptionsResolver $resolver)
