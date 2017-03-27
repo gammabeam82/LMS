@@ -71,6 +71,9 @@
 					<button data-name="{{ book.name }}" data-toggle="modal" data-target="#Modal" class="btn btn-danger delete pull-right" data-path="{{ path('books_delete', {'id': book.id}) }}">
 						<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
 					</button>
+					<a href="{{ path('books_download', {'id': book.id}) }}" class="btn btn-default pull-right download">
+						<i class="glyphicon glyphicon-cloud-download"></i> {{ 'book.download' | trans }}
+					</a>
 				{% endif %}
 
 				{{ form_end(form) }}
