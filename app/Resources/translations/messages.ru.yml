@@ -32,6 +32,7 @@ book:
   downloads: 'Количество загрузок'
   download: 'Скачать'
   file: 'Файл'
+  new_file: 'Новый файл'
   vote: 'Оценить'
   value:
     label: 'Оценка'

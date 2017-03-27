@@ -125,7 +125,9 @@
 									<a href="{{ path('books_view', {'id': book.id}) }}">{{ book.name }}</a>
 								</b>
 							</td>
-							<td>{{ book.author.shortName }}</td>
+							<td>
+								<a href="{{ path('books', {'book_filter[author][]': book.author.id}) }}">{{ book.author.shortName }}</a>
+							</td>
 							<td>{{ book.genre ? book.genre.name : "-" }}</td>
 							<td>{{ book.createdAt | date("d.m.Y H:i") }}</td>
 							<td>{{ book.averageRating }}</td>

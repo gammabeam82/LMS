@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use AppBundle\Form\BookEditType;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BooksController extends Controller
@@ -87,7 +87,8 @@ class BooksController extends Controller
 		}
 
 		return $this->render('books/form.html.twig', [
-			'form' => $form->createView()
+			'form' => $form->createView(),
+			'book' => $book
 		]);
 	}
 
@@ -103,7 +104,10 @@ class BooksController extends Controller
 	{
 		$bookService = $this->get('app.books');
 
-		$form = $this->createForm(BookEditType::class, $book);
+		$originalFile = $book->getFile();
+		$book->setFile(new File($originalFile));
+
+		$form = $this->createForm(BookType::class, $book);
 		$form->handleRequest($request);
 
 		if($form->isSubmitted()) {
@@ -114,7 +118,12 @@ class BooksController extends Controller
 			$errors = $validator->validate($book, null, 'edit');
 
 			if(!count($errors)) {
-				$bookService->save($this->getUser(), $book, false);
+				if(empty($book->getFile())) {
+					$book->setFile($originalFile);
+					$bookService->save($this->getUser(), $book, false);
+				} elseif($form->isValid()) {
+					$bookService->save($this->getUser(), $book, false, $originalFile);
+				}
 			}
 
 			$this->addFlash('notice', $translator->trans('messages.changes_accepted'));
@@ -123,9 +132,10 @@ class BooksController extends Controller
 			]);
 		}
 
-		return $this->render('books/edit.html.twig', [
+		return $this->render('books/form.html.twig', [
 			'form' => $form->createView(),
-			'book' => $book
+			'book' => $book,
+			'id' => $book->getId()
 		]);
 	}
 

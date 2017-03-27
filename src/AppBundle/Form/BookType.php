@@ -32,7 +32,7 @@ class BookType extends AbstractType
 			])
 			->add('file', FileType::class, [
 				'label' => 'book.file',
-				'required' => true
+				'required' => false
 			])
 		;
 	}

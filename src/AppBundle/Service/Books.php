@@ -37,29 +37,42 @@ class Books
 	 * @param Book $book
 	 * @param bool $isCreating
 	 */
-	public function save(User $user, Book $book, $isCreating = true)
+	public function save(User $user, Book $book, $isCreating = true, $originalFile = null)
 	{
 		if (false !== $isCreating) {
-			/**
-			 * @var \Symfony\Component\HttpFoundation\File\File $file
-			 */
-			$file = $book->getFile();
-			$fileName = md5(uniqid(rand(), TRUE)) . "." . $file->guessExtension();
-
-			$file->move(
-				$this->path,
-				$fileName
-			);
-
-			$book->setFile($this->path . "/" . $fileName);
 			$book->setAddedBy($user);
 			$book->setViews(0);
+			$this->saveFile($book);
+		}
+
+		if(false == empty($originalFile) && file_exists($originalFile)) {
+			unlink($originalFile);
+			$this->saveFile($book);
 		}
 
 		$em = $this->doctrine->getManager();
 		$em->persist($book);
 		$em->flush();
 
+	}
+
+	/**
+	 * @param Book $book
+	 */
+	private function saveFile(Book $book)
+	{
+		/**
+		 * @var \Symfony\Component\HttpFoundation\File\File $file
+		 */
+		$file = $book->getFile();
+		$fileName = md5(uniqid(rand(), TRUE)) . "." . $file->guessExtension();
+
+		$file->move(
+			$this->path,
+			$fileName
+		);
+
+		$book->setFile(sprintf("%s/%s", $this->path, $fileName));
 	}
 
 	/**
