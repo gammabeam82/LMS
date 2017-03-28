@@ -18,6 +18,8 @@ actions:
   add_genre: 'Добавить жанр'
   add_author: 'Добавить автора'
   edit: 'Редактировать'
+  to_archive: 'В архив'
+  download_archive: 'Скачать архив'
 
 book:
   add: 'Добавление книги'
@@ -70,7 +72,9 @@ messages:
   popular: 'Сначала популярные'
   filter_error: 'Ошибка в параметрах фильтра.'
   book_added: 'Книга добавлена.'
+  book_archive_added: 'Книга добавлена в архив.'
   book_deleted: 'Книга удалена.'
+  book_archive_removed: 'Книга удалена из архива.'
   changes_accepted: 'Изменения сохранены.'
   file_not_found: 'Файл не найден!'
   vote_success: 'Оценка принята.'
@@ -88,6 +92,7 @@ messages:
   filter: 'Фильтр'
   created_at: 'Дата добавления'
   confirm_delete: 'Действительно удалить'
+  archive: 'Архив'
 
 Previous: 'Предыдущая'
 Next: 'Следующая'

@@ -39,3 +39,5 @@ security:
 
         - { path: ^/genres$, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/genres/, role: ROLE_ADMIN }
+
+        - { path: ^/archive/, role: IS_AUTHENTICATED_FULLY }

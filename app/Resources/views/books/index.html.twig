@@ -132,6 +132,9 @@
 							<td>{{ book.createdAt | date("d.m.Y H:i") }}</td>
 							<td>{{ book.averageRating }}</td>
 							<td>
+								<button data-path="{{ path('archive_add', { 'id': book.id }) }}" class="btn btn-default btn-sm to-archive {% if book.id in booksInArchive %}disabled{% endif %}">
+									<i class="glyphicon glyphicon-ok"></i> {{ 'actions.to_archive' | trans }}
+								</button>
 								{% if is_granted('ROLE_ADMIN') %}
 									<a class="btn btn-primary btn-sm" href="{{ path('books_edit', {'id': book.id}) }}">
 										<i class="glyphicon glyphicon-edit"></i> {{ 'actions.edit' | trans }}

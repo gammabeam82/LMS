@@ -36,6 +36,8 @@ class BooksController extends Controller
 
 		$sessionService = $this->get('app.sessions');
 
+		$archiveService = $this->get('app.archives');
+
 		$translator = $this->get('translator');
 
 		$filter = new BookFilter();
@@ -56,6 +58,7 @@ class BooksController extends Controller
 		return $this->render('books/index.html.twig', [
 			'form' => $form->createView(),
 			'books' => $books,
+			'booksInArchive' => $archiveService->getBookIds(),
 			'filterName' => $sessionService->getFilterName($filter)
 		]);
 	}

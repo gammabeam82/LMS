@@ -152,9 +152,7 @@ class Books
 			return false;
 		}
 
-		$fileName =
-			$book->getAuthor()->getShortName() . "-" .
-			$book->getName() . ".txt";
+		$fileName = sprintf("%s-%s.txt", $book->getAuthor()->getShortName(), $book->getName());
 
 		$book->setViews($book->getViews() + 1);
 

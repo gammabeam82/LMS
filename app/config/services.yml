@@ -33,3 +33,7 @@ services:
       app.sessions:
             class: AppBundle\Service\Sessions
             arguments: ["@request_stack", "@doctrine"]
+
+      app.archives:
+            class: AppBundle\Service\Archives
+            arguments: ["@request_stack", "@doctrine", "%session_archive_var%", "%library%"]

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'messages.archive' | trans }}{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+
+		<div class="row">
+			<div class="col-xs-12">
+				<ol class="breadcrumb">
+					<li class="active">{{ 'messages.archive' | trans }}</li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-12">
+
+				<table class="table table-striped table-hover">
+					<tr>
+						<th>Книга</th>
+						<th></th>
+					</tr>
+
+					{% for book in books %}
+						<tr>
+							<td>
+								<b><a href="{{ path('books_view', {'id': book.id}) }}">{{ book.name }}</a></b>
+							</td>
+							<td>
+								<button data-path="{{ path('archive_remove', { 'id': book.id }) }}" class="btn btn-default btn-sm remove-from-archive">
+									<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
+								</button>
+							</td>
+						</tr>
+					{% endfor %}
+
+				</table>
+
+				{% if books %}
+					<a href="{{ path('archive_download') }}" class="btn btn-success archive-download">
+						<i class="glyphicon glyphicon-cloud-download"></i> {{ 'actions.download_archive' | trans }}
+					</a>
+				{% endif %}
+
+			</div>
+		</div>
+
+	</div>
+
+{% endblock %}

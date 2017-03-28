@@ -12,6 +12,7 @@ parameters:
     books_per_page: 15
     authors_per_page: 15
     genres_per_page: 15
+    session_archive_var: "archive"
 
 framework:
     #esi:             ~
