@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Doctrine\ORM\EntityRepository;
 
 class BookType extends AbstractType
@@ -39,6 +40,10 @@ class BookType extends AbstractType
 				'required' => false,
 				'multiple' => false
 			])
+			->add('annotation', TextareaType::class, [
+				'label' => 'book.annotation',
+				'required' => false
+				])
 			->add('file', FileType::class, [
 				'label' => 'book.file',
 				'required' => false

@@ -28,6 +28,7 @@ book:
   books: 'Книги'
   author: 'Автор'
   genre: 'Жанр'
+  annotation: 'Аннотация'
   name: 'Название'
   rating: 'Рейтинг'
   date: 'Дата добавления'

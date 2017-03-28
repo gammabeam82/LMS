@@ -56,6 +56,7 @@
 				{{ form_row(form.name) }}
 				{{ form_row(form.author, {'attr': {'class': 'chosen-select'} }) }}
 				{{ form_row(form.genre, {'attr': {'class': 'chosen-select', 'data-placeholder': 'messages.genre_select' | trans } }) }}
+				{{ form_row(form.annotation, { 'attr': { 'rows': 3 } }) }}
 
 				{% if book.id %}
 					{{ form_row(form.file, {'attr': {'class': 'upload', 'accept': 'text/plain'} }) }}

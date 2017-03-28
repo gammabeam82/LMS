@@ -74,6 +74,15 @@ class Book
 	private $file;
 
 	/**
+	 * @ORM\Column(type="string", length=2000, nullable=true)
+	 * @Assert\Length(
+	 *      max = 1000,
+	 *      maxMessage = "annotation.message_max"
+	 * )
+	 */
+	private $annotation;
+
+	/**
 	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Rating", mappedBy="book")
 	 */
 	private $ratings;
@@ -362,5 +371,29 @@ class Book
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Set annotation
+     *
+     * @param string $annotation
+     *
+     * @return Book
+     */
+    public function setAnnotation($annotation)
+    {
+        $this->annotation = $annotation;
+
+        return $this;
+    }
+
+    /**
+     * Get annotation
+     *
+     * @return string
+     */
+    public function getAnnotation()
+    {
+        return $this->annotation;
     }
 }
