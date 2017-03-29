@@ -15,9 +15,7 @@ class RemoveFilesCommand extends ContainerAwareCommand
 
 	protected function configure()
 	{
-		$this
-			->setName('app:remove-files')
-			->setDescription('...');
+		$this->setName('app:remove-files');
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output)
@@ -38,19 +36,21 @@ class RemoveFilesCommand extends ContainerAwareCommand
 
 		$bookFiles = array_column($bookFiles, 'file');
 
-		$pattern = sprintf("%s/*.txt", $this->getContainer()->getParameter('library'));
+		$orphMask = sprintf("%s/*.txt", $this->getContainer()->getParameter('library'));
+		$zipMask = sprintf("%s/*.zip", $this->getContainer()->getParameter('library'));
 
-		$orphanFiles = array_diff(glob($pattern), $bookFiles);
+		$orphanFiles = array_diff(glob($orphMask), $bookFiles);
+		$files = array_merge($orphanFiles, glob($zipMask));
 
 		$io->section("Files");
 
 		$io->writeln([
 			sprintf("Book files: %s", count($bookFiles)),
-			sprintf("Orphan files: %s", count($orphanFiles)),
+			sprintf("Orphan & zip files: %s", count($files)),
 			''
 		]);
 
-		if (0 == count($orphanFiles)) {
+		if (0 == count($files)) {
 			return;
 		}
 
@@ -62,9 +62,9 @@ class RemoveFilesCommand extends ContainerAwareCommand
 		}
 
 		$io->writeln(['', 'Executing...', '']);
-		$io->progressStart(count($orphanFiles));
+		$io->progressStart(count($files));
 
-		foreach ($orphanFiles as $file) {
+		foreach ($files as $file) {
 			unlink($file);
 			$io->progressAdvance(1);
 		}
