@@ -43,16 +43,16 @@ $(document).ready(function() {
 				btn.closest('tr').remove();
 				booksCountContainer.html(data['booksCount']);
 
-				archiveModal.find('.modal-body').html(data['message']);
-				archiveModal.modal('show');
+				//archiveModal.find('.modal-body').html(data['message']);
+				//archiveModal.modal('show');
 
 				if(data['booksCount'] == 0) {
 					$('.archive-download').addClass('disabled');
 				}
 
-				setTimeout(function() {
+				/*setTimeout(function() {
 					archiveModal.modal('hide');
-				}, 1000);
+				}, 1000);*/
 			}
 		});
 	});
