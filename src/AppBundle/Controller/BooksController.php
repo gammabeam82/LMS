@@ -177,7 +177,7 @@ class BooksController extends Controller
 
 		if(false === $response instanceof BinaryFileResponse) {
 			$translator = $this->get('translator');
-			return $this->createNotFoundException($translator->trans('messages.file_not_found'));
+			throw $this->createNotFoundException($translator->trans('messages.file_not_found'));
 		}
 
 		return $response;

@@ -3,6 +3,7 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Book;
+use AppBundle\Entity\User;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -38,19 +39,26 @@ class Archives
 	private $path;
 
 	/**
+	 * @var User
+	 */
+	private $user;
+
+	/**
 	 * Archives constructor.
 	 * @param RequestStack $requestStack
 	 * @param Registry $doctrine
 	 * @param $varName
 	 * @param $path
+	 * @param User $user
 	 */
-	public function __construct(RequestStack $requestStack, Registry $doctrine, $varName, $path)
+	public function __construct(RequestStack $requestStack, Registry $doctrine, $varName, $path, User $user)
 	{
 		$this->requestStack = $requestStack;
 		$this->doctrine = $doctrine;
 		$this->session = $requestStack->getCurrentRequest()->getSession();
 		$this->varName = $varName;
 		$this->path = $path;
+		$this->user = $user;
 	}
 
 	/**
@@ -162,7 +170,7 @@ class Archives
 		$books = $qb->getQuery()->execute();
 
 		$zip = new ZipArchive();
-		$file = sprintf("%s/%s.zip", $this->path, md5(uniqid(rand(), TRUE)));
+		$file = sprintf("%s/%s.zip", $this->path, $this->user->getId());
 
 		$zip->open($file, ZIPARCHIVE::CREATE);
 
