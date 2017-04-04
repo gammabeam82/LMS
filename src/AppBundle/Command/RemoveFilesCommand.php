@@ -64,10 +64,10 @@ class RemoveFilesCommand extends ContainerAwareCommand
 		$io->writeln(['', 'Executing...', '']);
 		$io->progressStart(count($files));
 
-		foreach ($files as $file) {
+		array_map(function ($file) use ($io) {
 			unlink($file);
 			$io->progressAdvance(1);
-		}
+		}, $files);
 
 		$io->progressFinish();
 		$io->success('Done.');
