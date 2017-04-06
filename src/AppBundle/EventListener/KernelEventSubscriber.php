@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Event;
+namespace AppBundle\EventListener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -41,7 +41,7 @@ class KernelEventSubscriber implements EventSubscriberInterface
 		$application->setAutoExit(false);
 
 		$input = new ArrayInput([
-			'command' => 'app:remove-zip-files'
+			'command' => 'app:remove-zip-file'
 		]);
 
 		$application->run($input, new NullOutput());
