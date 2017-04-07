@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready( () => {
 	$('.cloud').jQCloud(data, {
 		delay: 20
 	});

@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready( () => {
 	$('.chosen-select').chosen();
 
 	const progressContainer = $('.progress');
@@ -7,7 +7,7 @@ $(document).ready(function() {
 	const progressBar = $('.progress-bar');
 	const percent = Math.round(maxLength/100);
 
-	function checkMessage(){
+	let checkMessage = () => {
 		let ln = $('#comment_message').val().length;
 		progressBar.text(ln+"/"+maxLength);
 		if(ln >= minLength && ln <= maxLength) {
