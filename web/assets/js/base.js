@@ -2,8 +2,6 @@ $(document).ready( () => {
 	$('[data-toggle="tooltip"]').tooltip();
 
 	const booksCountContainer = $('.books-count');
-	const bookUrl = booksCountContainer.attr('data-path');
-
 
 	$('.to-archive').click(function() {
 		let btn = $(this);
@@ -13,6 +11,9 @@ $(document).ready( () => {
 					booksCountContainer.html(data['booksCount']);
 					btn.addClass('disabled');
 					$.notify(data['message'], { type: 'success' });
+					if(!booksCountContainer.hasClass('badge-active')) {
+						booksCountContainer.addClass('badge-active');
+					}
 				}
 			});
 		}
@@ -27,11 +28,10 @@ $(document).ready( () => {
 				booksCountContainer.html(data['booksCount']);
 				if(data['booksCount'] === 0) {
 					$('.archive-download').addClass('disabled');
+					booksCountContainer.removeClass('badge-active');
 				}
 			}
 		});
 	});
-
-	$.get(bookUrl, (data) => data['booksCount'] ? booksCountContainer.html(data['booksCount']) : false);
 
 });

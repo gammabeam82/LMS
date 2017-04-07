@@ -49,18 +49,13 @@ class ArchivesController extends Controller
 	/**
 	 * @Route("/archive/count", name="archive_count")
 	 *
-	 * @param Request $request
-	 * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+	 * @return \Symfony\Component\HttpFoundation\Response
 	 */
-	public function countAction(Request $request)
+	public function countAction()
 	{
-		if(false === $request->isXmlHttpRequest()) {
-			return $this->redirectToRoute('books');
-		}
-
 		$archiveService = $this->get('app.archives');
 
-		return $this->json([
+		return $this->render('archives/count.html.twig', [
 			'booksCount' => $archiveService->getBooksCount()
 		]);
 	}

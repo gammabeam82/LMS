@@ -55,3 +55,7 @@ dd a {
 .cloud {
 	min-height: 100px;
 }
+
+.badge-active {
+	background-color: #2ECC71;
+}
