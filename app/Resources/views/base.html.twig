@@ -53,7 +53,7 @@
 				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 					<li>
 						<a href="{{ path('archive_index') }}" class="archive-link">
-							<i class="glyphicon glyphicon-folder-close"></i> {{ 'messages.archive' | trans }}
+							<i class="glyphicon glyphicon-folder-close"></i> {{ 'navigation.archive' | trans }}
 							(<span class="books-count" data-path="{{ path('archive_count') }}">0</span>)
 						</a>
 					</li>

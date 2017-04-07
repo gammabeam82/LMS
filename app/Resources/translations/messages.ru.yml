@@ -4,6 +4,7 @@ navigation:
   authors: 'Авторы'
   genres: 'Жанры'
   login: 'Вход'
+  archive: 'Архив'
   logout: 'Выход'
   register: 'Регистрация'
 
