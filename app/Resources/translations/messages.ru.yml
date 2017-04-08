@@ -95,6 +95,7 @@ messages:
   created_at: 'Дата добавления'
   confirm_delete: 'Действительно удалить'
   archive: 'Архив'
+  error: 'Ошибка'
 
 Previous: 'Предыдущая'
 Next: 'Следующая'

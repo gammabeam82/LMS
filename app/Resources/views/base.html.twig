@@ -11,6 +11,7 @@
 	{% block stylesheets %}
 		<link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}"/>
 		<link rel="stylesheet" href="{{ asset('assets/vendor/PACE/themes/blue/pace-theme-minimal.css') }}"/>
+		<link rel="stylesheet" href="{{ asset('assets/vendor/animate.css/animate.min.css') }}"/>
 		<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}"/>
 	{% endblock %}
 
@@ -109,6 +110,10 @@
 {% endblock %}
 
 {% block modal %}{% endblock %}
+
+<div class="hidden">
+	<span class="common-messages-error">{{ 'messages.error' | trans }}</span>
+</div>
 
 </body>
 </html>
