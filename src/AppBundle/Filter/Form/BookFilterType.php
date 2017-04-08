@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Doctrine\ORM\EntityRepository;
 
 class BookFilterType extends AbstractType
 {
@@ -22,6 +23,10 @@ class BookFilterType extends AbstractType
 			])
 			->add('author', EntityType::class, [
 				'class' => 'AppBundle:Author',
+				'query_builder' => function (EntityRepository $er) {
+					return $er->createQueryBuilder('a')
+						->orderBy('a.lastName', 'ASC');
+				},
 				'label' => 'book.author',
 				'choice_label' => 'shortName',
 				'multiple' => true,
@@ -29,6 +34,10 @@ class BookFilterType extends AbstractType
 			])
 			->add('genre', EntityType::class, [
 				'class' => 'AppBundle:Genre',
+				'query_builder' => function (EntityRepository $er) {
+					return $er->createQueryBuilder('g')
+						->orderBy('g.name', 'ASC');
+				},
 				'label' => 'book.genre',
 				'choice_label' => 'name',
 				'multiple' => true,
@@ -60,8 +69,7 @@ class BookFilterType extends AbstractType
 			->add('mostPopular', CheckboxType::class, [
 				'label' => 'messages.popular',
 				'required' => false
-			])
-		;
+			]);
 	}
 
 	public function configureOptions(OptionsResolver $resolver)
