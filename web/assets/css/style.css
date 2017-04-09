@@ -59,3 +59,7 @@ dd a {
 .badge-active {
 	background-color: #2ECC71;
 }
+
+.bordered-right {
+	border-right: 1px solid #ECF0F1;
+}
