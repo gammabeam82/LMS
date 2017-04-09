@@ -124,6 +124,11 @@
 								<b>
 									<a href="{{ path('books_view', {'id': book.id}) }}">{{ book.name }}</a>
 								</b>
+								{% if book.annotation %}
+									<a href="#" data-toggle="modal" data-target="#modal-annotation" class="show-annotation" data-annotation="{{ book.annotation }}">
+										<i class="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="right" title="{{ 'book.annotation' | trans }}"></i>
+									</a>
+								{% endif %}
 							</td>
 							<td>
 								<a href="{{ path('books', {'book_filter[author][]': book.author.id}) }}">{{ book.author.shortName }}</a>
@@ -181,5 +186,6 @@
 {% block modal %}
 	{% if books|length > 0 %}
 		{% include('modal-delete.html.twig') %}
+		{% include('books/modal-annotation.html.twig') %}
 	{% endif %}
 {% endblock %}

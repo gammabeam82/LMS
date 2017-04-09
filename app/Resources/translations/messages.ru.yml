@@ -21,6 +21,7 @@ actions:
   edit: 'Редактировать'
   to_archive: 'В архив'
   download_archive: 'Скачать архив'
+  close: 'Закрыть'
 
 book:
   add: 'Добавление книги'
