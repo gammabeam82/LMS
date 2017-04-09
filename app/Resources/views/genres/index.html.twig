@@ -57,7 +57,7 @@
 										<i class="glyphicon glyphicon-edit"></i> {{ 'actions.edit' | trans }}
 									</a>
 									{% if genre.isDeletable %}
-										<button data-name="{{ genre.name }}" data-toggle="modal" data-target="#Modal" class="btn btn-sm delete btn-danger" data-path="{{ path('genres_delete', {'id': genre.id}) }}">
+										<button data-name="{{ genre.name }}" data-toggle="modal" data-target="#modal-delete" class="btn btn-sm delete btn-danger" data-path="{{ path('genres_delete', {'id': genre.id}) }}">
 											<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
 										</button>
 									{% else %}

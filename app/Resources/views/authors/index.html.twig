@@ -95,7 +95,7 @@
 										<i class="glyphicon glyphicon-edit"></i> {{ 'actions.edit' | trans }}
 									</a>
 									{% if author.isDeletable %}
-										<button data-name="{{ author.shortName }}" data-toggle="modal" data-target="#Modal" class="btn btn-sm delete btn-danger" data-path="{{ path('authors_delete', {'id': author.id}) }}">
+										<button data-name="{{ author.shortName }}" data-toggle="modal" data-target="#modal-delete" class="btn btn-sm delete btn-danger" data-path="{{ path('authors_delete', {'id': author.id}) }}">
 											<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
 										</button>
 									{% else %}
