@@ -5,9 +5,9 @@
 {% block title %}{{ 'book.books' | trans }}{% endblock %}
 
 {% block stylesheets %}
-	{{ parent() }}
 	<link rel="stylesheet" href="{{ asset('assets/vendor/chosen-bootstrap/chosen.bootstrap.min.css') }}"/>
 	<link rel="stylesheet" href="{{ asset('assets/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}"/>
+	{{ parent() }}
 {% endblock %}
 
 {% block body %}
