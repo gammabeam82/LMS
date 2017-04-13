@@ -10,7 +10,7 @@
 	margin: 0;
 }
 
-input, select, textarea, .btn, .alert, select.form-control + .chosen-container.chosen-container-single, .chosen-choices, .chosen-single {
+input, select, textarea, .btn, .alert, select.form-control + .chosen-container.chosen-container-single, .chosen-choices, .chosen-single, .file-caption {
 	border-radius: 0 !important;
 }
 
