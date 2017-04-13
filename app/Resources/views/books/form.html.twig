@@ -59,7 +59,7 @@
 				{{ form_row(form.annotation, { 'attr': { 'rows': 3 } }) }}
 
 				{% if book.id %}
-					{{ form_row(form.file, {'attr': {'class': 'upload', 'accept': 'text/plain'} }) }}
+					{{ form_row(form.file, {'attr': {'class': 'upload', 'accept': 'text/plain', 'data-file': book.file} }) }}
 				{% else %}
 					{{ form_row(form.file, {'attr': {'class': 'upload', 'accept': 'text/plain', 'required': true } }) }}
 				{% endif %}
