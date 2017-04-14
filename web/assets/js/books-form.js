@@ -1,5 +1,7 @@
 $(document).ready( () => {
-	$('.chosen-select').chosen();
+	$('.chosen-select').chosen({
+		allow_single_deselect: true
+	});
 
 	const upload = $('.upload');
 
