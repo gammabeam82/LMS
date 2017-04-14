@@ -1,11 +1,11 @@
 .jumbotron {
 	height: 25vh;
 	border-radius: 0 !important;
-	margin-top: 0;
+	margin-top: 80px;
 	background-image:  url('../images/bg-pixel.png'), url('../images/books.png');
 	background-repeat: repeat, repeat;
 	background-size: auto, contain;
-	background-attachment: fixed, fixed;
+	background-attachment: scroll, fixed;
 }
 
 .navbar {

@@ -3,6 +3,10 @@ $(document).ready(() => {
 	const booksCountContainer = $('.books-count');
 	const errorMessage = $('.common-messages-error').text();
 
+	$('.navbar-fixed-top').autoHidingNavbar({
+		'showOnBottom': false
+	});
+
 	$(document).ajaxError(() => $.notify(errorMessage, {type: 'danger'}));
 
 	$('[data-toggle="tooltip"]').tooltip({
