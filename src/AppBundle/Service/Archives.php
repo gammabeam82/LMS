@@ -172,10 +172,6 @@ class Archives
 		$zip = new ZipArchive();
 		$file = sprintf("%s/%s.zip", $this->path, $this->user->getId());
 
-		if(false !== file_exists($file)) {
-			unlink($file);
-		}
-
 		$zip->open($file, ZIPARCHIVE::CREATE);
 
 		foreach($books as $book) {

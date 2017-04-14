@@ -38,8 +38,8 @@ services:
             class: AppBundle\Service\Archives
             arguments: ["@request_stack","@doctrine", "%session_archive_var%", "%library%", "@=service('security.token_storage').getToken().getUser()"]
 
-#      app.kernel_event_subscriber:
-#            class: AppBundle\EventListener\KernelEventSubscriber
-#            arguments: ["@kernel"]
-#            tags:
-#                - { name: kernel.event_subscriber }
+      app.kernel_event_subscriber:
+            class: AppBundle\EventListener\KernelEventSubscriber
+            arguments: ["@kernel"]
+            tags:
+                - { name: kernel.event_subscriber }

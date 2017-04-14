@@ -41,7 +41,7 @@ class KernelEventSubscriber implements EventSubscriberInterface
 		$application->setAutoExit(false);
 
 		$input = new ArrayInput([
-			'command' => 'app:remove-zip-file'
+			'command' => 'app:remove-zip-files'
 		]);
 
 		$application->run($input, new NullOutput());
