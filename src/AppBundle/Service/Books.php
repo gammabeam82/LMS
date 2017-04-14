@@ -104,6 +104,11 @@ class Books
 			$qb->setParameter('genre', $filter->getGenre());
 		}
 
+		if ($filter->getSerie() && count($filter->getSerie())) {
+			$qb->andWhere('b.serie IN (:serie)');
+			$qb->setParameter('serie', $filter->getSerie());
+		}
+
 		if (!empty($filter->getSearch())) {
 			$qb->join('b.author', 'a');
 			$expr = $qb->expr()->orX(

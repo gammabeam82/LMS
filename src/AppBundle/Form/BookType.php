@@ -40,6 +40,17 @@ class BookType extends AbstractType
 				'required' => false,
 				'multiple' => false
 			])
+			->add('serie', EntityType::class, [
+				'class' => 'AppBundle:BookSeries',
+				'query_builder' => function (EntityRepository $er) {
+					return $er->createQueryBuilder('s')
+						->orderBy('s.name', 'ASC');
+				},
+				'label' => 'book.serie',
+				'choice_label' => 'name',
+				'required' => false,
+				'multiple' => false
+			])
 			->add('annotation', TextareaType::class, [
 				'label' => 'book.annotation',
 				'required' => false

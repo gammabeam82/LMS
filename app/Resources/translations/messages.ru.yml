@@ -3,6 +3,7 @@ navigation:
   books: 'Книги'
   authors: 'Авторы'
   genres: 'Жанры'
+  series: 'Серии'
   login: 'Вход'
   archive: 'Архив'
   logout: 'Выход'
@@ -18,6 +19,7 @@ actions:
   add_book: 'Добавить книгу'
   add_genre: 'Добавить жанр'
   add_author: 'Добавить автора'
+  add_serie: 'Добавить серию'
   edit: 'Редактировать'
   to_archive: 'В архив'
   download_archive: 'Скачать архив'
@@ -30,6 +32,7 @@ book:
   books: 'Книги'
   author: 'Автор'
   genre: 'Жанр'
+  serie: 'Серия'
   annotation: 'Аннотация'
   name: 'Название'
   rating: 'Рейтинг'
@@ -64,6 +67,12 @@ genre:
 comment:
   comment: 'Комментарий'
 
+serie:
+  serie: 'Серия'
+  series: 'Серии'
+  add: 'Добавление серии'
+  edit: 'Редактирование серии'
+
 messages:
   title: 'Библиотека'
   caution: 'Внимание!'
@@ -97,6 +106,9 @@ messages:
   confirm_delete: 'Действительно удалить'
   archive: 'Архив'
   error: 'Ошибка'
+  serie_select: 'Выбор серии'
+  serie_added: 'Серия добавлена.'
+  serie_deleted: 'Серия удалена.'
 
 Previous: 'Предыдущая'
 Next: 'Следующая'

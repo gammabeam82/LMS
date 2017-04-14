@@ -59,6 +59,12 @@ class Book
 	private $genre;
 
 	/**
+	 * @ORM\ManyToOne(targetEntity="\AppBundle\Entity\BookSeries", inversedBy="books")
+	 * @ORM\JoinColumn(name="serie_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+	 */
+	private $serie;
+
+	/**
 	 * @ORM\Column(type="integer", nullable=true)
 	 */
 	private $views;
@@ -395,5 +401,29 @@ class Book
     public function getAnnotation()
     {
         return $this->annotation;
+    }
+
+    /**
+     * Set serie
+     *
+     * @param \AppBundle\Entity\BookSeries $serie
+     *
+     * @return Book
+     */
+    public function setSerie(\AppBundle\Entity\BookSeries $serie = null)
+    {
+        $this->serie = $serie;
+
+        return $this;
+    }
+
+    /**
+     * Get serie
+     *
+     * @return \AppBundle\Entity\BookSeries
+     */
+    public function getSerie()
+    {
+        return $this->serie;
     }
 }

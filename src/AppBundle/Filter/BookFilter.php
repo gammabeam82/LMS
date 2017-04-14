@@ -2,6 +2,7 @@
 
 namespace AppBundle\Filter;
 
+use AppBundle\Entity\BookSeries;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Entity\Author;
@@ -29,6 +30,11 @@ class BookFilter
 	 * @var ArrayCollection
 	 */
 	private $genre;
+
+	/**
+	 * @var ArrayCollection
+	 */
+	private $serie;
 
 	/**
 	 * @var string
@@ -199,6 +205,39 @@ class BookFilter
 	public function setGenre($genre)
 	{
 		$this->genre = $genre;
+	}
+
+	/**
+	 * @param BookSeries $serie
+	 */
+	public function addSerie(BookSeries $serie)
+	{
+		$this->serie[] = $serie;
+
+	}
+
+	/**
+	 * @param BookSeries $serie
+	 */
+	public function removeSerie($serie)
+	{
+		$this->serie->removeElement($serie);
+	}
+
+	/**
+	 * @return ArrayCollection
+	 */
+	public function getSerie()
+	{
+		return $this->serie;
+	}
+
+	/**
+	 * @param ArrayCollection $serie
+	 */
+	public function setSerie($serie)
+	{
+		$this->serie = $serie;
 	}
 
 }

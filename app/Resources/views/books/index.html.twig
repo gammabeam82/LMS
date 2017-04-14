@@ -69,6 +69,15 @@
 					} }) }}
 				</div>
 				<div class="col-xs-3">
+					{{ form_row(form.serie, {'attr': {
+						'class': 'chosen-select',
+						'data-placeholder': 'messages.serie_select' | trans
+					} }) }}
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-3">
 					{{ form_label(form.createdAtStart) }}
 					<div class="input-group input-daterange">
 						{{ form_widget(form.createdAtStart) }}
@@ -76,9 +85,6 @@
 						{{ form_widget(form.createdAtEnd) }}
 					</div>
 				</div>
-			</div>
-
-			<div class="row">
 				<div class="col-xs-3">
 					{{ form_row(form.mostPopular) }}
 				</div>
@@ -86,6 +92,7 @@
 
 			<div class="row">
 				<div class="col-xs-3">
+					<br/>
 					<button type="submit" class="btn btn-primary">
 						<i class="glyphicon glyphicon-search"></i> {{ 'actions.show' | trans }}
 					</button>
@@ -107,6 +114,7 @@
 						<th>{{ 'book.name' | trans }}</th>
 						<th>{{ 'book.author' | trans }}</th>
 						<th>{{ 'book.genre' | trans }}</th>
+						<th>{{ 'book.serie' | trans }}</th>
 						<th>{{ knp_pagination_sortable(books, 'book.date' | trans, 'b.createdAt') }}</th>
 						<th>{{ 'book.rating' | trans }}</th>
 						<th>
@@ -134,6 +142,7 @@
 								<a href="{{ path('books', {'book_filter[author][]': book.author.id}) }}">{{ book.author.shortName }}</a>
 							</td>
 							<td>{{ book.genre ? book.genre.name : "-" }}</td>
+							<td>{{ book.serie ? book.serie.name : "-" }}</td>
 							<td>{{ book.createdAt | date("d.m.Y H:i") }}</td>
 							<td>{{ book.averageRating }}</td>
 							<td>

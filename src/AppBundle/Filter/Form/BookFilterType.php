@@ -43,6 +43,17 @@ class BookFilterType extends AbstractType
 				'multiple' => true,
 				'required' => false
 			])
+			->add('serie', EntityType::class, [
+				'class' => 'AppBundle:BookSeries',
+				'query_builder' => function (EntityRepository $er) {
+					return $er->createQueryBuilder('s')
+						->orderBy('s.name', 'ASC');
+				},
+				'label' => 'book.serie',
+				'choice_label' => 'name',
+				'multiple' => true,
+				'required' => false
+			])
 			->add('search', HiddenType::class, [])
 			->add('createdAtStart', DateType::class, [
 				'label' => 'messages.created_at',

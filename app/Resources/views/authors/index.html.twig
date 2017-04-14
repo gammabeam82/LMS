@@ -71,7 +71,7 @@
 				<table class="table table-striped table-hover">
 					<tr>
 						<th>{{ knp_pagination_sortable(authors, 'Автор', 'a.lastName') }}</th>
-						<th>Книги</th>
+						<th>{{ 'book.books' | trans }}</th>
 						<th>
 							{% if is_granted('ROLE_ADMIN') %}
 								<a class="btn btn-success btn-sm" href="{{ path('authors_add') }}">

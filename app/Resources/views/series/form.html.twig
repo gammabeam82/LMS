@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% block title %}
+	{% if serie.id %}
+		{{ 'serie.edit' | trans }}
+	{% else %}
+		{{ 'serie.add' | trans }}
+	{% endif %}
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+
+		<div class="row">
+			<div class="col-xs-12">
+				<ol class="breadcrumb">
+					<li><a href="{{ path('series') }}">{{ 'serie.series' | trans }}</a></li>
+					<li class="active">
+						{% if serie.id %}
+							{{ serie.name }}
+						{% else %}
+							{{ 'actions.add_serie' | trans }}
+						{% endif %}
+					</li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-6">
+
+				{% for flash_message in app.session.flashBag.get('notice') %}
+					<div class="panel panel-default">
+						<div class="panel-body bg-success">
+							{{ flash_message }}
+						</div>
+					</div>
+				{% endfor %}
+
+				{{ form_start(form) }}
+				{{ form_row(form.name) }}
+
+				<button type="submit" class="btn btn-success pull-right">
+					<i class="glyphicon glyphicon-plus"></i> {{ 'actions.save' | trans }}
+				</button>
+
+				{% if serie.id and serie.isDeletable %}
+					<button data-name="{{ serie.name }}" data-toggle="modal" data-target="#modal-delete" class="btn btn-danger delete pull-right" data-path="{{ path('series_delete', {'id': serie.id}) }}">
+						<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
+					</button>
+				{% endif %}
+
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block modal %}
+	{% if serie.id %}
+		{% include('modal-delete.html.twig') %}
+	{% endif %}
+{% endblock %}
