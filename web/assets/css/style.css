@@ -1,16 +1,39 @@
 .jumbotron {
 	height: 25vh;
 	border-radius: 0 !important;
-	background-image: url('../images/books.png');
-	background-size: contain;
 	margin-top: 0;
+	background-image:  url('../images/bg-pixel.png'), url('../images/books.png');
+	background-repeat: repeat, repeat;
+	background-size: auto, contain;
+	background-attachment: fixed, fixed;
 }
 
 .navbar {
 	margin: 0;
+	border-radius: 0;
 }
 
-input, select, textarea, .btn, .alert, select.form-control + .chosen-container.chosen-container-single, .chosen-choices, .chosen-single, .file-caption {
+.navbar-inner {
+	min-height: 0;
+}
+
+.navbar-default {
+
+}
+
+.navbar-brand,
+.navbar-nav li a {
+	line-height: 80px;
+	height: 80px;
+	padding-top: 0;
+}
+
+.search-form > .form-group {
+	margin-top: 16px;
+}
+
+input, select, textarea, .btn, .alert,
+select.form-control + .chosen-container.chosen-container-single, .chosen-choices, .chosen-single, .file-caption {
 	border-radius: 0 !important;
 }
 
