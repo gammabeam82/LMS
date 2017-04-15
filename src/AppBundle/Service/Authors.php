@@ -56,7 +56,11 @@ class Authors
 			$qb->setParameter('name', "%" . mb_strtolower($filter->getLastName()) . "%");
 		}
 
-		$qb->orderBy('a.id', 'DESC');
+		if ($filter->getSortByName()) {
+			$qb->orderBy('a.lastName', 'ASC');
+		} else {
+			$qb->orderBy('a.id', 'DESC');
+		}
 
 		return $qb->getQuery();
 	}

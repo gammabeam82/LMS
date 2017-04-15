@@ -47,7 +47,7 @@
 						<tr>
 							<td>{{ serie.name }}</td>
 							<td>
-								<a href="{{ path('books', {'book_filter[serie][]': serie.id}) }}" class="btn {{ serie.books | length ? 'btn-success' : 'btn-default disabled' }}">
+								<a href="{{ path('books', {'book_filter[serie][]': serie.id}) }}" class="btn btn-sm {{ serie.books | length ? 'btn-success' : 'btn-default disabled' }}">
 									{{ serie.books | length }}
 								</a>
 							</td>

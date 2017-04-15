@@ -109,6 +109,7 @@ messages:
   serie_select: 'Выбор серии'
   serie_added: 'Серия добавлена.'
   serie_deleted: 'Серия удалена.'
+  sort_by_name: 'В алфавитном порядке'
 
 Previous: 'Предыдущая'
 Next: 'Следующая'

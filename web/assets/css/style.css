@@ -32,7 +32,8 @@
 	margin-top: 16px;
 }
 
-input, select, textarea, .btn, .alert,
+input, select, textarea,
+.btn, .alert, .modal-content,
 select.form-control + .chosen-container.chosen-container-single, .chosen-choices, .chosen-single, .file-caption {
 	border-radius: 0 !important;
 }

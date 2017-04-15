@@ -18,6 +18,11 @@ class AuthorFilter
 	private $lastName;
 
 	/**
+	 * @var boolean
+	 */
+	private $sortByName;
+
+	/**
 	 * @return string
 	 */
 	public function getLastName()
@@ -33,4 +38,19 @@ class AuthorFilter
 		$this->lastName = $lastName;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function getSortByName()
+	{
+		return $this->sortByName;
+	}
+
+	/**
+	 * @param $sortByName
+	 */
+	public function setSortByName($sortByName)
+	{
+		$this->sortByName = $sortByName;
+	}
 }
