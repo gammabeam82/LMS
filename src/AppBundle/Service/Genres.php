@@ -4,7 +4,7 @@ namespace AppBundle\Service;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Genre;
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use AppBundle\Filter\GenreFilter;
+use AppBundle\Filter\EntityFilterInterface;
 
 class Genres
 {
@@ -22,10 +22,10 @@ class Genres
 	}
 
 	/**
-	 * @param GenreFilter $filter
+	 * @param EntityFilterInterface $filter
 	 * @return \Doctrine\ORM\Query
 	 */
-	public function getFilteredGenres(GenreFilter $filter)
+	public function getFilteredGenres(EntityFilterInterface $filter)
 	{
 		/**
 		 * @var \Doctrine\ORM\EntityRepository $repo

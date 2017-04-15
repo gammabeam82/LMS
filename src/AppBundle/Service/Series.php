@@ -2,8 +2,8 @@
 
 namespace AppBundle\Service;
 use AppBundle\Entity\BookSeries;
+use AppBundle\Filter\EntityFilterInterface;
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use AppBundle\Filter\SerieFilter;
 
 class Series
 {
@@ -21,10 +21,10 @@ class Series
 	}
 
 	/**
-	 * @param SerieFilter $filter
+	 * @param EntityFilterInterface $filter
 	 * @return \Doctrine\ORM\Query
 	 */
-	public function getFilteredSeries(SerieFilter $filter)
+	public function getFilteredSeries(EntityFilterInterface $filter)
 	{
 		/**
 		 * @var \Doctrine\ORM\EntityRepository $repo

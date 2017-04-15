@@ -4,7 +4,7 @@ namespace AppBundle\Filter;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-abstract class EntityFilter
+abstract class EntityFilter implements EntityFilterInterface
 {
 
 	/**
