@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
 {% block title %}{{ 'serie.series' | trans }}{% endblock %}
 
 {% block body %}
@@ -26,6 +28,41 @@
 			</div>
 		</div>
 
+		<div class="row">
+			<div class="col-xs-12">
+				<button class="btn btn-default filter-toggle" type="button" data-toggle="collapse" data-target="#filter">
+					<i class="glyphicon glyphicon-collapse-down"></i> {{ 'messages.filter' | trans }}
+				</button>
+				<hr/>
+			</div>
+		</div>
+
+		<div class="collapse" id="filter">
+			<div class="row">
+				{{ form_start(form) }}
+				<div class="col-xs-3">
+					{{ form_row(form.name) }}
+				</div>
+			</div>
+			<div class="row">
+				{{ form_start(form) }}
+				<div class="col-xs-3">
+					{{ form_row(form.sortByName) }}
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-3">
+					<button type="submit" class="btn btn-primary">
+						<i class="glyphicon glyphicon-search"></i> {{ 'actions.show' | trans }}
+					</button>
+					<a role="button" class="btn btn-default" href="{{ path('series', { 'reset': true }) }}">
+						<i class="glyphicon glyphicon-remove-circle"></i> {{ 'actions.reset' | trans }}
+					</a>
+					<br/><br/>
+				</div>
+				{{ form_end(form) }}
+			</div>
+		</div>
 
 		<div class="row">
 			<div class="col-xs-12">
@@ -80,6 +117,19 @@
 		</div>
 
 	</div>
+
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	{% if app.request.query.get('serie_filter') or app.session.get(filterName) %}
+		<script>
+			$(document).ready(function() {
+				$('.filter-toggle').click();
+			});
+		</script>
+	{% endif %}
 
 {% endblock %}
 

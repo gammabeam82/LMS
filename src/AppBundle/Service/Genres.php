@@ -4,6 +4,7 @@ namespace AppBundle\Service;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Genre;
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use AppBundle\Filter\GenreFilter;
 
 class Genres
 {
@@ -21,9 +22,10 @@ class Genres
 	}
 
 	/**
+	 * @param GenreFilter $filter
 	 * @return \Doctrine\ORM\Query
 	 */
-	public function getQuery()
+	public function getFilteredGenres(GenreFilter $filter)
 	{
 		/**
 		 * @var \Doctrine\ORM\EntityRepository $repo
@@ -31,7 +33,16 @@ class Genres
 		$repo = $this->doctrine->getRepository('AppBundle:Genre');
 		$qb = $repo->createQueryBuilder('g');
 
-		$qb->orderBy('g.id', 'DESC');
+		if (!empty($filter->getName())) {
+			$qb->andWhere($qb->expr()->like('LOWER(g.name)', ':name'));
+			$qb->setParameter('name', "%" . mb_strtolower($filter->getName()) . "%");
+		}
+
+		if ($filter->getSortByName()) {
+			$qb->orderBy('g.name', 'ASC');
+		} else {
+			$qb->orderBy('g.id', 'DESC');
+		}
 
 		return $qb->getQuery();
 	}

@@ -3,6 +3,7 @@
 namespace AppBundle\Service;
 use AppBundle\Entity\BookSeries;
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use AppBundle\Filter\SerieFilter;
 
 class Series
 {
@@ -20,9 +21,10 @@ class Series
 	}
 
 	/**
+	 * @param SerieFilter $filter
 	 * @return \Doctrine\ORM\Query
 	 */
-	public function getQuery()
+	public function getFilteredSeries(SerieFilter $filter)
 	{
 		/**
 		 * @var \Doctrine\ORM\EntityRepository $repo
@@ -30,7 +32,16 @@ class Series
 		$repo = $this->doctrine->getRepository('AppBundle:BookSeries');
 		$qb = $repo->createQueryBuilder('s');
 
-		$qb->orderBy('s.id', 'DESC');
+		if (!empty($filter->getName())) {
+			$qb->andWhere($qb->expr()->like('LOWER(s.name)', ':name'));
+			$qb->setParameter('name', "%" . mb_strtolower($filter->getName()) . "%");
+		}
+
+		if ($filter->getSortByName()) {
+			$qb->orderBy('s.name', 'ASC');
+		} else {
+			$qb->orderBy('s.id', 'DESC');
+		}
 
 		return $qb->getQuery();
 	}

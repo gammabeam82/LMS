@@ -10,26 +10,46 @@ use AppBundle\Form\GenreType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use AppBundle\Filter\GenreFilter;
+use AppBundle\Filter\Form\GenreFilterType;
 
 class GenresController extends Controller
 {
 	/**
 	 * @Route("/genres", name="genres")
+	 *
+	 * @param Request $request
+	 * @return Response
 	 */
 	public function indexAction(Request $request)
 	{
 		$paginator = $this->get('knp_paginator');
 
-		$genreService = $this->get('app.genres');
+		$genresService = $this->get('app.genres');
 
-		$query = $genreService->getQuery();
+		$sessionService = $this->get('app.sessions');
+
+		$translator = $this->get('translator');
+
+		$filter = new GenreFilter();
+
+		$form = $this->createForm(GenreFilterType::class, $filter);
+		$form->handleRequest($request);
+
+		if(false === $sessionService->updateFilterFromSession($form, $filter)) {
+			$this->addFlash('error', $translator->trans('messages.filter_error'));
+		}
+
+		$query = $genresService->getFilteredGenres($filter);
 
 		$genres = $paginator->paginate(
 			$query, $request->query->getInt('page', 1), $this->getParameter('genres_per_page')
 		);
 
 		return $this->render('genres/index.html.twig', [
-			'genres' => $genres
+			'genres' => $genres,
+			'form' => $form->createView(),
+			'filterName' => $sessionService->getFilterName($filter)
 		]);
 	}
 

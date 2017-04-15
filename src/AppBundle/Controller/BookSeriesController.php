@@ -10,6 +10,8 @@ use AppBundle\Form\BookSeriesType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use AppBundle\Filter\SerieFilter;
+use AppBundle\Filter\Form\SerieFilterType;
 
 class BookSeriesController extends Controller
 {
@@ -26,14 +28,29 @@ class BookSeriesController extends Controller
 
 		$seriesService = $this->get('app.series');
 
-		$query = $seriesService->getQuery();
+		$sessionService = $this->get('app.sessions');
+
+		$translator = $this->get('translator');
+
+		$filter = new SerieFilter();
+
+		$form = $this->createForm(SerieFilterType::class, $filter);
+		$form->handleRequest($request);
+
+		if(false === $sessionService->updateFilterFromSession($form, $filter)) {
+			$this->addFlash('error', $translator->trans('messages.filter_error'));
+		}
+
+		$query = $seriesService->getFilteredSeries($filter);
 
 		$series = $paginator->paginate(
 			$query, $request->query->getInt('page', 1), $this->getParameter('series_per_page')
 		);
 
 		return $this->render('series/index.html.twig', [
-			'series' => $series
+			'series' => $series,
+			'form' => $form->createView(),
+			'filterName' => $sessionService->getFilterName($filter)
 		]);
 	}
 
