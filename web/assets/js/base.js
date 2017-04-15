@@ -2,6 +2,7 @@ $(document).ready(() => {
 
 	const booksCountContainer = $('.books-count');
 	const errorMessage = $('.common-messages-error').text();
+	const backToTop = $('.back-to-top');
 
 	$('.navbar-fixed-top').autoHidingNavbar({
 		'showOnBottom': false
@@ -56,6 +57,22 @@ $(document).ready(() => {
 					$.notify(errorMessage, {type: 'danger'});
 				}
 			});
+	});
+
+	$(window).scroll(function () {
+		if ($(this).scrollTop() > 50) {
+			backToTop.fadeIn();
+		} else {
+			backToTop.fadeOut();
+		}
+	});
+
+	backToTop.click(() => {
+		backToTop.tooltip('hide');
+		$('body,html').animate({
+			scrollTop: 0
+		}, 600);
+		return false;
 	});
 
 });

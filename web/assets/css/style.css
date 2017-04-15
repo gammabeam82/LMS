@@ -91,3 +91,11 @@ dd a {
 .bordered-right {
 	border-right: 1px solid #ECF0F1;
 }
+
+.back-to-top {
+	position: fixed;
+	bottom: 40px;
+	right: 10px;
+	display:none;
+	outline: none;
+}
