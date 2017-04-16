@@ -34,7 +34,9 @@ class BookSeriesController extends Controller
 
 		$filter = new SerieFilter();
 
-		$form = $this->createForm(SerieFilterType::class, $filter);
+		$form = $this->createForm(SerieFilterType::class, $filter, [
+			'data_class' => 'AppBundle\Filter\SerieFilter'
+		]);
 		$form->handleRequest($request);
 
 		if(false === $sessionService->updateFilterFromSession($form, $filter)) {
@@ -73,7 +75,7 @@ class BookSeriesController extends Controller
 
 			$translator = $this->get('translator');
 
-			$seriesService->save($form->getData());
+			$seriesService->save($serie);
 
 			$this->addFlash('notice', $translator->trans('messages.serie_added'));
 
@@ -105,7 +107,7 @@ class BookSeriesController extends Controller
 
 			$translator = $this->get('translator');
 
-			$seriesService->save($form->getData());
+			$seriesService->save($serie);
 
 			$this->addFlash('notice', $translator->trans('messages.changes_accepted'));
 

@@ -33,7 +33,9 @@ class GenresController extends Controller
 
 		$filter = new GenreFilter();
 
-		$form = $this->createForm(GenreFilterType::class, $filter);
+		$form = $this->createForm(GenreFilterType::class, $filter, [
+			'data_class' => 'AppBundle\Filter\GenreFilter'
+		]);
 		$form->handleRequest($request);
 
 		if(false === $sessionService->updateFilterFromSession($form, $filter)) {
@@ -72,7 +74,7 @@ class GenresController extends Controller
 
 			$translator = $this->get('translator');
 
-			$genreService->save($this->getUser(), $form->getData());
+			$genreService->save($this->getUser(), $genre);
 
 			$this->addFlash('notice', $translator->trans('messages.genre_added'));
 
@@ -104,7 +106,7 @@ class GenresController extends Controller
 
 			$translator = $this->get('translator');
 
-			$genreService->save($this->getUser(), $form->getData(), false);
+			$genreService->save($this->getUser(), $genre, false);
 
 			$this->addFlash('notice', $translator->trans('messages.changes_accepted'));
 
