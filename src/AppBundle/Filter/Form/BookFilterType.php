@@ -18,7 +18,7 @@ class BookFilterType extends AbstractType
 	{
 		$builder
 			->add('name', TextType::class, [
-				'label' => 'book.book',
+				'label' => 'messages.name',
 				'required' => false
 			])
 			->add('author', EntityType::class, [

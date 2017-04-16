@@ -14,7 +14,7 @@ class SerieFilterType extends AbstractType
 	{
 		$builder
 			->add('name', TextType::class, [
-				'label' => 'serie.serie',
+				'label' => 'messages.name',
 				'required' => false
 			])
 			->add('sortByName', CheckboxType::class, [

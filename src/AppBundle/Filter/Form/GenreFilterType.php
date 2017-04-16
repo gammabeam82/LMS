@@ -14,7 +14,7 @@ class GenreFilterType extends AbstractType
 	{
 		$builder
 			->add('name', TextType::class, [
-				'label' => 'genre.genre',
+				'label' => 'messages.name',
 				'required' => false
 			])
 			->add('sortByName', CheckboxType::class, [
