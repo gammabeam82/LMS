@@ -70,7 +70,7 @@ class AuthorsController extends Controller
 
 		if($form->isSubmitted() && $form->isValid()) {
 
-			$authorService->save($this->getUser(), $form->getData());
+			$authorService->save($this->getUser(), $author);
 
 			$translator = $this->get('translator');
 
@@ -104,7 +104,7 @@ class AuthorsController extends Controller
 
 			$translator = $this->get('translator');
 
-			$authorService->save($this->getUser(), $form->getData(), false);
+			$authorService->save($this->getUser(), $author, false);
 
 			$this->addFlash('notice', $translator->trans('messages.changes_accepted'));
 

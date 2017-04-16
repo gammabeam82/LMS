@@ -210,7 +210,7 @@ class BooksController extends Controller
 
 			$translator = $this->get('translator');
 
-			$ratingService->save($this->getUser(), $book, $ratingForm->getData());
+			$ratingService->save($this->getUser(), $book, $rating);
 
 			$this->addFlash('notice', $translator->trans('messages.vote_success'));
 		}
@@ -223,7 +223,7 @@ class BooksController extends Controller
 
 			$translator = $this->get('translator');
 
-			$commentService->save($this->getUser(), $book, $commentForm->getData());
+			$commentService->save($this->getUser(), $book, $comment);
 
 			$this->addFlash('notice.comment', $translator->trans('messages.comment_added'));
 
