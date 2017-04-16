@@ -47,3 +47,9 @@ services:
             arguments: ["@kernel"]
             tags:
                 - { name: kernel.event_subscriber }
+
+      app.comment_voter:
+            class:  AppBundle\Security\CommentVoter
+            tags:
+                - { name: security.voter }
+            public: false
