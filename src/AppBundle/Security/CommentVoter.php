@@ -24,7 +24,7 @@ class CommentVoter extends Voter
 			return false;
 		}
 
-		if (!$subject instanceof Comment) {
+		if (false === $subject instanceof Comment) {
 			return false;
 		}
 
@@ -41,7 +41,7 @@ class CommentVoter extends Voter
 	{
 		$user = $token->getUser();
 
-		if (!$user instanceof User) {
+		if (false === $user instanceof User) {
 			return false;
 		}
 
