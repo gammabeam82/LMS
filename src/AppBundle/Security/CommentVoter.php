@@ -2,8 +2,6 @@
 
 namespace AppBundle\Security;
 
-namespace AppBundle\Security;
-
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
