@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 class CommentVoter extends Voter
 {
 	const EDIT = 'edit';
+	const DELETE = 'delete';
 
 	/**
 	 * @param string $attribute
@@ -18,7 +19,7 @@ class CommentVoter extends Voter
 	 */
 	protected function supports($attribute, $subject)
 	{
-		if (false === in_array($attribute, [self::EDIT])) {
+		if (false === in_array($attribute, [self::EDIT, self::DELETE])) {
 			return false;
 		}
 
@@ -48,6 +49,8 @@ class CommentVoter extends Voter
 		switch ($attribute) {
 			case self::EDIT:
 				return $this->canEdit($comment, $user);
+			case self::DELETE:
+				return $this->canDelete($user);
 		}
 
 		throw new \LogicException('This code should not be reached!');
@@ -61,5 +64,14 @@ class CommentVoter extends Voter
 	private function canEdit(Comment $comment, User $user)
 	{
 		return $user === $comment->getUser() || $user->hasRole('ROLE_ADMIN');
+	}
+
+	/**
+	 * @param User $user
+	 * @return bool
+	 */
+	private function canDelete(User $user)
+	{
+		return $user->hasRole('ROLE_ADMIN');
 	}
 }
