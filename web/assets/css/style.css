@@ -33,8 +33,9 @@
 }
 
 input, select, textarea,
-.btn, .alert, .modal-content,
-select.form-control + .chosen-container.chosen-container-single, .chosen-choices, .chosen-single, .file-caption {
+.btn, .alert, .modal-content, .panel, .progress,
+select.form-control + .chosen-container.chosen-container-single, .chosen-choices, .chosen-single, .chosen-drop,
+.file-caption {
 	border-radius: 0 !important;
 }
 

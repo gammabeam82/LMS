@@ -66,14 +66,16 @@
 
 				{{ form_end(form) }}
 
-				<br/>
-				<br/>
-				<hr/>
+				{% if book.annotation %}
+					<br/>
+					<br/>
+					<hr/>
 
-				<p class="lead bg-info">{{ 'book.annotation' | trans }}</p>
-				<p>
-					{{ book.annotation }}
-				</p>
+					<p class="lead bg-info">{{ 'book.annotation' | trans }}</p>
+					<p>
+						{{ book.annotation }}
+					</p>
+				{% endif %}
 
 			</div>
 
