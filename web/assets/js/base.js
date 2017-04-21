@@ -19,27 +19,33 @@ $(document).ready(() => {
 
 	$('.to-archive').click(function () {
 		let btn = $(this);
-		if (!btn.hasClass('disabled')) {
-			$.getJSON(btn.attr('data-path'))
-				.then((data) => {
-					if (typeof data['booksCount'] !== 'undefined') {
-						booksCountContainer.html(data['booksCount']);
-						btn.addClass('disabled');
-						$.notify(data['message'], {type: 'success'});
-						if (!booksCountContainer.hasClass('badge-active')) {
-							booksCountContainer.addClass('badge-active');
-						}
-						booksCountContainer.addClass('animated bounceIn');
-						setTimeout(() => booksCountContainer.removeClass('animated bounceIn'), 600);
-					} else {
-						$.notify(errorMessage, {type: 'danger'});
-					}
-				});
+		if (true === btn.hasClass('disabled')) {
+			return;
 		}
+		btn.addClass('disabled');
+		$.getJSON(btn.attr('data-path'))
+			.then((data) => {
+				if (typeof data['booksCount'] !== 'undefined') {
+					booksCountContainer.html(data['booksCount']);
+					$.notify(data['message'], {type: 'success'});
+					if (false === booksCountContainer.hasClass('badge-active')) {
+						booksCountContainer.addClass('badge-active');
+					}
+					booksCountContainer.addClass('animated bounceIn');
+					setTimeout(() => booksCountContainer.removeClass('animated bounceIn'), 600);
+				} else {
+					$.notify(errorMessage, {type: 'danger'});
+					btn.removeClass('disabled');
+				}
+			});
 	});
 
 	$('.remove-from-archive').click(function () {
 		let btn = $(this);
+		if (true === btn.hasClass('disabled')) {
+			return;
+		}
+		btn.addClass('disabled');
 		$.getJSON(btn.attr('data-path'))
 			.then((data) => {
 				if (typeof data['booksCount'] !== 'undefined') {
@@ -55,6 +61,7 @@ $(document).ready(() => {
 					}
 				} else {
 					$.notify(errorMessage, {type: 'danger'});
+					btn.removeClass('disabled');
 				}
 			});
 	});

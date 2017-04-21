@@ -28,6 +28,16 @@
 	padding-top: 0;
 }
 
+@media (min-width: 992px) {
+	.modal-open[style] {
+		padding-right: 0 !important;
+	}
+
+	.modal-open {
+		overflow: auto;
+	}
+}
+
 .search-form > .form-group {
 	margin-top: 16px;
 }
