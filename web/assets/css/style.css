@@ -4,8 +4,24 @@
 	margin-top: 80px;
 	background-image:  url('../images/bg-pixel.png'), url('../images/books.png');
 	background-repeat: repeat, repeat;
-	background-size: auto, contain;
+	background-size: auto, auto;
 	background-attachment: scroll, fixed;
+}
+
+@media (max-width: 1050px) {
+	.jumbotron {
+		background-repeat: repeat, no-repeat;
+		background-size: auto, cover;
+	}
+
+	.navbar-form {
+		display: none;
+	}
+}
+
+.table-responsive
+{
+	overflow-x: auto;
 }
 
 .navbar {

@@ -114,9 +114,9 @@
 						<th>{{ 'book.name' | trans }}</th>
 						<th>{{ 'book.author' | trans }}</th>
 						<th>{{ 'book.genre' | trans }}</th>
-						<th>{{ 'book.serie' | trans }}</th>
-						<th>{{ knp_pagination_sortable(books, 'book.date' | trans, 'b.createdAt') }}</th>
-						<th>{{ 'book.rating' | trans }}</th>
+						<th class="visible-lg">{{ 'book.serie' | trans }}</th>
+						<th class="visible-lg">{{ knp_pagination_sortable(books, 'book.date' | trans, 'b.createdAt') }}</th>
+						<th class="visible-lg">{{ 'book.rating' | trans }}</th>
 						<th>
 							{% if is_granted('ROLE_ADMIN') %}
 								<a class="btn btn-success btn-sm" href="{{ path('books_add') }}">
@@ -142,9 +142,9 @@
 								<a href="{{ path('books', {'book_filter[author][]': book.author.id}) }}">{{ book.author.shortName }}</a>
 							</td>
 							<td>{{ book.genre ? book.genre.name : "-" }}</td>
-							<td>{{ book.serie ? book.serie.name : "-" }}</td>
-							<td>{{ book.createdAt | date("d.m.Y H:i") }}</td>
-							<td>{{ book.averageRating }}</td>
+							<td class="visible-lg">{{ book.serie ? book.serie.name : "-" }}</td>
+							<td class="visible-lg">{{ book.createdAt | date("d.m.Y H:i") }}</td>
+							<td class="visible-lg">{{ book.averageRating }}</td>
 							<td>
 								<button data-path="{{ path('archive_add', { 'id': book.id }) }}" class="btn btn-default btn-sm to-archive {% if book.id in booksInArchive %}disabled{% endif %}">
 									<i class="glyphicon glyphicon-ok"></i> {{ 'actions.to_archive' | trans }}
