@@ -44,7 +44,7 @@ services:
 
       app.kernel_event_subscriber:
             class: AppBundle\EventListener\KernelEventSubscriber
-            arguments: ["@kernel"]
+            arguments: ["@kernel", "@security.token_storage", "%library%"]
             tags:
                 - { name: kernel.event_subscriber }
 

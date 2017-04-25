@@ -4,10 +4,9 @@ namespace AppBundle\EventListener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Bundle\FrameworkBundle\Console\Application;
-use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use AppBundle\Entity\User;
 
 
 class KernelEventSubscriber implements EventSubscriberInterface
@@ -18,12 +17,26 @@ class KernelEventSubscriber implements EventSubscriberInterface
 	private $kernel;
 
 	/**
+	 * @var string
+	 */
+	private $path;
+
+	/**
+	 * @var TokenStorageInterface
+	 */
+	private $tokenStorage;
+
+	/**
 	 * KernelEventSubscriber constructor.
 	 * @param KernelInterface $kernel
+	 * @param TokenStorageInterface $tokenStorage
+	 * @param $path
 	 */
-	public function __construct(KernelInterface $kernel)
+	public function __construct(KernelInterface $kernel, TokenStorageInterface $tokenStorage, $path)
 	{
 		$this->kernel = $kernel;
+		$this->tokenStorage = $tokenStorage;
+		$this->path = $path;
 	}
 
 	public static function getSubscribedEvents()
@@ -37,13 +50,22 @@ class KernelEventSubscriber implements EventSubscriberInterface
 
 	public function processEvent()
 	{
-		$application = new Application($this->kernel);
-		$application->setAutoExit(false);
+		$token = $this->tokenStorage->getToken();
 
-		$input = new ArrayInput([
-			'command' => 'app:remove-zip-files'
-		]);
+		if(null === $token) {
+			return;
+		}
 
-		$application->run($input, new NullOutput());
+		$user = $token->getUser();
+
+		if(false === $user instanceof User) {
+			return;
+		}
+
+		$file = sprintf("%s/%s.zip", $this->path, $user->getId());
+
+		if(file_exists($file)) {
+			unlink($file);
+		}
 	}
 }
