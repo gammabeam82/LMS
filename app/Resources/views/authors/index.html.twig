@@ -76,7 +76,7 @@
 
 				<table class="table table-striped table-hover">
 					<tr>
-						<th>{{ knp_pagination_sortable(authors, 'Автор', 'a.lastName') }}</th>
+						<th>{{ knp_pagination_sortable(authors, 'author.author' | trans, 'a.lastName') }}</th>
 						<th>{{ 'book.books' | trans }}</th>
 						<th>
 							{% if is_granted('ROLE_ADMIN') %}
