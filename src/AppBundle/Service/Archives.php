@@ -4,7 +4,6 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -13,10 +12,6 @@ use ZipArchive;
 
 class Archives
 {
-	/**
-	 * @var RequestStack
-	 */
-	private $requestStack;
 
 	/**
 	 * @var Registry
@@ -45,24 +40,23 @@ class Archives
 
 	/**
 	 * Archives constructor.
-	 * @param RequestStack $requestStack
+	 * @param SessionInterface $session
 	 * @param Registry $doctrine
 	 * @param $varName
 	 * @param $path
 	 * @param User $user
 	 */
-	public function __construct(RequestStack $requestStack, Registry $doctrine, $varName, $path, User $user)
+	public function __construct(SessionInterface $session, Registry $doctrine, $varName, $path, User $user)
 	{
-		$this->requestStack = $requestStack;
 		$this->doctrine = $doctrine;
-		$this->session = $requestStack->getCurrentRequest()->getSession();
+		$this->session = $session;
 		$this->varName = $varName;
 		$this->path = $path;
 		$this->user = $user;
 	}
 
 	/**
-	 * @return array|mixed
+	 * @return array
 	 */
 	private function getSessionData()
 	{
@@ -98,7 +92,7 @@ class Archives
 
 		$bookId = $book->getId();
 
-		if(false === in_array($bookId, $data)) {
+		if (false === in_array($bookId, $data)) {
 			$data[] = $bookId;
 
 			$this->setSessionData($data);
@@ -114,9 +108,9 @@ class Archives
 
 		$data = $this->getSessionData();
 
-		$bookId = $book->getId();
-
-		$this->setSessionData(array_diff($data, [$bookId]));
+		$this->setSessionData(array_diff($data, [
+			$book->getId()
+		]));
 	}
 
 	/**
@@ -124,7 +118,7 @@ class Archives
 	 */
 	public function getBooksList()
 	{
-		if(0 == count($this->getSessionData())) {
+		if (0 == count($this->getSessionData())) {
 			return false;
 		}
 
@@ -151,12 +145,12 @@ class Archives
 	}
 
 	/**
-	 * @return bool|BinaryFileResponse
+	 * @return BinaryFileResponse
 	 */
 	public function getArchive()
 	{
-		if(0 == count($this->getSessionData())) {
-			return false;
+		if (0 == count($this->getSessionData())) {
+			throw new \LengthException();
 		}
 
 		/**
@@ -174,7 +168,7 @@ class Archives
 
 		$zip->open($file, ZIPARCHIVE::CREATE);
 
-		foreach($books as $book) {
+		foreach ($books as $book) {
 			/**
 			 * @var \AppBundle\Entity\Book $book
 			 */

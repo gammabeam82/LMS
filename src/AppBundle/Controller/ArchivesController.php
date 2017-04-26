@@ -36,9 +36,9 @@ class ArchivesController extends Controller
 	{
 		$archiveService = $this->get('app.archives');
 
-		$response = $archiveService->getArchive();
-
-		if(false === $response instanceof BinaryFileResponse) {
+		try {
+			$response = $archiveService->getArchive();
+		} catch (\LengthException $e) {
 			$translator = $this->get('translator');
 			throw $this->createNotFoundException($translator->trans('messages.file_not_found'));
 		}
