@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BooksController extends Controller
 {
@@ -45,7 +44,7 @@ class BooksController extends Controller
 		$form = $this->createForm(BookFilterType::class, $filter);
 		$form->handleRequest($request);
 
-		if(false === $sessionService->updateFilterFromSession($form, $filter)) {
+		if (false === $sessionService->updateFilterFromSession($form, $filter)) {
 			$this->addFlash('error', $translator->trans('messages.filter_error'));
 		}
 
@@ -78,7 +77,7 @@ class BooksController extends Controller
 		$form = $this->createForm(BookType::class, $book);
 		$form->handleRequest($request);
 
-		if($form->isSubmitted() && $form->isValid()) {
+		if ($form->isSubmitted() && $form->isValid()) {
 
 			$bookService->save($this->getUser(), $book);
 
@@ -113,18 +112,18 @@ class BooksController extends Controller
 		$form = $this->createForm(BookType::class, $book);
 		$form->handleRequest($request);
 
-		if($form->isSubmitted()) {
+		if ($form->isSubmitted()) {
 
 			$translator = $this->get('translator');
 
 			$validator = $this->get('validator');
 			$errors = $validator->validate($book, null, 'edit');
 
-			if(!count($errors)) {
-				if(empty($book->getFile())) {
+			if (0 === count($errors)) {
+				if (empty($book->getFile())) {
 					$book->setFile($originalFile);
 					$bookService->save($this->getUser(), $book, false);
-				} elseif($form->isValid()) {
+				} elseif ($form->isValid()) {
 					$bookService->save($this->getUser(), $book, false, $originalFile);
 				}
 			}
@@ -167,15 +166,15 @@ class BooksController extends Controller
 	 * @ParamConverter("book")
 	 *
 	 * @param Book $book
-	 * @return bool|BinaryFileResponse|NotFoundHttpException
+	 * @return BinaryFileResponse
 	 */
 	public function downloadAction(Book $book)
 	{
 		$bookService = $this->get('app.books');
 
-		$response = $bookService->download($book);
-
-		if(false === $response instanceof BinaryFileResponse) {
+		try {
+			$response = $bookService->download($book);
+		} catch (\LogicException $e) {
 			$translator = $this->get('translator');
 			throw $this->createNotFoundException($translator->trans('messages.file_not_found'));
 		}
@@ -205,7 +204,7 @@ class BooksController extends Controller
 		$ratingForm = $this->createForm(RatingType::class, $rating);
 		$ratingForm->handleRequest($request);
 
-		if($ratingForm->isSubmitted() && $ratingForm->isValid()) {
+		if ($ratingForm->isSubmitted() && $ratingForm->isValid()) {
 			$ratingService = $this->get('app.ratings');
 
 			$translator = $this->get('translator');
@@ -218,7 +217,7 @@ class BooksController extends Controller
 		$commentForm = $this->createForm(CommentType::class, $comment);
 		$commentForm->handleRequest($request);
 
-		if($commentForm->isSubmitted() && $commentForm->isValid()) {
+		if ($commentForm->isSubmitted() && $commentForm->isValid()) {
 			$commentService = $this->get('app.comments');
 
 			$translator = $this->get('translator');

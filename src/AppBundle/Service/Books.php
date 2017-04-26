@@ -148,13 +148,13 @@ class Books
 
 	/**
 	 * @param Book $book
-	 * @return bool|BinaryFileResponse
+	 * @return BinaryFileResponse
 	 */
 	public function download(Book $book)
 	{
 
 		if (false === file_exists($book->getFile())) {
-			return false;
+			throw new \LogicException();
 		}
 
 		$fileName = sprintf("%s-%s.txt", $book->getAuthor()->getShortName(), $book->getName());
