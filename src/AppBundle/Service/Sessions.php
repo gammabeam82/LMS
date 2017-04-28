@@ -51,6 +51,7 @@ class Sessions
 		if ($form->isSubmitted()) {
 			if ($form->isValid()) {
 				$session->set($filterName, serialize($form->getData()));
+				return true;
 			} else {
 				return false;
 			}
@@ -65,6 +66,10 @@ class Sessions
 					$getter = 'get' . $fieldName;
 					$setter = 'set' . $fieldName;
 
+					if(false === method_exists($data, $getter)) {
+						throw new \BadMethodCallException();
+					}
+
 					$value = $data->$getter();
 
 					if (is_array($value) && isset($value[0]) && is_object($value[0])) {
@@ -77,9 +82,14 @@ class Sessions
 						$field->setData($value);
 					}
 
+					if(false === method_exists($filter, $setter)) {
+						throw new \BadMethodCallException();
+					}
+
 					$filter->$setter($value);
 				}
 			}
+			return true;
 		}
 	}
 
