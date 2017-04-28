@@ -1,7 +1,8 @@
 <?php
 
 namespace AppBundle\Service;
-use AppBundle\Entity\BookSeries;
+
+use AppBundle\Entity\Serie;
 use AppBundle\Filter\EntityFilterInterface;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
@@ -29,7 +30,7 @@ class Series
 		/**
 		 * @var \Doctrine\ORM\EntityRepository $repo
 		 */
-		$repo = $this->doctrine->getRepository('AppBundle:BookSeries');
+		$repo = $this->doctrine->getRepository('AppBundle:Serie');
 		$qb = $repo->createQueryBuilder('s');
 
 		if (!empty($filter->getName())) {
@@ -47,9 +48,9 @@ class Series
 	}
 
 	/**
-	 * @param BookSeries $serie
+	 * @param Serie $serie
 	 */
-	public function save(BookSeries $serie)
+	public function save(Serie $serie)
 	{
 		$em = $this->doctrine->getManager();
 
@@ -58,9 +59,9 @@ class Series
 	}
 
 	/**
-	 * @param BookSeries $serie
+	 * @param Serie $serie
 	 */
-	public function remove(BookSeries $serie)
+	public function remove(Serie $serie)
 	{
 		$em = $this->doctrine->getManager();
 

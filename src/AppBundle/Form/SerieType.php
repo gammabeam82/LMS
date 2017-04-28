@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class BookSeriesType extends AbstractType
+class SerieType extends AbstractType
 {
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
@@ -21,7 +21,7 @@ class BookSeriesType extends AbstractType
 	public function configureOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults([
-			'data_class' => 'AppBundle\Entity\BookSeries',
+			'data_class' => 'AppBundle\Entity\Serie',
 		]);
 	}
 

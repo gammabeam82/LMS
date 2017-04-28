@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     message="serie.unique"
  * )
  */
-class BookSeries
+class Serie
 {
 	/**
 	 * @ORM\Id
@@ -70,7 +70,7 @@ class BookSeries
      *
      * @param \DateTime $createdAt
      *
-     * @return BookSeries
+     * @return Serie
      */
     public function setCreatedAt($createdAt)
     {
@@ -94,7 +94,7 @@ class BookSeries
      *
      * @param string $name
      *
-     * @return BookSeries
+     * @return Serie
      */
     public function setName($name)
     {
@@ -118,7 +118,7 @@ class BookSeries
      *
      * @param \AppBundle\Entity\Book $book
      *
-     * @return BookSeries
+     * @return Serie
      */
     public function addBook(\AppBundle\Entity\Book $book)
     {

@@ -2,7 +2,7 @@
 
 namespace AppBundle\Filter;
 
-use AppBundle\Entity\BookSeries;
+use AppBundle\Entity\Serie;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Entity\Author;
@@ -208,16 +208,16 @@ class BookFilter
 	}
 
 	/**
-	 * @param BookSeries $serie
+	 * @param Serie $serie
 	 */
-	public function addSerie(BookSeries $serie)
+	public function addSerie(Serie $serie)
 	{
 		$this->serie[] = $serie;
 
 	}
 
 	/**
-	 * @param BookSeries $serie
+	 * @param Serie $serie
 	 */
 	public function removeSerie($serie)
 	{

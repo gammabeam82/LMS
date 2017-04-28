@@ -59,7 +59,7 @@ class Book
 	private $genre;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="\AppBundle\Entity\BookSeries", inversedBy="books")
+	 * @ORM\ManyToOne(targetEntity="\AppBundle\Entity\Serie", inversedBy="books")
 	 * @ORM\JoinColumn(name="serie_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
 	 */
 	private $serie;
@@ -406,11 +406,11 @@ class Book
     /**
      * Set serie
      *
-     * @param \AppBundle\Entity\BookSeries $serie
+     * @param \AppBundle\Entity\Serie $serie
      *
      * @return Book
      */
-    public function setSerie(\AppBundle\Entity\BookSeries $serie = null)
+    public function setSerie(\AppBundle\Entity\Serie $serie = null)
     {
         $this->serie = $serie;
 
@@ -420,7 +420,7 @@ class Book
     /**
      * Get serie
      *
-     * @return \AppBundle\Entity\BookSeries
+     * @return \AppBundle\Entity\Serie
      */
     public function getSerie()
     {

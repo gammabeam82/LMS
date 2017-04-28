@@ -41,7 +41,7 @@ class BookType extends AbstractType
 				'multiple' => false
 			])
 			->add('serie', EntityType::class, [
-				'class' => 'AppBundle:BookSeries',
+				'class' => 'Serie.php',
 				'query_builder' => function (EntityRepository $er) {
 					return $er->createQueryBuilder('s')
 						->orderBy('s.name', 'ASC');

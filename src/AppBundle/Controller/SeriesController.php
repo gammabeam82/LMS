@@ -5,15 +5,15 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\BookSeries;
-use AppBundle\Form\BookSeriesType;
+use AppBundle\Entity\Serie;
+use AppBundle\Form\SerieType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Filter\SerieFilter;
 use AppBundle\Filter\Form\SerieFilterType;
 
-class BookSeriesController extends Controller
+class SeriesController extends Controller
 {
 
 	/**
@@ -66,9 +66,9 @@ class BookSeriesController extends Controller
 	{
 		$seriesService = $this->get('app.series');
 
-		$serie = new BookSeries();
+		$serie = new Serie();
 
-		$form = $this->createForm(BookSeriesType::class, $serie);
+		$form = $this->createForm(SerieType::class, $serie);
 		$form->handleRequest($request);
 
 		if($form->isSubmitted() && $form->isValid()) {
@@ -94,16 +94,16 @@ class BookSeriesController extends Controller
 	 * @ParamConverter("serie")
 	 *
 	 * @param Request $request
-	 * @param BookSeries $serie
+	 * @param Serie $serie
 	 * @return RedirectResponse|Response
 	 */
-	public function editAction(Request $request, BookSeries $serie)
+	public function editAction(Request $request, Serie $serie)
 	{
 		$seriesService = $this->get('app.series');
 
 		$sessionService = $this->get('app.sessions');
 
-		$form = $this->createForm(BookSeriesType::class, $serie);
+		$form = $this->createForm(SerieType::class, $serie);
 		$form->handleRequest($request);
 
 		if($form->isSubmitted() && $form->isValid()) {
@@ -128,11 +128,11 @@ class BookSeriesController extends Controller
 	 * @Route("/series/delete/{id}", name="series_delete")
 	 * @ParamConverter("serie")
 	 *
-	 * @param BookSeries $serie
+	 * @param Serie $serie
 	 * @return RedirectResponse
 	 */
 
-	public function deleteAction(BookSeries $serie)
+	public function deleteAction(Serie $serie)
 	{
 		$seriesService = $this->get('app.series');
 
