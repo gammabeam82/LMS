@@ -65,7 +65,7 @@ select.form-control + .chosen-container.chosen-container-single, .chosen-choices
 	border-radius: 0 !important;
 }
 
-.delete {
+.delete, .to-list {
 	margin: 0 20px;
 }
 

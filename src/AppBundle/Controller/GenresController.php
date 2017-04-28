@@ -83,7 +83,8 @@ class GenresController extends Controller
 
 		return $this->render('genres/form.html.twig', [
 			'form' => $form->createView(),
-			'genre' => $genre
+			'genre' => $genre,
+			'filterName' => null
 		]);
 	}
 
@@ -98,6 +99,8 @@ class GenresController extends Controller
 	public function editAction(Request $request, Genre $genre)
 	{
 		$genreService = $this->get('app.genres');
+
+		$sessionService = $this->get('app.sessions');
 
 		$form = $this->createForm(GenreType::class, $genre);
 		$form->handleRequest($request);
@@ -115,7 +118,8 @@ class GenresController extends Controller
 
 		return $this->render('genres/form.html.twig', [
 			'form' => $form->createView(),
-			'genre' => $genre
+			'genre' => $genre,
+			'filterName' => $sessionService->getFilterName(new GenreFilter())
 		]);
 	}
 

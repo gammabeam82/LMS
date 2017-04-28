@@ -16,7 +16,7 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<ol class="breadcrumb">
-					<li><a href="{{ path('genres') }}">{{ 'genre.genres' | trans }}</a></li>
+					<li><a href="{{ path('genres', { 'reset': true }) }}">{{ 'genre.genres' | trans }}</a></li>
 					<li class="active">
 						{% if genre.id %}
 							{{ genre.name }}
@@ -46,10 +46,20 @@
 					<i class="glyphicon glyphicon-plus"></i> {{ 'actions.save' | trans }}
 				</button>
 
-				{% if genre.id and genre.isDeletable %}
-					<button data-name="{{ genre.name }}" data-toggle="modal" data-target="#modal-delete" class="btn btn-danger delete pull-right" data-path="{{ path('genres_delete', {'id': genre.id}) }}">
-						<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
-					</button>
+				{% if genre.id %}
+
+					{% if app.session.get(filterName) %}
+						<a href="{{ path('genres') }}" class="btn btn-default pull-right to-list">
+							<i class="glyphicon glyphicon-list"></i> {{ 'navigation.list' | trans }}
+						</a>
+					{% endif %}
+
+					{% if genre.isDeletable %}
+						<button data-name="{{ genre.name }}" data-toggle="modal" data-target="#modal-delete" class="btn btn-danger delete pull-right" data-path="{{ path('genres_delete', {'id': genre.id}) }}">
+							<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
+						</button>
+					{% endif %}
+
 				{% endif %}
 
 				{{ form_end(form) }}

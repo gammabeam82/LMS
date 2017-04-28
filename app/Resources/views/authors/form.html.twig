@@ -16,7 +16,7 @@
 		<div class="row">
 			<div class="col-xs-12">
 				<ol class="breadcrumb">
-					<li><a href="{{ path('authors') }}">{{ 'author.authors' | trans }}</a></li>
+					<li><a href="{{ path('authors', { 'reset': true }) }}">{{ 'author.authors' | trans }}</a></li>
 					<li class="active">
 						{% if author.id %}
 							{{ author.shortName }}
@@ -47,10 +47,20 @@
 					<i class="glyphicon glyphicon-plus"></i> {{ 'actions.save' | trans }}
 				</button>
 
-				{% if author.id and author.isDeletable %}
-					<button data-name="{{ author.shortName }}" data-toggle="modal" data-target="#modal-delete" class="btn btn-danger delete pull-right" data-path="{{ path('authors_delete', {'id': author.id}) }}">
-						<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
-					</button>
+				{% if author.id %}
+
+					{% if app.session.get(filterName) %}
+						<a href="{{ path('authors') }}" class="btn btn-default pull-right to-list">
+							<i class="glyphicon glyphicon-list"></i> {{ 'navigation.list' | trans }}
+						</a>
+					{% endif %}
+
+					{% if author.isDeletable %}
+						<button data-name="{{ author.shortName }}" data-toggle="modal" data-target="#modal-delete" class="btn btn-danger delete pull-right" data-path="{{ path('authors_delete', {'id': author.id}) }}">
+							<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
+						</button>
+					{% endif %}
+
 				{% endif %}
 
 				{{ form_end(form) }}

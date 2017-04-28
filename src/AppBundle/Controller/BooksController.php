@@ -90,7 +90,8 @@ class BooksController extends Controller
 
 		return $this->render('books/form.html.twig', [
 			'form' => $form->createView(),
-			'book' => $book
+			'book' => $book,
+			'filterName' => null
 		]);
 	}
 
@@ -105,6 +106,8 @@ class BooksController extends Controller
 	public function editAction(Request $request, Book $book)
 	{
 		$bookService = $this->get('app.books');
+
+		$sessionService = $this->get('app.sessions');
 
 		$originalFile = $book->getFile();
 		$book->setFile(new File($originalFile));
@@ -137,7 +140,8 @@ class BooksController extends Controller
 		return $this->render('books/form.html.twig', [
 			'form' => $form->createView(),
 			'book' => $book,
-			'id' => $book->getId()
+			'id' => $book->getId(),
+			'filterName' => $sessionService->getFilterName(new BookFilter())
 		]);
 	}
 

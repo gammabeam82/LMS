@@ -49,7 +49,7 @@
 			</div>
 		</div>
 
-		<div class="collapse" id="filter">
+		<div class="collapse {{ app.request.query.get(form.vars.name) or app.session.get(filterName) ? 'in' }}" id="filter">
 
 			<div class="row">
 				{{ form_start(form) }}
@@ -181,15 +181,6 @@
 	<script src="{{ asset('assets/vendor/moment/locale/ru.js') }}"></script>
 	<script src="{{ asset('assets/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
 	<script src="{{ asset('assets/js/books-index.js') }}"></script>
-
-	{% if app.request.query.get('book_filter') or app.session.get(filterName) %}
-		<script>
-			$(document).ready(function() {
-				$('.filter-toggle').click();
-			});
-		</script>
-	{% endif %}
-
 {% endblock %}
 
 {% block modal %}

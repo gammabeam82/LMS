@@ -37,7 +37,7 @@
 			</div>
 		</div>
 
-		<div class="collapse" id="filter">
+		<div class="collapse {{ app.request.query.get(form.vars.name) or app.session.get(filterName) ? 'in' }}" id="filter">
 			<div class="row">
 				{{ form_start(form) }}
 				<div class="col-xs-3">
@@ -117,19 +117,6 @@
 		</div>
 
 	</div>
-
-{% endblock %}
-
-{% block javascripts %}
-	{{ parent() }}
-
-	{% if app.request.query.get('serie_filter') or app.session.get(filterName) %}
-		<script>
-			$(document).ready(function() {
-				$('.filter-toggle').click();
-			});
-		</script>
-	{% endif %}
 
 {% endblock %}
 

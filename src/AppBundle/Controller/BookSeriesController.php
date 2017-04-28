@@ -84,7 +84,8 @@ class BookSeriesController extends Controller
 
 		return $this->render('series/form.html.twig', [
 			'form' => $form->createView(),
-			'serie' => $serie
+			'serie' => $serie,
+			'filterName' => null
 		]);
 	}
 
@@ -99,6 +100,8 @@ class BookSeriesController extends Controller
 	public function editAction(Request $request, BookSeries $serie)
 	{
 		$seriesService = $this->get('app.series');
+
+		$sessionService = $this->get('app.sessions');
 
 		$form = $this->createForm(BookSeriesType::class, $serie);
 		$form->handleRequest($request);
@@ -116,7 +119,8 @@ class BookSeriesController extends Controller
 
 		return $this->render('series/form.html.twig', [
 			'form' => $form->createView(),
-			'serie' => $serie
+			'serie' => $serie,
+			'filterName' => $sessionService->getFilterName(new SerieFilter())
 		]);
 	}
 

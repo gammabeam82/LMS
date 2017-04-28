@@ -81,7 +81,8 @@ class AuthorsController extends Controller
 
 		return $this->render('authors/form.html.twig', [
 			'form' => $form->createView(),
-			'author' => $author
+			'author' => $author,
+			'filterName' => null
 		]);
 	}
 
@@ -96,6 +97,8 @@ class AuthorsController extends Controller
 	public function editAction(Request $request, Author $author)
 	{
 		$authorService = $this->get('app.authors');
+
+		$sessionService = $this->get('app.sessions');
 
 		$form = $this->createForm(AuthorType::class, $author);
 		$form->handleRequest($request);
@@ -113,7 +116,8 @@ class AuthorsController extends Controller
 
 		return $this->render('authors/form.html.twig', [
 			'form' => $form->createView(),
-			'author' => $author
+			'author' => $author,
+			'filterName' => $sessionService->getFilterName(new AuthorFilter())
 		]);
 	}
 

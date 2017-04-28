@@ -8,6 +8,7 @@ navigation:
   archive: 'Архив'
   logout: 'Выход'
   register: 'Регистрация'
+  list: 'К списку'
 
 actions:
   show: 'Показать'
