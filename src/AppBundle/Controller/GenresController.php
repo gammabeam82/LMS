@@ -120,7 +120,7 @@ class GenresController extends Controller
 		return $this->render('genres/form.html.twig', [
 			'form' => $form->createView(),
 			'genre' => $genre,
-			'filterName' => $sessionService->getFilterName(new GenreFilter())
+			'filterName' => $sessionService->getFilterName(GenreFilter::class)
 		]);
 	}
 

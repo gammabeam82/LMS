@@ -146,7 +146,7 @@ class BooksController extends Controller
 			'form' => $form->createView(),
 			'book' => $book,
 			'id' => $book->getId(),
-			'filterName' => $sessionService->getFilterName(new BookFilter())
+			'filterName' => $sessionService->getFilterName(BookFilter::class)
 		]);
 	}
 

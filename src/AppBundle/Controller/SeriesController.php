@@ -121,7 +121,7 @@ class SeriesController extends Controller
 		return $this->render('series/form.html.twig', [
 			'form' => $form->createView(),
 			'serie' => $serie,
-			'filterName' => $sessionService->getFilterName(new SerieFilter())
+			'filterName' => $sessionService->getFilterName(SerieFilter::class)
 		]);
 	}
 

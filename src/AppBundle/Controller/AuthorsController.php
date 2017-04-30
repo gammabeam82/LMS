@@ -118,7 +118,7 @@ class AuthorsController extends Controller
 		return $this->render('authors/form.html.twig', [
 			'form' => $form->createView(),
 			'author' => $author,
-			'filterName' => $sessionService->getFilterName(new AuthorFilter())
+			'filterName' => $sessionService->getFilterName(AuthorFilter::class)
 		]);
 	}
 

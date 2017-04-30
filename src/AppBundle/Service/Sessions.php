@@ -96,6 +96,7 @@ class Sessions
 	 */
 	public function getFilterName($filter)
 	{
-		return substr(md5(get_class($filter)), 0, 10);
+		$filterName = (is_object($filter)) ? get_class($filter) : $filter;
+		return substr(md5($filterName), 0, 10);
 	}
 }
