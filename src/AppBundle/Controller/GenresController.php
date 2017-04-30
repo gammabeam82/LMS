@@ -29,8 +29,6 @@ class GenresController extends Controller
 
 		$sessionService = $this->get('app.sessions');
 
-		$translator = $this->get('translator');
-
 		$filter = new GenreFilter();
 
 		$form = $this->createForm(GenreFilterType::class, $filter, [
@@ -41,6 +39,7 @@ class GenresController extends Controller
 		try {
 			$sessionService->updateFilterFromSession($form, $filter);
 		} catch (\UnexpectedValueException $e) {
+			$translator = $this->get('translator');
 			$this->addFlash('error', $translator->trans($e->getMessage()));
 		}
 

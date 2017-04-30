@@ -30,8 +30,6 @@ class SeriesController extends Controller
 
 		$sessionService = $this->get('app.sessions');
 
-		$translator = $this->get('translator');
-
 		$filter = new SerieFilter();
 
 		$form = $this->createForm(SerieFilterType::class, $filter, [
@@ -42,6 +40,7 @@ class SeriesController extends Controller
 		try {
 			$sessionService->updateFilterFromSession($form, $filter);
 		} catch (\UnexpectedValueException $e) {
+			$translator = $this->get('translator');
 			$this->addFlash('error', $translator->trans($e->getMessage()));
 		}
 

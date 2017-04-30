@@ -37,8 +37,6 @@ class BooksController extends Controller
 
 		$archiveService = $this->get('app.archives');
 
-		$translator = $this->get('translator');
-
 		$filter = new BookFilter();
 
 		$form = $this->createForm(BookFilterType::class, $filter);
@@ -47,6 +45,7 @@ class BooksController extends Controller
 		try {
 			$sessionService->updateFilterFromSession($form, $filter);
 		} catch (\UnexpectedValueException $e) {
+			$translator = $this->get('translator');
 			$this->addFlash('error', $translator->trans($e->getMessage()));
 		}
 
