@@ -31,7 +31,6 @@ class Sessions
 	/**
 	 * @param $form
 	 * @param $filter
-	 * @return bool
 	 */
 	public function updateFilterFromSession($form, $filter)
 	{
@@ -51,9 +50,8 @@ class Sessions
 		if ($form->isSubmitted()) {
 			if ($form->isValid()) {
 				$session->set($filterName, serialize($form->getData()));
-				return true;
 			} else {
-				return false;
+				throw new \UnexpectedValueException('messages.filter_error');
 			}
 		} else {
 			if ($session->get($filterName)) {
@@ -89,7 +87,6 @@ class Sessions
 					$filter->$setter($value);
 				}
 			}
-			return true;
 		}
 	}
 

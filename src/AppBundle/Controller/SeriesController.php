@@ -39,8 +39,10 @@ class SeriesController extends Controller
 		]);
 		$form->handleRequest($request);
 
-		if(false === $sessionService->updateFilterFromSession($form, $filter)) {
-			$this->addFlash('error', $translator->trans('messages.filter_error'));
+		try {
+			$sessionService->updateFilterFromSession($form, $filter);
+		} catch (\UnexpectedValueException $e) {
+			$this->addFlash('error', $translator->trans($e->getMessage()));
 		}
 
 		$query = $seriesService->getFilteredSeries($filter);
