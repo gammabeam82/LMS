@@ -71,9 +71,11 @@ class BooksController extends Controller
 	 */
 	public function addAction(Request $request)
 	{
-		$bookService = $this->get('app.books');
-
 		$book = new Book();
+
+		$this->denyAccessUnlessGranted('create', $book);
+
+		$bookService = $this->get('app.books');
 
 		$form = $this->createForm(BookType::class, $book);
 		$form->handleRequest($request);
@@ -106,6 +108,8 @@ class BooksController extends Controller
 	 */
 	public function editAction(Request $request, Book $book)
 	{
+		$this->denyAccessUnlessGranted('edit', $book);
+
 		$bookService = $this->get('app.books');
 
 		$sessionService = $this->get('app.sessions');
@@ -155,6 +159,8 @@ class BooksController extends Controller
 	 */
 	public function deleteAction(Book $book)
 	{
+		$this->denyAccessUnlessGranted('delete', $book);
+
 		$bookService = $this->get('app.books');
 
 		$translator = $this->get('translator');
@@ -175,6 +181,8 @@ class BooksController extends Controller
 	 */
 	public function downloadAction(Book $book)
 	{
+		$this->denyAccessUnlessGranted('view', $book);
+
 		$bookService = $this->get('app.books');
 
 		try {
@@ -197,6 +205,8 @@ class BooksController extends Controller
 	 */
 	public function viewAction(Request $request, Book $book)
 	{
+		$this->denyAccessUnlessGranted('view', $book);
+
 		$comment = new Comment();
 		$rating = new Rating();
 

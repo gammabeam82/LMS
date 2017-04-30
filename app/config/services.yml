@@ -53,3 +53,9 @@ services:
             tags:
                 - { name: security.voter }
             public: false
+
+      app.book_voter:
+            class:  AppBundle\Security\BookVoter
+            tags:
+                - { name: security.voter }
+            public: false
