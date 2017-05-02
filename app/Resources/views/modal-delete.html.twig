@@ -20,12 +20,10 @@
 
 <script>
 	$(document).ready(function () {
-		$('.delete').on('click', function (e) {
-			e.preventDefault();
+		$('.delete').on('click', function (event) {
+			event.preventDefault();
 			$('.delete-item').attr('href', $(this).attr('data-path'));
-			$('.item-name').html(
-				$(this).attr('data-name')
-			);
+			$('.item-name').html($(this).attr('data-name'));
 		});
 	});
 </script>
