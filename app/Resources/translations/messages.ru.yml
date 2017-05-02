@@ -42,7 +42,7 @@ book:
   download: 'Скачать'
   file: 'Файл'
   new_file: 'Новый файл'
-  vote: 'Оценить'
+  rate: 'Оценить'
   value:
     label: 'Оценка'
     5: 'Отлично'
