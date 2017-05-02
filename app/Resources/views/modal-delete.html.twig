@@ -2,14 +2,19 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header bg-warning">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
 				<h4 class="modal-title" id="modal-delete-label">{{ 'messages.caution' | trans }}</h4>
 			</div>
 			<div class="modal-body">
 				{{ 'messages.confirm_delete' | trans }} <span class="item-name"></span>?
 			</div>
 			<div class="modal-footer">
-				<a role="button" href="#" class="btn btn-default" data-dismiss="modal">{{ 'actions.cancel' | trans }}</a>
+				<a role="button" href="#" class="btn btn-default"
+				   data-dismiss="modal">
+					{{ 'actions.cancel' | trans }}
+				</a>
 				<a type="button" class="btn btn-danger delete-item" href="#">
 					<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
 				</a>
@@ -19,7 +24,7 @@
 </div>
 
 <script>
-	$(document).ready(function () {
+	$(document).ready(() => {
 		$('.delete').on('click', function (event) {
 			event.preventDefault();
 			$('.delete-item').attr('href', $(this).attr('data-path'));
