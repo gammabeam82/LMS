@@ -1,0 +1,14 @@
+{% extends 'error-layout.html.twig' %}
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="col-xs-12 text-center">
+			<div class="error-title animated fadeIn">
+				{{ 'messages.error' | trans }}
+			</div>
+			<div class="error-message animated slideInUp">
+				{{ 'messages.error_500' | trans }}
+			</div>
+		</div>
+	</div>
+{% endblock %}

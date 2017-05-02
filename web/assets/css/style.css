@@ -126,3 +126,14 @@ dd a {
 	display:none;
 	outline: none;
 }
+
+.error-title {
+	margin-top: 25vh;
+	font-size: 150px;
+	color: #48484c;
+}
+
+.error-message {
+	font-size: 30px;
+	color: #48484c;
+}
