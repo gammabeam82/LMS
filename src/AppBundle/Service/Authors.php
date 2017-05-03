@@ -51,12 +51,12 @@ class Authors
 		$repo = $this->doctrine->getRepository('AppBundle:Author');
 		$qb = $repo->createQueryBuilder('a');
 
-		if (!empty($filter->getLastName())) {
+		if (false === empty($filter->getLastName())) {
 			$qb->andWhere($qb->expr()->like('LOWER(a.lastName)', ':name'));
 			$qb->setParameter('name', "%" . mb_strtolower($filter->getLastName()) . "%");
 		}
 
-		if ($filter->getSortByName()) {
+		if (false !== $filter->getSortByName()) {
 			$qb->orderBy('a.lastName', 'ASC');
 		} else {
 			$qb->orderBy('a.id', 'DESC');

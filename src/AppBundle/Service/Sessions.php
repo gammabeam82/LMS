@@ -40,7 +40,7 @@ class Sessions
 
 		$filterName = $this->getFilterName($filter);
 
-		if ($request->get('reset')) {
+		if (null !== $request->get('reset')) {
 			$session->remove($filterName);
 		}
 
@@ -54,7 +54,7 @@ class Sessions
 				throw new \UnexpectedValueException('messages.filter_error');
 			}
 		} else {
-			if ($session->get($filterName)) {
+			if (null !== $session->get($filterName)) {
 				$data = unserialize($session->get($filterName));
 				$em = $this->doctrine->getManager();
 

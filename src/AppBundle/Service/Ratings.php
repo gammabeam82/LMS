@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Service;
+
 use AppBundle\Entity\Rating;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\User;

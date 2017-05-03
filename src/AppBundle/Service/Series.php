@@ -33,12 +33,12 @@ class Series
 		$repo = $this->doctrine->getRepository('AppBundle:Serie');
 		$qb = $repo->createQueryBuilder('s');
 
-		if (!empty($filter->getName())) {
+		if (false === empty($filter->getName())) {
 			$qb->andWhere($qb->expr()->like('LOWER(s.name)', ':name'));
 			$qb->setParameter('name', "%" . mb_strtolower($filter->getName()) . "%");
 		}
 
-		if ($filter->getSortByName()) {
+		if (false !== $filter->getSortByName()) {
 			$qb->orderBy('s.name', 'ASC');
 		} else {
 			$qb->orderBy('s.id', 'DESC');
@@ -53,7 +53,6 @@ class Series
 	public function save(Serie $serie)
 	{
 		$em = $this->doctrine->getManager();
-
 		$em->persist($serie);
 		$em->flush();
 	}
@@ -64,7 +63,6 @@ class Series
 	public function remove(Serie $serie)
 	{
 		$em = $this->doctrine->getManager();
-
 		$em->remove($serie);
 		$em->flush();
 	}

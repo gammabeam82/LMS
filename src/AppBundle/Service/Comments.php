@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Service;
+
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Book;
@@ -52,7 +53,6 @@ class Comments
 	public function save(User $user, Book $book, Comment $comment)
 	{
 		$comment->setBook($book);
-
 		$comment->setUser($user);
 
 		$em = $this->doctrine->getManager();
@@ -67,7 +67,6 @@ class Comments
 	public function remove(Comment $comment)
 	{
 		$em = $this->doctrine->getManager();
-
 		$em->remove($comment);
 		$em->flush();
 	}

@@ -89,27 +89,27 @@ class Books
 
 		$qb->orderBy('b.id', 'DESC');
 
-		if (!empty($filter->getName())) {
+		if (false === empty($filter->getName())) {
 			$qb->andWhere($qb->expr()->like('LOWER(b.name)', ':name'));
 			$qb->setParameter('name', "%" . mb_strtolower($filter->getName()) . "%");
 		}
 
-		if ($filter->getAuthor() && count($filter->getAuthor())) {
+		if (null !== $filter->getAuthor()) {
 			$qb->andWhere('b.author IN (:author)');
 			$qb->setParameter('author', $filter->getAuthor());
 		}
 
-		if ($filter->getGenre() && count($filter->getGenre())) {
+		if (null !== $filter->getGenre()) {
 			$qb->andWhere('b.genre IN (:genre)');
 			$qb->setParameter('genre', $filter->getGenre());
 		}
 
-		if ($filter->getSerie() && count($filter->getSerie())) {
+		if (null !== $filter->getSerie()) {
 			$qb->andWhere('b.serie IN (:serie)');
 			$qb->setParameter('serie', $filter->getSerie());
 		}
 
-		if (!empty($filter->getSearch())) {
+		if (false === empty($filter->getSearch())) {
 			$qb->join('b.author', 'a');
 			$expr = $qb->expr()->orX(
 				'LOWER(b.name) LIKE :sr',
@@ -119,17 +119,17 @@ class Books
 			$qb->setParameter('sr', "%" . mb_strtolower($filter->getSearch()) . "%");
 		}
 
-		if ($filter->getCreatedAtStart()) {
+		if (false === empty($filter->getCreatedAtStart())) {
 			$qb->andWhere('b.createdAt >= :createdAtStart');
 			$qb->setParameter('createdAtStart', $filter->getCreatedAtStart());
 		}
 
-		if ($filter->getCreatedAtEnd()) {
+		if (false === empty($filter->getCreatedAtEnd())) {
 			$qb->andWhere('b.createdAt <= :createdAtEnd');
 			$qb->setParameter('createdAtEnd', $filter->getCreatedAtEnd());
 		}
 
-		if ($filter->getMostPopular()) {
+		if (false !== $filter->getMostPopular()) {
 			$qb->orderBy('b.views', 'DESC');
 		}
 

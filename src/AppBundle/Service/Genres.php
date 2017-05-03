@@ -33,12 +33,12 @@ class Genres
 		$repo = $this->doctrine->getRepository('AppBundle:Genre');
 		$qb = $repo->createQueryBuilder('g');
 
-		if (!empty($filter->getName())) {
+		if (false === empty($filter->getName())) {
 			$qb->andWhere($qb->expr()->like('LOWER(g.name)', ':name'));
 			$qb->setParameter('name', "%" . mb_strtolower($filter->getName()) . "%");
 		}
 
-		if ($filter->getSortByName()) {
+		if (false !== $filter->getSortByName()) {
 			$qb->orderBy('g.name', 'ASC');
 		} else {
 			$qb->orderBy('g.id', 'DESC');
@@ -70,7 +70,6 @@ class Genres
 	public function remove(Genre $genre)
 	{
 		$em = $this->doctrine->getManager();
-
 		$em->remove($genre);
 		$em->flush();
 	}
