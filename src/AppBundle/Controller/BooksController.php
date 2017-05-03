@@ -212,6 +212,10 @@ class BooksController extends Controller
 		$comment = new Comment();
 		$rating = new Rating();
 
+		$commentService = $this->get('app.comments');
+
+		$paginator = $this->get('knp_paginator');
+
 		$validator = $this->get('validator');
 		$metaData = $validator->getMetadataFor($comment)
 			->properties['message'];
@@ -235,7 +239,6 @@ class BooksController extends Controller
 		$commentForm->handleRequest($request);
 
 		if ($commentForm->isSubmitted() && $commentForm->isValid()) {
-			$commentService = $this->get('app.comments');
 
 			$translator = $this->get('translator');
 
@@ -247,10 +250,6 @@ class BooksController extends Controller
 				'id' => $book->getId()
 			]);
 		}
-
-		$paginator = $this->get('knp_paginator');
-
-		$commentService = $this->get('app.comments');
 
 		$query = $commentService->getQuery($book);
 
