@@ -64,7 +64,7 @@ class Sessions
 					$getter = 'get' . $fieldName;
 					$setter = 'set' . $fieldName;
 
-					if(false === method_exists($data, $getter)) {
+					if (false === method_exists($data, $getter)) {
 						throw new \BadMethodCallException();
 					}
 
@@ -80,7 +80,7 @@ class Sessions
 						$field->setData($value);
 					}
 
-					if(false === method_exists($filter, $setter)) {
+					if (false === method_exists($filter, $setter)) {
 						throw new \BadMethodCallException();
 					}
 
