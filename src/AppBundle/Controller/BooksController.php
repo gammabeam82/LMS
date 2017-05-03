@@ -29,6 +29,8 @@ class BooksController extends Controller
 	 */
 	public function indexAction(Request $request)
 	{
+		$this->denyAccessUnlessGranted('view', new Book());
+
 		$paginator = $this->get('knp_paginator');
 
 		$bookService = $this->get('app.books');
