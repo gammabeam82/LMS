@@ -23,6 +23,14 @@ class AuthorFilter
 	private $sortByName;
 
 	/**
+	 * AuthorFilter constructor.
+	 */
+	public function __construct()
+	{
+		$this->sortByName = false;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getLastName()

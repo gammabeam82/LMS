@@ -22,6 +22,14 @@ abstract class EntityFilter implements EntityFilterInterface
 	private $sortByName;
 
 	/**
+	 * EntityFilter constructor.
+	 */
+	public function __construct()
+	{
+		$this->sortByName = false;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getName()

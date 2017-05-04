@@ -62,6 +62,14 @@ class BookFilter
 	private $mostPopular;
 
 	/**
+	 * BookFilter constructor.
+	 */
+	public function __construct()
+	{
+		$this->mostPopular = false;
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getName()
