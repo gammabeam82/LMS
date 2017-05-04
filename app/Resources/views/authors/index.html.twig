@@ -52,7 +52,6 @@
 				</div>
 			</div>
 			<div class="row">
-				{{ form_start(form) }}
 				<div class="col-xs-3">
 					{{ form_row(form.sortByName) }}
 				</div>
@@ -89,7 +88,7 @@
 
 					{% for author in authors %}
 						<tr>
-							<td>{{ author.fullName }}</td>
+							<td class="highlight">{{ author.fullName }}</td>
 							<td>
 								<a href="{{ path('books', {'book_filter[author][]': author.id}) }}" class="btn btn-sm {{ author.books | length ? 'btn-success' : 'btn-default disabled' }}">
 									{{ author.books | length }}

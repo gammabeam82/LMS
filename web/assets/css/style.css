@@ -137,3 +137,8 @@ dd a {
 	font-size: 30px;
 	color: #48484c;
 }
+
+mark{
+	background-color: #3498DB;
+	color: #FFF;
+}

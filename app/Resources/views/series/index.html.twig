@@ -45,7 +45,6 @@
 				</div>
 			</div>
 			<div class="row">
-				{{ form_start(form) }}
 				<div class="col-xs-3">
 					{{ form_row(form.sortByName) }}
 				</div>
@@ -82,7 +81,7 @@
 
 					{% for serie in series %}
 						<tr>
-							<td>{{ serie.name }}</td>
+							<td class="highlight">{{ serie.name }}</td>
 							<td>
 								<a href="{{ path('books', {'book_filter[serie][]': serie.id}) }}" class="btn btn-sm {{ serie.books | length ? 'btn-success' : 'btn-default disabled' }}">
 									{{ serie.books | length }}

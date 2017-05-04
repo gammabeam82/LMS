@@ -82,4 +82,19 @@ $(document).ready(() => {
 		return false;
 	});
 
+	const ctx = $('.highlight');
+
+	let hl = [
+		$('#author_filter_lastName'),
+		$('#book_filter_name'),
+		$('#genre_filter_name'),
+		$('#serie_filter_name')
+	];
+
+	$.each(hl, (index, value) => {
+		if(true === value.hasOwnProperty('length')) {
+			ctx.mark(value.val(), {});
+		}
+	});
+
 });
