@@ -30,7 +30,7 @@ class Genres
 		/**
 		 * @var \Doctrine\ORM\EntityRepository $repo
 		 */
-		$repo = $this->doctrine->getRepository('AppBundle:Genre');
+		$repo = $this->doctrine->getRepository(Genre::class);
 		$qb = $repo->createQueryBuilder('g');
 
 		if (false === empty($filter->getName())) {

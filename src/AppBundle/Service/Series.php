@@ -30,7 +30,7 @@ class Series
 		/**
 		 * @var \Doctrine\ORM\EntityRepository $repo
 		 */
-		$repo = $this->doctrine->getRepository('AppBundle:Serie');
+		$repo = $this->doctrine->getRepository(Serie::class);
 		$qb = $repo->createQueryBuilder('s');
 
 		if (false === empty($filter->getName())) {

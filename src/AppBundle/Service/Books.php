@@ -84,7 +84,7 @@ class Books
 		/**
 		 * @var \Doctrine\ORM\EntityRepository $repo
 		 */
-		$repo = $this->doctrine->getRepository('AppBundle:Book');
+		$repo = $this->doctrine->getRepository(Book::class);
 		$qb = $repo->createQueryBuilder('b');
 
 		$qb->orderBy('b.id', 'DESC');

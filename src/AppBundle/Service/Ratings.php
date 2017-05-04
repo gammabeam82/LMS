@@ -32,7 +32,7 @@ class Ratings
 		/**
 		 * @var \Doctrine\ORM\EntityRepository $repo
 		 */
-		$repo = $this->doctrine->getRepository('AppBundle:Rating');
+		$repo = $this->doctrine->getRepository(Rating::class);
 
 		$rating = $repo->findOneBy([
 			'book' => $book,

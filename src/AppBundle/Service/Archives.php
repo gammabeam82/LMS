@@ -125,7 +125,7 @@ class Archives
 		/**
 		 * @var \Doctrine\ORM\EntityRepository $repo
 		 */
-		$repo = $this->doctrine->getRepository('AppBundle:Book');
+		$repo = $this->doctrine->getRepository(Book::class);
 		$qb = $repo->createQueryBuilder('b');
 
 		$qb->select('b.id, b.name');
@@ -156,7 +156,7 @@ class Archives
 		/**
 		 * @var \Doctrine\ORM\EntityRepository $repo
 		 */
-		$repo = $this->doctrine->getRepository('AppBundle:Book');
+		$repo = $this->doctrine->getRepository(Book::class);
 
 		$qb = $repo->createQueryBuilder('b');
 		$qb->where($qb->expr()->in('b.id', $this->getSessionData()));

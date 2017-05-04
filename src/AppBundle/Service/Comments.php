@@ -31,7 +31,7 @@ class Comments
 		/**
 		 * @var \Doctrine\ORM\EntityRepository $repo
 		 */
-		$repo = $this->doctrine->getRepository('AppBundle:Comment');
+		$repo = $this->doctrine->getRepository(Comment::class);
 		$qb = $repo->createQueryBuilder('c');
 
 		if(null !== $book) {

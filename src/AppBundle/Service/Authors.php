@@ -48,7 +48,7 @@ class Authors
 		/**
 		 * @var \Doctrine\ORM\EntityRepository $repo
 		 */
-		$repo = $this->doctrine->getRepository('AppBundle:Author');
+		$repo = $this->doctrine->getRepository(Author::class);
 		$qb = $repo->createQueryBuilder('a');
 
 		if (false === empty($filter->getLastName())) {
