@@ -13,6 +13,9 @@ use Doctrine\ORM\EntityRepository;
 
 class BookType extends AbstractType
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		$builder
@@ -61,6 +64,9 @@ class BookType extends AbstractType
 			]);
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function configureOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults([

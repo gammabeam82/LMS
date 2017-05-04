@@ -9,6 +9,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class RatingType extends AbstractType
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		$builder
@@ -25,6 +28,9 @@ class RatingType extends AbstractType
 		;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function configureOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults([

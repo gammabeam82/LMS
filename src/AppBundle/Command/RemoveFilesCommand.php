@@ -13,11 +13,17 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 class RemoveFilesCommand extends ContainerAwareCommand
 {
 
+	/**
+	 * {@inheritdoc}
+	 */
 	protected function configure()
 	{
 		$this->setName('app:remove-files');
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
 

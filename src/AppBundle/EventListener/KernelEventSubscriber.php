@@ -39,6 +39,9 @@ class KernelEventSubscriber implements EventSubscriberInterface
 		$this->path = $path;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public static function getSubscribedEvents()
 	{
 		return [

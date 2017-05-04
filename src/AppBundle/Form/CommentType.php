@@ -7,6 +7,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * {@inheritdoc}
+ */
 class CommentType extends AbstractType
 {
 	public function buildForm(FormBuilderInterface $builder, array $options)
@@ -18,6 +21,9 @@ class CommentType extends AbstractType
 		;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function configureOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults([

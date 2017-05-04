@@ -9,6 +9,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class AuthorType extends AbstractType
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		$builder
@@ -21,6 +24,9 @@ class AuthorType extends AbstractType
 		;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function configureOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults([

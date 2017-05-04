@@ -9,6 +9,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class SerieType extends AbstractType
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function buildForm(FormBuilderInterface $builder, array $options)
 	{
 		$builder
@@ -18,6 +21,9 @@ class SerieType extends AbstractType
 		;
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function configureOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults([
