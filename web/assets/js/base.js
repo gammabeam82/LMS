@@ -3,6 +3,11 @@ $(document).ready(() => {
 	const booksCountContainer = $('.books-count');
 	const errorMessage = $('.common-messages-error').text();
 	const backToTop = $('.back-to-top');
+	const hl = $('.highlight-value').val();
+
+	if(typeof hl !== 'undefined') {
+		$('.highlight').mark(hl, {});
+	}
 
 	$('.navbar-fixed-top').autoHidingNavbar({
 		'showOnBottom': false
@@ -80,21 +85,6 @@ $(document).ready(() => {
 			scrollTop: 0
 		}, 600);
 		return false;
-	});
-
-	const ctx = $('.highlight');
-
-	let hl = [
-		$('#author_filter_lastName'),
-		$('#book_filter_name'),
-		$('#genre_filter_name'),
-		$('#serie_filter_name')
-	];
-
-	$.each(hl, (index, value) => {
-		if(true === value.hasOwnProperty('length')) {
-			ctx.mark(value.val(), {});
-		}
 	});
 
 });
