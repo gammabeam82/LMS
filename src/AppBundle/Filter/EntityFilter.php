@@ -11,7 +11,10 @@ abstract class EntityFilter implements EntityFilterInterface
 	 * @var string
 	 *
 	 * @Assert\Length(
-	 *      max = 200
+	 *      min = 2,
+	 *      minMessage = "filter.name_min",
+	 *      max = 100,
+	 *      minMessage = "filter.name_max",
 	 * )
 	 */
 	private $name;

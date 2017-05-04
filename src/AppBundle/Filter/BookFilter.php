@@ -15,6 +15,8 @@ class BookFilter
 	 * @var string
 	 *
 	 * @Assert\Length(
+	 *      min = 2,
+	 *      minMessage = "filter.name_min",
 	 *      max = 100,
 	 *      maxMessage = "book.name_error"
 	 * )
