@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity
  * @ORM\Table(name="series")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\SerieRepository")
  * @UniqueEntity(
  *     fields={"name"},
  *     message="serie.unique"

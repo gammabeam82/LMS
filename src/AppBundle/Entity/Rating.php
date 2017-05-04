@@ -11,6 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Rating
 {
+	//TODO define constants
+
 	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")

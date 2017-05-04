@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 /**
  * @ORM\Entity
  * @ORM\Table(name="genres")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\GenreRepository")
  * @UniqueEntity(
  *     fields={"name"},
  *     message="genre.unique"
