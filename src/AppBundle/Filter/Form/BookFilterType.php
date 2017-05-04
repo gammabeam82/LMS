@@ -2,6 +2,10 @@
 
 namespace AppBundle\Filter\Form;
 
+use AppBundle\Entity\Author;
+use AppBundle\Entity\Genre;
+use AppBundle\Entity\Serie;
+use AppBundle\Filter\BookFilter;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,7 +26,7 @@ class BookFilterType extends AbstractType
 				'required' => false
 			])
 			->add('author', EntityType::class, [
-				'class' => 'AppBundle:Author',
+				'class' => Author::class,
 				'query_builder' => function (EntityRepository $er) {
 					return $er->createQueryBuilder('a')
 						->orderBy('a.lastName', 'ASC');
@@ -33,7 +37,7 @@ class BookFilterType extends AbstractType
 				'required' => false
 			])
 			->add('genre', EntityType::class, [
-				'class' => 'AppBundle:Genre',
+				'class' => Genre::class,
 				'query_builder' => function (EntityRepository $er) {
 					return $er->createQueryBuilder('g')
 						->orderBy('g.name', 'ASC');
@@ -44,7 +48,7 @@ class BookFilterType extends AbstractType
 				'required' => false
 			])
 			->add('serie', EntityType::class, [
-				'class' => 'AppBundle:Serie',
+				'class' => Serie::class,
 				'query_builder' => function (EntityRepository $er) {
 					return $er->createQueryBuilder('s')
 						->orderBy('s.name', 'ASC');
@@ -86,7 +90,7 @@ class BookFilterType extends AbstractType
 	public function configureOptions(OptionsResolver $resolver)
 	{
 		$resolver->setDefaults([
-			'data_class' => 'AppBundle\Filter\BookFilter',
+			'data_class' => BookFilter::class,
 			'csrf_protection' => false,
 			'method' => 'GET'
 		]);

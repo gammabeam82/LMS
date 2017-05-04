@@ -32,7 +32,7 @@ class GenresController extends Controller
 		$filter = new GenreFilter();
 
 		$form = $this->createForm(GenreFilterType::class, $filter, [
-			'data_class' => 'AppBundle\Filter\GenreFilter'
+			'data_class' => GenreFilter::class
 		]);
 		$form->handleRequest($request);
 

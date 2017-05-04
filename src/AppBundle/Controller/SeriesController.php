@@ -33,7 +33,7 @@ class SeriesController extends Controller
 		$filter = new SerieFilter();
 
 		$form = $this->createForm(SerieFilterType::class, $filter, [
-			'data_class' => 'AppBundle\Filter\SerieFilter'
+			'data_class' => SerieFilter::class
 		]);
 		$form->handleRequest($request);
 
