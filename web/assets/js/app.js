@@ -89,4 +89,15 @@ $(document).ready(() => {
 		return false;
 	});
 
+	$('.delete').on('click', function (event) {
+		event.preventDefault();
+		$('.delete-item').attr('href', $(this).attr('data-path'));
+		$('.item-name').html($(this).attr('data-name'));
+	});
+
+	$('.show-annotation').on('click', function (event) {
+		event.preventDefault();
+		$('.annotation').text($(this).attr('data-annotation'));
+	});
+
 });
