@@ -3,10 +3,12 @@ $(document).ready(() => {
 	const booksCountContainer = $('.books-count');
 	const errorMessage = $('.common-messages-error').text();
 	const backToTop = $('.back-to-top');
-	const hl = $('.highlight-value').val();
+	const hl = $('.highlight-value');
 
-	if(typeof hl !== 'undefined') {
-		$('.highlight').mark(hl, {});
+	if(typeof hl.val() !== 'undefined') {
+		if(false === hl.closest('div').hasClass('has-error')) {
+			$('.highlight').mark(hl.val(), {});
+		}
 	}
 
 	$('.navbar-fixed-top').autoHidingNavbar({
