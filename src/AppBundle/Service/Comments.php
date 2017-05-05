@@ -6,9 +6,12 @@ use AppBundle\Entity\Comment;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use AppBundle\Utils\EntityTrait;
 
 class Comments
 {
+	use EntityTrait;
+
 	/**
 	 * @var Registry
 	 */
@@ -55,10 +58,7 @@ class Comments
 		$comment->setBook($book);
 		$comment->setUser($user);
 
-		$em = $this->doctrine->getManager();
-		$em->persist($comment);
-		$em->flush();
-
+		$this->saveEntity($this->doctrine->getManager(), $comment);
 	}
 
 	/**
@@ -66,8 +66,6 @@ class Comments
 	 */
 	public function remove(Comment $comment)
 	{
-		$em = $this->doctrine->getManager();
-		$em->remove($comment);
-		$em->flush();
+		$this->removeEntity($this->doctrine->getManager(), $comment);
 	}
 }

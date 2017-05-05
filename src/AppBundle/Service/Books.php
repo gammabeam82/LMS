@@ -5,12 +5,15 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
 use AppBundle\Filter\BookFilter;
+use AppBundle\Utils\EntityTrait;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
 class Books
 {
+	use EntityTrait;
+
 	/**
 	 * @var Registry
 	 */
@@ -50,10 +53,7 @@ class Books
 			$this->saveFile($book);
 		}
 
-		$em = $this->doctrine->getManager();
-		$em->persist($book);
-		$em->flush();
-
+		$this->saveEntity($this->doctrine->getManager(), $book);
 	}
 
 	/**
@@ -141,9 +141,7 @@ class Books
 	 */
 	public function remove(Book $book)
 	{
-		$em = $this->doctrine->getManager();
-		$em->remove($book);
-		$em->flush();
+		$this->removeEntity($this->doctrine->getManager(), $book);
 	}
 
 	/**

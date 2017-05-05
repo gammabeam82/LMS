@@ -4,10 +4,13 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Serie;
 use AppBundle\Filter\EntityFilterInterface;
+use AppBundle\Utils\EntityTrait;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
 class Series
 {
+	use EntityTrait;
+
 	/**
 	 * @var Registry
 	 */
@@ -52,9 +55,7 @@ class Series
 	 */
 	public function save(Serie $serie)
 	{
-		$em = $this->doctrine->getManager();
-		$em->persist($serie);
-		$em->flush();
+		$this->saveEntity($this->doctrine->getManager(), $serie);
 	}
 
 	/**
@@ -62,8 +63,6 @@ class Series
 	 */
 	public function remove(Serie $serie)
 	{
-		$em = $this->doctrine->getManager();
-		$em->remove($serie);
-		$em->flush();
+		$this->removeEntity($this->doctrine->getManager(), $serie);
 	}
 }

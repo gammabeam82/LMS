@@ -5,10 +5,13 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Rating;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
+use AppBundle\Utils\EntityTrait;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 
 class Ratings
 {
+	use EntityTrait;
+
 	/**
 	 * @var Registry
 	 */
@@ -49,10 +52,7 @@ class Ratings
 			);
 		}
 
-		$em = $this->doctrine->getManager();
-		$em->persist($rating);
-		$em->flush();
-
+		$this->saveEntity($this->doctrine->getManager(), $rating);
 	}
 
 }

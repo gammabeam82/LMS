@@ -6,9 +6,12 @@ use AppBundle\Entity\User;
 use AppBundle\Entity\Author;
 use AppBundle\Filter\AuthorFilter;
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use AppBundle\Utils\EntityTrait;
 
 class Authors
 {
+	use EntityTrait;
+
 	/**
 	 * @var Registry
 	 */
@@ -29,14 +32,11 @@ class Authors
 	 */
 	public function save(User $user, Author $author, $isCreating = true)
 	{
-		if(false !== $isCreating) {
+		if (false !== $isCreating) {
 			$author->setAddedBy($user);
 		}
 
-		$em = $this->doctrine->getManager();
-		$em->persist($author);
-		$em->flush();
-
+		$this->saveEntity($this->doctrine->getManager(), $author);
 	}
 
 	/**
@@ -70,8 +70,6 @@ class Authors
 	 */
 	public function remove(Author $author)
 	{
-		$em = $this->doctrine->getManager();
-		$em->remove($author);
-		$em->flush();
+		$this->removeEntity($this->doctrine->getManager(), $author);
 	}
 }

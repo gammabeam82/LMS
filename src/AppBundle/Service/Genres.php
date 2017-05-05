@@ -1,13 +1,17 @@
 <?php
 
 namespace AppBundle\Service;
+
 use AppBundle\Entity\User;
 use AppBundle\Entity\Genre;
+use AppBundle\Utils\EntityTrait;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use AppBundle\Filter\EntityFilterInterface;
 
 class Genres
 {
+	use EntityTrait;
+
 	/**
 	 * @var Registry
 	 */
@@ -58,10 +62,7 @@ class Genres
 			$genre->setAddedBy($user);
 		}
 
-		$em = $this->doctrine->getManager();
-		$em->persist($genre);
-		$em->flush();
-
+		$this->saveEntity($this->doctrine->getManager(), $genre);
 	}
 
 	/**
@@ -69,8 +70,6 @@ class Genres
 	 */
 	public function remove(Genre $genre)
 	{
-		$em = $this->doctrine->getManager();
-		$em->remove($genre);
-		$em->flush();
+		$this->removeEntity($this->doctrine->getManager(), $genre);
 	}
 }
