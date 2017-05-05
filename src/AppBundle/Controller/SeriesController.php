@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Filter\SerieFilter;
 use AppBundle\Filter\Form\SerieFilterType;
+use UnexpectedValueException;
 
 class SeriesController extends Controller
 {
@@ -39,7 +40,7 @@ class SeriesController extends Controller
 
 		try {
 			$sessionService->updateFilterFromSession($form, $filter);
-		} catch (\UnexpectedValueException $e) {
+		} catch (UnexpectedValueException $e) {
 			$translator = $this->get('translator');
 			$this->addFlash('error', $translator->trans($e->getMessage()));
 		}

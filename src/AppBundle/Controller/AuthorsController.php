@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Filter\AuthorFilter;
 use AppBundle\Filter\Form\AuthorFilterType;
+use UnexpectedValueException;
 
 class AuthorsController extends Controller
 {
@@ -36,7 +37,7 @@ class AuthorsController extends Controller
 
 		try {
 			$sessionService->updateFilterFromSession($form, $filter);
-		} catch (\UnexpectedValueException $e) {
+		} catch (UnexpectedValueException $e) {
 			$translator = $this->get('translator');
 			$this->addFlash('error', $translator->trans($e->getMessage()));
 		}

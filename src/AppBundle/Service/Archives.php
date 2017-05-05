@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use ZipArchive;
+use LengthException;
 
 class Archives
 {
@@ -150,7 +151,7 @@ class Archives
 	public function getArchive()
 	{
 		if (0 == count($this->getSessionData())) {
-			throw new \LengthException();
+			throw new LengthException();
 		}
 
 		/**

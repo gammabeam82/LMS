@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\File;
+use UnexpectedValueException;
 
 class BooksController extends Controller
 {
@@ -46,7 +47,7 @@ class BooksController extends Controller
 
 		try {
 			$sessionService->updateFilterFromSession($form, $filter);
-		} catch (\UnexpectedValueException $e) {
+		} catch (UnexpectedValueException $e) {
 			$translator = $this->get('translator');
 			$this->addFlash('error', $translator->trans($e->getMessage()));
 		}

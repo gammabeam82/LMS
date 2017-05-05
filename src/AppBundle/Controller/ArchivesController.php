@@ -8,6 +8,7 @@ use AppBundle\Entity\Book;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use LengthException;
 
 
 class ArchivesController extends Controller
@@ -38,7 +39,7 @@ class ArchivesController extends Controller
 
 		try {
 			$response = $archiveService->getArchive();
-		} catch (\LengthException $e) {
+		} catch (LengthException $e) {
 			$translator = $this->get('translator');
 			throw $this->createNotFoundException($translator->trans('messages.file_not_found'));
 		}

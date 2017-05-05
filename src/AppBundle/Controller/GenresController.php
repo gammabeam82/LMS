@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Filter\GenreFilter;
 use AppBundle\Filter\Form\GenreFilterType;
+use UnexpectedValueException;
 
 class GenresController extends Controller
 {
@@ -38,7 +39,7 @@ class GenresController extends Controller
 
 		try {
 			$sessionService->updateFilterFromSession($form, $filter);
-		} catch (\UnexpectedValueException $e) {
+		} catch (UnexpectedValueException $e) {
 			$translator = $this->get('translator');
 			$this->addFlash('error', $translator->trans($e->getMessage()));
 		}

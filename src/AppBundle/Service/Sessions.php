@@ -4,6 +4,8 @@ namespace AppBundle\Service;
 
 use Symfony\Component\HttpFoundation\RequestStack;
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use UnexpectedValueException;
+use BadMethodCallException;
 
 class Sessions
 {
@@ -51,7 +53,7 @@ class Sessions
 			if ($form->isValid()) {
 				$session->set($filterName, serialize($form->getData()));
 			} else {
-				throw new \UnexpectedValueException('messages.filter_error');
+				throw new UnexpectedValueException('messages.filter_error');
 			}
 		} else {
 			if (null !== $session->get($filterName)) {
@@ -65,7 +67,7 @@ class Sessions
 					$setter = 'set' . $fieldName;
 
 					if (false === method_exists($data, $getter)) {
-						throw new \BadMethodCallException();
+						throw new BadMethodCallException();
 					}
 
 					$value = $data->$getter();
@@ -81,7 +83,7 @@ class Sessions
 					}
 
 					if (false === method_exists($filter, $setter)) {
-						throw new \BadMethodCallException();
+						throw new BadMethodCallException();
 					}
 
 					$filter->$setter($value);
