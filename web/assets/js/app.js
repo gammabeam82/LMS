@@ -2,6 +2,7 @@ $(document).ready(() => {
 
 	const booksCountContainer = $('.books-count');
 	const errorMessage = $('.common-messages-error').text();
+	const backToTop = $('.back-to-top');
 	const hl = $('.highlight-value');
 
 	if(typeof hl.val() !== 'undefined') {
@@ -80,7 +81,7 @@ $(document).ready(() => {
 		}
 	});
 
-	$('.back-to-top').click(() => {
+	backToTop.click(() => {
 		$('body,html').animate({
 			scrollTop: 0
 		}, 600);
