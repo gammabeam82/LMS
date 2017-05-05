@@ -14,7 +14,7 @@ abstract class EntityFilter implements EntityFilterInterface
 	 *      min = 2,
 	 *      minMessage = "filter.name_min",
 	 *      max = 100,
-	 *      minMessage = "filter.name_max",
+	 *      maxMessage = "filter.name_max",
 	 * )
 	 */
 	private $name;
