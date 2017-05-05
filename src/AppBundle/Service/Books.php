@@ -157,11 +157,9 @@ class Books
 
 		$fileName = sprintf("%s-%s.txt", $book->getAuthor()->getShortName(), $book->getName());
 
-		$book->setViews($book->getViews() + 1);
+		$book->incViews();
 
-		$em = $this->doctrine->getManager();
-		$em->persist($book);
-		$em->flush();
+		$this->saveEntity($this->doctrine->getManager(), $book);
 
 		$response = new BinaryFileResponse($book->getFile());
 		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $fileName);

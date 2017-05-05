@@ -123,9 +123,7 @@ class Archives
 			return false;
 		}
 
-		/**
-		 * @var \Doctrine\ORM\EntityRepository $repo
-		 */
+		/* @var \Doctrine\ORM\EntityRepository $repo */
 		$repo = $this->doctrine->getRepository(Book::class);
 		$qb = $repo->createQueryBuilder('b');
 
@@ -154,15 +152,23 @@ class Archives
 			throw new LengthException();
 		}
 
-		/**
-		 * @var \Doctrine\ORM\EntityRepository $repo
-		 */
+		/* @var \Doctrine\ORM\EntityRepository $repo */
 		$repo = $this->doctrine->getRepository(Book::class);
+
+		$em = $this->doctrine->getManager();
 
 		$qb = $repo->createQueryBuilder('b');
 		$qb->where($qb->expr()->in('b.id', $this->getSessionData()));
 
 		$books = $qb->getQuery()->execute();
+
+		array_map(function($book) use ($em) {
+			/* @var \AppBundle\Entity\Book $book */
+			$book->incViews();
+			$em->persist($book);
+			}, $books);
+
+		$em->flush();
 
 		$zip = new ZipArchive();
 		$file = sprintf("%s/%s.zip", $this->path, $this->user->getId());
@@ -170,9 +176,7 @@ class Archives
 		$zip->open($file, ZIPARCHIVE::CREATE);
 
 		foreach ($books as $book) {
-			/**
-			 * @var \AppBundle\Entity\Book $book
-			 */
+			/* @var \AppBundle\Entity\Book $book */
 			$localname = sprintf("%s-%s.txt", $book->getAuthor()->getShortName(), $book->getName());
 			$zip->addFile($book->getFile(), $localname);
 		}

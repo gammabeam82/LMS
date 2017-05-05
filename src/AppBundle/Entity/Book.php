@@ -32,7 +32,7 @@ class Book
 	 * @ORM\Column(type="string", length=200)
 	 * @Assert\NotBlank(groups={"edit"})
 	 * @Assert\Length(
-	 *     	groups={"edit"},
+	 *        groups={"edit"},
 	 *      min = 1,
 	 *      max = 100,
 	 *      minMessage = "book.name_min",
@@ -76,7 +76,7 @@ class Book
 	 * @Assert\NotBlank(message="book.file_error")
 	 * @Assert\File(
 	 *     mimeTypes={ "text/plain" }
-	 *	 )
+	 *     )
 	 */
 	private $file;
 
@@ -108,226 +108,226 @@ class Book
 		$this->comments = new ArrayCollection();
 	}
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Get id
+	 *
+	 * @return integer
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return Book
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
+	/**
+	 * Set createdAt
+	 *
+	 * @param \DateTime $createdAt
+	 *
+	 * @return Book
+	 */
+	public function setCreatedAt($createdAt)
+	{
+		$this->createdAt = $createdAt;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
+	/**
+	 * Get createdAt
+	 *
+	 * @return \DateTime
+	 */
+	public function getCreatedAt()
+	{
+		return $this->createdAt;
+	}
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Book
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
+	/**
+	 * Set name
+	 *
+	 * @param string $name
+	 *
+	 * @return Book
+	 */
+	public function setName($name)
+	{
+		$this->name = $name;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
+	/**
+	 * Get name
+	 *
+	 * @return string
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
 
-    /**
-     * Set author
-     *
-     * @param \AppBundle\Entity\Author $author
-     *
-     * @return Book
-     */
-    public function setAuthor(\AppBundle\Entity\Author $author)
-    {
-        $this->author = $author;
+	/**
+	 * Set author
+	 *
+	 * @param \AppBundle\Entity\Author $author
+	 *
+	 * @return Book
+	 */
+	public function setAuthor(\AppBundle\Entity\Author $author)
+	{
+		$this->author = $author;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get author
-     *
-     * @return \AppBundle\Entity\Author
-     */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
+	/**
+	 * Get author
+	 *
+	 * @return \AppBundle\Entity\Author
+	 */
+	public function getAuthor()
+	{
+		return $this->author;
+	}
 
-    /**
-     * Set addedBy
-     *
-     * @param \AppBundle\Entity\User $addedBy
-     *
-     * @return Book
-     */
-    public function setAddedBy(\AppBundle\Entity\User $addedBy)
-    {
-        $this->addedBy = $addedBy;
+	/**
+	 * Set addedBy
+	 *
+	 * @param \AppBundle\Entity\User $addedBy
+	 *
+	 * @return Book
+	 */
+	public function setAddedBy(\AppBundle\Entity\User $addedBy)
+	{
+		$this->addedBy = $addedBy;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get addedBy
-     *
-     * @return \AppBundle\Entity\User
-     */
-    public function getAddedBy()
-    {
-        return $this->addedBy;
-    }
+	/**
+	 * Get addedBy
+	 *
+	 * @return \AppBundle\Entity\User
+	 */
+	public function getAddedBy()
+	{
+		return $this->addedBy;
+	}
 
-    /**
-     * Set genre
-     *
-     * @param \AppBundle\Entity\Genre $genre
-     *
-     * @return Book
-     */
-    public function setGenre(\AppBundle\Entity\Genre $genre = null)
-    {
-        $this->genre = $genre;
+	/**
+	 * Set genre
+	 *
+	 * @param \AppBundle\Entity\Genre $genre
+	 *
+	 * @return Book
+	 */
+	public function setGenre(\AppBundle\Entity\Genre $genre = null)
+	{
+		$this->genre = $genre;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get genre
-     *
-     * @return \AppBundle\Entity\Genre
-     */
-    public function getGenre()
-    {
-        return $this->genre;
-    }
+	/**
+	 * Get genre
+	 *
+	 * @return \AppBundle\Entity\Genre
+	 */
+	public function getGenre()
+	{
+		return $this->genre;
+	}
 
-    /**
-     * Set file
-     *
-     * @param string $file
-     *
-     * @return Book
-     */
-    public function setFile($file)
-    {
-        $this->file = $file;
+	/**
+	 * Set file
+	 *
+	 * @param string $file
+	 *
+	 * @return Book
+	 */
+	public function setFile($file)
+	{
+		$this->file = $file;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get file
-     *
-     * @return string
-     */
-    public function getFile()
-    {
-        return $this->file;
-    }
+	/**
+	 * Get file
+	 *
+	 * @return string
+	 */
+	public function getFile()
+	{
+		return $this->file;
+	}
 
-    /**
-     * Set views
-     *
-     * @param integer $views
-     *
-     * @return Book
-     */
-    public function setViews($views)
-    {
-        $this->views = $views;
+	/**
+	 * Set views
+	 *
+	 * @param integer $views
+	 *
+	 * @return Book
+	 */
+	public function setViews($views)
+	{
+		$this->views = $views;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get views
-     *
-     * @return integer
-     */
-    public function getViews()
-    {
-        return $this->views;
-    }
+	/**
+	 * Get views
+	 *
+	 * @return integer
+	 */
+	public function getViews()
+	{
+		return $this->views;
+	}
 
-    /**
-     * Add rating
-     *
-     * @param \AppBundle\Entity\Rating $rating
-     *
-     * @return Book
-     */
-    public function addRating(\AppBundle\Entity\Rating $rating)
-    {
-        $this->ratings[] = $rating;
+	/**
+	 * Add rating
+	 *
+	 * @param \AppBundle\Entity\Rating $rating
+	 *
+	 * @return Book
+	 */
+	public function addRating(\AppBundle\Entity\Rating $rating)
+	{
+		$this->ratings[] = $rating;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Remove rating
-     *
-     * @param \AppBundle\Entity\Rating $rating
-     */
-    public function removeRating(\AppBundle\Entity\Rating $rating)
-    {
-        $this->ratings->removeElement($rating);
-    }
+	/**
+	 * Remove rating
+	 *
+	 * @param \AppBundle\Entity\Rating $rating
+	 */
+	public function removeRating(\AppBundle\Entity\Rating $rating)
+	{
+		$this->ratings->removeElement($rating);
+	}
 
-    /**
-     * Get ratings
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getRatings()
-    {
-        return $this->ratings;
-    }
+	/**
+	 * Get ratings
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getRatings()
+	{
+		return $this->ratings;
+	}
 
 	/**
 	 * @return float|int|string
 	 */
-    public function getAverageRating()
+	public function getAverageRating()
 	{
-		if(0 !== count($this->ratings)) {
+		if (0 !== count($this->ratings)) {
 			$sum = 0;
-			foreach($this->ratings as $rating){
+			foreach ($this->ratings as $rating) {
 				$sum += $rating->getValue();
 			}
 			return round(($sum / count($this->ratings)), 2);
@@ -341,90 +341,95 @@ class Book
 	 */
 	public function removeFile()
 	{
-		if(false !== file_exists($this->file)) {
+		if (false !== file_exists($this->file)) {
 			unlink($this->file);
 		}
 	}
 
-    /**
-     * Add comment
-     *
-     * @param \AppBundle\Entity\Comment $comment
-     *
-     * @return Book
-     */
-    public function addComment(\AppBundle\Entity\Comment $comment)
-    {
-        $this->comments[] = $comment;
+	/**
+	 * Add comment
+	 *
+	 * @param \AppBundle\Entity\Comment $comment
+	 *
+	 * @return Book
+	 */
+	public function addComment(\AppBundle\Entity\Comment $comment)
+	{
+		$this->comments[] = $comment;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Remove comment
-     *
-     * @param \AppBundle\Entity\Comment $comment
-     */
-    public function removeComment(\AppBundle\Entity\Comment $comment)
-    {
-        $this->comments->removeElement($comment);
-    }
+	/**
+	 * Remove comment
+	 *
+	 * @param \AppBundle\Entity\Comment $comment
+	 */
+	public function removeComment(\AppBundle\Entity\Comment $comment)
+	{
+		$this->comments->removeElement($comment);
+	}
 
-    /**
-     * Get comments
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getComments()
-    {
-        return $this->comments;
-    }
+	/**
+	 * Get comments
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getComments()
+	{
+		return $this->comments;
+	}
 
-    /**
-     * Set annotation
-     *
-     * @param string $annotation
-     *
-     * @return Book
-     */
-    public function setAnnotation($annotation)
-    {
-        $this->annotation = $annotation;
+	/**
+	 * Set annotation
+	 *
+	 * @param string $annotation
+	 *
+	 * @return Book
+	 */
+	public function setAnnotation($annotation)
+	{
+		$this->annotation = $annotation;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get annotation
-     *
-     * @return string
-     */
-    public function getAnnotation()
-    {
-        return $this->annotation;
-    }
+	/**
+	 * Get annotation
+	 *
+	 * @return string
+	 */
+	public function getAnnotation()
+	{
+		return $this->annotation;
+	}
 
-    /**
-     * Set serie
-     *
-     * @param \AppBundle\Entity\Serie $serie
-     *
-     * @return Book
-     */
-    public function setSerie(\AppBundle\Entity\Serie $serie = null)
-    {
-        $this->serie = $serie;
+	/**
+	 * Set serie
+	 *
+	 * @param \AppBundle\Entity\Serie $serie
+	 *
+	 * @return Book
+	 */
+	public function setSerie(\AppBundle\Entity\Serie $serie = null)
+	{
+		$this->serie = $serie;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get serie
-     *
-     * @return \AppBundle\Entity\Serie
-     */
-    public function getSerie()
-    {
-        return $this->serie;
-    }
+	/**
+	 * Get serie
+	 *
+	 * @return \AppBundle\Entity\Serie
+	 */
+	public function getSerie()
+	{
+		return $this->serie;
+	}
+
+	public function incViews()
+	{
+		$this->views++;
+	}
 }
