@@ -2,7 +2,7 @@
 
 namespace AppBundle\Repository;
 
-class SerieRepository extends Repository
+class CommentRepository extends Repository
 {
 
 }

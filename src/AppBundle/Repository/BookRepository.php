@@ -2,7 +2,7 @@
 
 namespace AppBundle\Repository;
 
-class BookRepository extends AbstractRepository
+class BookRepository extends Repository
 {
 
 }

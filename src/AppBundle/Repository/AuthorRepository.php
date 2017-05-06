@@ -2,7 +2,7 @@
 
 namespace AppBundle\Repository;
 
-class AuthorRepository extends AbstractRepository
+class AuthorRepository extends Repository
 {
 	/**
 	 * @param $letter
