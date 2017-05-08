@@ -25,6 +25,8 @@ class SeriesController extends Controller
 	 */
 	public function indexAction(Request $request)
 	{
+		$this->denyAccessUnlessGranted('view', new Serie());
+
 		$paginator = $this->get('knp_paginator');
 
 		$seriesService = $this->get('app.series');
@@ -66,9 +68,11 @@ class SeriesController extends Controller
 	 */
 	public function addAction(Request $request)
 	{
-		$seriesService = $this->get('app.series');
-
 		$serie = new Serie();
+
+		$this->denyAccessUnlessGranted('create', $serie);
+
+		$seriesService = $this->get('app.series');
 
 		$form = $this->createForm(SerieType::class, $serie);
 		$form->handleRequest($request);
@@ -101,6 +105,8 @@ class SeriesController extends Controller
 	 */
 	public function editAction(Request $request, Serie $serie)
 	{
+		$this->denyAccessUnlessGranted('edit', $serie);
+
 		$seriesService = $this->get('app.series');
 
 		$sessionService = $this->get('app.sessions');
@@ -136,6 +142,8 @@ class SeriesController extends Controller
 
 	public function deleteAction(Serie $serie)
 	{
+		$this->denyAccessUnlessGranted('remove', $serie);
+
 		$seriesService = $this->get('app.series');
 
 		$translator = $this->get('translator');

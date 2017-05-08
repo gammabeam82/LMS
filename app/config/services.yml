@@ -1,12 +1,10 @@
-# Learn more about services, parameters and containers at
-# http://symfony.com/doc/current/service_container.html
+imports:
+    - { resource: voters.yml }
+
 parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
       gedmo.listener.softdeleteable:
           class: Gedmo\SoftDeleteable\SoftDeleteableListener
 
@@ -47,18 +45,6 @@ services:
             arguments: ["@kernel", "@security.token_storage", "%library%"]
             tags:
                 - { name: kernel.event_subscriber }
-
-      app.comment_voter:
-            class:  AppBundle\Security\CommentVoter
-            tags:
-                - { name: security.voter }
-            public: false
-
-      app.book_voter:
-            class:  AppBundle\Security\BookVoter
-            tags:
-                - { name: security.voter }
-            public: false
 
       app.kernel_exception_listener:
             class: AppBundle\EventListener\PDOExceptionListener

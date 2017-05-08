@@ -24,6 +24,8 @@ class GenresController extends Controller
 	 */
 	public function indexAction(Request $request)
 	{
+		$this->denyAccessUnlessGranted('view', new Genre());
+
 		$paginator = $this->get('knp_paginator');
 
 		$genresService = $this->get('app.genres');
@@ -65,9 +67,11 @@ class GenresController extends Controller
 	 */
 	public function addAction(Request $request)
 	{
-		$genreService = $this->get('app.genres');
-
 		$genre = new Genre();
+
+		$this->denyAccessUnlessGranted('create', $genre);
+
+		$genreService = $this->get('app.genres');
 
 		$form = $this->createForm(GenreType::class, $genre);
 		$form->handleRequest($request);
@@ -100,6 +104,8 @@ class GenresController extends Controller
 	 */
 	public function editAction(Request $request, Genre $genre)
 	{
+		$this->denyAccessUnlessGranted('edit', $genre);
+
 		$genreService = $this->get('app.genres');
 
 		$sessionService = $this->get('app.sessions');
@@ -134,6 +140,8 @@ class GenresController extends Controller
 	 */
 	public function deleteAction(Genre $genre)
 	{
+		$this->denyAccessUnlessGranted('remove', $genre);
+
 		$genreService = $this->get('app.genres');
 
 		$translator = $this->get('translator');

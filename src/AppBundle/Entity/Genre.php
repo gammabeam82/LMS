@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     message="genre.unique"
  * )
  */
-class Genre
+class Genre implements EntityInterface
 {
 	/**
 	 * @ORM\Id

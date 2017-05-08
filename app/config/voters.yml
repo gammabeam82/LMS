@@ -1,0 +1,26 @@
+services:
+      app.comment_voter:
+          public: false
+          class:  AppBundle\Security\CommentVoter
+          tags:
+            - { name: security.voter }
+
+      app.author_voter:
+          class:  AppBundle\Security\AuthorVoter
+          tags:
+            - { name: security.voter }
+
+      app.book_voter:
+          class:  AppBundle\Security\BookVoter
+          tags:
+            - { name: security.voter }
+
+      app.genre_voter:
+          class:  AppBundle\Security\GenreVoter
+          tags:
+            - { name: security.voter }
+
+      app.serie_voter:
+          class:  AppBundle\Security\SerieVoter
+          tags:
+            - { name: security.voter }

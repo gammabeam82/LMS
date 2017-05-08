@@ -2,7 +2,7 @@
 
 namespace AppBundle\Security;
 
-class BookVoter extends EntityVoter
+class SerieVoter extends EntityVoter
 {
 
 }

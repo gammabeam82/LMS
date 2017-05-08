@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *     message="serie.unique"
  * )
  */
-class Serie
+class Serie implements EntityInterface
 {
 	/**
 	 * @ORM\Id

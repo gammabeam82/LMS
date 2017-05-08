@@ -24,6 +24,8 @@ class AuthorsController extends Controller
 	 */
 	public function indexAction(Request $request)
 	{
+		$this->denyAccessUnlessGranted('view', new Author());
+
 		$paginator = $this->get('knp_paginator');
 
 		$authorService = $this->get('app.authors');
@@ -63,9 +65,11 @@ class AuthorsController extends Controller
 	 */
 	public function addAction(Request $request)
 	{
-		$authorService = $this->get('app.authors');
-
 		$author = new Author();
+
+		$this->denyAccessUnlessGranted('create', $author);
+
+		$authorService = $this->get('app.authors');
 
 		$form = $this->createForm(AuthorType::class, $author);
 		$form->handleRequest($request);
@@ -98,6 +102,8 @@ class AuthorsController extends Controller
 	 */
 	public function editAction(Request $request, Author $author)
 	{
+		$this->denyAccessUnlessGranted('edit', $author);
+
 		$authorService = $this->get('app.authors');
 
 		$sessionService = $this->get('app.sessions');
@@ -132,6 +138,8 @@ class AuthorsController extends Controller
 	 */
 	public function deleteAction(Author $author)
 	{
+		$this->denyAccessUnlessGranted('remove', $author);
+
 		$authorService = $this->get('app.authors');
 
 		$translator = $this->get('translator');

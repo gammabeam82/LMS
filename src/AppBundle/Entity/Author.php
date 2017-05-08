@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="authors")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AuthorRepository")
  */
-class Author
+class Author implements EntityInterface
 {
 	/**
 	 * @ORM\Id
