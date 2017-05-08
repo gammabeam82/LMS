@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Entity\Author;
 use AppBundle\Entity\Genre;
 
-class BookFilter
+class BookFilter implements CommonFilterInterface
 {
 
 	/**

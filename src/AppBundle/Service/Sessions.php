@@ -2,6 +2,8 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Filter\CommonFilterInterface;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use UnexpectedValueException;
@@ -31,10 +33,10 @@ class Sessions
 	}
 
 	/**
-	 * @param $form
-	 * @param $filter
+	 * @param Form $form
+	 * @param CommonFilterInterface $filter
 	 */
-	public function updateFilterFromSession($form, $filter)
+	public function updateFilterFromSession(Form $form, CommonFilterInterface $filter)
 	{
 		$request = $this->requestStack->getCurrentRequest();
 
@@ -46,9 +48,6 @@ class Sessions
 			$session->remove($filterName);
 		}
 
-		/**
-		 * @var \Symfony\Component\Form\Form $form
-		 */
 		if ($form->isSubmitted()) {
 			if ($form->isValid()) {
 				$session->set($filterName, serialize($form->getData()));

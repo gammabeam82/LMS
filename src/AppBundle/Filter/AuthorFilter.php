@@ -4,7 +4,7 @@ namespace AppBundle\Filter;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-class AuthorFilter
+class AuthorFilter implements CommonFilterInterface
 {
 
 	/**
