@@ -19,11 +19,11 @@ class RatingType extends AbstractType
 			->add('value', ChoiceType::class, [
 				'label' => 'book.value.label',
 				'choices' => [
-					'book.value.5' => '5',
-					'book.value.4' => '4',
-					'book.value.3' => '3',
-					'book.value.2' => '2',
-					'book.value.1' => '1'
+					'book.value.5' => Rating::VALUE_5,
+					'book.value.4' => Rating::VALUE_4,
+					'book.value.3' => Rating::VALUE_3,
+					'book.value.2' => Rating::VALUE_2,
+					'book.value.1' => Rating::VALUE_1
 				]
 			])
 		;

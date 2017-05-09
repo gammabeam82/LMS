@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use LogicException;
 
 /**
  * @ORM\Entity
@@ -12,7 +13,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Rating
 {
-	//TODO define constants
+	const VALUE_1 = 1;
+	const VALUE_2 = 2;
+	const VALUE_3 = 3;
+	const VALUE_4 = 4;
+	const VALUE_5 = 5;
 
 	/**
 	 * @ORM\Id
@@ -58,6 +63,10 @@ class Rating
      */
     public function setValue($value)
     {
+    	if(false === in_array($value, [self::VALUE_1, self::VALUE_2, self::VALUE_3, self::VALUE_4, self::VALUE_5])) {
+    		throw new LogicException();
+		}
+
         $this->value = $value;
 
         return $this;
