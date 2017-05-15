@@ -114,6 +114,7 @@ messages:
   serie_added: 'Серия добавлена.'
   serie_deleted: 'Серия удалена.'
   sort_by_name: 'В алфавитном порядке'
+  not_found: 'Ничего не найдено.'
 
 Previous: 'Предыдущая'
 Next: 'Следующая'

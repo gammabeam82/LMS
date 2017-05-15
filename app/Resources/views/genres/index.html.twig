@@ -73,47 +73,58 @@
 		<div class="row">
 			<div class="col-xs-12">
 
-				<table class="table table-striped table-hover">
-					<tr>
-						<th>{{ 'genre.genre' | trans }}</th>
-						<th>{{ 'book.books' | trans }}</th>
-						<th>
-							{% if is_granted('ROLE_ADMIN') %}
-								<a class="btn btn-success btn-sm" href="{{ path('genres_add') }}">
-									<i class="glyphicon glyphicon-plus"></i> {{ 'actions.add_genre' | trans }}
-								</a>
-							{% endif %}
-						</th>
-					</tr>
-
-					{% for genre in genres %}
+				{% if genres|length > 0 %}
+					<table class="table table-striped table-hover">
 						<tr>
-							<td class="highlight">{{ genre.name }}</td>
-							<td>
-								<a href="{{ path('books', {'book_filter[genre][]': genre.id}) }}" class="btn btn-sm {{ genre.books | length ? 'btn-success' : 'btn-default disabled' }}">
-									{{ genre.books | length }}
-								</a>
-							</td>
-							<td>
+							<th>{{ 'genre.genre' | trans }}</th>
+							<th>{{ 'book.books' | trans }}</th>
+							<th>
 								{% if is_granted('ROLE_ADMIN') %}
-									<a class="btn btn-primary btn-sm" href="{{ path('genres_edit', {'id': genre.id}) }}">
-										<i class="glyphicon glyphicon-edit"></i> {{ 'actions.edit' | trans }}
+									<a class="btn btn-success btn-sm" href="{{ path('genres_add') }}">
+										<i class="glyphicon glyphicon-plus"></i> {{ 'actions.add_genre' | trans }}
 									</a>
-									{% if genre.isDeletable %}
-										<button data-name="{{ genre.name }}" data-toggle="modal" data-target="#modal-delete" class="btn btn-sm delete btn-danger" data-path="{{ path('genres_delete', {'id': genre.id}) }}">
-											<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
-										</button>
-									{% else %}
-										<button data-name="{{ genre.name }}" class="btn btn-sm delete btn-default disabled" data-path="#">
-											<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
-										</button>
-									{% endif %}
 								{% endif %}
-							</td>
+							</th>
 						</tr>
-					{% endfor %}
 
-				</table>
+						{% for genre in genres %}
+							<tr>
+								<td class="highlight">{{ genre.name }}</td>
+								<td>
+									<a href="{{ path('books', {'book_filter[genre][]': genre.id}) }}" class="btn btn-sm {{ genre.books | length ? 'btn-success' : 'btn-default disabled' }}">
+										{{ genre.books | length }}
+									</a>
+								</td>
+								<td>
+									{% if is_granted('ROLE_ADMIN') %}
+										<a class="btn btn-primary btn-sm" href="{{ path('genres_edit', {'id': genre.id}) }}">
+											<i class="glyphicon glyphicon-edit"></i> {{ 'actions.edit' | trans }}
+										</a>
+										{% if genre.isDeletable %}
+											<button data-name="{{ genre.name }}" data-toggle="modal" data-target="#modal-delete" class="btn btn-sm delete btn-danger" data-path="{{ path('genres_delete', {'id': genre.id}) }}">
+												<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
+											</button>
+										{% else %}
+											<button data-name="{{ genre.name }}" class="btn btn-sm delete btn-default disabled" data-path="#">
+												<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
+											</button>
+										{% endif %}
+									{% endif %}
+								</td>
+							</tr>
+						{% endfor %}
+
+					</table>
+				{% else %}
+					<div class="panel panel-warning">
+						<div class="panel-heading">
+							<h3 class="panel-title">{{ 'messages.caution' | trans }}</h3>
+						</div>
+						<div class="panel-body">
+							{{ 'messages.not_found' | trans }}
+						</div>
+					</div>
+				{% endif %}
 
 				<div class="navigation">
 					{{ knp_pagination_render(genres) }}
