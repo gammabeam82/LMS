@@ -5,8 +5,10 @@ namespace AppBundle\Service;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Genre;
 use AppBundle\Utils\EntityTrait;
+use AppBundle\Service\Export\Export;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use AppBundle\Filter\EntityFilterInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class Genres
 {
@@ -18,11 +20,26 @@ class Genres
 	private $doctrine;
 
 	/**
-	 * @param Registry $doctrine
+	 * @var Export
 	 */
-	public function __construct(Registry $doctrine)
+	private $exportService;
+
+	/**
+	 * @var TranslatorInterface
+	 */
+	private $translator;
+
+	/**
+	 * Genres constructor.
+	 * @param Registry $doctrine
+	 * @param Export $export
+	 * @param TranslatorInterface $translator
+	 */
+	public function __construct(Registry $doctrine, Export $export, TranslatorInterface $translator)
 	{
 		$this->doctrine = $doctrine;
+		$this->exportService = $export;
+		$this->translator = $translator;
 	}
 
 	/**
@@ -71,5 +88,24 @@ class Genres
 	public function remove(Genre $genre)
 	{
 		$this->removeEntity($this->doctrine->getManager(), $genre);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function export()
+	{
+		$translator = $this->translator;
+
+		$repo = $this->doctrine->getRepository(Genre::class);
+
+		$rows = [
+			$translator->trans('messages.name') => 'getName',
+			$translator->trans('book.books') => 'getBooksCount'
+		];
+
+		$this->exportService->export($repo->findAll(), $rows);
+
+		return $this->exportService->getFileName();
 	}
 }

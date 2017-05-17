@@ -179,6 +179,14 @@ class Genre implements EntityInterface
     }
 
 	/**
+	 * @return int
+	 */
+	public function getBooksCount()
+	{
+		return count($this->getBooks());
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function isDeletable()

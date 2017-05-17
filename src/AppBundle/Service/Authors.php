@@ -30,7 +30,10 @@ class Authors
 	private $translator;
 
 	/**
+	 * Authors constructor.
 	 * @param Registry $doctrine
+	 * @param Export $export
+	 * @param TranslatorInterface $translator
 	 */
 	public function __construct(Registry $doctrine, Export $export, TranslatorInterface $translator)
 	{

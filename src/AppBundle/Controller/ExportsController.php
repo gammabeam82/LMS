@@ -38,4 +38,21 @@ class ExportsController extends Controller
 		return $response;
 	}
 
+	/**
+	 * @Route("/export/genres", name="export_genres")
+	 *
+	 * @return BinaryFileResponse
+	 */
+	public function genresExportAction()
+	{
+		$genresService = $this->get('app.genres');
+
+		$file = $genresService->export();
+
+		$response = new BinaryFileResponse($file);
+		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT);
+
+		return $response;
+	}
+
 }

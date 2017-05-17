@@ -14,12 +14,15 @@
 		</div>
 
 		<div class="row">
-			<div class="col-xs-8">
-
-				<a class="btn btn-success btn-sm" href="{{ path('export_authors') }}">
-					<i class="glyphicon glyphicon-plus"></i> {{ 'actions.new_export' | trans }}
+			<div class="col-xs-3">
+				<a class="btn btn-success" href="{{ path('export_authors') }}">
+					<i class="glyphicon glyphicon-download-alt"></i> {{ 'navigation.authors' | trans }}
 				</a>
-
+			</div>
+			<div class="col-xs-3">
+				<a class="btn btn-success" href="{{ path('export_genres') }}">
+					<i class="glyphicon glyphicon-download-alt"></i> {{ 'navigation.genres' | trans }}
+				</a>
 			</div>
 		</div>
 

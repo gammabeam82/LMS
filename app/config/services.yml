@@ -22,7 +22,7 @@ services:
 
       app.genres:
            class: AppBundle\Service\Genres
-           arguments: ["@doctrine"]
+           arguments: ["@doctrine", "@app.export", "@translator"]
 
       app.series:
           class: AppBundle\Service\Series
