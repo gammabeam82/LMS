@@ -14,14 +14,31 @@
 		</div>
 
 		<div class="row">
-			<div class="col-xs-3">
+			<div class="col-xs-12">
+				{% for flash_message in app.session.flashBag.get('notice') %}
+					<div class="panel panel-default">
+						<div class="panel-body bg-success">
+							{{ flash_message }}
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="row margin-top-10">
+			<div class="col-xs-2">
 				<a class="btn btn-success" href="{{ path('export_authors') }}">
 					<i class="glyphicon glyphicon-download-alt"></i> {{ 'navigation.authors' | trans }}
 				</a>
 			</div>
-			<div class="col-xs-3">
+			<div class="col-xs-2">
 				<a class="btn btn-success" href="{{ path('export_genres') }}">
 					<i class="glyphicon glyphicon-download-alt"></i> {{ 'navigation.genres' | trans }}
+				</a>
+			</div>
+			<div class="col-xs-2">
+				<a class="btn btn-danger" href="{{ path('export_purge') }}">
+					<i class="glyphicon glyphicon-remove"></i> {{ 'navigation.purge' | trans }}
 				</a>
 			</div>
 		</div>

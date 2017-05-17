@@ -44,6 +44,24 @@ class ExportsController extends Controller
 	}
 
 	/**
+	 * @Route("/export/purge", name="export_purge")
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+	public function purgeAction()
+	{
+		$translator = $this->get('translator');
+
+		$exportService = $this->get('app.export');
+
+		$exportService->purge();
+
+		$this->addFlash('notice', $translator->trans('messages.purged'));
+
+		return $this->redirectToRoute('export');
+	}
+
+	/**
 	 * @param $service
 	 * @return BinaryFileResponse
 	 */

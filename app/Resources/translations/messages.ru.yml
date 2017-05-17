@@ -10,6 +10,7 @@ navigation:
   register: 'Регистрация'
   list: 'К списку'
   export: 'Экспорт'
+  purge: 'Очистить'
 
 actions:
   show: 'Показать'
@@ -122,6 +123,7 @@ messages:
   sort_by_name: 'В алфавитном порядке'
   not_found: 'Ничего не найдено.'
   list: 'Список'
+  purged: 'Файлы удалены.'
 
 Previous: 'Предыдущая'
 Next: 'Следующая'

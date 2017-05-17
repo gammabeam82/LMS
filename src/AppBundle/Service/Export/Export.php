@@ -2,15 +2,6 @@
 
 namespace AppBundle\Service\Export;
 
-use PHPExcel;
-use PHPExcel_IOFactory;
-use PHPExcel_Style_Fill;
-use PHPExcel_Cell;
-use PHPExcel_Worksheet;
-use BadMethodCallException;
-use LogicException;
-use ReflectionClass;
-
 class Export
 {
 	const AUTHOR = 'AppBundle\Entity\Author';
@@ -44,16 +35,16 @@ class Export
 		$object = $exportData[0];
 
 		if (false === in_array(get_class($object), [self::AUTHOR, self::GENRE])) {
-			throw new LogicException();
+			throw new \LogicException();
 		}
 
 		$this->filename = sprintf("%s/%s-%s.xlsx",
 			$this->path,
-			strtolower((new ReflectionClass($object))->getShortName()),
+			strtolower((new \ReflectionClass($object))->getShortName()),
 			date("Y.m.d_H:i")
 		);
 
-		$excel = new PHPExcel();
+		$excel = new \PHPExcel();
 
 		$sheet = $excel->getActiveSheet();
 
@@ -67,7 +58,7 @@ class Export
 				->getStyleByColumnAndRow($col, $row)
 				->applyFromArray([
 					'fill' => [
-						'type' => PHPExcel_Style_Fill::FILL_SOLID,
+						'type' => \PHPExcel_Style_Fill::FILL_SOLID,
 						'color' => ['rgb' => 'F2C81E']
 					]
 				]);
@@ -80,7 +71,7 @@ class Export
 			$col = 0;
 			foreach ($rows as $title => $getter) {
 				if (false === method_exists($item, $getter)) {
-					throw new BadMethodCallException();
+					throw new \BadMethodCallException();
 				}
 				$sheet->setCellValueByColumnAndRow($col, $row, $item->$getter());
 				$this->setAutoSize($sheet, $col);
@@ -90,19 +81,19 @@ class Export
 		}
 
 		$tmpFile = sprintf("%s/%s.xlsx", sys_get_temp_dir(), uniqid());
-		$objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+		$objWriter = \PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
 		$objWriter->save($tmpFile);
 
 		copy($tmpFile, $this->filename);
 	}
 
 	/**
-	 * @param PHPExcel_Worksheet $sheet
+	 * @param \PHPExcel_Worksheet $sheet
 	 * @param int $column
 	 */
-	private function setAutoSize(PHPExcel_Worksheet $sheet, $column)
+	private function setAutoSize(\PHPExcel_Worksheet $sheet, $column)
 	{
-		$colLetter = PHPExcel_Cell::stringFromColumnIndex($column);
+		$colLetter = \PHPExcel_Cell::stringFromColumnIndex($column);
 		$sheet
 			->getColumnDimension($colLetter)
 			->setAutoSize(true);
@@ -114,5 +105,12 @@ class Export
 	public function getFileName()
 	{
 		return $this->filename;
+	}
+
+	public function purge()
+	{
+		array_map(function ($file) {
+			unlink($file);
+		}, glob(sprintf("%s/*.xlsx", $this->path)));
 	}
 }
