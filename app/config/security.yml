@@ -44,3 +44,5 @@ security:
         - { path: ^/series/, role: ROLE_ADMIN }
 
         - { path: ^/archive/, role: IS_AUTHENTICATED_FULLY }
+
+        - { path: ^/export, role: ROLE_ADMIN }
