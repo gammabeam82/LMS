@@ -8,9 +8,13 @@ use PHPExcel_Style_Fill;
 use PHPExcel_Cell;
 use PHPExcel_Worksheet;
 use BadMethodCallException;
+use LogicException;
 
 class Export
 {
+	const AUTHOR = 'AppBundle\Entity\Author';
+	const GENRE = 'AppBundle\Entity\Genre';
+
 	/**
 	 * @var PHPExcel
 	 */
@@ -37,6 +41,10 @@ class Export
 	 */
 	public function export(array $exportData, array $rows)
 	{
+
+		if (false === in_array(get_class($exportData[0]), [self::AUTHOR, self::GENRE])) {
+			throw new LogicException();
+		}
 
 		$excel = $this->excel;
 

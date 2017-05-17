@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use AppBundle\Service\Genres;
+use AppBundle\Service\Authors;
 
 class ExportsController extends Controller
 {
@@ -28,14 +30,7 @@ class ExportsController extends Controller
 	 */
 	public function authorsExportAction()
 	{
-		$authorsService = $this->get('app.authors');
-
-		$file = $authorsService->export();
-
-		$response = new BinaryFileResponse($file);
-		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT);
-
-		return $response;
+		return $this->processExport($this->get('app.authors'));
 	}
 
 	/**
@@ -45,9 +40,19 @@ class ExportsController extends Controller
 	 */
 	public function genresExportAction()
 	{
-		$genresService = $this->get('app.genres');
+		return $this->processExport($this->get('app.genres'));
+	}
 
-		$file = $genresService->export();
+	/**
+	 * @param $service
+	 * @return BinaryFileResponse
+	 */
+	private function processExport($service)
+	{
+		/**
+		 * @var Genres | Authors $service
+		 */
+		$file = $service->export();
 
 		$response = new BinaryFileResponse($file);
 		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT);
