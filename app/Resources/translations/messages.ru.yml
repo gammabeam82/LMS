@@ -9,6 +9,7 @@ navigation:
   logout: 'Выход'
   register: 'Регистрация'
   list: 'К списку'
+  export: 'Экспорт'
 
 actions:
   show: 'Показать'
@@ -25,6 +26,7 @@ actions:
   to_archive: 'В архив'
   download_archive: 'Скачать архив'
   close: 'Закрыть'
+  new_export: 'Новый экспорт'
 
 book:
   add: 'Добавление книги'
@@ -74,6 +76,10 @@ serie:
   add: 'Добавление серии'
   edit: 'Редактирование серии'
 
+export:
+  export: 'Экспорт'
+  authors: 'Экспорт авторов'
+
 messages:
   title: 'Библиотека'
   caution: 'Внимание!'
@@ -115,6 +121,7 @@ messages:
   serie_deleted: 'Серия удалена.'
   sort_by_name: 'В алфавитном порядке'
   not_found: 'Ничего не найдено.'
+  list: 'Список'
 
 Previous: 'Предыдущая'
 Next: 'Следующая'

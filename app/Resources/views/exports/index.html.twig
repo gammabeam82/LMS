@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'export.export' | trans }}{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+
+		<div class="row">
+			<div class="col-xs-12">
+				<ol class="breadcrumb">
+					<li class="active">{{ 'export.export' | trans }}</li>
+				</ol>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-xs-8">
+
+				<a class="btn btn-success btn-sm" href="{{ path('export_authors') }}">
+					<i class="glyphicon glyphicon-plus"></i> {{ 'actions.new_export' | trans }}
+				</a>
+
+			</div>
+		</div>
+
+	</div>
+
+{% endblock %}

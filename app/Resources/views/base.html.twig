@@ -61,6 +61,13 @@
 					</a>
 				</li>
 				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+					{% if is_granted('ROLE_ADMIN') %}
+						<li>
+							<a href="{{ path('export') }}">
+								<i class="glyphicon glyphicon-download-alt"></i> {{ 'navigation.export' | trans }}
+							</a>
+						</li>
+					{% endif %}
 					<li>
 						<a href="{{ path('archive_index') }}" class="archive-link">
 							<i class="glyphicon glyphicon-folder-close"></i> {{ 'navigation.archive' | trans }}
