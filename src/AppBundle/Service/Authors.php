@@ -5,8 +5,10 @@ namespace AppBundle\Service;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Author;
 use AppBundle\Filter\AuthorFilter;
+use AppBundle\Service\Export\Export;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use AppBundle\Utils\EntityTrait;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class Authors
 {
@@ -18,11 +20,23 @@ class Authors
 	private $doctrine;
 
 	/**
+	 * @var Export
+	 */
+	private $exportService;
+
+	/**
+	 * @var TranslatorInterface
+	 */
+	private $translator;
+
+	/**
 	 * @param Registry $doctrine
 	 */
-	public function __construct(Registry $doctrine)
+	public function __construct(Registry $doctrine, Export $export, TranslatorInterface $translator)
 	{
 		$this->doctrine = $doctrine;
+		$this->exportService = $export;
+		$this->translator = $translator;
 	}
 
 	/**
@@ -71,5 +85,25 @@ class Authors
 	public function remove(Author $author)
 	{
 		$this->removeEntity($this->doctrine->getManager(), $author);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function export()
+	{
+		$translator = $this->translator;
+
+		$repo = $this->doctrine->getRepository(Author::class);
+
+		$rows = [
+			$translator->trans('author.first_name') => 'getFirstName',
+			$translator->trans('author.last_name') => 'getLastName',
+			$translator->trans('book.books') => 'getBooksCount'
+		];
+
+		$this->exportService->export($repo->findAll(), $rows);
+
+		return $this->exportService->getFileName();
 	}
 }

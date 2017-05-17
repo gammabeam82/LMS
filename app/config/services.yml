@@ -8,9 +8,13 @@ services:
       gedmo.listener.softdeleteable:
           class: Gedmo\SoftDeleteable\SoftDeleteableListener
 
+      app.export:
+          class: AppBundle\Service\Export\Export
+          arguments: ["%export%"]
+
       app.authors:
           class: AppBundle\Service\Authors
-          arguments: ["@doctrine"]
+          arguments: ["@doctrine", "@app.export", "@translator"]
 
       app.books:
           class: AppBundle\Service\Books
