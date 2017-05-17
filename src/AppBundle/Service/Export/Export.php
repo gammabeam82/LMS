@@ -9,6 +9,7 @@ use PHPExcel_Cell;
 use PHPExcel_Worksheet;
 use BadMethodCallException;
 use LogicException;
+use ReflectionClass;
 
 class Export
 {
@@ -16,9 +17,9 @@ class Export
 	const GENRE = 'AppBundle\Entity\Genre';
 
 	/**
-	 * @var PHPExcel
+	 * @var string
 	 */
-	private $excel;
+	private $path;
 
 	/**
 	 * @var string
@@ -31,8 +32,7 @@ class Export
 	 */
 	public function __construct($path)
 	{
-		$this->filename = sprintf("%s/export-%s.xlsx", $path, date("Y.m.d_H:i:s"));
-		$this->excel = new PHPExcel();
+		$this->path = $path;
 	}
 
 	/**
@@ -41,12 +41,19 @@ class Export
 	 */
 	public function export(array $exportData, array $rows)
 	{
+		$object = $exportData[0];
 
-		if (false === in_array(get_class($exportData[0]), [self::AUTHOR, self::GENRE])) {
+		if (false === in_array(get_class($object), [self::AUTHOR, self::GENRE])) {
 			throw new LogicException();
 		}
 
-		$excel = $this->excel;
+		$this->filename = sprintf("%s/%s-%s.xlsx",
+			$this->path,
+			strtolower((new ReflectionClass($object))->getShortName()),
+			date("Y.m.d_H:i")
+		);
+
+		$excel = new PHPExcel();
 
 		$sheet = $excel->getActiveSheet();
 
