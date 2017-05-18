@@ -6,6 +6,7 @@ class Export
 {
 	const AUTHOR = 'AppBundle\Entity\Author';
 	const GENRE = 'AppBundle\Entity\Genre';
+	const SERIE = 'AppBundle\Entity\Serie';
 
 	/**
 	 * @var string
@@ -34,11 +35,11 @@ class Export
 	{
 		$object = $exportData[0];
 
-		if (false === in_array(get_class($object), [self::AUTHOR, self::GENRE])) {
+		if (false === in_array(get_class($object), [self::AUTHOR, self::GENRE, self::SERIE])) {
 			throw new \LogicException();
 		}
 
-		$this->filename = sprintf("%s/%s-%s.xlsx",
+		$this->filename = sprintf("%s/%ss-%s.xlsx",
 			$this->path,
 			strtolower((new \ReflectionClass($object))->getShortName()),
 			date("Y.m.d_H:i")

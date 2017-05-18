@@ -44,6 +44,16 @@ class ExportsController extends Controller
 	}
 
 	/**
+	 * @Route("/export/series", name="export_series")
+	 *
+	 * @return BinaryFileResponse
+	 */
+	public function seriesExportAction()
+	{
+		return $this->processExport($this->get('app.series'));
+	}
+
+	/**
 	 * @Route("/export/purge", name="export_purge")
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
