@@ -42,7 +42,7 @@ class Export
 		$this->filename = sprintf("%s/%ss-%s.xlsx",
 			$this->path,
 			strtolower((new \ReflectionClass($object))->getShortName()),
-			date("Y.m.d_H:i")
+			date("Y.m.d_H:i:s")
 		);
 
 		$excel = new \PHPExcel();
