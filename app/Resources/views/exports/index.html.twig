@@ -31,11 +31,12 @@
 				</a>
 				<br/>
 				{% for authorExport in exports.authors %}
+					{% set filename = authorExport.filename | split("/") | last %}
 					<br/>
 					<a href="{{ path('export_download', { 'id': authorExport.id }) }}">
 						{{ authorExport.createdAt | date("Y.m.d H:i:s") }}
 					</a>
-					<a data-name="" data-toggle="modal" data-target="#modal-delete" class="delete" data-path="{{ path('export_delete', {'id': authorExport.id}) }}">
+					<a data-name="{{ filename }}" data-toggle="modal" data-target="#modal-delete" class="delete" data-path="{{ path('export_delete', {'id': authorExport.id}) }}">
 						<i class="glyphicon glyphicon-remove"></i>
 					</a>
 				{% endfor %}
@@ -46,11 +47,12 @@
 				</a>
 				<br/>
 				{% for genreExport in exports.genres %}
+					{% set filename = genreExport.filename | split("/") | last %}
 					<br/>
 					<a href="{{ path('export_download', { 'id': genreExport.id }) }}">
 						{{ genreExport.createdAt | date("Y.m.d H:i:s") }}
 					</a>
-					<a data-name="" data-toggle="modal" data-target="#modal-delete" class="delete" data-path="{{ path('export_delete', {'id': genreExport.id}) }}">
+					<a data-name="{{ filename }}" data-toggle="modal" data-target="#modal-delete" class="delete" data-path="{{ path('export_delete', {'id': genreExport.id}) }}">
 						<i class="glyphicon glyphicon-remove"></i>
 					</a>
 				{% endfor %}
@@ -61,11 +63,12 @@
 				</a>
 				<br/>
 				{% for serieExport in exports.series %}
+					{% set filename = serieExport.filename | split("/") | last %}
 					<br/>
 					<a href="{{ path('export_download', { 'id': serieExport.id }) }}">
 						{{ serieExport.createdAt | date("Y.m.d H:i:s") }}
 					</a>
-					<a data-name="" data-toggle="modal" data-target="#modal-delete" class="delete" data-path="{{ path('export_delete', {'id': serieExport.id}) }}">
+					<a data-name="{{ filename }}" data-toggle="modal" data-target="#modal-delete" class="delete" data-path="{{ path('export_delete', {'id': serieExport.id}) }}">
 						<i class="glyphicon glyphicon-remove"></i>
 					</a>
 				{% endfor %}
