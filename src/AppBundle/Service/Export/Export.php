@@ -2,8 +2,14 @@
 
 namespace AppBundle\Service\Export;
 
+use AppBundle\Utils\EntityTrait;
+use AppBundle\Entity\ExportItem;
+use Doctrine\Bundle\DoctrineBundle\Registry;
+
 class Export
 {
+	use EntityTrait;
+
 	const AUTHOR = 'AppBundle\Entity\Author';
 	const GENRE = 'AppBundle\Entity\Genre';
 	const SERIE = 'AppBundle\Entity\Serie';
@@ -14,6 +20,11 @@ class Export
 	private $path;
 
 	/**
+	 * @var Registry
+	 */
+	private $doctrine;
+
+	/**
 	 * @var string
 	 */
 	private $filename;
@@ -22,26 +33,29 @@ class Export
 	 * Export constructor.
 	 * @param string $path
 	 */
-	public function __construct($path)
+	public function __construct(Registry $doctrine, $path)
 	{
+		$this->doctrine = $doctrine;
 		$this->path = $path;
 	}
 
 	/**
-	 * @param array $exportData
+	 * @param $entityClass
 	 * @param array $rows
+	 * @return string
 	 */
-	public function export(array $exportData, array $rows)
+	public function export($entityClass, array $rows)
 	{
-		$object = $exportData[0];
-
-		if (false === in_array(get_class($object), [self::AUTHOR, self::GENRE, self::SERIE])) {
+		if (false === in_array($entityClass, [self::AUTHOR, self::GENRE, self::SERIE])) {
 			throw new \LogicException();
 		}
 
+		$repo = $this->doctrine->getRepository($entityClass);
+		$exportData = $repo->findAll();
+
 		$this->filename = sprintf("%s/%ss-%s.xlsx",
 			$this->path,
-			strtolower((new \ReflectionClass($object))->getShortName()),
+			strtolower((new \ReflectionClass($exportData[0]))->getShortName()),
 			date("Y.m.d_H:i:s")
 		);
 
@@ -86,6 +100,14 @@ class Export
 		$objWriter->save($tmpFile);
 
 		copy($tmpFile, $this->filename);
+
+		$exportItem = new ExportItem();
+		$exportItem->setFilename($this->filename);
+		$exportItem->setTargetEntity($entityClass);
+
+		$this->saveEntity($this->doctrine->getManager(), $exportItem);
+
+		return $this->filename;
 	}
 
 	/**
@@ -98,14 +120,6 @@ class Export
 		$sheet
 			->getColumnDimension($colLetter)
 			->setAutoSize(true);
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getFileName()
-	{
-		return $this->filename;
 	}
 
 	public function purge()
