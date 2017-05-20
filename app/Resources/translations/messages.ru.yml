@@ -125,6 +125,8 @@ messages:
   list: 'Список'
   purged: 'Файлы удалены.'
   export_deleted: 'Экспорт удален.'
+  search: 'Поиск книги или автора'
+
 
 Previous: 'Предыдущая'
 Next: 'Следующая'

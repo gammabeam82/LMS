@@ -144,9 +144,9 @@ class Export
 		$repo = $this->doctrine->getRepository(ExportItem::class);
 
 		$exports = [
-			'authors' => $repo->findBy([ 'targetEntity' => self::AUTHOR ], null, 15),
-			'genres' => $repo->findBy([ 'targetEntity' => self::GENRE ], null, 15),
-			'series' => $repo->findBy([ 'targetEntity' => self::SERIE ], null, 15)
+			'authors' => $repo->findBy([ 'targetEntity' => self::AUTHOR ], ['createdAt' => 'DESC'], 15),
+			'genres' => $repo->findBy([ 'targetEntity' => self::GENRE ], ['createdAt' => 'DESC'], 15),
+			'series' => $repo->findBy([ 'targetEntity' => self::SERIE ], ['createdAt' => 'DESC'], 15)
 		];
 
 		return $exports;
