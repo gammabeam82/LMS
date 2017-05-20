@@ -41,7 +41,7 @@ class Export
 	}
 
 	/**
-	 * @param $entityClass
+	 * @param string $entityClass
 	 * @param array $rows
 	 * @return string
 	 */
