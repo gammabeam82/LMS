@@ -99,4 +99,8 @@ $(document).ready(() => {
 		$('.annotation').text($(this).attr('data-annotation'));
 	});
 
+	$('.export').click(function() {
+		setTimeout(() => location.reload(), 3500);
+	});
+
 });

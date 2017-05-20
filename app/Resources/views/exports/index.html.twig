@@ -24,22 +24,51 @@
 				{% endfor %}
 			</div>
 		</div>
-
 		<div class="row margin-top-10">
-			<div class="col-xs-1">
-				<a class="btn btn-success" href="{{ path('export_authors') }}">
+			<div class="col-xs-3 bordered-right">
+				<a class="btn btn-success export" href="{{ path('export_authors') }}">
 					<i class="glyphicon glyphicon-download-alt"></i> {{ 'navigation.authors' | trans }}
 				</a>
+				<br/>
+				{% for authorExport in exports.authors %}
+					<br/>
+					<a href="{{ path('export_download', { 'id': authorExport.id }) }}">
+						{{ authorExport.createdAt | date("Y.m.d H:i:s") }}
+					</a>
+					<a data-name="" data-toggle="modal" data-target="#modal-delete" class="delete" data-path="{{ path('export_delete', {'id': authorExport.id}) }}">
+						<i class="glyphicon glyphicon-remove"></i>
+					</a>
+				{% endfor %}
 			</div>
-			<div class="col-xs-1">
-				<a class="btn btn-success" href="{{ path('export_genres') }}">
+			<div class="col-xs-3 bordered-right">
+				<a class="btn btn-success export" href="{{ path('export_genres') }}">
 					<i class="glyphicon glyphicon-download-alt"></i> {{ 'navigation.genres' | trans }}
 				</a>
+				<br/>
+				{% for genreExport in exports.genres %}
+					<br/>
+					<a href="{{ path('export_download', { 'id': genreExport.id }) }}">
+						{{ genreExport.createdAt | date("Y.m.d H:i:s") }}
+					</a>
+					<a data-name="" data-toggle="modal" data-target="#modal-delete" class="delete" data-path="{{ path('export_delete', {'id': genreExport.id}) }}">
+						<i class="glyphicon glyphicon-remove"></i>
+					</a>
+				{% endfor %}
 			</div>
-			<div class="col-xs-1">
-				<a class="btn btn-success" href="{{ path('export_series') }}">
+			<div class="col-xs-3 bordered-right">
+				<a class="btn btn-success export" href="{{ path('export_series') }}">
 					<i class="glyphicon glyphicon-download-alt"></i> {{ 'navigation.series' | trans }}
 				</a>
+				<br/>
+				{% for serieExport in exports.series %}
+					<br/>
+					<a href="{{ path('export_download', { 'id': serieExport.id }) }}">
+						{{ serieExport.createdAt | date("Y.m.d H:i:s") }}
+					</a>
+					<a data-name="" data-toggle="modal" data-target="#modal-delete" class="delete" data-path="{{ path('export_delete', {'id': serieExport.id}) }}">
+						<i class="glyphicon glyphicon-remove"></i>
+					</a>
+				{% endfor %}
 			</div>
 			<div class="col-xs-1 col-xs-offset-1">
 				<a class="btn btn-danger" href="{{ path('export_purge') }}">
@@ -50,4 +79,8 @@
 
 	</div>
 
+{% endblock %}
+
+{% block modal %}
+	{% include('modal-delete.html.twig') %}
 {% endblock %}

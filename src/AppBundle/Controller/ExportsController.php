@@ -2,11 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\ExportItem;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Service\Genres;
 use AppBundle\Service\Authors;
 use AppBundle\Service\Series;
@@ -21,7 +23,11 @@ class ExportsController extends Controller
 	 */
 	public function indexAction()
 	{
-		return $this->render('exports/index.html.twig', []);
+		$exportService = $this->get('app.export');
+
+		return $this->render('exports/index.html.twig', [
+			'exports' => $exportService->getExportsList()
+		]);
 	}
 
 	/**
@@ -68,6 +74,41 @@ class ExportsController extends Controller
 		$exportService->purge();
 
 		$this->addFlash('notice', $translator->trans('messages.purged'));
+
+		return $this->redirectToRoute('export');
+	}
+
+	/**
+	 * @Route("/export/download/{id}", name="export_download")
+	 * @ParamConverter("item")
+	 *
+	 * @param ExportItem $item
+	 * @return BinaryFileResponse
+	 */
+	public function downloadAction(ExportItem $item)
+	{
+		$response = new BinaryFileResponse($item->getFilename());
+		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT);
+
+		return $response;
+	}
+
+	/**
+	 * @Route("/export/delete/{id}", name="export_delete")
+	 * @ParamConverter("item")
+	 *
+	 * @param ExportItem $item
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+	public function deleteAction(ExportItem $item)
+	{
+		$translator = $this->get('translator');
+
+		$exportService = $this->get('app.export');
+
+		$exportService->remove($item);
+
+		$this->addFlash('notice', $translator->trans('messages.export_deleted'));
 
 		return $this->redirectToRoute('export');
 	}

@@ -124,6 +124,7 @@ messages:
   not_found: 'Ничего не найдено.'
   list: 'Список'
   purged: 'Файлы удалены.'
+  export_deleted: 'Экспорт удален.'
 
 Previous: 'Предыдущая'
 Next: 'Следующая'

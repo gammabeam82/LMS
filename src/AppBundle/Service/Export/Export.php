@@ -134,4 +134,29 @@ class Export
 
 		$em->flush();
 	}
+
+	/**
+	 * @return array
+	 */
+	public function getExportsList()
+	{
+		/* @var \Doctrine\ORM\EntityRepository $repo */
+		$repo = $this->doctrine->getRepository(ExportItem::class);
+
+		$exports = [
+			'authors' => $repo->findBy([ 'targetEntity' => self::AUTHOR ], null, 15),
+			'genres' => $repo->findBy([ 'targetEntity' => self::GENRE ], null, 15),
+			'series' => $repo->findBy([ 'targetEntity' => self::SERIE ], null, 15)
+		];
+
+		return $exports;
+	}
+
+	/**
+	 * @param ExportItem $item
+	 */
+	public function remove(ExportItem $item)
+	{
+		$this->removeEntity($this->doctrine->getManager(), $item);
+	}
 }

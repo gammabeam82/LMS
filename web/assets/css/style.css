@@ -69,6 +69,16 @@ select.form-control + .chosen-container.chosen-container-single, .chosen-choices
 	margin: 0 20px;
 }
 
+a.delete {
+	color: #FF2C00 !important;
+	opacity: 0.7;
+	cursor: pointer;
+}
+
+a.delete:hover {
+	opacity: 1;
+}
+
 .download {
 	margin-left: 20px;
 }
