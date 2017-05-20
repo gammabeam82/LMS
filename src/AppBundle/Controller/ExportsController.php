@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use AppBundle\Service\Genres;
 use AppBundle\Service\Authors;
+use AppBundle\Service\Series;
 
 class ExportsController extends Controller
 {
@@ -78,7 +79,7 @@ class ExportsController extends Controller
 	private function processExport($service)
 	{
 		/**
-		 * @var Genres | Authors $service
+		 * @var Genres | Authors | Series $service
 		 */
 		$file = $service->export();
 
