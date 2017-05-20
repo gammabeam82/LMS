@@ -10,7 +10,7 @@ services:
 
       app.export:
           class: AppBundle\Service\Export\Export
-          arguments: ["%export%"]
+          arguments: ["@doctrine", "%export%"]
 
       app.authors:
           class: AppBundle\Service\Authors

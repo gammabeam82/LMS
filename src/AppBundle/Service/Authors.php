@@ -97,16 +97,12 @@ class Authors
 	{
 		$translator = $this->translator;
 
-		$repo = $this->doctrine->getRepository(Author::class);
-
 		$rows = [
 			$translator->trans('author.first_name') => 'getFirstName',
 			$translator->trans('author.last_name') => 'getLastName',
 			$translator->trans('book.books') => 'getBooksCount'
 		];
 
-		$this->exportService->export($repo->findAll(), $rows);
-
-		return $this->exportService->getFileName();
+		return $this->exportService->export(Author::class, $rows);
 	}
 }

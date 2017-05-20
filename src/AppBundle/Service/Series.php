@@ -97,8 +97,6 @@ class Series
 			$translator->trans('book.books') => 'getBooksCount'
 		];
 
-		$this->exportService->export($repo->findAll(), $rows);
-
-		return $this->exportService->getFileName();
+		return $this->exportService->export(Serie::class, $rows);
 	}
 }
