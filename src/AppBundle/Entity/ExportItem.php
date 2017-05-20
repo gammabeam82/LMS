@@ -9,6 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table(name="export_items")
+ * @ORM\HasLifecycleCallbacks()
  */
 class ExportItem implements EntityInterface
 {
@@ -55,71 +56,81 @@ class ExportItem implements EntityInterface
 		return $this;
 	}
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * @ORM\PreRemove
+	 */
+	public function removeFile()
+	{
+		if (false !== file_exists($this->filename)) {
+			unlink($this->filename);
+		}
+	}
 
-    /**
-     * Set createdAt
-     *
-     * @param \DateTime $createdAt
-     *
-     * @return ExportItem
-     */
-    public function setCreatedAt($createdAt)
-    {
-        $this->createdAt = $createdAt;
+	/**
+	 * Get id
+	 *
+	 * @return integer
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set createdAt
+	 *
+	 * @param \DateTime $createdAt
+	 *
+	 * @return ExportItem
+	 */
+	public function setCreatedAt($createdAt)
+	{
+		$this->createdAt = $createdAt;
 
-    /**
-     * Get createdAt
-     *
-     * @return \DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
+		return $this;
+	}
 
-    /**
-     * Get targetEntity
-     *
-     * @return string
-     */
-    public function getTargetEntity()
-    {
-        return $this->targetEntity;
-    }
+	/**
+	 * Get createdAt
+	 *
+	 * @return \DateTime
+	 */
+	public function getCreatedAt()
+	{
+		return $this->createdAt;
+	}
 
-    /**
-     * Set filename
-     *
-     * @param string $filename
-     *
-     * @return ExportItem
-     */
-    public function setFilename($filename)
-    {
-        $this->filename = $filename;
+	/**
+	 * Get targetEntity
+	 *
+	 * @return string
+	 */
+	public function getTargetEntity()
+	{
+		return $this->targetEntity;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set filename
+	 *
+	 * @param string $filename
+	 *
+	 * @return ExportItem
+	 */
+	public function setFilename($filename)
+	{
+		$this->filename = $filename;
 
-    /**
-     * Get filename
-     *
-     * @return string
-     */
-    public function getFilename()
-    {
-        return $this->filename;
-    }
+		return $this;
+	}
+
+	/**
+	 * Get filename
+	 *
+	 * @return string
+	 */
+	public function getFilename()
+	{
+		return $this->filename;
+	}
 }

@@ -124,8 +124,13 @@ class Export
 
 	public function purge()
 	{
-		array_map(function ($file) {
-			unlink($file);
-		}, glob(sprintf("%s/*.xlsx", $this->path)));
+		//array_map(function ($file) { unlink($file); }, glob(sprintf("%s/*.xlsx", $this->path)));
+
+		$repo = $this->doctrine->getRepository(ExportItem::class);
+		$em = $this->doctrine->getManager();
+
+		array_map(function($item) use ($em) { $em->remove($item); }, $repo->findAll());
+
+		$em->flush();
 	}
 }
