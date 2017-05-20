@@ -130,7 +130,7 @@ class Export
 		$repo = $this->doctrine->getRepository(ExportItem::class);
 		$em = $this->doctrine->getManager();
 
-		array_map(function($item) use ($em) { $em->remove($item); }, $repo->findAll());
+		array_map(function ($item) use ($em) { $em->remove($item); }, $repo->findAll());
 
 		$em->flush();
 	}
@@ -144,9 +144,9 @@ class Export
 		$repo = $this->doctrine->getRepository(ExportItem::class);
 
 		$exports = [
-			'authors' => $repo->findBy([ 'targetEntity' => self::AUTHOR ], ['createdAt' => 'DESC'], 15),
-			'genres' => $repo->findBy([ 'targetEntity' => self::GENRE ], ['createdAt' => 'DESC'], 15),
-			'series' => $repo->findBy([ 'targetEntity' => self::SERIE ], ['createdAt' => 'DESC'], 15)
+			'authors' => $repo->findBy(['targetEntity' => self::AUTHOR], ['createdAt' => 'DESC'], 15),
+			'genres' => $repo->findBy(['targetEntity' => self::GENRE], ['createdAt' => 'DESC'], 15),
+			'series' => $repo->findBy(['targetEntity' => self::SERIE], ['createdAt' => 'DESC'], 15)
 		];
 
 		return $exports;
