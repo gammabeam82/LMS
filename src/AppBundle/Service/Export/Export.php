@@ -31,7 +31,8 @@ class Export
 
 	/**
 	 * Export constructor.
-	 * @param string $path
+	 * @param Registry $doctrine
+	 * @param $path
 	 */
 	public function __construct(Registry $doctrine, $path)
 	{
