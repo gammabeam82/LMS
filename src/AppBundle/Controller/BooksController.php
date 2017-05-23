@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Book;
+use AppBundle\Entity\File as BookFile;
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\Rating;
 use AppBundle\Form\BookType;
@@ -117,27 +118,25 @@ class BooksController extends Controller
 
 		$sessionService = $this->get('app.sessions');
 
-		$originalFile = $book->getFile();
-		$book->setFile(new File($originalFile));
+		$originalFiles = $book->getBookFiles();
+
+		foreach($book->getBookFiles() as $file) {
+			$a=$file->getName();
+			$file->setName(new File($file->getName()));
+		}
 
 		$form = $this->createForm(BookType::class, $book);
 		$form->handleRequest($request);
 
-		if ($form->isSubmitted()) {
+		if ($form->isSubmitted() && $form->isValid()) {
+
+			foreach($book->getBookFiles() as $file) {
+				$a = $file->getName();
+			}
+
+			//$bookService->save($this->getUser(), $book);
 
 			$translator = $this->get('translator');
-
-			$validator = $this->get('validator');
-			$errors = $validator->validate($book, null, 'edit');
-
-			if (0 === count($errors)) {
-				if (empty($book->getFile())) {
-					$book->setFile($originalFile);
-					$bookService->save($this->getUser(), $book, false);
-				} elseif ($form->isValid()) {
-					$bookService->save($this->getUser(), $book, false, $originalFile);
-				}
-			}
 
 			$this->addFlash('notice', $translator->trans('messages.changes_accepted'));
 

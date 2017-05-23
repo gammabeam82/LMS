@@ -11,7 +11,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ORM\Table(name="books")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\BookRepository")
- * @ORM\HasLifecycleCallbacks()
  */
 class Book implements EntityInterface
 {
@@ -71,16 +70,6 @@ class Book implements EntityInterface
 	private $views;
 
 	/**
-	 * @ORM\Column(type="string", nullable=false)
-	 *
-	 * @Assert\NotBlank(message="book.file_error")
-	 * @Assert\File(
-	 *     mimeTypes={ "text/plain" }
-	 *     )
-	 */
-	private $file;
-
-	/**
 	 * @ORM\Column(type="string", length=2000, nullable=true)
 	 * @Assert\Length(
 	 *      max = 1000,
@@ -100,12 +89,18 @@ class Book implements EntityInterface
 	private $comments;
 
 	/**
+	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\File", mappedBy="book", cascade={"persist", "remove"})
+	 */
+	private $bookFiles;
+
+	/**
 	 * Book constructor.
 	 */
 	public function __construct()
 	{
 		$this->ratings = new ArrayCollection();
 		$this->comments = new ArrayCollection();
+		$this->bookFiles = new ArrayCollection();
 	}
 
 	/**
@@ -239,30 +234,6 @@ class Book implements EntityInterface
 	}
 
 	/**
-	 * Set file
-	 *
-	 * @param string $file
-	 *
-	 * @return Book
-	 */
-	public function setFile($file)
-	{
-		$this->file = $file;
-
-		return $this;
-	}
-
-	/**
-	 * Get file
-	 *
-	 * @return string
-	 */
-	public function getFile()
-	{
-		return $this->file;
-	}
-
-	/**
 	 * Set views
 	 *
 	 * @param integer $views
@@ -334,16 +305,6 @@ class Book implements EntityInterface
 		}
 
 		return "-";
-	}
-
-	/**
-	 * @ORM\PreRemove
-	 */
-	public function removeFile()
-	{
-		if (false !== file_exists($this->file)) {
-			unlink($this->file);
-		}
 	}
 
 	/**
@@ -432,4 +393,38 @@ class Book implements EntityInterface
 	{
 		$this->views++;
 	}
+
+    /**
+     * Add bookFile
+     *
+     * @param \AppBundle\Entity\File $bookFile
+     *
+     * @return Book
+     */
+    public function addBookFile(\AppBundle\Entity\File $bookFile)
+    {
+        $this->bookFiles[] = $bookFile;
+
+        return $this;
+    }
+
+    /**
+     * Remove bookFile
+     *
+     * @param \AppBundle\Entity\File $bookFile
+     */
+    public function removeBookFile(\AppBundle\Entity\File $bookFile)
+    {
+        $this->bookFiles->removeElement($bookFile);
+    }
+
+    /**
+     * Get bookFiles
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getBookFiles()
+    {
+        return $this->bookFiles;
+    }
 }

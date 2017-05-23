@@ -11,9 +11,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class BookType extends AbstractType
 {
@@ -62,10 +62,15 @@ class BookType extends AbstractType
 				'label' => 'book.annotation',
 				'required' => false
 				])
-			->add('file', FileType::class, [
-				'label' => 'book.file',
-				'required' => false
-			]);
+			->add('bookFiles', CollectionType::class, array(
+				'entry_type' => BookFileType::class,
+				'required' => false,
+				'allow_add' => true,
+				'allow_delete' => true,
+				'by_reference' => false,
+				'label' => ' '
+			));
+		;
 	}
 
 	/**

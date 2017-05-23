@@ -59,23 +59,24 @@
 				{{ form_row(form.serie, {'attr': {'class': 'chosen-select', 'data-placeholder': 'messages.serie_select' | trans } }) }}
 				{{ form_row(form.annotation, { 'attr': { 'rows': 5 } }) }}
 
-				{% if book.id %}
-					{{ form_row(form.file, {'attr': {'class': 'upload', 'accept': 'text/plain', 'data-file': book.file} }) }}
-				{% else %}
-					{{ form_row(form.file, {'attr': {'class': 'upload', 'accept': 'text/plain', 'required': true } }) }}
-				{% endif %}
+				<div class="files" data-prototype="{{ form_widget(form.bookFiles.vars.prototype)|e('html_attr') }}">
+					{% for file in form.bookFiles %}
+						{{ form_row(file, { 'attr': { 'data-file': file.vars.value.name.basename, 'class': 'upload' } }) }}
+					{% endfor %}
+				</div>
 
 				<button type="submit" class="btn btn-success pull-right">
 					<i class="glyphicon glyphicon-plus"></i> {{ 'actions.save' | trans }}
+				</button>
+
+				<button class="add_file_link btn btn-default pull-right">
+					<i class="glyphicon glyphicon-plus-sign"></i> {{ 'actions.new_file' | trans }}
 				</button>
 
 				{% if book.id %}
 					<button data-name="{{ book.name }}" data-toggle="modal" data-target="#modal-delete" class="btn btn-danger delete pull-right" data-path="{{ path('books_delete', {'id': book.id}) }}">
 						<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
 					</button>
-					<a href="{{ path('books_download', {'id': book.id}) }}" class="btn btn-primary pull-right download">
-						<i class="glyphicon glyphicon-cloud-download"></i> {{ 'book.download' | trans }}
-					</a>
 
 					{% if app.session.get(filterName) %}
 						<a href="{{ path('books') }}" class="btn btn-default pull-right">

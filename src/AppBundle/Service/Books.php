@@ -40,39 +40,37 @@ class Books
 	 * @param Book $book
 	 * @param bool $isCreating
 	 */
-	public function save(User $user, Book $book, $isCreating = true, $originalFile = null)
+	public function save(User $user, Book $book, $isCreating = true)
 	{
 		if (false !== $isCreating) {
 			$book->setAddedBy($user);
 			$book->setViews(0);
-			$this->saveFile($book);
 		}
 
-		if(false == empty($originalFile) && file_exists($originalFile)) {
-			unlink($originalFile);
-			$this->saveFile($book);
+		foreach($book->getBookFiles() as $file) {
+
+			if(false === is_object($file->getName())) {
+
+				continue;
+			}
+
+			/* @var \Symfony\Component\HttpFoundation\File\File $uploadedFile */
+			$uploadedFile = $file->getName();
+
+			$type = $uploadedFile->guessExtension();
+
+			/* @var \AppBundle\Entity\File */
+			$file->setBook($book);
+			$file->setType($type);
+
+			$filename = sprintf("%s.%s", md5(uniqid(rand(), TRUE)), $type);
+
+			$uploadedFile->move($this->path, $filename);
+
+			$file->setName(sprintf("%s/%s", $this->path, $filename));
 		}
 
 		$this->saveEntity($this->doctrine->getManager(), $book);
-	}
-
-	/**
-	 * @param Book $book
-	 */
-	private function saveFile(Book $book)
-	{
-		/**
-		 * @var \Symfony\Component\HttpFoundation\File\File $file
-		 */
-		$file = $book->getFile();
-		$fileName = md5(uniqid(rand(), TRUE)) . "." . $file->guessExtension();
-
-		$file->move(
-			$this->path,
-			$fileName
-		);
-
-		$book->setFile(sprintf("%s/%s", $this->path, $fileName));
 	}
 
 	/**
@@ -144,26 +142,4 @@ class Books
 		$this->removeEntity($this->doctrine->getManager(), $book);
 	}
 
-	/**
-	 * @param Book $book
-	 * @return BinaryFileResponse
-	 */
-	public function download(Book $book)
-	{
-
-		if (false === file_exists($book->getFile())) {
-			throw new \LogicException();
-		}
-
-		$fileName = sprintf("%s-%s.txt", $book->getAuthor()->getShortName(), $book->getName());
-
-		$book->incViews();
-
-		$this->saveEntity($this->doctrine->getManager(), $book);
-
-		$response = new BinaryFileResponse($book->getFile());
-		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $fileName);
-
-		return $response;
-	}
 }

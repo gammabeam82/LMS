@@ -28,6 +28,7 @@ actions:
   download_archive: 'Скачать архив'
   close: 'Закрыть'
   new_export: 'Новый экспорт'
+  new_file: 'Новый файл'
 
 book:
   add: 'Добавление книги'
