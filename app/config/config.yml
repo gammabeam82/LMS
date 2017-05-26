@@ -114,6 +114,3 @@ stof_doctrine_extensions:
         default:
             timestampable: true
             softdeleteable: true
-
-vich_uploader:
-    db_driver: orm
