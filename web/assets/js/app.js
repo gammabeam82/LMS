@@ -88,7 +88,7 @@ $(document).ready(() => {
 		return false;
 	});
 
-	$('.delete').on('click', function (event) {
+	$('.delete, .remove_stored_file').on('click', function (event) {
 		event.preventDefault();
 		$('.delete-item').attr('href', $(this).attr('data-path'));
 		$('.item-name').html($(this).attr('data-name'));

@@ -45,6 +45,7 @@ book:
   downloads: 'Количество загрузок'
   download: 'Скачать'
   file: 'Файл'
+  files: 'Файлы'
   new_file: 'Новый файл'
   rate: 'Оценить'
   value:

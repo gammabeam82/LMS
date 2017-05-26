@@ -3,9 +3,10 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Book;
-use AppBundle\Entity\File as BookFile;
 use AppBundle\Entity\Comment;
+use AppBundle\Entity\File;
 use AppBundle\Entity\Rating;
+use AppBundle\Form\BookEditType;
 use AppBundle\Form\BookType;
 use AppBundle\Form\RatingType;
 use AppBundle\Form\CommentType;
@@ -18,7 +19,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\File\File;
 use UnexpectedValueException;
 
 class BooksController extends Controller
@@ -92,7 +92,7 @@ class BooksController extends Controller
 
 			$this->addFlash('notice', $translator->trans('messages.book_added'));
 
-			return $this->redirectToRoute('books_add');
+			return $this->redirectToRoute('books');
 		}
 
 		return $this->render('books/form.html.twig', [
@@ -118,29 +118,19 @@ class BooksController extends Controller
 
 		$sessionService = $this->get('app.sessions');
 
-		$originalFiles = $book->getBookFiles();
-
-		foreach($book->getBookFiles() as $file) {
-			$a=$file->getName();
-			$file->setName(new File($file->getName()));
-		}
-
-		$form = $this->createForm(BookType::class, $book);
+		$form = $this->createForm(BookEditType::class, $book);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
 
-			foreach($book->getBookFiles() as $file) {
-				$a = $file->getName();
-			}
-
-			//$bookService->save($this->getUser(), $book);
+			$bookService->save($this->getUser(), $book, false);
 
 			$translator = $this->get('translator');
 
 			$this->addFlash('notice', $translator->trans('messages.changes_accepted'));
 
-			return $this->redirectToRoute('books', [
+			return $this->redirectToRoute('books_edit', [
+				'id' => $book->getId()
 			]);
 		}
 
@@ -175,20 +165,44 @@ class BooksController extends Controller
 	}
 
 	/**
-	 * @Route("/books/download/{id}", name="books_download")
-	 * @ParamConverter("book")
+	 * @Route("/books/file/delete/{id}", name="books_file_delete")
+	 * @ParamConverter("file")
 	 *
-	 * @param Book $book
+	 * @param File $file
+	 * @return RedirectResponse
+	 */
+	public function deleteBookFileAction(File $file)
+	{
+		$this->denyAccessUnlessGranted('delete', $file->getBook());
+
+		$bookService = $this->get('app.books');
+
+		$translator = $this->get('translator');
+
+		$bookService->removeFile($file);
+
+		$this->addFlash('notice', $translator->trans('messages.changes_accepted'));
+
+		return $this->redirectToRoute('books_edit', [
+			'id' => $file->getBook()->getId()
+		]);
+	}
+
+	/**
+	 * @Route("/books/file/download/{id}", name="books_file_download")
+	 * @ParamConverter("file")
+	 *
+	 * @param File $file
 	 * @return BinaryFileResponse
 	 */
-	public function downloadAction(Book $book)
+	public function downloadBookFileAction(File $file)
 	{
-		$this->denyAccessUnlessGranted('view', $book);
+		$this->denyAccessUnlessGranted('view', $file->getBook());
 
 		$bookService = $this->get('app.books');
 
 		try {
-			$response = $bookService->download($book);
+			$response = $bookService->downloadFile($file);
 		} catch (\LogicException $e) {
 			$translator = $this->get('translator');
 			throw $this->createNotFoundException($translator->trans('messages.file_not_found'));

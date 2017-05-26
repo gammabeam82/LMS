@@ -8,8 +8,7 @@ $(document).ready( () => {
 	let file = upload.attr('data-file') ? upload.attr('data-file') : '';
 
 	upload.fileinput({
-		'showPreview':false,
-		'initialCaption': file
+		'showPreview':false
 	});
 
 	let $collectionHolder;
@@ -28,7 +27,6 @@ $(document).ready( () => {
 	$collectionHolder.data('index', $collectionHolder.find(':input').length);
 
 	$addFileLink.on('click', function(e) {
-		alert('fff');
 		e.preventDefault();
 		addFileForm($collectionHolder, $newLinkDiv);
 	});

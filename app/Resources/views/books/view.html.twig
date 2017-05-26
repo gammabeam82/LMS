@@ -28,7 +28,7 @@
 		</div>
 
 		<div class="row">
-			<div class="col-xs-3 bordered-right">
+			<div class="col-xs-4 bordered-right">
 				<dl class="dl-horizontal">
 					<dt>{{ 'book.author' | trans }}:</dt>
 					<dd>{{ book.author.fullName }}</dd>
@@ -41,9 +41,17 @@
 					<dt>{{ 'book.rating' | trans }}:</dt>
 					<dd>{{ book.averageRating }}</dd>
 				</dl>
-				<a href="{{ path('books_download', {'id': book.id}) }}" class="btn btn-success pull-right">
-					<i class="glyphicon glyphicon-cloud-download"></i> {{ 'book.download' | trans }}
-				</a>
+
+				<ul class="list-group">
+					<li class="list-group-item">
+						{{ 'book.files' | trans }}
+					</li>
+					{% for file in book.bookFiles %}
+						<li class="list-group-item">
+							<a href="{{ path('books_file_download', { 'id': file.id }) }}">{{ file.name | split("/") | last }}</a>
+						</li>
+					{% endfor %}
+				</ul>
 
 				<br/>
 				<br/>

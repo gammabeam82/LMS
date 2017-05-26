@@ -59,17 +59,19 @@ class BookType extends AbstractType
 				'multiple' => false
 			])
 			->add('annotation', TextareaType::class, [
+
 				'label' => 'book.annotation',
 				'required' => false
 				])
-			->add('bookFiles', CollectionType::class, array(
+			->add('bookFiles', CollectionType::class, [
 				'entry_type' => BookFileType::class,
-				'required' => false,
+				'required' => true,
 				'allow_add' => true,
 				'allow_delete' => true,
 				'by_reference' => false,
+				'prototype' => true,
 				'label' => ' '
-			));
+			]);
 		;
 	}
 
@@ -80,6 +82,7 @@ class BookType extends AbstractType
 	{
 		$resolver->setDefaults([
 			'data_class' => Book::class,
+			'csrf_protection' => false
 		]);
 	}
 

@@ -405,6 +405,8 @@ class Book implements EntityInterface
     {
         $this->bookFiles[] = $bookFile;
 
+        $bookFile->setBook($this);
+
         return $this;
     }
 
@@ -427,4 +429,12 @@ class Book implements EntityInterface
     {
         return $this->bookFiles;
     }
+
+	/**
+	 * @param  $bookFiles
+	 */
+    public function setBookFiles($bookFiles)
+	{
+		$this->bookFiles = $bookFiles;
+	}
 }

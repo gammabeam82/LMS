@@ -18,7 +18,7 @@ class BookFileType extends AbstractType
 		$builder
 			->add('name', FileType::class, [
 				'label' => 'book.file',
-				'required' => false,
+				'required' => true,
 				'attr' => [
 					'class' => 'upload'
 				]
@@ -32,6 +32,7 @@ class BookFileType extends AbstractType
 	{
 		$resolver->setDefaults([
 			'data_class' => File::class,
+			'csrf_protection' => false
 		]);
 	}
 

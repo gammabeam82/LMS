@@ -3,16 +3,24 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Book;
+use AppBundle\Entity\File as BookFile;
 use AppBundle\Entity\User;
 use AppBundle\Filter\BookFilter;
 use AppBundle\Utils\EntityTrait;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class Books
 {
 	use EntityTrait;
+
+	/**
+	 * @var RequestStack
+	 */
+	private $requestStack;
 
 	/**
 	 * @var Registry
@@ -26,51 +34,69 @@ class Books
 
 	/**
 	 * Books constructor.
+	 * @param RequestStack $requestStack
 	 * @param Registry $doctrine
-	 * @param string $path
+	 * @param $path
 	 */
-	public function __construct(Registry $doctrine, $path)
+	public function __construct(RequestStack $requestStack, Registry $doctrine, $path)
 	{
+		$this->requestStack = $requestStack;
 		$this->doctrine = $doctrine;
 		$this->path = $path;
 	}
 
-	/**
-	 * @param User $user
-	 * @param Book $book
-	 * @param bool $isCreating
-	 */
+
 	public function save(User $user, Book $book, $isCreating = true)
 	{
 		if (false !== $isCreating) {
 			$book->setAddedBy($user);
 			$book->setViews(0);
-		}
 
-		foreach($book->getBookFiles() as $file) {
+			foreach ($book->getBookFiles() as $file) {
+				/* @var UploadedFile $uploadedFile */
+				$uploadedFile = $file->getName();
 
-			if(false === is_object($file->getName())) {
-
-				continue;
+				$this->saveFile($book, $uploadedFile, $file);
 			}
+		} else {
+			$request = $this->requestStack->getCurrentRequest();
+			$fileBag = $request->files;
 
-			/* @var \Symfony\Component\HttpFoundation\File\File $uploadedFile */
-			$uploadedFile = $file->getName();
+			foreach ($fileBag->get('book_edit')['bookFiles'] as $file) {
+				/* @var UploadedFile $uploadedFile */
+				$uploadedFile = $file['name'];
 
-			$type = $uploadedFile->guessExtension();
-
-			/* @var \AppBundle\Entity\File */
-			$file->setBook($book);
-			$file->setType($type);
-
-			$filename = sprintf("%s.%s", md5(uniqid(rand(), TRUE)), $type);
-
-			$uploadedFile->move($this->path, $filename);
-
-			$file->setName(sprintf("%s/%s", $this->path, $filename));
+				$this->saveFile($book, $uploadedFile);
+			}
 		}
 
 		$this->saveEntity($this->doctrine->getManager(), $book);
+	}
+
+
+	/**
+	 * @param Book $book
+	 * @param UploadedFile $uploadedFile
+	 * @param BookFile|null $bookFile
+	 */
+	private function saveFile(Book $book, UploadedFile $uploadedFile, BookFile $bookFile = null)
+	{
+		$type = $uploadedFile->guessExtension();
+		$filename = sprintf("%s-%s.%s", $book->getName(), uniqid(), $type);
+
+		$uploadedFile->move($this->path, $filename);
+
+		if(false === $bookFile instanceof BookFile) {
+			$bookFile = new BookFile();
+		}
+
+		$bookFile->setBook($book);
+		$bookFile->setType($type);
+		$bookFile->setName(sprintf("%s/%s", $this->path, $filename));
+
+		if(false === $book->getBookFiles()->contains($bookFile)) {
+			$book->addBookFile($bookFile);
+		}
 	}
 
 	/**
@@ -140,6 +166,33 @@ class Books
 	public function remove(Book $book)
 	{
 		$this->removeEntity($this->doctrine->getManager(), $book);
+	}
+
+	/**
+	 * @param BookFile $file
+	 */
+	public function removeFile(BookFile $file)
+	{
+		$this->removeEntity($this->doctrine->getManager(), $file);
+	}
+
+	/**
+	 * @param BookFile $file
+	 * @return BinaryFileResponse
+	 */
+	public function downloadFile(BookFile $file)
+	{
+		$book = $file->getBook();
+
+		if (false === file_exists($file->getName())) {
+			throw new \LogicException();
+		}
+		$fileName = sprintf("%s-%s.%s", $book->getAuthor()->getShortName(), $book->getName(), $file->getType());
+		$book->incViews();
+		$this->saveEntity($this->doctrine->getManager(), $book);
+		$response = new BinaryFileResponse($file->getName());
+		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $fileName);
+		return $response;
 	}
 
 }
