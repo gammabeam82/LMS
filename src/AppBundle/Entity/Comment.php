@@ -7,9 +7,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="comments")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CommentRepository")
+ * @ORM\Table(name="comments")
  */
 class Comment
 {

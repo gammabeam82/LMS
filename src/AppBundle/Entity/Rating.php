@@ -7,9 +7,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use LogicException;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="ratings")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RatingRepository")
+ * @ORM\Table(name="ratings")
  */
 class Rating
 {

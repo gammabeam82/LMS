@@ -3,16 +3,20 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="files")
  * @ORM\Entity()
+ * @ORM\Table(name="files")
  * @ORM\HasLifecycleCallbacks()
  */
 class File
 {
+	const TXT = "text/plain";
+	const FB2 = "text/xml";
+	const ZIP = "application/zip";
+
 	/**
 	 * @ORM\Id
 	 * @ORM\Column(type="integer")
@@ -39,6 +43,7 @@ class File
 
 	/**
 	 * @ORM\Column(type="string", length=250)
+	 * @Assert\NotBlank()
 	 */
 	private $name;
 

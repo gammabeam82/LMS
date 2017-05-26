@@ -8,9 +8,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="books")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\BookRepository")
+ * @ORM\Table(name="books")
  */
 class Book implements EntityInterface
 {

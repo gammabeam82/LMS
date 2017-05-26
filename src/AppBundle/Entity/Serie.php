@@ -8,9 +8,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="series")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SerieRepository")
+ * @ORM\Table(name="series")
  * @UniqueEntity(
  *     fields={"name"},
  *     message="serie.unique"
