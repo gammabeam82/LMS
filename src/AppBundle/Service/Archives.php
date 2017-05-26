@@ -177,8 +177,11 @@ class Archives
 
 		foreach ($books as $book) {
 			/* @var \AppBundle\Entity\Book $book */
-			$localname = sprintf("%s-%s.txt", $book->getAuthor()->getShortName(), $book->getName());
-			$zip->addFile($book->getFile(), $localname);
+			foreach($book->getBookFiles() as $bookFile) {
+				/* @var \AppBundle\Entity\File $bookFile */
+				$localname = sprintf("%s-%s.%s", $book->getAuthor()->getShortName(), $book->getName(), $bookFile->getType());
+				$zip->addFile($bookFile->getName(), $localname);
+			}
 		}
 
 		$zip->close();
