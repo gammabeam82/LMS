@@ -11,12 +11,10 @@ $(document).ready( () => {
 		'showPreview':false
 	});
 
-	let $collectionHolder;
-
 	let $addFileLink = $('.add_file_link');
 	let $newLinkDiv = $('<div></div>');
 
-	$collectionHolder = $('div.files');
+	let $collectionHolder = $('div.files');
 
 	$collectionHolder.find('div').each(function() {
 		addFileFormDeleteLink($(this));
@@ -51,10 +49,10 @@ $(document).ready( () => {
 	}
 
 	function addFileFormDeleteLink($fileFormDiv) {
-		let $removeFormA = $('<a href="#" class="remove_file_link pull-right"><i class="glyphicon glyphicon-remove file-control"></i></a><br/>');
-		$fileFormDiv.append($removeFormA);
+		let $removeForm = $('<a href="#" class="remove_file_link pull-right"><i class="glyphicon glyphicon-remove file-control"></i></a><br/>');
+		$fileFormDiv.append($removeForm);
 
-		$removeFormA.on('click', function(e) {
+		$removeForm.on('click', function(e) {
 			e.preventDefault();
 			$fileFormDiv.remove();
 		});
