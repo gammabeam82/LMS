@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Validator\Validator\RecursiveValidator;
 
 class Books
 {
@@ -28,20 +29,20 @@ class Books
 	private $doctrine;
 
 	/**
+	 * @var RecursiveValidator
+	 */
+	private $validator;
+
+	/**
 	 * @var string
 	 */
 	private $path;
 
-	/**
-	 * Books constructor.
-	 * @param RequestStack $requestStack
-	 * @param Registry $doctrine
-	 * @param $path
-	 */
-	public function __construct(RequestStack $requestStack, Registry $doctrine, $path)
+	public function __construct(RequestStack $requestStack, Registry $doctrine, RecursiveValidator $validator, $path)
 	{
 		$this->requestStack = $requestStack;
 		$this->doctrine = $doctrine;
+		$this->validator = $validator;
 		$this->path = $path;
 	}
 
@@ -67,6 +68,12 @@ class Books
 				$uploadedFile = $file['name'];
 
 				$this->saveFile($book, $uploadedFile);
+			}
+		}
+
+		foreach($book->getBookFiles() as $bookFile) {
+			if(0 !== count($this->validator->validate($bookFile))) {
+				throw new \UnexpectedValueException();
 			}
 		}
 

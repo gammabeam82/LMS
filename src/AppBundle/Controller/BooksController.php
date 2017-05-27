@@ -86,13 +86,17 @@ class BooksController extends Controller
 
 		if ($form->isSubmitted() && $form->isValid()) {
 
-			$bookService->save($this->getUser(), $book);
-
 			$translator = $this->get('translator');
 
-			$this->addFlash('notice', $translator->trans('messages.book_added'));
+			try {
+				$bookService->save($this->getUser(), $book, true);
+				$this->addFlash('notice', $translator->trans('messages.book_added'));
+				return $this->redirectToRoute('books', [
 
-			return $this->redirectToRoute('books');
+				]);
+			} catch (UnexpectedValueException $e) {
+				$this->addFlash('error', $translator->trans('messages.upload_error'));
+			}
 		}
 
 		return $this->render('books/form.html.twig', [
@@ -123,15 +127,17 @@ class BooksController extends Controller
 
 		if ($form->isSubmitted() && $form->isValid()) {
 
-			$bookService->save($this->getUser(), $book, false);
-
 			$translator = $this->get('translator');
 
-			$this->addFlash('notice', $translator->trans('messages.changes_accepted'));
-
-			return $this->redirectToRoute('books_edit', [
-				'id' => $book->getId()
-			]);
+			try {
+				$bookService->save($this->getUser(), $book, false);
+				$this->addFlash('notice', $translator->trans('messages.changes_accepted'));
+				return $this->redirectToRoute('books_edit', [
+					'id' => $book->getId()
+				]);
+			} catch (UnexpectedValueException $e) {
+				$this->addFlash('error', $translator->trans('messages.upload_error'));
+			}
 		}
 
 		return $this->render('books/form.html.twig', [

@@ -18,7 +18,7 @@ services:
 
       app.books:
           class: AppBundle\Service\Books
-          arguments: ["@request_stack", "@doctrine", "%library%"]
+          arguments: ["@request_stack", "@doctrine", "@validator", "%library%"]
 
       app.genres:
            class: AppBundle\Service\Genres
