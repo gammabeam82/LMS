@@ -30,7 +30,7 @@ class Book implements EntityInterface
 	 * @ORM\Column(type="string", length=200)
 	 * @Assert\NotBlank(groups={"edit"})
 	 * @Assert\Length(
-	 *        groups={"edit"},
+	 *      groups={"edit"},
 	 *      min = 1,
 	 *      max = 100,
 	 *      minMessage = "book.name_min",
@@ -100,6 +100,30 @@ class Book implements EntityInterface
 		$this->ratings = new ArrayCollection();
 		$this->comments = new ArrayCollection();
 		$this->bookFiles = new ArrayCollection();
+	}
+
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return sprintf("%s-%s", $this->getAuthor()->getShortName(), $this->name);
+	}
+
+	/**
+	 * @return float|int|string
+	 */
+	public function getAverageRating()
+	{
+		if (0 !== count($this->ratings)) {
+			$sum = 0;
+			foreach ($this->ratings as $rating) {
+				$sum += $rating->getValue();
+			}
+			return round(($sum / count($this->ratings)), 2);
+		}
+
+		return "-";
 	}
 
 	/**
@@ -288,22 +312,6 @@ class Book implements EntityInterface
 	public function getRatings()
 	{
 		return $this->ratings;
-	}
-
-	/**
-	 * @return float|int|string
-	 */
-	public function getAverageRating()
-	{
-		if (0 !== count($this->ratings)) {
-			$sum = 0;
-			foreach ($this->ratings as $rating) {
-				$sum += $rating->getValue();
-			}
-			return round(($sum / count($this->ratings)), 2);
-		}
-
-		return "-";
 	}
 
 	/**

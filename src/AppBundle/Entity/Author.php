@@ -62,6 +62,9 @@ class Author implements EntityInterface
 	private $addedBy;
 
 
+	/**
+	 * Author constructor.
+	 */
 	public function __construct()
 	{
 		$this->books = new ArrayCollection();
@@ -178,7 +181,7 @@ class Author implements EntityInterface
 	 */
     public function getFullName()
 	{
-		return "{$this->firstName} {$this->lastName}";
+		return sprintf("%s %s", $this->firstName, $this->lastName);
 	}
 
 	/**
@@ -186,7 +189,15 @@ class Author implements EntityInterface
 	 */
 	public function getShortName()
 	{
-		return mb_substr($this->getFirstName(), 0, 1).". {$this->lastName}";
+		return sprintf("%s. %s", mb_substr($this->getFirstName(), 0, 1), $this->lastName);
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFirstLetter()
+	{
+		return mb_substr($this->getLastName(), 0, 1);
 	}
 
 	/**
