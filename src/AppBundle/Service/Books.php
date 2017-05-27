@@ -84,15 +84,16 @@ class Books
 		$type = $uploadedFile->guessExtension();
 		$filename = sprintf("%s-%s.%s", $book->getName(), uniqid(), $type);
 
-		$uploadedFile->move($this->path, $filename);
-
 		if(false === $bookFile instanceof BookFile) {
 			$bookFile = new BookFile();
 		}
 
 		$bookFile->setBook($book);
 		$bookFile->setType($type);
+		$bookFile->setSize($uploadedFile->getSize());
 		$bookFile->setName(sprintf("%s/%s", $this->path, $filename));
+
+		$uploadedFile->move($this->path, $filename);
 
 		if(false === $book->getBookFiles()->contains($bookFile)) {
 			$book->addBookFile($bookFile);

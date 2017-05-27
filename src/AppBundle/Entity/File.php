@@ -52,6 +52,11 @@ class File
 	 */
 	private $type;
 
+	/**
+	 * @ORM\Column(type="integer", options={"default" : 0})
+	 */
+	private $size;
+
 
     /**
      * Get id
@@ -191,5 +196,37 @@ class File
 		if(false !== file_exists($this->name)) {
 			unlink($this->name);
 		}
+	}
+
+    /**
+     * Set size
+     *
+     * @param integer $size
+     *
+     * @return File
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    /**
+     * Get size
+     *
+     * @return integer
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
+
+	/**
+	 * @return string
+	 */
+    public function getSizeInKb()
+	{
+		return sprintf("%s kB", round($this->size / 1024, 0));
 	}
 }

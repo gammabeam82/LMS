@@ -49,6 +49,7 @@
 					{% for file in book.bookFiles %}
 						<li class="list-group-item">
 							<a href="{{ path('books_file_download', { 'id': file.id }) }}">{{ file.name | split("/") | last }}</a>
+							({{ file.getSizeInKb }})
 						</li>
 					{% endfor %}
 				</ul>

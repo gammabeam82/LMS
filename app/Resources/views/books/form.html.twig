@@ -67,6 +67,7 @@
 									<i class="glyphicon glyphicon-remove"></i>
 								</a>
 								<a href="{{ path('books_file_download', { 'id': file.id }) }}">{{ file.name | split("/") | last }}</a>
+								({{ file.getSizeInKb }})
 							</li>
 						{% endfor %}
 					</ul>
