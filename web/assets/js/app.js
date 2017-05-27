@@ -3,12 +3,18 @@ $(document).ready(() => {
 	const booksCountContainer = $('.books-count');
 	const errorMessage = $('.common-messages-error').text();
 	const backToTop = $('.back-to-top');
+
 	const hl = $('.highlight-value');
+	const hl2 = $('.highlight-value-hidden');
 
 	if(typeof hl.val() !== 'undefined') {
 		if(false === hl.closest('div').hasClass('has-error')) {
 			$('.highlight').mark(hl.val(), {});
 		}
+	}
+
+	if(typeof hl2.val() !== 'undefined') {
+		$('.highlight-2').mark(hl2.val(), {});
 	}
 
 	$('.navbar-fixed-top').autoHidingNavbar({

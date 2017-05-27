@@ -57,11 +57,12 @@
 				{{ form_start(form) }}
 				<div class="col-xs-4">
 					{{ form_row(form.lastName, { 'attr': { 'class': 'highlight-value' } }) }}
+					{{ form_row(form.firstLetter, { 'attr': { 'class': 'highlight-value-hidden' } }) }}
 				</div>
 			</div>
 
 			<div class="row">
-				<div class="col-xs-4">
+				<div class="col-xs-4 highlight-2">
 					{% for letter in letters %}
 						<a href="{{ path('authors', { 'author_filter[firstLetter]': letter } ) }}">{{ letter }} </a>
 					{% endfor %}
