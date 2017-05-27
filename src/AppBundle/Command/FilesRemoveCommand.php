@@ -2,7 +2,6 @@
 
 namespace AppBundle\Command;
 
-use Doctrine\ORM\EntityManager;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -30,34 +29,34 @@ class FilesRemoveCommand extends ContainerAwareCommand
 
 		$io->text('Fetching data...');
 
-		/** @var EntityManager $em */
-		$em = $this->getContainer()->get('doctrine')->getManager();
-
 		$path = $this->getContainer()->getParameter('library');
 
+		$em = $this->getContainer()->get('doctrine')->getManager();
+
 		$bookFiles = $em->createQueryBuilder()
-			->select('b.file')
-			->from('AppBundle:Book', 'b')
+			->select('f.name')
+			->from('AppBundle:File', 'f')
 			->getQuery()
 			->execute();
 
-		$bookFiles = array_column($bookFiles, 'file');
+		$bookFiles = array_column($bookFiles, 'name');
 
 		$orphMask = sprintf("%s/*.txt", $path);
 		$zipMask = sprintf("%s/*.zip", $path);
 
-		$orphanFiles = array_diff(glob($orphMask), $bookFiles);
-		$files = array_merge($orphanFiles, glob($zipMask));
+		$files = array_merge(glob($orphMask), glob($zipMask));
+
+		$orphanFiles = array_diff($files, $bookFiles);
 
 		$io->section("Files");
 
 		$io->writeln([
 			sprintf("Book files: %s", count($bookFiles)),
-			sprintf("Orphan & zip files: %s", count($files)),
+			sprintf("Orphan files: %s", count($orphanFiles)),
 			''
 		]);
 
-		if (0 == count($files)) {
+		if (0 == count($orphanFiles)) {
 			return;
 		}
 
@@ -74,7 +73,7 @@ class FilesRemoveCommand extends ContainerAwareCommand
 		array_map(function ($file) use ($io) {
 			unlink($file);
 			$io->progressAdvance(1);
-		}, $files);
+		}, $orphanFiles);
 
 		$io->progressFinish();
 		$io->success('Done.');
