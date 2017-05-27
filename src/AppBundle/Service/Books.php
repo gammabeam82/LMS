@@ -63,11 +63,15 @@ class Books
 			$request = $this->requestStack->getCurrentRequest();
 			$fileBag = $request->files;
 
-			foreach ($fileBag->get('book_edit')['bookFiles'] as $file) {
-				/* @var UploadedFile $uploadedFile */
-				$uploadedFile = $file['name'];
+			$newFiles = $fileBag->get('book_edit')['bookFiles'];
 
-				$this->saveFile($book, $uploadedFile);
+			if(0 !== count($newFiles)) {
+				foreach ($newFiles as $file) {
+					/* @var UploadedFile $uploadedFile */
+					$uploadedFile = $file['name'];
+
+					$this->saveFile($book, $uploadedFile);
+				}
 			}
 		}
 
