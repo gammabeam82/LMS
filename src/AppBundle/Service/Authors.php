@@ -73,6 +73,11 @@ class Authors
 			$qb->setParameter('name', "%" . mb_strtolower($filter->getLastName()) . "%");
 		}
 
+		if (false === empty($filter->getFirstLetter())) {
+			$qb->andWhere($qb->expr()->like('LOWER(a.lastName)', ':letter'));
+			$qb->setParameter('letter', mb_strtolower($filter->getFirstLetter()) . "%");
+		}
+
 		if (false !== $filter->getSortByName()) {
 			$qb->orderBy('a.lastName', 'ASC');
 		} else {

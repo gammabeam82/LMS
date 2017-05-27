@@ -3,6 +3,7 @@
 namespace AppBundle\Filter\Form;
 
 use AppBundle\Filter\AuthorFilter;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,6 +17,9 @@ class AuthorFilterType extends AbstractType
 		$builder
 			->add('lastName', TextType::class, [
 				'label' => 'author.author',
+				'required' => false
+			])
+			->add('firstLetter', HiddenType::class, [
 				'required' => false
 			])
 			->add('sortByName', CheckboxType::class, [

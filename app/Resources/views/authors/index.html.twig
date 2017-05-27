@@ -52,17 +52,30 @@
 		</div>
 
 		<div class="collapse {{ app.request.query.get(form.vars.name) or app.session.get(filterName) ? 'in' }}" id="filter">
+
 			<div class="row">
 				{{ form_start(form) }}
-				<div class="col-xs-3">
+				<div class="col-xs-4">
 					{{ form_row(form.lastName, { 'attr': { 'class': 'highlight-value' } }) }}
 				</div>
 			</div>
+
+			<br/>
+			<div class="row">
+				<div class="col-xs-4">
+					{% for letter in letters %}
+						<a href="{{ path('authors', { 'author_filter[firstLetter]': letter } ) }}">{{ letter }} </a>
+					{% endfor %}
+				</div>
+			</div>
+			<br/>
+
 			<div class="row">
 				<div class="col-xs-3">
 					{{ form_row(form.sortByName) }}
 				</div>
 			</div>
+
 			<div class="row">
 				<div class="col-xs-3">
 					<button type="submit" class="btn btn-primary">

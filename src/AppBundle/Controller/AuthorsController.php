@@ -13,9 +13,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Filter\AuthorFilter;
 use AppBundle\Filter\Form\AuthorFilterType;
 use UnexpectedValueException;
+use AppBundle\Utils\MbRangeTrait;
 
 class AuthorsController extends Controller
 {
+	use MbRangeTrait;
+
 	/**
 	 * @Route("/authors", name="authors")
 	 *
@@ -53,7 +56,8 @@ class AuthorsController extends Controller
 		return $this->render('authors/index.html.twig', [
 			'authors' => $authors,
 			'form' => $form->createView(),
-			'filterName' => $sessionService->getFilterName($filter)
+			'filterName' => $sessionService->getFilterName($filter),
+			'letters' => $this->mb_range('а', 'я')
 		]);
 	}
 

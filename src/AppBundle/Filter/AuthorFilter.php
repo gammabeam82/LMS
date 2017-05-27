@@ -25,6 +25,16 @@ class AuthorFilter implements CommonFilterInterface
 	private $sortByName;
 
 	/**
+	 * @var string
+	 *
+	 * @Assert\Length(
+	 *     min = 1,
+	 *     max = 1
+	 * )
+	 */
+	private $firstLetter;
+
+	/**
 	 * AuthorFilter constructor.
 	 */
 	public function __construct()
@@ -62,5 +72,21 @@ class AuthorFilter implements CommonFilterInterface
 	public function setSortByName($sortByName)
 	{
 		$this->sortByName = $sortByName;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getFirstLetter()
+	{
+		return $this->firstLetter;
+	}
+
+	/**
+	 * @param string $letter
+	 */
+	public function setFirstLetter($letter)
+	{
+		$this->firstLetter = $letter;
 	}
 }
