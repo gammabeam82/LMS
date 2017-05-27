@@ -73,6 +73,9 @@ class Books
 
 		foreach($book->getBookFiles() as $bookFile) {
 			if(0 !== count($this->validator->validate($bookFile))) {
+				if(false !== file_exists($bookFile->getName())) {
+					unlink($bookFile->getName());
+				}
 				throw new \UnexpectedValueException();
 			}
 		}
