@@ -38,6 +38,7 @@ class Books
 	 */
 	private $path;
 
+
 	public function __construct(RequestStack $requestStack, Registry $doctrine, RecursiveValidator $validator, $path)
 	{
 		$this->requestStack = $requestStack;
@@ -45,7 +46,6 @@ class Books
 		$this->validator = $validator;
 		$this->path = $path;
 	}
-
 
 	public function save(User $user, Book $book, $isCreating = true)
 	{
@@ -61,6 +61,8 @@ class Books
 			}
 		} else {
 			$request = $this->requestStack->getCurrentRequest();
+
+			/* @var \Symfony\Component\HttpFoundation\FileBag $fileBag */
 			$fileBag = $request->files;
 
 			$newFiles = $fileBag->get('book_edit')['bookFiles'];
@@ -104,6 +106,7 @@ class Books
 
 		$bookFile->setBook($book);
 		$bookFile->setType($type);
+		$bookFile->setMimeType($uploadedFile->getMimeType());
 		$bookFile->setSize($uploadedFile->getSize());
 		$bookFile->setName(sprintf("%s/%s", $this->path, $filename));
 

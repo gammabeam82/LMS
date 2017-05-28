@@ -53,6 +53,11 @@ class File
 	private $type;
 
 	/**
+	 * @ORM\Column(type="string", length=250, nullable=true)
+	 */
+	private $mimeType;
+
+	/**
 	 * @ORM\Column(type="integer", options={"default" : 0})
 	 */
 	private $size;
@@ -229,4 +234,28 @@ class File
 	{
 		return sprintf("%s kB", round($this->size / 1024, 0));
 	}
+
+    /**
+     * Set mimeType
+     *
+     * @param string $mimeType
+     *
+     * @return File
+     */
+    public function setMimeType($mimeType)
+    {
+        $this->mimeType = $mimeType;
+
+        return $this;
+    }
+
+    /**
+     * Get mimeType
+     *
+     * @return string
+     */
+    public function getMimeType()
+    {
+        return $this->mimeType;
+    }
 }
