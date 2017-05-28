@@ -14,6 +14,7 @@ use AppBundle\Filter\AuthorFilter;
 use AppBundle\Filter\Form\AuthorFilterType;
 use UnexpectedValueException;
 use AppBundle\Utils\MbRangeTrait;
+use AppBundle\Service\Sessions;
 
 class AuthorsController extends Controller
 {
@@ -110,8 +111,6 @@ class AuthorsController extends Controller
 
 		$authorService = $this->get('app.authors');
 
-		$sessionService = $this->get('app.sessions');
-
 		$form = $this->createForm(AuthorType::class, $author);
 		$form->handleRequest($request);
 
@@ -129,7 +128,7 @@ class AuthorsController extends Controller
 		return $this->render('authors/form.html.twig', [
 			'form' => $form->createView(),
 			'author' => $author,
-			'filterName' => $sessionService->getFilterName(AuthorFilter::class)
+			'filterName' => Sessions::getFilterName(AuthorFilter::class)
 		]);
 	}
 

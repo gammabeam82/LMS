@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use UnexpectedValueException;
+use AppBundle\Service\Sessions;
 
 class BooksController extends Controller
 {
@@ -120,8 +121,6 @@ class BooksController extends Controller
 
 		$bookService = $this->get('app.books');
 
-		$sessionService = $this->get('app.sessions');
-
 		$form = $this->createForm(BookEditType::class, $book);
 		$form->handleRequest($request);
 
@@ -144,7 +143,7 @@ class BooksController extends Controller
 			'form' => $form->createView(),
 			'book' => $book,
 			'id' => $book->getId(),
-			'filterName' => $sessionService->getFilterName(BookFilter::class)
+			'filterName' => Sessions::getFilterName(BookFilter::class)
 		]);
 	}
 

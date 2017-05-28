@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Filter\GenreFilter;
 use AppBundle\Filter\Form\GenreFilterType;
 use UnexpectedValueException;
+use AppBundle\Service\Sessions;
 
 class GenresController extends Controller
 {
@@ -108,8 +109,6 @@ class GenresController extends Controller
 
 		$genreService = $this->get('app.genres');
 
-		$sessionService = $this->get('app.sessions');
-
 		$form = $this->createForm(GenreType::class, $genre);
 		$form->handleRequest($request);
 
@@ -127,7 +126,7 @@ class GenresController extends Controller
 		return $this->render('genres/form.html.twig', [
 			'form' => $form->createView(),
 			'genre' => $genre,
-			'filterName' => $sessionService->getFilterName(GenreFilter::class)
+			'filterName' => Sessions::getFilterName(GenreFilter::class)
 		]);
 	}
 

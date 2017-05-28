@@ -92,10 +92,10 @@ class Sessions
 	}
 
 	/**
-	 * @param $filter
+	 * @param CommonFilterInterface|string $filter
 	 * @return string
 	 */
-	public function getFilterName($filter)
+	public static function getFilterName($filter)
 	{
 		$filterName = (is_object($filter)) ? get_class($filter) : $filter;
 		return substr(md5($filterName), 0, 10);

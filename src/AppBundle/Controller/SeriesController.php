@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Filter\SerieFilter;
 use AppBundle\Filter\Form\SerieFilterType;
 use UnexpectedValueException;
+use AppBundle\Service\Sessions;
 
 class SeriesController extends Controller
 {
@@ -109,8 +110,6 @@ class SeriesController extends Controller
 
 		$seriesService = $this->get('app.series');
 
-		$sessionService = $this->get('app.sessions');
-
 		$form = $this->createForm(SerieType::class, $serie);
 		$form->handleRequest($request);
 
@@ -128,7 +127,7 @@ class SeriesController extends Controller
 		return $this->render('series/form.html.twig', [
 			'form' => $form->createView(),
 			'serie' => $serie,
-			'filterName' => $sessionService->getFilterName(SerieFilter::class)
+			'filterName' => Sessions::getFilterName(SerieFilter::class)
 		]);
 	}
 
