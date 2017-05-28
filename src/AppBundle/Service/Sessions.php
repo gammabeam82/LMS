@@ -42,7 +42,7 @@ class Sessions
 
 		$session = $request->getSession();
 
-		$filterName = $this->getFilterName($filter);
+		$filterName = self::getFilterName($filter);
 
 		if (null !== $request->get('reset')) {
 			$session->remove($filterName);
