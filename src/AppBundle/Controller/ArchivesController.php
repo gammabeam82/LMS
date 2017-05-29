@@ -9,10 +9,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use LengthException;
-//use Symfony\Component\DependencyInjection\ContainerBuilder;
-//use Symfony\Component\DependencyInjection\Reference;
-//use AppBundle\EventListener\KernelEventSubscriber;
-
 
 class ArchivesController extends Controller
 {
@@ -46,17 +42,6 @@ class ArchivesController extends Controller
 			$translator = $this->get('translator');
 			throw $this->createNotFoundException($translator->trans('messages.file_not_found'));
 		}
-
-		/*
-		$container = new ContainerBuilder();
-		$container
-			->register('app.kernel_event_subscriber', KernelEventSubscriber::class)
-			->addArgument(new Reference('kernel'))
-			->addArgument(new Reference('security.token_storage'))
-			->addArgument('%library%')
-			->addTag('kernel.event_subscriber')
-		;
-		*/
 
 		return $response;
 	}

@@ -42,13 +42,13 @@ services:
 
       app.archives:
             class: AppBundle\Service\Archives
-            arguments: ["@=service('request_stack').getCurrentRequest().getSession()","@doctrine", "%session_archive_var%", "%library%", "@=service('security.token_storage').getToken().getUser()"]
+            arguments: ["@=service('request_stack').getCurrentRequest().getSession()","@doctrine", "%session_archive_var%"]
 
-      app.kernel_event_subscriber:
-            class: AppBundle\EventListener\KernelEventSubscriber
-            arguments: ["@kernel", "@security.token_storage", "%library%"]
-            tags:
-                - { name: kernel.event_subscriber }
+#      app.kernel_event_subscriber:
+#           class: AppBundle\EventListener\KernelEventSubscriber
+#            arguments: ["@kernel", "@security.token_storage", "%library%"]
+#            tags:
+#                - { name: kernel.event_subscriber }
 
       app.kernel_exception_listener:
             class: AppBundle\EventListener\PDOExceptionListener

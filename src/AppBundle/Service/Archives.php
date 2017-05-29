@@ -3,13 +3,12 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Book;
-use AppBundle\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use ZipArchive;
 use LengthException;
+use ZipStream\ZipStream;
 
 class Archives
 {
@@ -20,11 +19,6 @@ class Archives
 	private $doctrine;
 
 	/**
-	 * @var string
-	 */
-	private $varName;
-
-	/**
 	 * @var SessionInterface
 	 */
 	private $session;
@@ -32,28 +26,19 @@ class Archives
 	/**
 	 * @var string
 	 */
-	private $path;
-
-	/**
-	 * @var User
-	 */
-	private $user;
+	private $varName;
 
 	/**
 	 * Archives constructor.
 	 * @param SessionInterface $session
 	 * @param Registry $doctrine
 	 * @param $varName
-	 * @param $path
-	 * @param User $user
 	 */
-	public function __construct(SessionInterface $session, Registry $doctrine, $varName, $path, User $user)
+	public function __construct(SessionInterface $session, Registry $doctrine, $varName)
 	{
 		$this->doctrine = $doctrine;
 		$this->session = $session;
 		$this->varName = $varName;
-		$this->path = $path;
-		$this->user = $user;
 	}
 
 	/**
@@ -170,24 +155,19 @@ class Archives
 
 		$em->flush();
 
-		$zip = new ZipArchive();
-		$file = sprintf("%s/%s.zip", $this->path, $this->user->getId());
-
-		$zip->open($file, ZIPARCHIVE::CREATE);
+		$zipStream = new ZipStream("books.zip");
 
 		foreach ($books as $book) {
 			/* @var \AppBundle\Entity\Book $book */
 			foreach($book->getBookFiles() as $bookFile) {
 				/* @var \AppBundle\Entity\File $bookFile */
 				$localname = sprintf("%s-%s.%s", $book->getAuthor()->getShortName(), $book->getName(), $bookFile->getType());
-				$zip->addFile($bookFile->getName(), $localname);
+				$zipStream->addFileFromPath($localname, $bookFile->getName());
 			}
 		}
 
-		$zip->close();
-
-		$response = new BinaryFileResponse($file);
-		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, "books.zip");
+		$response = new BinaryFileResponse($zipStream->finish());
+		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT);
 
 		return $response;
 	}
