@@ -13,6 +13,7 @@
 {% block stylesheets %}
 	<link rel="stylesheet" href="{{ asset('assets/vendor/chosen-bootstrap/chosen.bootstrap.min.css') }}"/>
 	<link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap-fileinput/css/fileinput.min.css') }}"/>
+	<link rel="stylesheet" href="{{ asset('assets/vendor/fancybox/dist/jquery.fancybox.min.css') }}"/>
 	{{ parent() }}
 {% endblock %}
 
@@ -67,6 +68,11 @@
 									<i class="glyphicon glyphicon-remove"></i>
 								</a>
 								<a href="{{ path('books_file_download', { 'id': file.id }) }}">{{ file.name | split("/") | last }}</a>
+								{% if file.isImage == true %}
+									<a data-fancybox="gallery" href="{{ path('books_file_download', { 'id': file.id }) }}">
+										<i class="glyphicon glyphicon-picture"></i>
+									</a>
+								{% endif %}
 								({{ file.getSizeInKb }})
 							</li>
 						{% endfor %}
@@ -105,6 +111,7 @@
 	{{ parent() }}
 	<script src="{{ asset('assets/vendor/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
 	<script src="{{ asset('assets/vendor/chosen/chosen.jquery.js') }}"></script>
+	<script src="{{ asset('assets/vendor/fancybox/dist/jquery.fancybox.min.js') }}"></script>
 	<script src="{{ asset('assets/js/books-form.js') }}"></script>
 {% endblock %}
 

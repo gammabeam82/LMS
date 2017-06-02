@@ -8,6 +8,7 @@
 {% block stylesheets %}
 	{{ parent() }}
 	<link rel="stylesheet" href="{{ asset('assets/vendor/chosen-bootstrap/chosen.bootstrap.min.css') }}"/>
+	<link rel="stylesheet" href="{{ asset('assets/vendor/fancybox/dist/jquery.fancybox.min.css') }}"/>
 {% endblock %}
 
 {% block body %}
@@ -53,6 +54,12 @@
 						</li>
 					{% endfor %}
 				</ul>
+
+				{% for image in images %}
+					<a data-fancybox="gallery" href="{{ path('books_file_download', { 'id': image.id }) }}">
+						<img src="{{ path('books_file_download', { 'id': image.id }) }}" class="img-responsive"/>
+					</a>
+				{% endfor %}
 
 				<br/>
 				<br/>
@@ -145,5 +152,6 @@
 {% block javascripts %}
 	{{ parent() }}
 	<script src="{{ asset('assets/vendor/chosen/chosen.jquery.js') }}"></script>
+	<script src="{{ asset('assets/vendor/fancybox/dist/jquery.fancybox.min.js') }}"></script>
 	<script src="{{ asset('assets/js/books-view.js') }}"></script>
 {% endblock %}

@@ -104,9 +104,15 @@ class Books
 			$bookFile = new BookFile();
 		}
 
+		$mimeType = $uploadedFile->getMimeType();
+
+		if(false !== in_array($mimeType, ['image/jpeg', 'image/png'])) {
+			$bookFile->setIsImage(true);
+		}
+
 		$bookFile->setBook($book);
 		$bookFile->setType($type);
-		$bookFile->setMimeType($uploadedFile->getMimeType());
+		$bookFile->setMimeType($mimeType);
 		$bookFile->setSize($uploadedFile->getSize());
 		$bookFile->setName(sprintf("%s/%s", $this->path, $filename));
 
@@ -205,12 +211,35 @@ class Books
 		if (false === file_exists($file->getName())) {
 			throw new \LogicException();
 		}
+
 		$fileName = sprintf("%s-%s.%s", $book->getAuthor()->getShortName(), $book->getName(), $file->getType());
-		$book->incViews();
-		$this->saveEntity($this->doctrine->getManager(), $book);
+
 		$response = new BinaryFileResponse($file->getName());
-		$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $fileName);
+
+		if(false === $file->getIsImage()) {
+			$book->incViews();
+			$this->saveEntity($this->doctrine->getManager(), $book);
+
+			$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $fileName);
+		}
+
 		return $response;
+	}
+
+	/**
+	 * @param Book $book
+	 * @return array
+	 */
+	public function getImages(Book $book)
+	{
+		$images = [];
+		foreach($book->getBookFiles() as $file) {
+			if(false !== $file->getIsImage()) {
+				$images[] = $file;
+				$book->removeBookFile($file);
+			}
+		}
+		return $images;
 	}
 
 }

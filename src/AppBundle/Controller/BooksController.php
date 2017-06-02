@@ -231,6 +231,10 @@ class BooksController extends Controller
 		$comment = new Comment();
 		$rating = new Rating();
 
+		$bookService = $this->get('app.books');
+
+		$images = $bookService->getImages($book);
+
 		$commentService = $this->get('app.comments');
 
 		$paginator = $this->get('knp_paginator');
@@ -278,6 +282,7 @@ class BooksController extends Controller
 
 		return $this->render('books/view.html.twig', [
 			'book' => $book,
+			'images' => $images,
 			'form' => $ratingForm->createView(),
 			'comment_form' => $commentForm->createView(),
 			'comments' => $comments,
