@@ -7,11 +7,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\FileRepository")
  * @ORM\Table(name="files")
  * @ORM\HasLifecycleCallbacks()
  */
-class File
+class File implements EntityInterface
 {
 	const TXT = "text/plain";
 	const FB2 = "text/xml";
