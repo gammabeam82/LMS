@@ -22,7 +22,7 @@ class CommentsController extends Controller
 	 * @param Book $book
 	 * @return RedirectResponse|Response
 	 */
-	public function formAction(Request $request, Book $book)
+	public function indexAction(Request $request, Book $book)
 	{
 		$masterRequest = $this->get('request_stack')->getMasterRequest();
 
