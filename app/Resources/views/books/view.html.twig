@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
 {% form_theme comment_form 'bootstrap_3_layout.html.twig' %}
 
 {% block title %}{{ book.name }}{% endblock %}
@@ -55,32 +54,16 @@
 					{% endfor %}
 				</ul>
 
+				{{ render(controller('AppBundle:Ratings:form', { 'id': book.id })) }}
+				<br/>
+				<br/>
+				<hr/>
+
 				{% for image in images %}
 					<a data-fancybox="gallery" href="{{ path('books_file_download', { 'id': image.id }) }}">
 						<img src="{{ path('books_file_download', { 'id': image.id }) }}" class="img-responsive"/>
 					</a>
 				{% endfor %}
-
-				<br/>
-				<br/>
-				<hr/>
-
-				{% for flash_message in app.session.flashBag.get('notice') %}
-					<div class="panel panel-default">
-						<div class="panel-body bg-success">
-							{{ flash_message }}
-						</div>
-					</div>
-				{% endfor %}
-
-				{{ form_start(form) }}
-				{{ form_row(form.value, {'attr': {'class': 'chosen-select', 'data-placeholder': ' '} }) }}
-
-				<button type="submit" class="btn btn-primary pull-right">
-					<i class="glyphicon glyphicon-star"></i> {{ 'book.rate' | trans }}
-				</button>
-
-				{{ form_end(form) }}
 
 				{% if book.annotation %}
 					<br/>

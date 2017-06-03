@@ -229,7 +229,6 @@ class BooksController extends Controller
 		$this->denyAccessUnlessGranted('view', $book);
 
 		$comment = new Comment();
-		$rating = new Rating();
 
 		$bookService = $this->get('app.books');
 
@@ -244,19 +243,6 @@ class BooksController extends Controller
 			->properties['message'];
 
 		$lengthConstraint = $metaData->constraints[0];
-
-		$ratingForm = $this->createForm(RatingType::class, $rating);
-		$ratingForm->handleRequest($request);
-
-		if ($ratingForm->isSubmitted() && $ratingForm->isValid()) {
-			$ratingService = $this->get('app.ratings');
-
-			$translator = $this->get('translator');
-
-			$ratingService->save($this->getUser(), $book, $rating);
-
-			$this->addFlash('notice', $translator->trans('messages.vote_success'));
-		}
 
 		$commentForm = $this->createForm(CommentType::class, $comment);
 		$commentForm->handleRequest($request);
@@ -283,7 +269,6 @@ class BooksController extends Controller
 		return $this->render('books/view.html.twig', [
 			'book' => $book,
 			'images' => $images,
-			'form' => $ratingForm->createView(),
 			'comment_form' => $commentForm->createView(),
 			'comments' => $comments,
 			'commentLength' => [

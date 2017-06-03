@@ -1,0 +1,18 @@
+{% form_theme form 'bootstrap_3_horizontal_layout.html.twig' %}
+
+{% for flash_message in app.session.flashBag.get('notice') %}
+	<div class="panel panel-default">
+		<div class="panel-body bg-success">
+			{{ flash_message }}
+		</div>
+	</div>
+{% endfor %}
+
+{{ form_start(form) }}
+{{ form_row(form.value, {'attr': {'class': 'chosen-select', 'data-placeholder': ' '} }) }}
+
+<button type="submit" class="btn btn-primary pull-right">
+	<i class="glyphicon glyphicon-star"></i> {{ 'book.rate' | trans }}
+</button>
+
+{{ form_end(form) }}

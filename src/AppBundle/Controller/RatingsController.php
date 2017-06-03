@@ -1,0 +1,55 @@
+<?php
+
+namespace AppBundle\Controller;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Rating;
+use AppBundle\Entity\Book;
+use AppBundle\Form\RatingType;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+
+class RatingsController extends Controller
+{
+	/**
+	 * @Route("/books/{id}/rating", name="books_rating")
+	 * @ParamConverter("book")
+	 *
+	 * @param Request $request
+	 * @param Book $book
+	 * @return RedirectResponse|Response
+	 */
+	public function formAction(Request $request, Book $book)
+	{
+		$rating = new Rating();
+
+		$ratingForm = $this->createForm(RatingType::class, $rating, [
+			'action' => $this->generateUrl('books_rating', [
+				'id' => $book->getId()
+			])
+		]);
+		$ratingForm->handleRequest($request);
+
+		if ($ratingForm->isSubmitted() && $ratingForm->isValid()) {
+			$ratingService = $this->get('app.ratings');
+
+			$translator = $this->get('translator');
+
+			$ratingService->save($this->getUser(), $book, $rating);
+
+			$this->addFlash('notice', $translator->trans('messages.vote_success'));
+
+			return $this->redirectToRoute('books_view', [
+				'id' => $book->getId()
+			]);
+		}
+
+		return $this->render('ratings/form.html.twig', [
+			'form' => $ratingForm->createView()
+		]);
+
+	}
+}
