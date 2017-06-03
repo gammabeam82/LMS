@@ -24,6 +24,8 @@ class CommentsController extends Controller
 	 */
 	public function formAction(Request $request, Book $book)
 	{
+		$masterRequest = $this->get('request_stack')->getMasterRequest();
+
 		$comment = new Comment();
 
 		$commentService = $this->get('app.comments');
@@ -60,7 +62,7 @@ class CommentsController extends Controller
 		$query = $commentService->getQuery($book);
 
 		$comments = $paginator->paginate(
-			$query, $request->query->getInt('page', 1), $this->getParameter('comments_per_page')
+			$query, $masterRequest->query->getInt('page', 1), $this->getParameter('comments_per_page')
 		);
 
 		return $this->render('comments/index.html.twig', [
