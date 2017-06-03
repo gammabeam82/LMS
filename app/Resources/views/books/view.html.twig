@@ -1,7 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% form_theme comment_form 'bootstrap_3_layout.html.twig' %}
-
 {% block title %}{{ book.name }}{% endblock %}
 
 {% block stylesheets %}
@@ -79,52 +77,7 @@
 			</div>
 
 			<div class="col-xs-8">
-				{% for flash_message in app.session.flashBag.get('notice.comment') %}
-					<div class="panel panel-default">
-						<div class="panel-body bg-success">
-							{{ flash_message }}
-						</div>
-					</div>
-				{% endfor %}
-				{{ form_start(comment_form) }}
-				{{ form_row(comment_form.message, { 'attr': { 'rows': 6 } }) }}
-
-				<div class="progress" data-min="{{ commentLength.min }}" data-max="{{ commentLength.max }}">
-					<div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width: 6%">
-						0
-					</div>
-				</div>
-
-				<button type="submit" class="btn btn-default pull-right">
-					<i class="glyphicon glyphicon-plus"></i> {{ 'actions.save' | trans }}
-				</button>
-
-				{{ form_end(comment_form) }}
-
-				<div>
-					<br/>
-					<br/>
-					<br/>
-					{% for comment in comments %}
-						<div class="panel panel-default" id="c{{ comment.id }}">
-							<div class="panel-heading">
-								<i class="glyphicon glyphicon-user"></i> {{ comment.user.username }}
-								<span class="pull-right text-muted">
-									<i class="glyphicon glyphicon-time"></i> {{ comment.postedAt | date('d.m.Y H:i:s') }}
-								</span>
-							</div>
-							<div class="panel-body">
-								{{ comment.message }}
-							</div>
-						</div>
-					{% endfor %}
-
-					<div class="navigation">
-						{{ knp_pagination_render(comments) }}
-					</div>
-
-				</div>
-
+				{{ render(controller('AppBundle:Comments:form', { 'id': book.id })) }}
 			</div>
 
 		</div>

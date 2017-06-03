@@ -5,10 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\File;
-use AppBundle\Entity\Rating;
 use AppBundle\Form\BookEditType;
 use AppBundle\Form\BookType;
-use AppBundle\Form\RatingType;
 use AppBundle\Form\CommentType;
 use AppBundle\Filter\BookFilter;
 use AppBundle\Filter\Form\BookFilterType;
@@ -220,61 +218,18 @@ class BooksController extends Controller
 	 * @Route("/books/view/{id}", name="books_view")
 	 * @ParamConverter("book")
 	 *
-	 * @param Request $request
 	 * @param Book $book
-	 * @return RedirectResponse|Response
+	 * @return Response
 	 */
-	public function viewAction(Request $request, Book $book)
+	public function viewAction(Book $book)
 	{
 		$this->denyAccessUnlessGranted('view', $book);
 
-		$comment = new Comment();
-
 		$bookService = $this->get('app.books');
-
-		$images = $bookService->getImages($book);
-
-		$commentService = $this->get('app.comments');
-
-		$paginator = $this->get('knp_paginator');
-
-		$validator = $this->get('validator');
-		$metaData = $validator->getMetadataFor($comment)
-			->properties['message'];
-
-		$lengthConstraint = $metaData->constraints[0];
-
-		$commentForm = $this->createForm(CommentType::class, $comment);
-		$commentForm->handleRequest($request);
-
-		if ($commentForm->isSubmitted() && $commentForm->isValid()) {
-
-			$translator = $this->get('translator');
-
-			$commentService->save($this->getUser(), $book, $comment);
-
-			$this->addFlash('notice.comment', $translator->trans('messages.comment_added'));
-
-			return $this->redirectToRoute('books_view', [
-				'id' => $book->getId()
-			]);
-		}
-
-		$query = $commentService->getQuery($book);
-
-		$comments = $paginator->paginate(
-			$query, $request->query->getInt('page', 1), $this->getParameter('comments_per_page')
-		);
 
 		return $this->render('books/view.html.twig', [
 			'book' => $book,
-			'images' => $images,
-			'comment_form' => $commentForm->createView(),
-			'comments' => $comments,
-			'commentLength' => [
-				'min' => $lengthConstraint->min,
-				'max' => $lengthConstraint->max
-			]
+			'images' => $bookService->getImages($book)
 		]);
 	}
 }
