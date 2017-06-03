@@ -108,6 +108,8 @@ messages:
   author_deleted: 'Автор удален.'
   author_delete: 'Действительно удалить автора'
   comment_added: 'Комментарий добавлен.'
+  comment_deleted: 'Комментарий удален.'
+  comment: 'комментарий'
   recent_books: 'Последние добавленные книги'
   recent_comments: 'Последние комментарии'
   recent_news: 'Новости'

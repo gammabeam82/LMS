@@ -75,4 +75,46 @@ class CommentsController extends Controller
 		]);
 
 	}
+
+	/**
+	 * @Route("/books/{id}/comments/delete/{comment_id}", name="comments_delete")
+	 * @ParamConverter("book", class="AppBundle:Book", options={"id" = "id"})
+	 * @ParamConverter("comment", class="AppBundle:Comment", options={"id" = "comment_id"})
+	 *
+	 * @param Book $book
+	 * @param Comment $comment
+	 * @return RedirectResponse
+	 */
+	public function deleteAction(Book $book, Comment $comment)
+	{
+		$this->denyAccessUnlessGranted('delete', $comment);
+
+		$commentService = $this->get('app.comments');
+
+		$commentService->remove($comment);
+
+		$translator = $this->get('translator');
+
+		$this->addFlash('notice.comment', $translator->trans('messages.comment_deleted'));
+
+		return $this->redirectToRoute('books_view', [
+			'id' => $book->getId()
+		]);
+	}
+
+	/**
+	 * @Route("/books/{id}/comments/edit/{comment_id}", name="comments_edit")
+	 * @ParamConverter("book", class="AppBundle:Book", options={"id" = "id"})
+	 * @ParamConverter("comment", class="AppBundle:Comment", options={"id" = "comment_id"})
+	 *
+	 * @param Book $book
+	 * @param Comment $comment
+	 * @return RedirectResponse
+	 */
+	public function editAction(Book $book, Comment $comment)
+	{
+		$this->denyAccessUnlessGranted('edit', $comment);
+
+
+	}
 }

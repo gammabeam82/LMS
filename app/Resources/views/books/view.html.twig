@@ -91,3 +91,7 @@
 	<script src="{{ asset('assets/vendor/fancybox/dist/jquery.fancybox.min.js') }}"></script>
 	<script src="{{ asset('assets/js/books-view.js') }}"></script>
 {% endblock %}
+
+{% block modal %}
+	{% include('modal-delete.html.twig') %}
+{% endblock %}
