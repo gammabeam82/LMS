@@ -7,6 +7,7 @@ use AppBundle\Entity\File as BookFile;
 use AppBundle\Entity\User;
 use AppBundle\Filter\BookFilter;
 use AppBundle\Utils\EntityTrait;
+use AppBundle\Utils\ImageThumbnailTrait;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -17,6 +18,7 @@ use Symfony\Component\Validator\Validator\RecursiveValidator;
 class Books
 {
 	use EntityTrait;
+	use ImageThumbnailTrait;
 
 	/**
 	 * @var RequestStack
@@ -106,10 +108,6 @@ class Books
 
 		$mimeType = $uploadedFile->getMimeType();
 
-		if(false !== in_array($mimeType, ['image/jpeg', 'image/png'])) {
-			$bookFile->setIsImage(true);
-		}
-
 		$bookFile->setBook($book);
 		$bookFile->setType($type);
 		$bookFile->setMimeType($mimeType);
@@ -117,6 +115,16 @@ class Books
 		$bookFile->setName(sprintf("%s/%s", $this->path, $filename));
 
 		$uploadedFile->move($this->path, $filename);
+
+		if(false !== in_array($mimeType, ['image/jpeg', 'image/png'])) {
+			$bookFile->setIsImage(true);
+			try {
+				$thumbnail = $this->generateThumbnail($bookFile->getName(), $this->path);
+				$bookFile->setThumbnail($thumbnail);
+			} catch (\Exception $e) {
+
+			}
+		}
 
 		if(false === $book->getBookFiles()->contains($bookFile)) {
 			$book->addBookFile($bookFile);
@@ -204,7 +212,7 @@ class Books
 	 * @param BookFile $file
 	 * @return BinaryFileResponse
 	 */
-	public function downloadFile(BookFile $file)
+	public function downloadFile(BookFile $file, $getThumbnail = 0)
 	{
 		$book = $file->getBook();
 
@@ -212,15 +220,17 @@ class Books
 			throw new \LogicException();
 		}
 
-		$fileName = sprintf("%s-%s.%s", $book->getAuthor()->getShortName(), $book->getName(), $file->getType());
+		$item = (1 === $getThumbnail && file_exists($file->getThumbnail())) ? $file->getThumbnail() : $file->getName();
 
-		$response = new BinaryFileResponse($file->getName());
+		$filename = sprintf("%s-%s.%s", $book->getAuthor()->getShortName(), $book->getName(), $file->getType());
+
+		$response = new BinaryFileResponse($item);
 
 		if(false === $file->getIsImage()) {
 			$book->incViews();
 			$this->saveEntity($this->doctrine->getManager(), $book);
 
-			$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $fileName);
+			$response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $filename);
 		}
 
 		return $response;

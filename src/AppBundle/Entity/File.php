@@ -48,6 +48,11 @@ class File implements EntityInterface
 	private $name;
 
 	/**
+	 * @ORM\Column(type="string", length=250, nullable=true)
+	 */
+	private $thumbnail;
+
+	/**
 	 * @ORM\Column(type="string", length=100)
 	 */
 	private $type;
@@ -201,6 +206,10 @@ class File implements EntityInterface
 		if(false !== file_exists($this->name)) {
 			unlink($this->name);
 		}
+
+		if(false !== file_exists($this->thumbnail)) {
+			unlink($this->thumbnail);
+		}
 	}
 
     /**
@@ -257,5 +266,29 @@ class File implements EntityInterface
     public function getMimeType()
     {
         return $this->mimeType;
+    }
+
+    /**
+     * Set thumbnail
+     *
+     * @param string $thumbnail
+     *
+     * @return File
+     */
+    public function setThumbnail($thumbnail)
+    {
+        $this->thumbnail = $thumbnail;
+
+        return $this;
+    }
+
+    /**
+     * Get thumbnail
+     *
+     * @return string
+     */
+    public function getThumbnail()
+    {
+        return $this->thumbnail;
     }
 }

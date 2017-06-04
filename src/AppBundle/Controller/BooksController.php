@@ -195,17 +195,18 @@ class BooksController extends Controller
 	 * @Route("/books/file/download/{id}", name="books_file_download")
 	 * @ParamConverter("file")
 	 *
+	 * @param Request $request
 	 * @param File $file
 	 * @return BinaryFileResponse
 	 */
-	public function downloadBookFileAction(File $file)
+	public function downloadBookFileAction(Request $request, File $file)
 	{
 		$this->denyAccessUnlessGranted('view', $file->getBook());
 
 		$bookService = $this->get('app.books');
 
 		try {
-			$response = $bookService->downloadFile($file);
+			$response = $bookService->downloadFile($file, $request->query->getInt('thumbnail', 0));
 		} catch (\LogicException $e) {
 			$translator = $this->get('translator');
 			throw $this->createNotFoundException($translator->trans('messages.file_not_found'));

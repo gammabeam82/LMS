@@ -58,8 +58,11 @@
 				<hr/>
 
 				{% for image in images %}
+
+					{% set thumbnail = image.thumbnail ? true : false %}
+
 					<a data-fancybox="gallery" data-type="image" href="{{ path('books_file_download', { 'id': image.id }) }}">
-						<img src="{{ path('books_file_download', { 'id': image.id }) }}" class="img-responsive"/>
+						<img src="{{ path('books_file_download', { 'id': image.id, 'thumbnail': thumbnail }) }}" class="img-responsive"/>
 					</a>
 				{% endfor %}
 

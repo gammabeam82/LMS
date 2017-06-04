@@ -33,6 +33,9 @@
 						<li class="active">
 							{{ book.name }}
 						</li>
+						<li>
+							<a href="{{ path('books_view', {'id': book.id}) }}">{{ 'actions.show' | trans }}</a>
+						</li>
 					{% else %}
 						<li class="active">
 							{{ 'book.add' | trans }}
