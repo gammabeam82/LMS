@@ -24,17 +24,19 @@ class RatingsController extends Controller
 	 */
 	public function formAction(Request $request, Book $book)
 	{
-		$rating = new Rating();
+		$ratingService = $this->get('app.ratings');
+
+		$rating = $ratingService->getRating($book, $this->getUser());
 
 		$ratingForm = $this->createForm(RatingType::class, $rating, [
 			'action' => $this->generateUrl('books_rating', [
 				'id' => $book->getId()
 			])
 		]);
+
 		$ratingForm->handleRequest($request);
 
 		if ($ratingForm->isSubmitted() && $ratingForm->isValid()) {
-			$ratingService = $this->get('app.ratings');
 
 			$translator = $this->get('translator');
 
@@ -48,7 +50,8 @@ class RatingsController extends Controller
 		}
 
 		return $this->render('ratings/form.html.twig', [
-			'form' => $ratingForm->createView()
+			'form' => $ratingForm->createView(),
+			'rating' => $rating
 		]);
 
 	}

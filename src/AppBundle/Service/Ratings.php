@@ -55,4 +55,28 @@ class Ratings
 		$this->saveEntity($this->doctrine->getManager(), $rating);
 	}
 
+	/**
+	 * @param Book $book
+	 * @param User $user
+	 * @return Rating
+	 */
+	public function getRating(Book $book, User $user)
+	{
+		/**
+		 * @var \Doctrine\ORM\EntityRepository $repo
+		 */
+		$repo = $this->doctrine->getRepository(Rating::class);
+
+		$rating = $repo->findOneBy([
+			'book' => $book,
+			'user' => $user
+		]);
+
+		if(null === $rating) {
+			$rating = new Rating();
+		}
+
+		return $rating;
+	}
+
 }
