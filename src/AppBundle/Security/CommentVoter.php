@@ -63,7 +63,9 @@ class CommentVoter extends Voter
 	 */
 	private function canEdit(Comment $comment, User $user)
 	{
-		return $user === $comment->getUser() || $user->hasRole('ROLE_ADMIN');
+		$timeDiff = date_timestamp_get(new \DateTime()) - date_timestamp_get($comment->getPostedAt());
+
+		return ($user === $comment->getUser() && $timeDiff < 600) || $user->hasRole('ROLE_ADMIN');
 	}
 
 	/**
