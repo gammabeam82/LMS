@@ -41,4 +41,16 @@ $(document).ready(() => {
 	checkMessage();
 	$('#comment_message').on('input', checkMessage);
 
+	$('.edit-comment').on('click', function (event) {
+		event.preventDefault();
+
+		let formContainer = $('.comment-form-container');
+
+		formContainer.html($('.spinner').html());
+
+		$.get($(this).attr('data-path')).then(
+			(data) => formContainer.html(data)
+		);
+	});
+
 });

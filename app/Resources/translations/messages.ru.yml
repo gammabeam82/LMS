@@ -72,6 +72,7 @@ genre:
 
 comment:
   comment: 'Комментарий'
+  edit: 'Редактирование комментария'
 
 serie:
   serie: 'Серия'

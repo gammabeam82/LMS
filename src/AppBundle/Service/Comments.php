@@ -52,11 +52,14 @@ class Comments
 	 * @param User $user
 	 * @param Book $book
 	 * @param Comment $comment
+	 * @param bool $isCreating
 	 */
-	public function save(User $user, Book $book, Comment $comment)
+	public function save(User $user, Book $book, Comment $comment, $isCreating = false)
 	{
-		$comment->setBook($book);
-		$comment->setUser($user);
+		if(false !== $isCreating) {
+			$comment->setBook($book);
+			$comment->setUser($user);
+		}
 
 		$this->saveEntity($this->doctrine->getManager(), $comment);
 	}

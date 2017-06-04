@@ -1,0 +1,13 @@
+{% form_theme comment_edit_form 'bootstrap_3_layout.html.twig' %}
+
+{{ form_start(comment_edit_form) }}
+{{ form_row(comment_edit_form.message, { 'attr': { 'rows': 6, 'spellcheck': 'false' } }) }}
+
+<button type="submit" class="btn btn-default pull-right">
+	<i class="glyphicon glyphicon-circle-arrow-right"></i> {{ 'actions.save' | trans }}
+</button>
+
+<br/>
+<br/>
+
+{{ form_end(comment_edit_form) }}

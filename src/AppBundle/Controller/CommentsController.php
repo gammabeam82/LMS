@@ -50,7 +50,7 @@ class CommentsController extends Controller
 
 			$translator = $this->get('translator');
 
-			$commentService->save($this->getUser(), $book, $comment);
+			$commentService->save($this->getUser(), $book, $comment, true);
 
 			$this->addFlash('notice.comment', $translator->trans('messages.comment_added'));
 
@@ -71,7 +71,8 @@ class CommentsController extends Controller
 			'commentLength' => [
 				'min' => $lengthConstraint->min,
 				'max' => $lengthConstraint->max
-			]
+			],
+			'page' => $masterRequest->query->getInt('page', 1)
 		]);
 
 	}
@@ -107,14 +108,46 @@ class CommentsController extends Controller
 	 * @ParamConverter("book", class="AppBundle:Book", options={"id" = "id"})
 	 * @ParamConverter("comment", class="AppBundle:Comment", options={"id" = "comment_id"})
 	 *
+	 * @param Request $request
 	 * @param Book $book
 	 * @param Comment $comment
-	 * @return RedirectResponse
+	 * @return RedirectResponse|Response
 	 */
-	public function editAction(Book $book, Comment $comment)
+	public function editAction(Request $request, Book $book, Comment $comment)
 	{
 		$this->denyAccessUnlessGranted('edit', $comment);
 
+		$commentForm = $this->createForm(CommentType::class, $comment, [
+			'action' => $this->generateUrl('comments_edit', [
+				'id' => $book->getId(),
+				'comment_id' => $comment->getId(),
+				'page' => $request->query->getInt('page', 1)
+			])
+		]);
 
+		$commentForm->handleRequest($request);
+
+		if($commentForm->isSubmitted()) {
+
+			$translator = $this->get('translator');
+
+			if($commentForm->isValid()) {
+				$commentService = $this->get('app.comments');
+
+				$commentService->save($this->getUser(), $book, $comment);
+
+				$this->addFlash('notice.comment', $translator->trans('messages.changes_accepted'));
+			} else {
+				$this->addFlash('error.comment', $translator->trans('messages.error'));
+			}
+			return $this->redirectToRoute('books_view', [
+				'id' => $book->getId(),
+				'page' => $request->query->getInt('page', 1)
+			]);
+		}
+
+		return $this->render('comments/form.html.twig', [
+			'comment_edit_form' => $commentForm->createView()
+		]);
 	}
 }

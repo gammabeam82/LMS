@@ -8,8 +8,16 @@
 	</div>
 {% endfor %}
 
+{% for flash_message in app.session.flashBag.get('error.comment') %}
+	<div class="panel panel-default">
+		<div class="panel-body bg-danger">
+			{{ flash_message }}
+		</div>
+	</div>
+{% endfor %}
+
 {{ form_start(comment_form) }}
-{{ form_row(comment_form.message, { 'attr': { 'rows': 6 } }) }}
+{{ form_row(comment_form.message, { 'attr': { 'rows': 6, 'spellcheck': 'false' } }) }}
 
 <div class="progress" data-min="{{ commentLength.min }}" data-max="{{ commentLength.max }}">
 	<div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" style="width: 6%">
@@ -39,6 +47,12 @@
 				{% if is_granted('delete', comment) %}
 					<a href="#" data-path="{{ path('comments_delete', { 'id': comment.book.id, 'comment_id': comment.id }) }}" class="delete pull-right" data-name="{{ 'messages.comment' | trans }}" data-toggle="modal" data-target="#modal-delete">
 						<i class="glyphicon glyphicon-remove"></i>
+					</a>
+				{% endif %}
+
+				{% if is_granted('edit', comment) %}
+					<a href="#" data-path="{{ path('comments_edit', { 'id': comment.book.id, 'comment_id': comment.id, 'page': page }) }}" class="edit-comment pull-right" data-toggle="modal" data-target="#modal-comment-edit">
+						<i class="glyphicon glyphicon-edit"></i>
 					</a>
 				{% endif %}
 
