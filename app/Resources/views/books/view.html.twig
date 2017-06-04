@@ -21,6 +21,11 @@
 						<a href="{{ path('books', {'book_filter[author][]': book.author.id}) }}">{{ book.author.shortName }}</a>
 					</li>
 					<li class="active">{{ book.name }}</li>
+					{% if is_granted('edit', book) %}
+						<li>
+							<a href="{{ path('books_edit', { 'id': book.id }) }}">{{ 'actions.edit' | trans }}</a>
+						</li>
+					{% endif %}
 				</ol>
 			</div>
 		</div>

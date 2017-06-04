@@ -199,7 +199,7 @@ class BooksController extends Controller
 	 * @param File $file
 	 * @return BinaryFileResponse
 	 */
-	public function downloadBookFileAction(Request $request, File $file)
+	public function getFileAction(Request $request, File $file)
 	{
 		$this->denyAccessUnlessGranted('view', $file->getBook());
 
