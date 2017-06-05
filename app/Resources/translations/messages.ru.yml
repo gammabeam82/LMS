@@ -29,6 +29,7 @@ actions:
   close: 'Закрыть'
   new_export: 'Новый экспорт'
   new_file: 'Новый файл'
+  go: 'Перейти'
 
 book:
   add: 'Добавление книги'
