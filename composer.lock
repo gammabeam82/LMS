@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8185426f38624ea9e8096b7c5cf03243",
+    "content-hash": "c933226ba4ff1e6bfe7c6d1acbfb78b6",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -1931,6 +1931,58 @@
                 "psr-3"
             ],
             "time": "2016-10-10T12:19:37+00:00"
+        },
+        {
+            "name": "ruvents/doctrine-fixes-bundle",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ruvents/ruvents-doctrine-fixes-bundle.git",
+                "reference": "630d46fefdf6ac1fe2b95b96c248ddf8c9e75f4f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ruvents/ruvents-doctrine-fixes-bundle/zipball/630d46fefdf6ac1fe2b95b96c248ddf8c9e75f4f",
+                "reference": "630d46fefdf6ac1fe2b95b96c248ddf8c9e75f4f",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/dbal": "^2.5",
+                "php": ">=5.5.9",
+                "symfony/config": "^3.0",
+                "symfony/dependency-injection": "^3.0",
+                "symfony/http-kernel": "^3.0",
+                "symfony/yaml": "^3.0"
+            },
+            "require-dev": {
+                "matthiasnoback/symfony-dependency-injection-test": "^1.1"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ruvents\\DoctrineFixesBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Valentin Udaltsov",
+                    "email": "udaltsov@ruvents.com"
+                }
+            ],
+            "description": "RUVENTS Doctrine Fixes Bundle",
+            "time": "2017-03-21T17:32:10+00:00"
         },
         {
             "name": "sensio/distribution-bundle",
