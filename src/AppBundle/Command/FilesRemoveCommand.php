@@ -34,17 +34,19 @@ class FilesRemoveCommand extends ContainerAwareCommand
 		$em = $this->getContainer()->get('doctrine')->getManager();
 
 		$bookFiles = $em->createQueryBuilder()
-			->select('f.name')
+			->select('f.name', 'f.thumbnail')
 			->from('AppBundle:File', 'f')
 			->getQuery()
 			->execute();
 
-		$bookFiles = array_column($bookFiles, 'name');
+		$bookFiles = array_merge(
+			array_column($bookFiles, 'name'),
+			array_filter(array_column($bookFiles, 'thumbnail'), function ($item) {
+				return !empty($item);
+			})
+		);
 
-		$orphMask = sprintf("%s/*.txt", $path);
-		$zipMask = sprintf("%s/*.zip", $path);
-
-		$files = array_merge(glob($orphMask), glob($zipMask));
+		$files = glob(sprintf("%s/*.*", $path));
 
 		$orphanFiles = array_diff($files, $bookFiles);
 
@@ -68,7 +70,7 @@ class FilesRemoveCommand extends ContainerAwareCommand
 		}
 
 		$io->writeln(['', 'Executing...', '']);
-		$io->progressStart(count($files));
+		$io->progressStart(count($orphanFiles));
 
 		array_map(function ($file) use ($io) {
 			unlink($file);
