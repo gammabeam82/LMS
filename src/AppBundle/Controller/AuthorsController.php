@@ -74,27 +74,7 @@ class AuthorsController extends Controller
 
 		$this->denyAccessUnlessGranted('create', $author);
 
-		$authorService = $this->get('app.authors');
-
-		$form = $this->createForm(AuthorType::class, $author);
-		$form->handleRequest($request);
-
-		if($form->isSubmitted() && $form->isValid()) {
-
-			$authorService->save($this->getUser(), $author);
-
-			$translator = $this->get('translator');
-
-			$this->addFlash('notice', $translator->trans('messages.author_added'));
-
-			return $this->redirectToRoute('authors_add');
-		}
-
-		return $this->render('authors/form.html.twig', [
-			'form' => $form->createView(),
-			'author' => $author,
-			'filterName' => null
-		]);
+		return $this->processForm($request, $author, 'messages.author_added');
 	}
 
 	/**
@@ -109,27 +89,7 @@ class AuthorsController extends Controller
 	{
 		$this->denyAccessUnlessGranted('edit', $author);
 
-		$authorService = $this->get('app.authors');
-
-		$form = $this->createForm(AuthorType::class, $author);
-		$form->handleRequest($request);
-
-		if($form->isSubmitted() && $form->isValid()) {
-
-			$translator = $this->get('translator');
-
-			$authorService->save($this->getUser(), $author, false);
-
-			$this->addFlash('notice', $translator->trans('messages.changes_accepted'));
-
-			return $this->redirectToRoute('authors');
-		}
-
-		return $this->render('authors/form.html.twig', [
-			'form' => $form->createView(),
-			'author' => $author,
-			'filterName' => Sessions::getFilterName(AuthorFilter::class)
-		]);
+		return $this->processForm($request, $author, 'messages.changes_accepted');
 	}
 
 	/**
@@ -141,7 +101,7 @@ class AuthorsController extends Controller
 	 */
 	public function deleteAction(Author $author)
 	{
-		$this->denyAccessUnlessGranted('remove', $author);
+		$this->denyAccessUnlessGranted('delete', $author);
 
 		$authorService = $this->get('app.authors');
 
@@ -152,5 +112,38 @@ class AuthorsController extends Controller
 		$this->addFlash('notice', $translator->trans('messages.author_deleted'));
 
 		return $this->redirectToRoute('authors');
+	}
+
+	/**
+	 * @param Request $request
+	 * @param Author $author
+	 * @param $message
+	 * @return RedirectResponse|Response
+	 */
+	private function processForm(Request $request, Author $author, $message)
+	{
+		$authorService = $this->get('app.authors');
+
+		$form = $this->createForm(AuthorType::class, $author);
+		$form->handleRequest($request);
+
+		if($form->isSubmitted() && $form->isValid()) {
+
+			$translator = $this->get('translator');
+
+			$route = $author->getId() ? 'authors' : 'authors_add';
+
+			$authorService->save($this->getUser(), $author, !$author->getId());
+
+			$this->addFlash('notice', $translator->trans($message));
+
+			return $this->redirectToRoute($route);
+		}
+
+		return $this->render('authors/form.html.twig', [
+			'form' => $form->createView(),
+			'author' => $author,
+			'filterName' => $author->getId() ? Sessions::getFilterName(AuthorFilter::class) : null
+		]);
 	}
 }

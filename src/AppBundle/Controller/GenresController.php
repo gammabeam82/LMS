@@ -72,27 +72,7 @@ class GenresController extends Controller
 
 		$this->denyAccessUnlessGranted('create', $genre);
 
-		$genreService = $this->get('app.genres');
-
-		$form = $this->createForm(GenreType::class, $genre);
-		$form->handleRequest($request);
-
-		if($form->isSubmitted() && $form->isValid()) {
-
-			$translator = $this->get('translator');
-
-			$genreService->save($this->getUser(), $genre);
-
-			$this->addFlash('notice', $translator->trans('messages.genre_added'));
-
-			return $this->redirectToRoute('genres_add');
-		}
-
-		return $this->render('genres/form.html.twig', [
-			'form' => $form->createView(),
-			'genre' => $genre,
-			'filterName' => null
-		]);
+		return $this->processForm($request, $genre, 'messages.genre_added');
 	}
 
 	/**
@@ -107,27 +87,7 @@ class GenresController extends Controller
 	{
 		$this->denyAccessUnlessGranted('edit', $genre);
 
-		$genreService = $this->get('app.genres');
-
-		$form = $this->createForm(GenreType::class, $genre);
-		$form->handleRequest($request);
-
-		if($form->isSubmitted() && $form->isValid()) {
-
-			$translator = $this->get('translator');
-
-			$genreService->save($this->getUser(), $genre, false);
-
-			$this->addFlash('notice', $translator->trans('messages.changes_accepted'));
-
-			return $this->redirectToRoute('genres');
-		}
-
-		return $this->render('genres/form.html.twig', [
-			'form' => $form->createView(),
-			'genre' => $genre,
-			'filterName' => Sessions::getFilterName(GenreFilter::class)
-		]);
+		return $this->processForm($request, $genre, 'messages.changes_accepted');
 	}
 
 	/**
@@ -139,7 +99,7 @@ class GenresController extends Controller
 	 */
 	public function deleteAction(Genre $genre)
 	{
-		$this->denyAccessUnlessGranted('remove', $genre);
+		$this->denyAccessUnlessGranted('delete', $genre);
 
 		$genreService = $this->get('app.genres');
 
@@ -150,5 +110,38 @@ class GenresController extends Controller
 		$this->addFlash('notice', $translator->trans('messages.genre_deleted'));
 
 		return $this->redirectToRoute('genres');
+	}
+
+	/**
+	 * @param Request $request
+	 * @param Genre $genre
+	 * @param $message
+	 * @return RedirectResponse|Response
+	 */
+	private function processForm(Request $request, Genre $genre, $message)
+	{
+		$genreService = $this->get('app.genres');
+
+		$form = $this->createForm(GenreType::class, $genre);
+		$form->handleRequest($request);
+
+		if($form->isSubmitted() && $form->isValid()) {
+
+			$translator = $this->get('translator');
+
+			$route = $genre->getId() ? 'genres' : 'genres_add';
+
+			$genreService->save($this->getUser(), $genre, !$genre->getId());
+
+			$this->addFlash('notice', $translator->trans($message));
+
+			return $this->redirectToRoute($route);
+		}
+
+		return $this->render('genres/form.html.twig', [
+			'form' => $form->createView(),
+			'genre' => $genre,
+			'filterName' => $genre->getId() ? Sessions::getFilterName(GenreFilter::class) : null
+		]);
 	}
 }

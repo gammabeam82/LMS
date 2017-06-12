@@ -73,27 +73,7 @@ class SeriesController extends Controller
 
 		$this->denyAccessUnlessGranted('create', $serie);
 
-		$seriesService = $this->get('app.series');
-
-		$form = $this->createForm(SerieType::class, $serie);
-		$form->handleRequest($request);
-
-		if($form->isSubmitted() && $form->isValid()) {
-
-			$translator = $this->get('translator');
-
-			$seriesService->save($serie);
-
-			$this->addFlash('notice', $translator->trans('messages.serie_added'));
-
-			return $this->redirectToRoute('series_add');
-		}
-
-		return $this->render('series/form.html.twig', [
-			'form' => $form->createView(),
-			'serie' => $serie,
-			'filterName' => null
-		]);
+		return $this->processForm($request, $serie, 'messages.serie_added');
 	}
 
 	/**
@@ -108,27 +88,7 @@ class SeriesController extends Controller
 	{
 		$this->denyAccessUnlessGranted('edit', $serie);
 
-		$seriesService = $this->get('app.series');
-
-		$form = $this->createForm(SerieType::class, $serie);
-		$form->handleRequest($request);
-
-		if($form->isSubmitted() && $form->isValid()) {
-
-			$translator = $this->get('translator');
-
-			$seriesService->save($serie);
-
-			$this->addFlash('notice', $translator->trans('messages.changes_accepted'));
-
-			return $this->redirectToRoute('series');
-		}
-
-		return $this->render('series/form.html.twig', [
-			'form' => $form->createView(),
-			'serie' => $serie,
-			'filterName' => Sessions::getFilterName(SerieFilter::class)
-		]);
+		return $this->processForm($request, $serie, 'messages.changes_accepted');
 	}
 
 	/**
@@ -141,7 +101,7 @@ class SeriesController extends Controller
 
 	public function deleteAction(Serie $serie)
 	{
-		$this->denyAccessUnlessGranted('remove', $serie);
+		$this->denyAccessUnlessGranted('delete', $serie);
 
 		$seriesService = $this->get('app.series');
 
@@ -154,4 +114,36 @@ class SeriesController extends Controller
 		return $this->redirectToRoute('series');
 	}
 
+	/**
+	 * @param Request $request
+	 * @param Serie $serie
+	 * @param $message
+	 * @return RedirectResponse|Response
+	 */
+	private function processForm(Request $request, Serie $serie, $message)
+	{
+		$serieService = $this->get('app.series');
+
+		$form = $this->createForm(SerieType::class, $serie);
+		$form->handleRequest($request);
+
+		if($form->isSubmitted() && $form->isValid()) {
+
+			$translator = $this->get('translator');
+
+			$route = $serie->getId() ? 'series' : 'series_add';
+
+			$serieService->save($serie);
+
+			$this->addFlash('notice', $translator->trans($message));
+
+			return $this->redirectToRoute($route);
+		}
+
+		return $this->render('series/form.html.twig', [
+			'form' => $form->createView(),
+			'serie' => $serie,
+			'filterName' => $serie->getId() ? Sessions::getFilterName(SerieFilter::class) : null
+		]);
+	}
 }
