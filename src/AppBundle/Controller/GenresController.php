@@ -115,7 +115,7 @@ class GenresController extends Controller
 	/**
 	 * @param Request $request
 	 * @param Genre $genre
-	 * @param $message
+	 * @param string $message
 	 * @return RedirectResponse|Response
 	 */
 	private function processForm(Request $request, Genre $genre, $message)
