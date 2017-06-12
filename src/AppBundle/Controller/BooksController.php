@@ -3,11 +3,9 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Book;
-use AppBundle\Entity\Comment;
 use AppBundle\Entity\File;
 use AppBundle\Form\BookEditType;
 use AppBundle\Form\BookType;
-use AppBundle\Form\CommentType;
 use AppBundle\Filter\BookFilter;
 use AppBundle\Filter\Form\BookFilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -78,31 +76,7 @@ class BooksController extends Controller
 
 		$this->denyAccessUnlessGranted('create', $book);
 
-		$bookService = $this->get('app.books');
-
-		$form = $this->createForm(BookType::class, $book);
-		$form->handleRequest($request);
-
-		if ($form->isSubmitted() && $form->isValid()) {
-
-			$translator = $this->get('translator');
-
-			try {
-				$bookService->save($this->getUser(), $book, true);
-				$this->addFlash('notice', $translator->trans('messages.book_added'));
-				return $this->redirectToRoute('books', [
-
-				]);
-			} catch (UnexpectedValueException $e) {
-				$this->addFlash('error', $translator->trans('messages.upload_error'));
-			}
-		}
-
-		return $this->render('books/form.html.twig', [
-			'form' => $form->createView(),
-			'book' => $book,
-			'filterName' => null
-		]);
+		return $this->processForm($request, $book, 'messages.book_added');
 	}
 
 	/**
@@ -117,32 +91,7 @@ class BooksController extends Controller
 	{
 		$this->denyAccessUnlessGranted('edit', $book);
 
-		$bookService = $this->get('app.books');
-
-		$form = $this->createForm(BookEditType::class, $book);
-		$form->handleRequest($request);
-
-		if ($form->isSubmitted() && $form->isValid()) {
-
-			$translator = $this->get('translator');
-
-			try {
-				$bookService->save($this->getUser(), $book, false);
-				$this->addFlash('notice', $translator->trans('messages.changes_accepted'));
-				return $this->redirectToRoute('books_edit', [
-					'id' => $book->getId()
-				]);
-			} catch (UnexpectedValueException $e) {
-				$this->addFlash('error', $translator->trans('messages.upload_error'));
-			}
-		}
-
-		return $this->render('books/form.html.twig', [
-			'form' => $form->createView(),
-			'book' => $book,
-			'id' => $book->getId(),
-			'filterName' => Sessions::getFilterName(BookFilter::class)
-		]);
+		return $this->processForm($request, $book, 'messages.changes_accepted');
 	}
 
 	/**
@@ -231,6 +180,46 @@ class BooksController extends Controller
 		return $this->render('books/view.html.twig', [
 			'book' => $book,
 			'images' => $bookService->getImages($book)
+		]);
+	}
+
+	/**
+	 * @param Request $request
+	 * @param Book $book
+	 * @param string $message
+	 * @return RedirectResponse|Response
+	 */
+	private function processForm(Request $request, Book $book, $message)
+	{
+		$bookService = $this->get('app.books');
+
+		$formClass = $book->getId() ? BookEditType::class : BookType::class;
+
+		$form = $this->createForm($formClass, $book);
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid()) {
+
+			$translator = $this->get('translator');
+
+			$route = $book->getId() ? 'books_edit' : 'books';
+
+			try {
+				$bookService->save($this->getUser(), $book, !$book->getId());
+				$this->addFlash('notice', $translator->trans($message));
+				return $this->redirectToRoute($route, [
+					'id' => $book->getId()
+				]);
+			} catch (UnexpectedValueException $e) {
+				$this->addFlash('error', $translator->trans('messages.upload_error'));
+			}
+		}
+
+		return $this->render('books/form.html.twig', [
+			'form' => $form->createView(),
+			'book' => $book,
+			'id' => $book->getId(),
+			'filterName' => $book->getId() ? Sessions::getFilterName(BookFilter::class) : null
 		]);
 	}
 }
