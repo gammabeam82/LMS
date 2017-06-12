@@ -47,9 +47,9 @@ class Authors
 	 * @param Author $author
 	 * @param bool $isCreating
 	 */
-	public function save(User $user, Author $author, $isCreating = true)
+	public function save(User $user, Author $author)
 	{
-		if (false !== $isCreating) {
+		if (null === $author->getId()) {
 			$author->setAddedBy($user);
 		}
 

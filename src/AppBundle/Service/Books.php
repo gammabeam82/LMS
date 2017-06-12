@@ -49,9 +49,9 @@ class Books
 		$this->path = $path;
 	}
 
-	public function save(User $user, Book $book, $isCreating = true)
+	public function save(User $user, Book $book)
 	{
-		if (false !== $isCreating) {
+		if (null === $book->getId()) {
 			$book->setAddedBy($user);
 			$book->setViews(0);
 

@@ -50,7 +50,7 @@ class CommentsController extends Controller
 
 			$translator = $this->get('translator');
 
-			$commentService->save($this->getUser(), $book, $comment, true);
+			$commentService->save($this->getUser(), $book, $comment);
 
 			$this->addFlash('notice.comment', $translator->trans('messages.comment_added'));
 

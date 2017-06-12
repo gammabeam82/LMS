@@ -54,9 +54,9 @@ class Comments
 	 * @param Comment $comment
 	 * @param bool $isCreating
 	 */
-	public function save(User $user, Book $book, Comment $comment, $isCreating = false)
+	public function save(User $user, Book $book, Comment $comment)
 	{
-		if(false !== $isCreating) {
+		if(null === $comment->getId()) {
 			$comment->setBook($book);
 			$comment->setUser($user);
 		}

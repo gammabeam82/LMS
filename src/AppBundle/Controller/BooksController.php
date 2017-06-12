@@ -205,7 +205,7 @@ class BooksController extends Controller
 			$route = $book->getId() ? 'books_edit' : 'books';
 
 			try {
-				$bookService->save($this->getUser(), $book, !$book->getId());
+				$bookService->save($this->getUser(), $book);
 				$this->addFlash('notice', $translator->trans($message));
 				return $this->redirectToRoute($route, [
 					'id' => $book->getId()

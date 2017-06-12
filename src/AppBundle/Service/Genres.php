@@ -73,9 +73,9 @@ class Genres
 	 * @param Genre $genre
 	 * @param bool $isCreating
 	 */
-	public function save(User $user, Genre $genre, $isCreating = true)
+	public function save(User $user, Genre $genre)
 	{
-		if(false !== $isCreating) {
+		if(null === $genre->getId()) {
 			$genre->setAddedBy($user);
 		}
 
