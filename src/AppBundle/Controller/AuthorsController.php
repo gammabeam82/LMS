@@ -117,7 +117,7 @@ class AuthorsController extends Controller
 	/**
 	 * @param Request $request
 	 * @param Author $author
-	 * @param $message
+	 * @param string $message
 	 * @return RedirectResponse|Response
 	 */
 	private function processForm(Request $request, Author $author, $message)

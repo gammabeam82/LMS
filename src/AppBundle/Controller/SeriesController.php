@@ -117,7 +117,7 @@ class SeriesController extends Controller
 	/**
 	 * @param Request $request
 	 * @param Serie $serie
-	 * @param $message
+	 * @param string $message
 	 * @return RedirectResponse|Response
 	 */
 	private function processForm(Request $request, Serie $serie, $message)
