@@ -147,11 +147,11 @@ class Archives
 
 		$books = $qb->getQuery()->execute();
 
-		array_map(function($book) use ($em) {
+		array_map(function ($book) use ($em) {
 			/* @var \AppBundle\Entity\Book $book */
 			$book->incViews();
 			$em->persist($book);
-			}, $books);
+		}, $books);
 
 		$em->flush();
 
@@ -159,10 +159,12 @@ class Archives
 
 		foreach ($books as $book) {
 			/* @var \AppBundle\Entity\Book $book */
-			foreach($book->getBookFiles() as $bookFile) {
+			foreach ($book->getBookFiles() as $bookFile) {
 				/* @var \AppBundle\Entity\File $bookFile */
-				$localname = sprintf("%s-%s.%s", $book->getAuthor()->getShortName(), $book->getName(), $bookFile->getType());
-				$zipStream->addFileFromPath($localname, $bookFile->getName());
+				if (false === $bookFile->getIsImage()) {
+					$localname = sprintf("%s-%s.%s", $book->getAuthor()->getShortName(), $book->getName(), $bookFile->getType());
+					$zipStream->addFileFromPath($localname, $bookFile->getName());
+				}
 			}
 		}
 
