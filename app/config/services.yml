@@ -54,3 +54,9 @@ services:
             class: AppBundle\EventListener\PDOExceptionListener
             tags:
                 - { name: kernel.event_listener, event: kernel.exception, method: onPDOException }
+
+      app.random_thumbnail:
+          class: AppBundle\Twig\AppExtension
+          arguments: ["@router"]
+          tags:
+                 - { name: twig.extension }
