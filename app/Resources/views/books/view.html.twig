@@ -78,7 +78,7 @@
 
 					<p class="lead bg-info">{{ 'book.annotation' | trans }}</p>
 					<p>
-						{{ book.annotation }}
+						{{ book.annotation | markdown }}
 					</p>
 				{% endif %}
 

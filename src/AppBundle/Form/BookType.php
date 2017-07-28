@@ -59,7 +59,6 @@ class BookType extends AbstractType
 				'multiple' => false
 			])
 			->add('annotation', TextareaType::class, [
-
 				'label' => 'book.annotation',
 				'required' => false
 				])

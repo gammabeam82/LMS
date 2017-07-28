@@ -21,6 +21,7 @@ class AppKernel extends Kernel
 			new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
 			new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
 			new Ruvents\DoctrineFixesBundle\RuventsDoctrineFixesBundle(),
+			new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

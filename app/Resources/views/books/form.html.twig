@@ -61,7 +61,7 @@
 				{{ form_row(form.author, {'attr': {'class': 'chosen-select'} }) }}
 				{{ form_row(form.genre, {'attr': {'class': 'chosen-select', 'data-placeholder': 'messages.genre_select' | trans } }) }}
 				{{ form_row(form.serie, {'attr': {'class': 'chosen-select', 'data-placeholder': 'messages.serie_select' | trans } }) }}
-				{{ form_row(form.annotation, { 'attr': { 'rows': 5 } }) }}
+				{{ form_row(form.annotation, { 'attr': { 'rows': 10 } }) }}
 
 				<div class="files" data-prototype="{{ form_widget(form.bookFiles.vars.prototype, { 'attr': { 'class': 'upload' } })|e('html_attr') }}">
 					<ul class="list-unstyled">
