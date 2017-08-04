@@ -151,7 +151,11 @@
 								</td>
 								<td>{{ book.genre ? book.genre.name : "-" }}</td>
 								<td class="visible-lg">{{ book.serie ? book.serie.name : "-" }}</td>
-								<td class="visible-lg">{{ book.createdAt | date("d.m.Y H:i") }}</td>
+								<td class="visible-lg">
+									<span data-toggle="tooltip" data-placement="right" title="{{ book.createdAt | ago }}">
+										{{ book.createdAt | date("d.m.Y H:i") }}
+									</span>
+								</td>
 								<td class="visible-lg">{{ book.averageRating }}</td>
 								<td>
 									<button data-path="{{ path('archive_add', { 'id': book.id }) }}" class="btn btn-default btn-sm to-archive {% if book.id in booksInArchive %}disabled{% endif %}">

@@ -36,7 +36,8 @@
         "maennchen/zipstream-php": "^0.4.1",
         "claviska/simpleimage": "^3.3",
         "ruvents/doctrine-fixes-bundle": "^0.1.0",
-        "knplabs/knp-markdown-bundle": "^1.5"
+        "knplabs/knp-markdown-bundle": "^1.5",
+        "knplabs/knp-time-bundle": "^1.7"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
