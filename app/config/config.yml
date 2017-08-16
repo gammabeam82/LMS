@@ -15,6 +15,7 @@ parameters:
     genres_per_page: 15
     series_per_page: 15
     session_archive_var: "archive"
+    password: "%testuser_password%"
 
 framework:
     #esi:             ~

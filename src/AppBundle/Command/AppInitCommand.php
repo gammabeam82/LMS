@@ -2,13 +2,12 @@
 
 namespace AppBundle\Command;
 
-use Symfony\Component\Console\Command\Command;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-
-class AppInitCommand extends Command
+class AppInitCommand extends ContainerAwareCommand
 {
 
 	/**
@@ -24,10 +23,13 @@ class AppInitCommand extends Command
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
+		$password = $this->getContainer()->getParameter('password');
+
 		$commands = [
 			['command' => 'doctrine:database:create'],
 			['command' => 'doctrine:migrations:migrate'],
-			['command' => 'fos:user:create', 'username' => 'testuser', 'email' => 'test@example.com', 'password' => 'p@ssword']
+			['command' => 'fos:user:create', 'username' => 'testuser', 'email' => 'test@example.com', 'password' => $password],
+			['command' => 'fos:user:promote', 'username' => 'testuser', 'role' => 'ROLE_ADMIN']
 		];
 
 		foreach ($commands as $command) {

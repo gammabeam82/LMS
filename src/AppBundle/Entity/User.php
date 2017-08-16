@@ -44,16 +44,6 @@ class User extends BaseUser
 	private $books;
 
 	/**
-	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Author", mappedBy="addedBy")
-	 */
-	private $authors;
-
-	/**
-	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Genre", mappedBy="addedBy")
-	 */
-	private $genres;
-
-	/**
 	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Rating", mappedBy="user")
 	 */
 	private $ratings;
@@ -68,8 +58,6 @@ class User extends BaseUser
 		parent::__construct();
 
 		$this->books = new ArrayCollection();
-		$this->authors = new ArrayCollection();
-		$this->genres = new ArrayCollection();
 		$this->ratings = new ArrayCollection();
 		$this->comments = new ArrayCollection();
 	}
@@ -147,40 +135,6 @@ class User extends BaseUser
     }
 
     /**
-     * Add author
-     *
-     * @param \AppBundle\Entity\Author $author
-     *
-     * @return User
-     */
-    public function addAuthor(\AppBundle\Entity\Author $author)
-    {
-        $this->authors[] = $author;
-
-        return $this;
-    }
-
-    /**
-     * Remove author
-     *
-     * @param \AppBundle\Entity\Author $author
-     */
-    public function removeAuthor(\AppBundle\Entity\Author $author)
-    {
-        $this->authors->removeElement($author);
-    }
-
-    /**
-     * Get authors
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getAuthors()
-    {
-        return $this->authors;
-    }
-
-    /**
      * Add book
      *
      * @param \AppBundle\Entity\Book $book
@@ -212,40 +166,6 @@ class User extends BaseUser
     public function getBooks()
     {
         return $this->books;
-    }
-
-    /**
-     * Add genre
-     *
-     * @param \AppBundle\Entity\Genre $genre
-     *
-     * @return User
-     */
-    public function addGenre(\AppBundle\Entity\Genre $genre)
-    {
-        $this->genres[] = $genre;
-
-        return $this;
-    }
-
-    /**
-     * Remove genre
-     *
-     * @param \AppBundle\Entity\Genre $genre
-     */
-    public function removeGenre(\AppBundle\Entity\Genre $genre)
-    {
-        $this->genres->removeElement($genre);
-    }
-
-    /**
-     * Get genres
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getGenres()
-    {
-        return $this->genres;
     }
 
     /**

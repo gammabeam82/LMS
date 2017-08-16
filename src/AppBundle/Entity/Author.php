@@ -56,13 +56,6 @@ class Author implements EntityInterface
 	private $books;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="\AppBundle\Entity\User", inversedBy="authors")
-	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
-	 */
-	private $addedBy;
-
-
-	/**
 	 * Author constructor.
 	 */
 	public function __construct()
@@ -150,30 +143,6 @@ class Author implements EntityInterface
     public function getLastName()
     {
         return $this->lastName;
-    }
-
-    /**
-     * Set addedBy
-     *
-     * @param \AppBundle\Entity\User $addedBy
-     *
-     * @return Author
-     */
-    public function setAddedBy(\AppBundle\Entity\User $addedBy)
-    {
-        $this->addedBy = $addedBy;
-
-        return $this;
-    }
-
-    /**
-     * Get addedBy
-     *
-     * @return \AppBundle\Entity\User
-     */
-    public function getAddedBy()
-    {
-        return $this->addedBy;
     }
 
 	/**

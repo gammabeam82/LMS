@@ -43,12 +43,6 @@ class Genre implements EntityInterface
 	private $name;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="User", inversedBy="genres")
-	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
-	 */
-	private $addedBy;
-
-	/**
 	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Book", mappedBy="genre")
 	 */
 	private $books;
@@ -117,30 +111,6 @@ class Genre implements EntityInterface
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set addedBy
-     *
-     * @param \AppBundle\Entity\User $addedBy
-     *
-     * @return Genre
-     */
-    public function setAddedBy(\AppBundle\Entity\User $addedBy)
-    {
-        $this->addedBy = $addedBy;
-
-        return $this;
-    }
-
-    /**
-     * Get addedBy
-     *
-     * @return \AppBundle\Entity\User
-     */
-    public function getAddedBy()
-    {
-        return $this->addedBy;
     }
 
     /**
