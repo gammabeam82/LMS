@@ -29,7 +29,8 @@ class AppInitCommand extends ContainerAwareCommand
 			['command' => 'doctrine:database:create'],
 			['command' => 'doctrine:migrations:migrate'],
 			['command' => 'fos:user:create', 'username' => 'testuser', 'email' => 'test@example.com', 'password' => $password],
-			['command' => 'fos:user:promote', 'username' => 'testuser', 'role' => 'ROLE_ADMIN']
+			['command' => 'fos:user:promote', 'username' => 'testuser', 'role' => 'ROLE_ADMIN'],
+			['command' => 'doctrine:fixtures:load']
 		];
 
 		foreach ($commands as $command) {
