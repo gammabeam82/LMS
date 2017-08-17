@@ -53,16 +53,20 @@
 
 		<div class="collapse {{ app.request.query.get(form.vars.name) or app.session.get(filterName) ? 'in' }}" id="filter">
 			<div class="row">
-				{{ form_start(form) }}
+				{{ form_start(form, { 'attr': { 'class': 'filter-form' } }) }}
+
 				<div class="col-xs-3">
 					{{ form_row(form.name, { 'attr': { 'class': 'highlight-value' } }) }}
 				</div>
+
 			</div>
+
 			<div class="row">
 				<div class="col-xs-3">
 					{{ form_row(form.sortByName) }}
 				</div>
 			</div>
+
 			<div class="row">
 				<div class="col-xs-3">
 					<button type="submit" class="btn btn-primary">
@@ -75,6 +79,7 @@
 				</div>
 				{{ form_end(form) }}
 			</div>
+
 		</div>
 
 		<div class="row">

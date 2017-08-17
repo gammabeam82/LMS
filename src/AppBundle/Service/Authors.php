@@ -2,7 +2,6 @@
 
 namespace AppBundle\Service;
 
-use AppBundle\Entity\User;
 use AppBundle\Entity\Author;
 use AppBundle\Filter\AuthorFilter;
 use AppBundle\Service\Export\Export;
@@ -43,16 +42,10 @@ class Authors
 	}
 
 	/**
-	 * @param User $user
 	 * @param Author $author
-	 * @param bool $isCreating
 	 */
-	public function save(User $user, Author $author)
+	public function save(Author $author)
 	{
-		if (null === $author->getId()) {
-			$author->setAddedBy($user);
-		}
-
 		$this->saveEntity($this->doctrine->getManager(), $author);
 	}
 

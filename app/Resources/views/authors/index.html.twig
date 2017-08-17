@@ -54,7 +54,7 @@
 		<div class="collapse {{ app.request.query.get(form.vars.name) or app.session.get(filterName) ? 'in' }}" id="filter">
 
 			<div class="row">
-				{{ form_start(form) }}
+				{{ form_start(form, { 'attr': { 'class': 'filter-form' } }) }}
 				<div class="col-xs-4">
 					{{ form_row(form.lastName, { 'attr': { 'class': 'highlight-value' } }) }}
 					{{ form_row(form.firstLetter, { 'attr': { 'class': 'highlight-value-hidden' } }) }}

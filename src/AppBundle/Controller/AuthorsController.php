@@ -133,7 +133,7 @@ class AuthorsController extends Controller
 
 			$route = $author->getId() ? 'authors' : 'authors_add';
 
-			$authorService->save($this->getUser(), $author);
+			$authorService->save($author);
 
 			$this->addFlash('notice', $translator->trans($message));
 

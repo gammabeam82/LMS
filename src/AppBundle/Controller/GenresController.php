@@ -131,7 +131,7 @@ class GenresController extends Controller
 
 			$route = $genre->getId() ? 'genres' : 'genres_add';
 
-			$genreService->save($this->getUser(), $genre);
+			$genreService->save($genre);
 
 			$this->addFlash('notice', $translator->trans($message));
 

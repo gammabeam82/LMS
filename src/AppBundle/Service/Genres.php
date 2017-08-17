@@ -2,7 +2,6 @@
 
 namespace AppBundle\Service;
 
-use AppBundle\Entity\User;
 use AppBundle\Entity\Genre;
 use AppBundle\Utils\EntityTrait;
 use AppBundle\Service\Export\Export;
@@ -69,16 +68,10 @@ class Genres
 	}
 
 	/**
-	 * @param User $user
 	 * @param Genre $genre
-	 * @param bool $isCreating
 	 */
-	public function save(User $user, Genre $genre)
+	public function save(Genre $genre)
 	{
-		if(null === $genre->getId()) {
-			$genre->setAddedBy($user);
-		}
-
 		$this->saveEntity($this->doctrine->getManager(), $genre);
 	}
 

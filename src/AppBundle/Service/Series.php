@@ -90,8 +90,6 @@ class Series
 	{
 		$translator = $this->translator;
 
-		$repo = $this->doctrine->getRepository(Serie::class);
-
 		$rows = [
 			$translator->trans('messages.name') => 'getName',
 			$translator->trans('book.books') => 'getBooksCount'
