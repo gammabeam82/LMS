@@ -52,6 +52,7 @@ class Author implements EntityInterface
 
 	/**
 	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Book", mappedBy="author", cascade={"all"})
+	 * @ORM\OrderBy({"name" = "ASC"})
 	 */
 	private $books;
 

@@ -44,6 +44,7 @@ class Genre implements EntityInterface
 
 	/**
 	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Book", mappedBy="genre")
+	 * @ORM\OrderBy({"name" = "ASC"})
 	 */
 	private $books;
 

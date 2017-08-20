@@ -50,6 +50,7 @@ class User extends BaseUser
 
 	/**
 	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Comment", mappedBy="user")
+	 * @ORM\OrderBy({"postedAt" = "DESC"})
 	 */
 	private $comments;
 

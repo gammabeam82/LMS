@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class GenresControllerTest extends WebTestCase
 {
+	const CLASS_NAME = 'AppBundle\Controller\GenresController';
+
 	/**
 	 * @var \Symfony\Bundle\FrameworkBundle\Client
 	 */
@@ -23,6 +25,11 @@ class GenresControllerTest extends WebTestCase
 	private $repo;
 
 	/**
+	 * @var \Symfony\Bundle\FrameworkBundle\Translation\Translator
+	 */
+	private $translator;
+
+	/**
 	 * GenresControllerTest constructor.
 	 * @param null $name
 	 * @param array $data
@@ -35,6 +42,7 @@ class GenresControllerTest extends WebTestCase
 		$this->client->followRedirects();
 		$this->container = $this->client->getContainer();
 		$this->repo = $this->container->get('doctrine')->getRepository(Genre::class);
+		$this->translator = $this->container->get('translator.default');
 	}
 
 	/**
@@ -49,11 +57,21 @@ class GenresControllerTest extends WebTestCase
 		]);
 	}
 
+	/**
+	 * @param string $method
+	 * @return string
+	 */
+	private function getFullMethodName($method)
+	{
+		return sprintf("%s::%s", self::CLASS_NAME, $method);
+	}
+
 	public function testIndex()
 	{
 		$crawler = $this->getCrawler('/genres');
 
 		$this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+		$this->assertEquals($this->getFullMethodName('indexAction'), $this->client->getRequest()->attributes->get('_controller'));
 
 		$form = $crawler->filter('.filter-form')->form();
 		$form->setValues([
@@ -61,10 +79,12 @@ class GenresControllerTest extends WebTestCase
 		]);
 
 		$this->client->submit($form);
-		$response = $this->client->getResponse();
 
-		$this->assertContains('литература', $response->getContent());
-		$this->assertContains('Программирование', $response->getContent());
+		$content = $this->client->getResponse()->getContent();
+
+		$this->assertContains('литература', $content);
+		$this->assertContains('Программирование', $content);
+		$this->assertNotContains('Ужасы', $content);
 	}
 
 	public function testAdd()
@@ -72,6 +92,7 @@ class GenresControllerTest extends WebTestCase
 		$crawler = $this->getCrawler('/genres/add');
 
 		$this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+		$this->assertEquals($this->getFullMethodName('addAction'), $this->client->getRequest()->attributes->get('_controller'));
 
 		$form = $crawler->filter('.genre-form')->form();
 
@@ -82,7 +103,26 @@ class GenresControllerTest extends WebTestCase
 		$this->client->submit($form);
 		$response = $this->client->getResponse();
 
-		$this->assertContains('Жанр добавлен.', $response->getContent());
+		$this->assertContains($this->translator->trans('messages.genre_added'), $response->getContent());
+	}
+
+	public function testAddNotUnique()
+	{
+		$crawler = $this->getCrawler('/genres/add');
+
+		$this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+		$this->assertEquals($this->getFullMethodName('addAction'), $this->client->getRequest()->attributes->get('_controller'));
+
+		$form = $crawler->filter('.genre-form')->form();
+
+		$form->setValues([
+			"genre[name]" => "test genre"
+		]);
+
+		$this->client->submit($form);
+		$response = $this->client->getResponse();
+
+		$this->assertContains($this->translator->trans('genre.unique', [], 'validators'), $response->getContent());
 	}
 
 	public function testEdit()
@@ -97,6 +137,7 @@ class GenresControllerTest extends WebTestCase
 		$crawler = $this->getCrawler(sprintf("/genres/edit/%s", $genre->getId()));
 
 		$this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+		$this->assertEquals($this->getFullMethodName('editAction'), $this->client->getRequest()->attributes->get('_controller'));
 
 		$form = $crawler->filter('.genre-form')->form();
 
@@ -107,7 +148,7 @@ class GenresControllerTest extends WebTestCase
 		$this->client->submit($form);
 		$response = $this->client->getResponse();
 
-		$this->assertContains('Изменения сохранены.', $response->getContent());
+		$this->assertContains($this->translator->trans('messages.changes_accepted'), $response->getContent());
 	}
 
 	public function testDelete()
@@ -121,8 +162,11 @@ class GenresControllerTest extends WebTestCase
 
 		$crawler = $this->getCrawler(sprintf("/genres/delete/%s", $genre->getId()));
 
-		$this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+		$response = $this->client->getResponse();
 
-		$this->assertContains('Жанр удален.', $this->client->getResponse()->getContent());
+		$this->assertEquals(200, $response->getStatusCode());
+		$this->assertEquals($this->getFullMethodName('indexAction'), $this->client->getRequest()->attributes->get('_controller'));
+
+		$this->assertContains($this->translator->trans('messages.genre_deleted'), $response->getContent());
 	}
 }

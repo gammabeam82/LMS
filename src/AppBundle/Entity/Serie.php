@@ -44,6 +44,7 @@ class Serie implements EntityInterface
 
 	/**
 	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Book", mappedBy="serie")
+	 * @ORM\OrderBy({"name" = "ASC"})
 	 */
 	private $books;
 
