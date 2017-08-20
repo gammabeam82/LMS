@@ -4,6 +4,7 @@ namespace Tests\AppBundle\Controller;
 
 use AppBundle\Entity\Genre;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 class GenresControllerTest extends WebTestCase
 {
@@ -70,7 +71,7 @@ class GenresControllerTest extends WebTestCase
 	{
 		$crawler = $this->getCrawler('/genres');
 
-		$this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+		$this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 		$this->assertEquals($this->getFullMethodName('indexAction'), $this->client->getRequest()->attributes->get('_controller'));
 
 		$form = $crawler->filter('.filter-form')->form();
@@ -91,7 +92,7 @@ class GenresControllerTest extends WebTestCase
 	{
 		$crawler = $this->getCrawler('/genres/add');
 
-		$this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+		$this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 		$this->assertEquals($this->getFullMethodName('addAction'), $this->client->getRequest()->attributes->get('_controller'));
 
 		$form = $crawler->filter('.genre-form')->form();
@@ -110,7 +111,7 @@ class GenresControllerTest extends WebTestCase
 	{
 		$crawler = $this->getCrawler('/genres/add');
 
-		$this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+		$this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 		$this->assertEquals($this->getFullMethodName('addAction'), $this->client->getRequest()->attributes->get('_controller'));
 
 		$form = $crawler->filter('.genre-form')->form();
@@ -136,7 +137,7 @@ class GenresControllerTest extends WebTestCase
 
 		$crawler = $this->getCrawler(sprintf("/genres/edit/%s", $genre->getId()));
 
-		$this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+		$this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 		$this->assertEquals($this->getFullMethodName('editAction'), $this->client->getRequest()->attributes->get('_controller'));
 
 		$form = $crawler->filter('.genre-form')->form();
@@ -164,7 +165,7 @@ class GenresControllerTest extends WebTestCase
 
 		$response = $this->client->getResponse();
 
-		$this->assertEquals(200, $response->getStatusCode());
+		$this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 		$this->assertEquals($this->getFullMethodName('indexAction'), $this->client->getRequest()->attributes->get('_controller'));
 
 		$this->assertContains($this->translator->trans('messages.genre_deleted'), $response->getContent());

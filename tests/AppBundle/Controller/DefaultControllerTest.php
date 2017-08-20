@@ -3,6 +3,7 @@
 namespace Tests\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultControllerTest extends WebTestCase
 {
@@ -35,7 +36,7 @@ class DefaultControllerTest extends WebTestCase
 
 		$response = $this->client->getResponse();
 
-		$this->assertEquals(200, $response->getStatusCode());
+		$this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 
 		$this->assertEquals('AppBundle\Controller\DefaultController::indexAction', $this->client->getRequest()->attributes->get('_controller'));
 
