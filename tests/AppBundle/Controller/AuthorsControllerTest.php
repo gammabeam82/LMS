@@ -2,13 +2,13 @@
 
 namespace Tests\AppBundle\Controller;
 
-use AppBundle\Entity\Genre;
+use AppBundle\Entity\Author;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
-class GenresControllerTest extends WebTestCase
+class AuthorsControllerTest extends WebTestCase
 {
-	const CLASS_NAME = 'AppBundle\Controller\GenresController';
+	const CLASS_NAME = 'AppBundle\Controller\AuthorsController';
 
 	/**
 	 * @var \Symfony\Bundle\FrameworkBundle\Client
@@ -42,7 +42,7 @@ class GenresControllerTest extends WebTestCase
 		$this->client = static::createClient();
 		$this->client->followRedirects();
 		$this->container = $this->client->getContainer();
-		$this->repo = $this->container->get('doctrine')->getRepository(Genre::class);
+		$this->repo = $this->container->get('doctrine')->getRepository(Author::class);
 		$this->translator = $this->container->get('translator.default');
 	}
 
@@ -69,55 +69,57 @@ class GenresControllerTest extends WebTestCase
 
 	public function testIndex()
 	{
-		$crawler = $this->getCrawler('/genres');
+		$crawler = $this->getCrawler('/authors');
 
 		$this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 		$this->assertEquals($this->getFullMethodName('indexAction'), $this->client->getRequest()->attributes->get('_controller'));
 
 		$form = $crawler->filter('.filter-form')->form();
 		$form->setValues([
-			"genre_filter[name]" => "ра"
+			"author_filter[lastName]" => "ро"
 		]);
 
 		$this->client->submit($form);
 
 		$content = $this->client->getResponse()->getContent();
 
-		$this->assertContains('литература', $content);
-		$this->assertContains('Программирование', $content);
-		$this->assertNotContains('Ужасы', $content);
+		$this->assertContains('Сорокин', $content);
+		$this->assertContains('Стросс', $content);
+		$this->assertNotContains('Уилсон', $content);
 	}
 
 	public function testAdd()
 	{
-		$crawler = $this->getCrawler('/genres/add');
+		$crawler = $this->getCrawler('/authors/add');
 
 		$this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 		$this->assertEquals($this->getFullMethodName('addAction'), $this->client->getRequest()->attributes->get('_controller'));
 
-		$form = $crawler->filter('.genre-form')->form();
+		$form = $crawler->filter('.author-form')->form();
 
 		$form->setValues([
-			"genre[name]" => "test genre"
+			"author[firstName]" => "Никифор",
+			"author[lastName]" => "Ляпис-Трубецкой"
 		]);
 
 		$this->client->submit($form);
 		$response = $this->client->getResponse();
 
-		$this->assertContains($this->translator->trans('messages.genre_added'), $response->getContent());
+		$this->assertContains($this->translator->trans('messages.author_added'), $response->getContent());
 	}
 
 	public function testAddEmpty()
 	{
-		$crawler = $this->getCrawler('/genres/add');
+		$crawler = $this->getCrawler('/authors/add');
 
 		$this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 		$this->assertEquals($this->getFullMethodName('addAction'), $this->client->getRequest()->attributes->get('_controller'));
 
-		$form = $crawler->filter('.genre-form')->form();
+		$form = $crawler->filter('.author-form')->form();
 
 		$form->setValues([
-			"genre[name]" => ""
+			"author[firstName]" => "",
+			"author[lastName]" => ""
 		]);
 
 		$this->client->submit($form);
@@ -126,43 +128,27 @@ class GenresControllerTest extends WebTestCase
 		$this->assertContains($this->translator->trans('blank', [], 'validators'), $response->getContent());
 	}
 
-	public function testAddNotUnique()
-	{
-		$crawler = $this->getCrawler('/genres/add');
-
-		$this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
-		$this->assertEquals($this->getFullMethodName('addAction'), $this->client->getRequest()->attributes->get('_controller'));
-
-		$form = $crawler->filter('.genre-form')->form();
-
-		$form->setValues([
-			"genre[name]" => "test genre"
-		]);
-
-		$this->client->submit($form);
-		$response = $this->client->getResponse();
-
-		$this->assertContains($this->translator->trans('genre.unique', [], 'validators'), $response->getContent());
-	}
-
 	public function testEdit()
 	{
 		/**
-		 * @var Genre
+		 * @var Author
 		 */
-		$genre = $this->repo->findOneBy(['name' => 'test genre']);
+		$author = $this->repo->findOneBy([
+			'firstName' => 'Никифор',
+			'lastName' => 'Ляпис-Трубецкой'
+		]);
 
-		$this->assertNotFalse($genre instanceof Genre);
+		$this->assertNotFalse($author instanceof Author);
 
-		$crawler = $this->getCrawler(sprintf("/genres/edit/%s", $genre->getId()));
+		$crawler = $this->getCrawler(sprintf("/authors/edit/%s", $author->getId()));
 
 		$this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 		$this->assertEquals($this->getFullMethodName('editAction'), $this->client->getRequest()->attributes->get('_controller'));
 
-		$form = $crawler->filter('.genre-form')->form();
+		$form = $crawler->filter('.author-form')->form();
 
 		$form->setValues([
-			"genre[name]" => "test genre 1"
+			"author[firstName]" => "Никифоръ"
 		]);
 
 		$this->client->submit($form);
@@ -174,19 +160,22 @@ class GenresControllerTest extends WebTestCase
 	public function testDelete()
 	{
 		/**
-		 * @var Genre
+		 * @var Author
 		 */
-		$genre = $this->repo->findOneBy(['name' => 'test genre 1']);
+		$author = $this->repo->findOneBy([
+			'firstName' => 'Никифоръ',
+			'lastName' => 'Ляпис-Трубецкой'
+		]);
 
-		$this->assertNotFalse($genre instanceof Genre);
+		$this->assertNotFalse($author instanceof Author);
 
-		$crawler = $this->getCrawler(sprintf("/genres/delete/%s", $genre->getId()));
+		$crawler = $this->getCrawler(sprintf("/authors/delete/%s", $author->getId()));
 
 		$response = $this->client->getResponse();
 
 		$this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
 		$this->assertEquals($this->getFullMethodName('indexAction'), $this->client->getRequest()->attributes->get('_controller'));
 
-		$this->assertContains($this->translator->trans('messages.genre_deleted'), $response->getContent());
+		$this->assertContains($this->translator->trans('messages.author_deleted'), $response->getContent());
 	}
 }

@@ -32,7 +32,7 @@ class Genre implements EntityInterface
 
 	/**
 	 * @ORM\Column(type="string", length=100, unique=true)
-	 * @Assert\NotBlank()
+	 * @Assert\NotBlank(message = "blank")
 	 * @Assert\Length(
 	 *      min = 2,
 	 *      max = 50,

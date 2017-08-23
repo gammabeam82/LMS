@@ -28,7 +28,7 @@ class Author implements EntityInterface
 
 	/**
 	 * @ORM\Column(type="string", length=100)
-	 * @Assert\NotBlank()
+	 * @Assert\NotBlank(message = "blank")
 	 * @Assert\Length(
 	 *      min = 2,
 	 *      max = 40,
@@ -40,7 +40,7 @@ class Author implements EntityInterface
 
 	/**
 	 * @ORM\Column(type="string", length=100)
-	 * @Assert\NotBlank()
+	 * @Assert\NotBlank(message = "blank")
 	 * @Assert\Length(
 	 *      min = 2,
 	 *      max = 100,

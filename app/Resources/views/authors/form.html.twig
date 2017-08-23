@@ -39,7 +39,7 @@
 					</div>
 				{% endfor %}
 
-				{{ form_start(form) }}
+				{{ form_start(form, { 'attr': { 'class': 'author-form' } }) }}
 				{{ form_row(form.firstName) }}
 				{{ form_row(form.lastName) }}
 
