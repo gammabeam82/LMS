@@ -24,7 +24,7 @@ class BooksController extends Controller
 	 * @Route("/books", name="books")
 	 *
 	 * @param Request $request
-	 * @return Response
+	 * @return RedirectResponse|Response
 	 */
 	public function indexAction(Request $request)
 	{
@@ -48,6 +48,10 @@ class BooksController extends Controller
 		} catch (UnexpectedValueException $e) {
 			$translator = $this->get('translator');
 			$this->addFlash('error', $translator->trans($e->getMessage()));
+		}
+
+		if (null !== $request->get('reset')) {
+			return $this->redirectToRoute("books");
 		}
 
 		$query = $bookService->getFilteredBooks($filter);

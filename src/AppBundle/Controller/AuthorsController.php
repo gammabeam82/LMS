@@ -24,7 +24,7 @@ class AuthorsController extends Controller
 	 * @Route("/authors", name="authors")
 	 *
 	 * @param Request $request
-	 * @return Response
+	 * @return RedirectResponse|Response
 	 */
 	public function indexAction(Request $request)
 	{
@@ -46,6 +46,10 @@ class AuthorsController extends Controller
 		} catch (UnexpectedValueException $e) {
 			$translator = $this->get('translator');
 			$this->addFlash('error', $translator->trans($e->getMessage()));
+		}
+
+		if (null !== $request->get('reset')) {
+			return $this->redirectToRoute("authors");
 		}
 
 		$query = $authorService->getFilteredAuthors($filter);

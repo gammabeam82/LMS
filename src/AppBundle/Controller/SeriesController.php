@@ -22,7 +22,7 @@ class SeriesController extends Controller
 	 * @Route("/series", name="series")
 	 *
 	 * @param Request $request
-	 * @return Response
+	 * @return RedirectResponse|Response
 	 */
 	public function indexAction(Request $request)
 	{
@@ -46,6 +46,10 @@ class SeriesController extends Controller
 		} catch (UnexpectedValueException $e) {
 			$translator = $this->get('translator');
 			$this->addFlash('error', $translator->trans($e->getMessage()));
+		}
+
+		if (null !== $request->get('reset')) {
+			return $this->redirectToRoute("series");
 		}
 
 		$query = $seriesService->getFilteredSeries($filter);

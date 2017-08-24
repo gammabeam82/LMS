@@ -21,7 +21,7 @@ class GenresController extends Controller
 	 * @Route("/genres", name="genres")
 	 *
 	 * @param Request $request
-	 * @return Response
+	 * @return RedirectResponse|Response
 	 */
 	public function indexAction(Request $request)
 	{
@@ -45,6 +45,10 @@ class GenresController extends Controller
 		} catch (UnexpectedValueException $e) {
 			$translator = $this->get('translator');
 			$this->addFlash('error', $translator->trans($e->getMessage()));
+		}
+
+		if (null !== $request->get('reset')) {
+			return $this->redirectToRoute("genres");
 		}
 
 		$query = $genresService->getFilteredGenres($filter);
