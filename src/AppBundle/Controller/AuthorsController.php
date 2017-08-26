@@ -48,7 +48,7 @@ class AuthorsController extends Controller
 			$this->addFlash('error', $translator->trans($e->getMessage()));
 		}
 
-		if (null !== $request->get('reset')) {
+		if (null !== $request->get('reset') || null !== $request->get('id')) {
 			return $this->redirectToRoute("authors");
 		}
 
@@ -128,6 +128,8 @@ class AuthorsController extends Controller
 	{
 		$authorService = $this->get('app.authors');
 
+		$isNew = (null === $author->getId()) ? true : false;
+
 		$form = $this->createForm(AuthorType::class, $author);
 		$form->handleRequest($request);
 
@@ -135,19 +137,21 @@ class AuthorsController extends Controller
 
 			$translator = $this->get('translator');
 
-			$route = $author->getId() ? 'authors' : 'authors_add';
+			$route = $isNew ? 'authors' : 'authors_edit';
 
 			$authorService->save($author);
 
 			$this->addFlash('notice', $translator->trans($message));
 
-			return $this->redirectToRoute($route);
+			return $this->redirectToRoute($route, [
+				'id' => $author->getId()
+			]);
 		}
 
 		return $this->render('authors/form.html.twig', [
 			'form' => $form->createView(),
 			'author' => $author,
-			'filterName' => $author->getId() ? Sessions::getFilterName(AuthorFilter::class) : null
+			'filterName' => $isNew ? null : Sessions::getFilterName(AuthorFilter::class)
 		]);
 	}
 }

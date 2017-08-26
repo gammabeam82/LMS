@@ -47,7 +47,7 @@ class GenresController extends Controller
 			$this->addFlash('error', $translator->trans($e->getMessage()));
 		}
 
-		if (null !== $request->get('reset')) {
+		if (null !== $request->get('reset') || null !== $request->get('id')) {
 			return $this->redirectToRoute("genres");
 		}
 
@@ -126,6 +126,8 @@ class GenresController extends Controller
 	{
 		$genreService = $this->get('app.genres');
 
+		$isNew = (null === $genre->getId()) ? true : false;
+
 		$form = $this->createForm(GenreType::class, $genre);
 		$form->handleRequest($request);
 
@@ -133,19 +135,21 @@ class GenresController extends Controller
 
 			$translator = $this->get('translator');
 
-			$route = $genre->getId() ? 'genres' : 'genres_add';
+			$route = $isNew ? 'genres' : 'genres_edit';
 
 			$genreService->save($genre);
 
 			$this->addFlash('notice', $translator->trans($message));
 
-			return $this->redirectToRoute($route);
+			return $this->redirectToRoute($route, [
+				'id' => $genre->getId()
+			]);
 		}
 
 		return $this->render('genres/form.html.twig', [
 			'form' => $form->createView(),
 			'genre' => $genre,
-			'filterName' => $genre->getId() ? Sessions::getFilterName(GenreFilter::class) : null
+			'filterName' => $isNew ? null : Sessions::getFilterName(GenreFilter::class)
 		]);
 	}
 }

@@ -128,6 +128,8 @@ class SeriesController extends Controller
 	{
 		$serieService = $this->get('app.series');
 
+		$isNew = (null === $serie->getId()) ? true : false;
+
 		$form = $this->createForm(SerieType::class, $serie);
 		$form->handleRequest($request);
 
@@ -135,19 +137,21 @@ class SeriesController extends Controller
 
 			$translator = $this->get('translator');
 
-			$route = $serie->getId() ? 'series' : 'series_add';
+			$route = $isNew ? 'series' : 'series_edit';
 
 			$serieService->save($serie);
 
 			$this->addFlash('notice', $translator->trans($message));
 
-			return $this->redirectToRoute($route);
+			return $this->redirectToRoute($route, [
+				'id' => $serie->getId()
+			]);
 		}
 
 		return $this->render('series/form.html.twig', [
 			'form' => $form->createView(),
 			'serie' => $serie,
-			'filterName' => $serie->getId() ? Sessions::getFilterName(SerieFilter::class) : null
+			'filterName' => $isNew ? null : Sessions::getFilterName(SerieFilter::class)
 		]);
 	}
 }
