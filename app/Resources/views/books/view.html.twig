@@ -26,6 +26,11 @@
 							<a href="{{ path('books_edit', { 'id': book.id }) }}">{{ 'actions.edit' | trans }}</a>
 						</li>
 					{% endif %}
+					<li>
+						<a href="{{ path('books_like', { 'id': book.id }) }}" class="like-button">
+							<i class="glyphicon {{ book.isLikedBy(app.user) ? 'glyphicon-heart' : 'glyphicon-heart-empty' }}"></i>
+						</a>
+					</li>
 				</ol>
 			</div>
 		</div>
@@ -77,9 +82,9 @@
 					<hr/>
 
 					<p class="lead bg-info">{{ 'book.annotation' | trans }}</p>
-					<p>
+					<div class="text-justify">
 						{{ book.annotation | markdown }}
-					</p>
+					</div>
 				{% endif %}
 
 			</div>

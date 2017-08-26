@@ -252,4 +252,25 @@ class Books
 		return $images;
 	}
 
+	/**
+	 * @param User $user
+	 * @param Book $book
+	 * @return bool
+	 */
+	public function toggleLike(User $user, Book $book)
+	{
+		$hasLike = false;
+
+		if(false === $user->getLikes()->contains($book)) {
+			$book->addUser($user);
+			$hasLike = true;
+		} else {
+			$book->removeUser($user);
+		}
+
+		$this->save($user, $book);
+
+		return $hasLike;
+	}
+
 }

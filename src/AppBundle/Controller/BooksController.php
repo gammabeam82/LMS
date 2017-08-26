@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Book;
 use AppBundle\Entity\File;
+use AppBundle\Entity\User;
 use AppBundle\Form\BookEditType;
 use AppBundle\Form\BookType;
 use AppBundle\Filter\BookFilter;
@@ -50,7 +51,7 @@ class BooksController extends Controller
 			$this->addFlash('error', $translator->trans($e->getMessage()));
 		}
 
-		if (null !== $request->get('reset')) {
+		if (null !== $request->get('reset') || null !== $request->get('id')) {
 			return $this->redirectToRoute("books");
 		}
 
@@ -188,6 +189,29 @@ class BooksController extends Controller
 	}
 
 	/**
+	 * @Route("/books/like/{id}", name="books_like")
+	 * @ParamConverter("book")
+	 *
+	 * @param Request $request
+	 * @param Book $book
+	 * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+	public function toggleLikeAction(Request $request, Book $book)
+	{
+		$this->denyAccessUnlessGranted('view', $book);
+
+		if(false === $request->isXmlHttpRequest()) {
+			return $this->redirectToRoute('books');
+		}
+
+		$bookService = $this->get('app.books');
+
+		return $this->json([
+			'hasLike' => $bookService->toggleLike($this->getUser(), $book)
+		]);
+	}
+
+	/**
 	 * @param Request $request
 	 * @param Book $book
 	 * @param string $message
@@ -197,7 +221,9 @@ class BooksController extends Controller
 	{
 		$bookService = $this->get('app.books');
 
-		$formClass = $book->getId() ? BookEditType::class : BookType::class;
+		$isNew = (null === $book->getId()) ? true : false;
+
+		$formClass = $isNew ? BookType::class : BookEditType::class;
 
 		$form = $this->createForm($formClass, $book);
 		$form->handleRequest($request);
@@ -206,7 +232,7 @@ class BooksController extends Controller
 
 			$translator = $this->get('translator');
 
-			$route = $book->getId() ? 'books_edit' : 'books';
+			$route = $isNew ? 'books' : 'books_edit';
 
 			try {
 				$bookService->save($this->getUser(), $book);
@@ -223,7 +249,8 @@ class BooksController extends Controller
 			'form' => $form->createView(),
 			'book' => $book,
 			'id' => $book->getId(),
-			'filterName' => $book->getId() ? Sessions::getFilterName(BookFilter::class) : null
+			'filterName' => $isNew ? null : Sessions::getFilterName(BookFilter::class)
 		]);
 	}
+
 }

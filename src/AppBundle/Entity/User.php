@@ -54,6 +54,22 @@ class User extends BaseUser
 	 */
 	private $comments;
 
+	/**
+	 * @var \Doctrine\Common\Collections\Collection|Book[]
+	 *
+	 * @ORM\ManyToMany(targetEntity="Book", inversedBy="users")
+	 * @ORM\JoinTable(
+	 *  name="user_likes",
+	 *  joinColumns={
+	 *      @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+	 *  },
+	 *  inverseJoinColumns={
+	 *      @ORM\JoinColumn(name="book_id", referencedColumnName="id")
+	 *  }
+	 * )
+	 */
+	private $likes;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -61,6 +77,7 @@ class User extends BaseUser
 		$this->books = new ArrayCollection();
 		$this->ratings = new ArrayCollection();
 		$this->comments = new ArrayCollection();
+		$this->likes = new ArrayCollection();
 	}
 
     /**
@@ -236,4 +253,38 @@ class User extends BaseUser
     {
         return $this->comments;
     }
+
+	/**
+	 * @param Book $book
+	 */
+	public function addLike(Book $book)
+	{
+		if (false !== $this->likes->contains($book)) {
+			return;
+		}
+
+		$this->likes->add($book);
+		$book->addUser($this);
+	}
+
+	/**
+	 * @param Book $book
+	 */
+	public function removeLike(Book $book)
+	{
+		if (false === $this->likes->contains($book)) {
+			return;
+		}
+
+		$this->likes->removeElement($book);
+		$book->removeUser($this);
+	}
+
+	/**
+	 * @return Book[]|ArrayCollection|\Doctrine\Common\Collections\Collection
+	 */
+	public function getLikes()
+	{
+		return $this->likes;
+	}
 }

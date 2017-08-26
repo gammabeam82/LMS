@@ -53,4 +53,19 @@ $(document).ready(() => {
 		);
 	});
 
+	$('.like-button').on('click', function (event) {
+		event.preventDefault();
+
+		let icon = $(this).find('i');
+
+		$.get($(this).attr('href')).then(
+			(data) => {
+				if (typeof data['hasLike'] !== 'undefined') {
+					icon.toggleClass('glyphicon-heart');
+					icon.toggleClass('glyphicon-heart-empty');
+				}
+			}
+		);
+	});
+
 });

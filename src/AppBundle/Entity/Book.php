@@ -93,6 +93,13 @@ class Book implements EntityInterface
 	private $bookFiles;
 
 	/**
+	 * @var \Doctrine\Common\Collections\Collection|User[]
+	 *
+	 * @ORM\ManyToMany(targetEntity="User", mappedBy="likes")
+	 */
+	private $users;
+
+	/**
 	 * Book constructor.
 	 */
 	public function __construct()
@@ -100,6 +107,7 @@ class Book implements EntityInterface
 		$this->ratings = new ArrayCollection();
 		$this->comments = new ArrayCollection();
 		$this->bookFiles = new ArrayCollection();
+		$this->users = new ArrayCollection();
 	}
 
 	/**
@@ -443,5 +451,49 @@ class Book implements EntityInterface
     public function setBookFiles($bookFiles)
 	{
 		$this->bookFiles = $bookFiles;
+	}
+
+	/**
+	 * @param User $user
+	 */
+	public function addUser(User $user)
+	{
+		if (false !== $this->users->contains($user)) {
+			return;
+		}
+
+		$this->users->add($user);
+		$user->addLike($this);
+	}
+
+	/**
+	 * @param User $user
+	 */
+	public function removeUser(User $user)
+	{
+		if (false === $this->users->contains($user)) {
+			return;
+		}
+
+		$this->users->removeElement($user);
+		$user->removeLike($this);
+	}
+
+	/**
+	 * @return User[]|ArrayCollection|\Doctrine\Common\Collections\Collection
+	 */
+	public function getUsers()
+	{
+		return $this->users;
+	}
+
+
+	/**
+	 * @param User $user
+	 * @return bool
+	 */
+	public function isLikedBy(User $user)
+	{
+		return $this->users->contains($user);
 	}
 }

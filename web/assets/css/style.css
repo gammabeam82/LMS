@@ -298,3 +298,8 @@ a.remove_file_link:hover, a.remove_stored_file:hover {
 		  transform: scale(1);
 	  }
 }
+
+a.like-button {
+	color: #EA6153;
+	outline: none !important;
+}
