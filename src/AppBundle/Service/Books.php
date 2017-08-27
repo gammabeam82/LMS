@@ -69,7 +69,7 @@ class Books
 
 			$newFiles = $fileBag->get('book_edit')['bookFiles'];
 
-			if(0 !== count($newFiles)) {
+			if (0 !== count($newFiles)) {
 				foreach ($newFiles as $file) {
 					/* @var UploadedFile $uploadedFile */
 					$uploadedFile = $file['name'];
@@ -79,9 +79,9 @@ class Books
 			}
 		}
 
-		foreach($book->getBookFiles() as $bookFile) {
-			if(0 !== count($this->validator->validate($bookFile))) {
-				if(false !== file_exists($bookFile->getName())) {
+		foreach ($book->getBookFiles() as $bookFile) {
+			if (0 !== count($this->validator->validate($bookFile))) {
+				if (false !== file_exists($bookFile->getName())) {
 					unlink($bookFile->getName());
 				}
 				throw new \UnexpectedValueException();
@@ -102,7 +102,7 @@ class Books
 		$type = $uploadedFile->guessExtension();
 		$filename = sprintf("%s-%s.%s", $book->getName(), uniqid(), $type);
 
-		if(false === $bookFile instanceof BookFile) {
+		if (false === $bookFile instanceof BookFile) {
 			$bookFile = new BookFile();
 		}
 
@@ -116,7 +116,7 @@ class Books
 
 		$uploadedFile->move($this->path, $filename);
 
-		if(false !== in_array($mimeType, ['image/jpeg', 'image/png'])) {
+		if (false !== in_array($mimeType, ['image/jpeg', 'image/png'])) {
 			$bookFile->setIsImage(true);
 			try {
 				$thumbnail = $this->generateThumbnail($bookFile->getName(), $this->path);
@@ -126,16 +126,17 @@ class Books
 			}
 		}
 
-		if(false === $book->getBookFiles()->contains($bookFile)) {
+		if (false === $book->getBookFiles()->contains($bookFile)) {
 			$book->addBookFile($bookFile);
 		}
 	}
 
 	/**
 	 * @param BookFilter $filter
+	 * @param User $user
 	 * @return \Doctrine\ORM\Query
 	 */
-	public function getFilteredBooks(BookFilter $filter)
+	public function getFilteredBooks(BookFilter $filter, User $user)
 	{
 		/**
 		 * @var \Doctrine\ORM\EntityRepository $repo
@@ -189,6 +190,18 @@ class Books
 			$qb->orderBy('b.views', 'DESC');
 		}
 
+		if (false !== $filter->getLiked()) {
+			$ids = [];
+			foreach ($user->getLikes() as $book) {
+				/**
+				 * @var Book $book
+				 */
+				$ids[] = $book->getId();
+			}
+			$qb->andWhere('b.id IN (:ids)');
+			$qb->setParameter('ids', $ids);
+		}
+
 		return $qb->getQuery();
 	}
 
@@ -226,7 +239,7 @@ class Books
 
 		$response = new BinaryFileResponse($item);
 
-		if(false === $file->getIsImage()) {
+		if (false === $file->getIsImage()) {
 			$book->incViews();
 			$this->saveEntity($this->doctrine->getManager(), $book);
 
@@ -243,8 +256,8 @@ class Books
 	public function getImages(Book $book)
 	{
 		$images = [];
-		foreach($book->getBookFiles() as $file) {
-			if(false !== $file->getIsImage()) {
+		foreach ($book->getBookFiles() as $file) {
+			if (false !== $file->getIsImage()) {
 				$images[] = $file;
 				$book->removeBookFile($file);
 			}
@@ -261,7 +274,7 @@ class Books
 	{
 		$hasLike = false;
 
-		if(false === $user->getLikes()->contains($book)) {
+		if (false === $user->getLikes()->contains($book)) {
 			$book->addUser($user);
 			$hasLike = true;
 		} else {

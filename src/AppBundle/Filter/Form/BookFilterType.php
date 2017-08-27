@@ -84,7 +84,12 @@ class BookFilterType extends AbstractType
 			->add('mostPopular', CheckboxType::class, [
 				'label' => 'messages.popular',
 				'required' => false
-			]);
+			])
+			->add('liked', CheckboxType::class, [
+				'label' => 'messages.favorites',
+				'required' => false
+			])
+		;
 	}
 
 	public function configureOptions(OptionsResolver $resolver)

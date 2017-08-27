@@ -133,6 +133,7 @@ messages:
   export_deleted: 'Экспорт удален.'
   search: 'Поиск книги или автора'
   upload_error: 'Ошибка загрузки файла'
+  favorites: 'Только избранные'
 
 
 Previous: 'Предыдущая'

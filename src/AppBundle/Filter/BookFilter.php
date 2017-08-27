@@ -64,11 +64,17 @@ class BookFilter implements CommonFilterInterface
 	private $mostPopular;
 
 	/**
+	 * @var boolean
+	 */
+	private $liked;
+
+	/**
 	 * BookFilter constructor.
 	 */
 	public function __construct()
 	{
 		$this->mostPopular = false;
+		$this->liked = false;
 	}
 
 	/**
@@ -250,4 +256,19 @@ class BookFilter implements CommonFilterInterface
 		$this->serie = $serie;
 	}
 
+	/**
+	 * @return boolean
+	 */
+	public function getLiked()
+	{
+		return $this->liked;
+	}
+
+	/**
+	 * @param boolean $liked
+	 */
+	public function setLiked($liked)
+	{
+		$this->liked = $liked;
+	}
 }

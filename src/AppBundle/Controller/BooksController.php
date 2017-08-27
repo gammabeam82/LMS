@@ -54,7 +54,7 @@ class BooksController extends Controller
 			return $this->redirectToRoute("books");
 		}
 
-		$query = $bookService->getFilteredBooks($filter);
+		$query = $bookService->getFilteredBooks($filter, $this->getUser());
 
 		$books = $paginator->paginate(
 			$query, $request->query->getInt('page', 1), $this->getParameter('books_per_page')
