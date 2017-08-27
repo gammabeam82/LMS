@@ -191,13 +191,10 @@ class Books
 		}
 
 		if (false !== $filter->getLiked()) {
-			$ids = [];
-			foreach ($user->getLikes() as $book) {
-				/**
-				 * @var Book $book
-				 */
-				$ids[] = $book->getId();
-			}
+			$ids = array_map(function ($book) {
+				/** @var Book $book */
+				return $book->getId();
+			}, $user->getLikes()->toArray());
 			$qb->andWhere('b.id IN (:ids)');
 			$qb->setParameter('ids', $ids);
 		}
