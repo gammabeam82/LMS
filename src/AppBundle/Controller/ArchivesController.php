@@ -34,6 +34,8 @@ class ArchivesController extends Controller
 	 */
 	public function downloadAction()
 	{
+		$this->denyAccessUnlessGranted('view', new Book());
+
 		$archiveService = $this->get('app.archives');
 
 		try {
@@ -70,6 +72,8 @@ class ArchivesController extends Controller
 	 */
 	public function addAction(Request $request, Book $book)
 	{
+		$this->denyAccessUnlessGranted('view', $book);
+
 		if(false === $request->isXmlHttpRequest()) {
 			return $this->redirectToRoute('books');
 		}
@@ -96,6 +100,8 @@ class ArchivesController extends Controller
 	 */
 	public function removeAction(Request $request, Book $book)
 	{
+		$this->denyAccessUnlessGranted('view', $book);
+
 		if(false === $request->isXmlHttpRequest()) {
 			return $this->redirectToRoute('books');
 		}

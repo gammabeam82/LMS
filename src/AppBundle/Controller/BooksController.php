@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Book;
 use AppBundle\Entity\File;
-use AppBundle\Entity\User;
 use AppBundle\Form\BookEditType;
 use AppBundle\Form\BookType;
 use AppBundle\Filter\BookFilter;
@@ -248,7 +247,6 @@ class BooksController extends Controller
 		return $this->render('books/form.html.twig', [
 			'form' => $form->createView(),
 			'book' => $book,
-			'id' => $book->getId(),
 			'filterName' => $isNew ? null : Sessions::getFilterName(BookFilter::class)
 		]);
 	}

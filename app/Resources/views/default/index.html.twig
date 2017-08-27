@@ -28,7 +28,7 @@
 									</a>
 								</dt>
 								<dd>
-									<span class="text-muted">
+									<span class="text-muted" data-toggle="tooltip" data-placement="bottom" title="{{ book.createdAt | ago }}">
 										<i class="glyphicon glyphicon-time"></i>
 										{{ book.createdAt | date('d.m.Y H:i') }}
 									</span>
@@ -57,7 +57,7 @@
 								{{ comment.user }}
 							</dt>
 							<dd class="comment">
-								<span class="text-muted">
+								<span class="text-muted" data-toggle="tooltip" data-placement="bottom" title="{{ comment.postedAt | ago }}">
 									<i class="glyphicon glyphicon-time"></i>
 									{{ comment.postedAt | date('d.m.Y H:i:s') }}
 								</span>
