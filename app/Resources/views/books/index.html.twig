@@ -121,7 +121,7 @@
 						<tr>
 							<th>{{ 'book.name' | trans }}</th>
 							<th>{{ 'book.author' | trans }}</th>
-							<th>{{ 'book.genre' | trans }}</th>
+							<th class="hidden-xs">{{ 'book.genre' | trans }}</th>
 							<th class="visible-lg">{{ 'book.serie' | trans }}</th>
 							<th class="visible-lg">{{ knp_pagination_sortable(books, 'book.date' | trans, 'b.createdAt') }}</th>
 							<th class="visible-lg">{{ 'book.rating' | trans }}</th>
@@ -149,7 +149,7 @@
 								<td>
 									<a href="{{ path('books', {'book_filter[author][]': book.author.id}) }}">{{ book.author.shortName }}</a>
 								</td>
-								<td>{{ book.genre ? book.genre.name : "-" }}</td>
+								<td class="hidden-xs">{{ book.genre ? book.genre.name : "-" }}</td>
 								<td class="visible-lg">{{ book.serie ? book.serie.name : "-" }}</td>
 								<td class="visible-lg">
 									<span data-toggle="tooltip" data-placement="right" title="{{ book.createdAt | ago }}">
@@ -159,14 +159,17 @@
 								<td class="visible-lg">{{ book.averageRating }}</td>
 								<td>
 									<button data-path="{{ path('archive_add', { 'id': book.id }) }}" class="btn btn-default btn-sm to-archive {% if book.id in booksInArchive %}disabled{% endif %}">
-										<i class="glyphicon glyphicon-ok"></i> {{ 'actions.to_archive' | trans }}
+										<i class="glyphicon glyphicon-ok"></i>
+										<span class="button-label"> {{ 'actions.to_archive' | trans }}</span>
 									</button>
 									{% if is_granted('ROLE_ADMIN') %}
 										<a class="btn btn-primary btn-sm" href="{{ path('books_edit', {'id': book.id}) }}">
-											<i class="glyphicon glyphicon-edit"></i> {{ 'actions.edit' | trans }}
+											<i class="glyphicon glyphicon-edit"></i>
+											<span class="button-label"> {{ 'actions.edit' | trans }}</span>
 										</a>
 										<button data-name="{{ book.name }}" data-toggle="modal" data-target="#modal-delete" class="btn btn-danger btn-sm delete" data-path="{{ path('books_delete', {'id': book.id}) }}">
-											<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
+											<i class="glyphicon glyphicon-remove"></i>
+											<span class="button-label"> {{ 'actions.delete' | trans }}</span>
 										</button>
 									{% endif %}
 								</td>

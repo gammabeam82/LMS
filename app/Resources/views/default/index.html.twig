@@ -8,14 +8,14 @@
 
 	<div class="row margin-top-10">
 
-		<div class="col-xs-4">
+		<div class="col-xs-12 col-md-4">
 			<h3>{{ 'messages.recent_news' | trans }}</h3>
 			<hr/>
 		</div>
 
 		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 
-			<div class="col-xs-4">
+			<div class="col-xs-12 col-md-4">
 				{% if books | length > 0 %}
 					<h3>{{ 'messages.recent_books' | trans }}</h3>
 					<hr/>
@@ -35,9 +35,9 @@
 									{{ book.author.shortName }}
 									{% if book.annotation %}
 										<div class="text-justify">
-											<small>
+											<i>
 												{{ book.annotation }}
-											</small>
+											</i>
 										</div>
 									{% endif %}
 								</dd>
@@ -47,7 +47,7 @@
 				{% endif %}
 			</div>
 
-			<div class="col-xs-4">
+			<div class="col-xs-12 col-md-4">
 				{% if comments | length > 0 %}
 					<h3>{{ 'messages.recent_comments' | trans }}</h3>
 					<hr/>

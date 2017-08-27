@@ -8,13 +8,19 @@
 	background-attachment: scroll, fixed;
 }
 
-@media (max-width: 1050px) {
+@media (max-width: 1200px) {
 	.jumbotron {
 		background-repeat: repeat, no-repeat;
 		background-size: auto, cover;
 	}
 
 	.navbar-form {
+		display: none;
+	}
+}
+
+@media (max-width: 860px) {
+	.homepage-link, .button-label {
 		display: none;
 	}
 }

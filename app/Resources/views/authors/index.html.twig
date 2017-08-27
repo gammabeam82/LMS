@@ -118,15 +118,18 @@
 								<td>
 									{% if is_granted('ROLE_ADMIN') %}
 										<a class="btn btn-primary btn-sm" href="{{ path('authors_edit', {'id': author.id}) }}">
-											<i class="glyphicon glyphicon-edit"></i> {{ 'actions.edit' | trans }}
+											<i class="glyphicon glyphicon-edit"></i>
+											<span class="button-label"> {{ 'actions.edit' | trans }}</span>
 										</a>
 										{% if author.isDeletable %}
 											<button data-name="{{ author.shortName }}" data-toggle="modal" data-target="#modal-delete" class="btn btn-sm delete btn-danger" data-path="{{ path('authors_delete', {'id': author.id}) }}">
-												<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
+												<i class="glyphicon glyphicon-remove"></i>
+												<span class="button-label"> {{ 'actions.delete' | trans }}</span>
 											</button>
 										{% else %}
 											<button data-name="{{ author.shortName }}" class="btn btn-sm delete btn-default disabled" data-path="#">
-												<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
+												<i class="glyphicon glyphicon-remove"></i>
+												<span class="button-label"> {{ 'actions.delete' | trans }}</span>
 											</button>
 										{% endif %}
 									{% endif %}
