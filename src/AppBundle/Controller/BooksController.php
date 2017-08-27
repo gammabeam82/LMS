@@ -109,11 +109,11 @@ class BooksController extends Controller
 	{
 		$this->denyAccessUnlessGranted('delete', $book);
 
-		$bookService = $this->get('app.books');
-
 		$translator = $this->get('translator');
 
-		$bookService->remove($book);
+		$this->get('app.archives')->removeBookFromArchive($book);
+
+		$this->get('app.books')->remove($book);
 
 		$this->addFlash('notice', $translator->trans('messages.book_deleted'));
 

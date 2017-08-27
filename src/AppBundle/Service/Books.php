@@ -133,10 +133,10 @@ class Books
 
 	/**
 	 * @param BookFilter $filter
-	 * @param User $user
+	 * @param User|null $user
 	 * @return \Doctrine\ORM\Query
 	 */
-	public function getFilteredBooks(BookFilter $filter, User $user)
+	public function getFilteredBooks(BookFilter $filter, User $user = null)
 	{
 		/**
 		 * @var \Doctrine\ORM\EntityRepository $repo
@@ -190,7 +190,7 @@ class Books
 			$qb->orderBy('b.views', 'DESC');
 		}
 
-		if (false !== $filter->getLiked()) {
+		if (false !== $filter->getLiked() && false !== $user instanceof User) {
 			$ids = array_map(function ($book) {
 				/** @var Book $book */
 				return $book->getId();
