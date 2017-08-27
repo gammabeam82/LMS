@@ -102,9 +102,11 @@ class GenresControllerTest extends WebTestCase
 		]);
 
 		$this->client->submit($form);
-		$response = $this->client->getResponse();
 
-		$this->assertContains($this->translator->trans('messages.genre_added'), $response->getContent());
+		$content = $this->client->getResponse()->getContent();
+
+		$this->assertContains($this->translator->trans('messages.genre_added'), $content);
+		$this->assertContains('test genre', $content);
 	}
 
 	public function testAddEmpty()
@@ -140,9 +142,8 @@ class GenresControllerTest extends WebTestCase
 		]);
 
 		$this->client->submit($form);
-		$response = $this->client->getResponse();
 
-		$this->assertContains($this->translator->trans('genre.unique', [], 'validators'), $response->getContent());
+		$this->assertContains($this->translator->trans('genre.unique', [], 'validators'), $this->client->getResponse()->getContent());
 	}
 
 	public function testEdit()
@@ -166,9 +167,8 @@ class GenresControllerTest extends WebTestCase
 		]);
 
 		$this->client->submit($form);
-		$response = $this->client->getResponse();
 
-		$this->assertContains($this->translator->trans('messages.changes_accepted'), $response->getContent());
+		$this->assertContains($this->translator->trans('messages.changes_accepted'), $this->client->getResponse()->getContent());
 	}
 
 	public function testDelete()

@@ -103,9 +103,10 @@ class AuthorsControllerTest extends WebTestCase
 		]);
 
 		$this->client->submit($form);
-		$response = $this->client->getResponse();
+		$content = $this->client->getResponse()->getContent();
 
-		$this->assertContains($this->translator->trans('messages.author_added'), $response->getContent());
+		$this->assertContains($this->translator->trans('messages.author_added'), $content);
+		$this->assertContains('Никифор Ляпис-Трубецкой', $content);
 	}
 
 	public function testAddEmpty()
@@ -123,9 +124,8 @@ class AuthorsControllerTest extends WebTestCase
 		]);
 
 		$this->client->submit($form);
-		$response = $this->client->getResponse();
 
-		$this->assertContains($this->translator->trans('blank', [], 'validators'), $response->getContent());
+		$this->assertContains($this->translator->trans('blank', [], 'validators'), $this->client->getResponse()->getContent());
 	}
 
 	public function testEdit()
@@ -152,9 +152,8 @@ class AuthorsControllerTest extends WebTestCase
 		]);
 
 		$this->client->submit($form);
-		$response = $this->client->getResponse();
 
-		$this->assertContains($this->translator->trans('messages.changes_accepted'), $response->getContent());
+		$this->assertContains($this->translator->trans('messages.changes_accepted'), $this->client->getResponse()->getContent());
 	}
 
 	public function testDelete()
