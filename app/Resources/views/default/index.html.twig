@@ -4,83 +4,94 @@
 
 {% block body %}
 
-<div class="container-fluid content">
+	<div class="container-fluid content">
 
-	<div class="row margin-top-10">
+		<div class="row margin-top-10">
 
-		<div class="col-xs-12 col-md-4">
-			<h3>{{ 'messages.recent_news' | trans }}</h3>
-			<hr/>
+			<div class="col-xs-12 col-md-4">
+				<h3>{{ 'messages.recent_news' | trans }}</h3>
+				<hr/>
+			</div>
+
+			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+
+				<div class="col-xs-12 col-md-4">
+					{% if books | length > 0 %}
+						<h3>{{ 'messages.recent_books' | trans }}</h3>
+						<hr/>
+						<dl>
+							{% for book in books %}
+								{% if loop.index < 6 %}
+									<dt>
+										<a href="{{ path('books_view', { 'id': book.id }) }}">
+											{{ book.name }}
+										</a>
+									</dt>
+									<dd>
+										<span class="text-muted" data-toggle="tooltip" data-placement="bottom" title="{{ book.createdAt | ago }}">
+											<i class="glyphicon glyphicon-time"></i>
+											{{ book.createdAt | date('d.m.Y H:i') }}
+										</span>
+										{{ book.author.shortName }}
+
+										{% if book.getImages %}
+											{% set image = book.getImages | first %}
+											<div class="embed-responsive embed-responsive-4by3">
+												<a href="{{ path('books_view', { 'id': book.id }) }}">
+													<img src="{{ path('books_file_download', { 'id': image.id, 'thumbnail': 1 }) }}" class="embed-responsive-item img-responsive"/>
+												</a>
+											</div>
+											<br/>
+										{% endif %}
+
+										{% if book.annotation %}
+											<div class="text-justify">
+												<i>
+													{{ book.annotation }}
+												</i>
+											</div>
+										{% endif %}
+									</dd>
+								{% endif %}
+							{% endfor %}
+						</dl>
+					{% endif %}
+				</div>
+
+				<div class="col-xs-12 col-md-4">
+					{% if comments | length > 0 %}
+						<h3>{{ 'messages.recent_comments' | trans }}</h3>
+						<hr/>
+						<dl>
+							{% for comment in comments %}
+								<dt>
+									{{ comment.user }}
+								</dt>
+								<dd class="comment">
+									<span class="text-muted" data-toggle="tooltip" data-placement="bottom" title="{{ comment.postedAt | ago }}">
+										<i class="glyphicon glyphicon-time"></i>
+										{{ comment.postedAt | date('d.m.Y H:i:s') }}
+									</span>
+									|
+									<a href="{{ path('books_view', { 'id': comment.book.id }) }}#c{{ comment.id }}">
+										{{ comment.book.name }}
+									</a>
+									<div class="text-justify">
+										<small>
+											{{ comment.message }}
+										</small>
+									</div>
+									<br/>
+								</dd>
+							{% endfor %}
+						</dl>
+					{% endif %}
+				</div>
+
+			{% endif %}
+
 		</div>
 
-		{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-
-			<div class="col-xs-12 col-md-4">
-				{% if books | length > 0 %}
-					<h3>{{ 'messages.recent_books' | trans }}</h3>
-					<hr/>
-					<dl>
-						{% for book in books %}
-							{% if loop.index < 6 %}
-								<dt>
-									<a href="{{ path('books_view', { 'id': book.id }) }}">
-										{{ book.name }}
-									</a>
-								</dt>
-								<dd>
-									<span class="text-muted" data-toggle="tooltip" data-placement="bottom" title="{{ book.createdAt | ago }}">
-										<i class="glyphicon glyphicon-time"></i>
-										{{ book.createdAt | date('d.m.Y H:i') }}
-									</span>
-									{{ book.author.shortName }}
-									{% if book.annotation %}
-										<div class="text-justify">
-											<i>
-												{{ book.annotation }}
-											</i>
-										</div>
-									{% endif %}
-								</dd>
-							{% endif %}
-						{% endfor %}
-					</dl>
-				{% endif %}
-			</div>
-
-			<div class="col-xs-12 col-md-4">
-				{% if comments | length > 0 %}
-					<h3>{{ 'messages.recent_comments' | trans }}</h3>
-					<hr/>
-					<dl>
-						{% for comment in comments %}
-							<dt>
-								{{ comment.user }}
-							</dt>
-							<dd class="comment">
-								<span class="text-muted" data-toggle="tooltip" data-placement="bottom" title="{{ comment.postedAt | ago }}">
-									<i class="glyphicon glyphicon-time"></i>
-									{{ comment.postedAt | date('d.m.Y H:i:s') }}
-								</span>
-								|
-								<a href="{{ path('books_view', { 'id': comment.book.id }) }}#c{{ comment.id }}">
-									{{ comment.book.name }}
-								</a>
-								<div class="text-justify">
-									<small>
-										{{ comment.message }}
-									</small>
-								</div>
-								<br/>
-							</dd>
-						{% endfor %}
-					</dl>
-				{% endif %}
-			</div>
-
-		{% endif %}
-
 	</div>
-
-</div>
 
 {% endblock %}

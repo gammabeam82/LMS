@@ -409,46 +409,46 @@ class Book implements EntityInterface
 		$this->views++;
 	}
 
-    /**
-     * Add bookFile
-     *
-     * @param \AppBundle\Entity\File $bookFile
-     *
-     * @return Book
-     */
-    public function addBookFile(\AppBundle\Entity\File $bookFile)
-    {
-        $this->bookFiles[] = $bookFile;
+	/**
+	 * Add bookFile
+	 *
+	 * @param \AppBundle\Entity\File $bookFile
+	 *
+	 * @return Book
+	 */
+	public function addBookFile(\AppBundle\Entity\File $bookFile)
+	{
+		$this->bookFiles[] = $bookFile;
 
-        $bookFile->setBook($this);
+		$bookFile->setBook($this);
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Remove bookFile
-     *
-     * @param \AppBundle\Entity\File $bookFile
-     */
-    public function removeBookFile(\AppBundle\Entity\File $bookFile)
-    {
-        $this->bookFiles->removeElement($bookFile);
-    }
+	/**
+	 * Remove bookFile
+	 *
+	 * @param \AppBundle\Entity\File $bookFile
+	 */
+	public function removeBookFile(\AppBundle\Entity\File $bookFile)
+	{
+		$this->bookFiles->removeElement($bookFile);
+	}
 
-    /**
-     * Get bookFiles
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getBookFiles()
-    {
-        return $this->bookFiles;
-    }
+	/**
+	 * Get bookFiles
+	 *
+	 * @return \Doctrine\Common\Collections\Collection
+	 */
+	public function getBookFiles()
+	{
+		return $this->bookFiles;
+	}
 
 	/**
 	 * @param  $bookFiles
 	 */
-    public function setBookFiles($bookFiles)
+	public function setBookFiles($bookFiles)
 	{
 		$this->bookFiles = $bookFiles;
 	}
@@ -495,5 +495,16 @@ class Book implements EntityInterface
 	public function isLikedBy(User $user)
 	{
 		return $this->users->contains($user);
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getImages()
+	{
+		return array_filter($this->getBookFiles()->toArray(), function ($file) {
+			/** @var File $file */
+			return false !== $file->getIsImage();
+		});
 	}
 }
