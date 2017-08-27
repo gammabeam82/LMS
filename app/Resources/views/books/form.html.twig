@@ -66,18 +66,20 @@
 				<div class="files" data-prototype="{{ form_widget(form.bookFiles.vars.prototype, { 'attr': { 'class': 'upload' } })|e('html_attr') }}">
 					<ul class="list-unstyled">
 						{% for file in book.bookFiles %}
-							<li class="book-file" style="margin-left: 8em">
-								<a href="#" data-path="{{ path('books_file_delete', { 'id': file.id }) }}" class="remove_stored_file" data-name="{{ file.name | split("/") | last }}" data-toggle="modal" data-target="#modal-delete">
-									<i class="glyphicon glyphicon-remove"></i>
-								</a>
-								<a href="{{ path('books_file_download', { 'id': file.id }) }}">{{ file.name | split("/") | last }}</a>
-								{% if file.isImage == true %}
-									<a data-fancybox="gallery" data-type="image" href="{{ path('books_file_download', { 'id': file.id }) }}">
-										<i class="glyphicon glyphicon-picture"></i>
+							{% if file.id %}
+								<li class="book-file" style="margin-left: 8em">
+									<a href="#" data-path="{{ path('books_file_delete', { 'id': file.id }) }}" class="remove_stored_file" data-name="{{ file.name | split("/") | last }}" data-toggle="modal" data-target="#modal-delete">
+										<i class="glyphicon glyphicon-remove"></i>
 									</a>
-								{% endif %}
-								({{ file.getSizeInKb }})
-							</li>
+									<a href="{{ path('books_file_download', { 'id': file.id }) }}">{{ file.name | split("/") | last }}</a>
+									{% if file.isImage == true %}
+										<a data-fancybox="gallery" data-type="image" href="{{ path('books_file_download', { 'id': file.id }) }}">
+											<i class="glyphicon glyphicon-picture"></i>
+										</a>
+									{% endif %}
+									({{ file.getSizeInKb }})
+								</li>
+							{% endif %}
 						{% endfor %}
 					</ul>
 					<br/>
