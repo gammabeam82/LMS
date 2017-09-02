@@ -494,7 +494,7 @@ class Book implements EntityInterface
 	 */
 	public function isLikedBy(User $user)
 	{
-		return $this->users->contains($user);
+		return false !== $this->users->contains($user);
 	}
 
 	/**
