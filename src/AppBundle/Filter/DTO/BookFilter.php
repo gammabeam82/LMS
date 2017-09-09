@@ -1,14 +1,15 @@
 <?php
 
-namespace AppBundle\Filter;
+namespace AppBundle\Filter\DTO;
 
 use AppBundle\Entity\Serie;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Entity\Author;
 use AppBundle\Entity\Genre;
+use AppBundle\Filter\FilterInterface;
 
-class BookFilter implements CommonFilterInterface
+class BookFilter implements FilterInterface
 {
 
 	/**

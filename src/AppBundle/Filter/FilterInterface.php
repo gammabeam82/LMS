@@ -2,7 +2,7 @@
 
 namespace AppBundle\Filter;
 
-interface CommonFilterInterface
+interface FilterInterface
 {
 
 }

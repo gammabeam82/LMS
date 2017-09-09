@@ -6,7 +6,7 @@ use AppBundle\Entity\Book;
 use AppBundle\Entity\File;
 use AppBundle\Form\BookEditType;
 use AppBundle\Form\BookType;
-use AppBundle\Filter\BookFilter;
+use AppBundle\Filter\DTO\BookFilter;
 use AppBundle\Filter\Form\BookFilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

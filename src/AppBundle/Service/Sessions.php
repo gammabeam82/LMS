@@ -2,7 +2,7 @@
 
 namespace AppBundle\Service;
 
-use AppBundle\Filter\CommonFilterInterface;
+use AppBundle\Filter\FilterInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Doctrine\Bundle\DoctrineBundle\Registry;
@@ -34,9 +34,9 @@ class Sessions
 
 	/**
 	 * @param Form $form
-	 * @param CommonFilterInterface $filter
+	 * @param FilterInterface $filter
 	 */
-	public function updateFilterFromSession(Form $form, CommonFilterInterface $filter)
+	public function updateFilterFromSession(Form $form, FilterInterface $filter)
 	{
 		$request = $this->requestStack->getCurrentRequest();
 
@@ -92,7 +92,7 @@ class Sessions
 	}
 
 	/**
-	 * @param CommonFilterInterface|string $filter
+	 * @param FilterInterface|string $filter
 	 * @return string
 	 */
 	public static function getFilterName($filter)

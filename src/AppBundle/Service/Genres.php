@@ -6,7 +6,7 @@ use AppBundle\Entity\Genre;
 use AppBundle\Utils\EntityTrait;
 use AppBundle\Service\Export\Export;
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use AppBundle\Filter\EntityFilterInterface;
+use AppBundle\Filter\DTO\GenreFilter;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class Genres
@@ -42,10 +42,10 @@ class Genres
 	}
 
 	/**
-	 * @param EntityFilterInterface $filter
+	 * @param GenreFilter $filter
 	 * @return \Doctrine\ORM\Query
 	 */
-	public function getFilteredGenres(EntityFilterInterface $filter)
+	public function getFilteredGenres(GenreFilter $filter)
 	{
 		/**
 		 * @var \Doctrine\ORM\EntityRepository $repo
@@ -89,8 +89,6 @@ class Genres
 	public function export()
 	{
 		$translator = $this->translator;
-
-		$repo = $this->doctrine->getRepository(Genre::class);
 
 		$rows = [
 			$translator->trans('messages.name') => 'getName',

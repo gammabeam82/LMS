@@ -10,7 +10,7 @@ use AppBundle\Form\AuthorType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use AppBundle\Filter\AuthorFilter;
+use AppBundle\Filter\DTO\AuthorFilter;
 use AppBundle\Filter\Form\AuthorFilterType;
 use UnexpectedValueException;
 use AppBundle\Utils\MbRangeTrait;

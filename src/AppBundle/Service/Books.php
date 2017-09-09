@@ -5,7 +5,7 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\File as BookFile;
 use AppBundle\Entity\User;
-use AppBundle\Filter\BookFilter;
+use AppBundle\Filter\DTO\BookFilter;
 use AppBundle\Utils\EntityTrait;
 use AppBundle\Utils\ImageThumbnailTrait;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;

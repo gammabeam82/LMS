@@ -10,7 +10,7 @@ use AppBundle\Form\SerieType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use AppBundle\Filter\SerieFilter;
+use AppBundle\Filter\DTO\SerieFilter;
 use AppBundle\Filter\Form\SerieFilterType;
 use UnexpectedValueException;
 use AppBundle\Service\Sessions;

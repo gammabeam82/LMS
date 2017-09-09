@@ -5,7 +5,7 @@ namespace AppBundle\Filter\Form;
 use AppBundle\Entity\Author;
 use AppBundle\Entity\Genre;
 use AppBundle\Entity\Serie;
-use AppBundle\Filter\BookFilter;
+use AppBundle\Filter\DTO\BookFilter;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

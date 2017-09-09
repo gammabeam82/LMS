@@ -2,7 +2,7 @@
 
 namespace AppBundle\Filter\Form;
 
-use AppBundle\Filter\AuthorFilter;
+use AppBundle\Filter\DTO\AuthorFilter;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;

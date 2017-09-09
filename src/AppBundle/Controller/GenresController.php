@@ -10,7 +10,7 @@ use AppBundle\Form\GenreType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use AppBundle\Filter\GenreFilter;
+use AppBundle\Filter\DTO\GenreFilter;
 use AppBundle\Filter\Form\GenreFilterType;
 use UnexpectedValueException;
 use AppBundle\Service\Sessions;

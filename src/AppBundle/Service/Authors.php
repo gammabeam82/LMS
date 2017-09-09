@@ -3,7 +3,7 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Author;
-use AppBundle\Filter\AuthorFilter;
+use AppBundle\Filter\DTO\AuthorFilter;
 use AppBundle\Service\Export\Export;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use AppBundle\Utils\EntityTrait;

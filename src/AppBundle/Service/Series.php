@@ -3,7 +3,7 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Serie;
-use AppBundle\Filter\EntityFilterInterface;
+use AppBundle\Filter\DTO\SerieFilter;
 use AppBundle\Utils\EntityTrait;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -42,10 +42,10 @@ class Series
 	}
 
 	/**
-	 * @param EntityFilterInterface $filter
+	 * @param SerieFilter $filter
 	 * @return \Doctrine\ORM\Query
 	 */
-	public function getFilteredSeries(EntityFilterInterface $filter)
+	public function getFilteredSeries(SerieFilter $filter)
 	{
 		/**
 		 * @var \Doctrine\ORM\EntityRepository $repo

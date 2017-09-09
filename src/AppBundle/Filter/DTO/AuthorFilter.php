@@ -1,10 +1,11 @@
 <?php
 
-namespace AppBundle\Filter;
+namespace AppBundle\Filter\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Filter\FilterInterface;
 
-class AuthorFilter implements CommonFilterInterface
+class AuthorFilter implements FilterInterface
 {
 
 	/**
