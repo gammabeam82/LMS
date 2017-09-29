@@ -20,6 +20,8 @@ class AuthorsController extends Controller
 {
 	use MbRangeTrait;
 
+	const LIMIT = 15;
+
 	/**
 	 * @Route("/authors", name="authors")
 	 *
@@ -55,7 +57,7 @@ class AuthorsController extends Controller
 		$query = $authorService->getFilteredAuthors($filter);
 
 		$authors = $paginator->paginate(
-			$query, $request->query->getInt('page', 1), $this->getParameter('authors_per_page')
+			$query, $request->query->getInt('page', 1), self::LIMIT
 		);
 
 		return $this->render('authors/index.html.twig', [

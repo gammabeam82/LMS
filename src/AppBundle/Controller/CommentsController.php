@@ -14,6 +14,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class CommentsController extends Controller
 {
+    const LIMIT = 5;
+
 	/**
 	 * @Route("/books/{id}/comments", name="books_comments")
 	 * @ParamConverter("book")
@@ -62,7 +64,7 @@ class CommentsController extends Controller
 		$query = $commentService->getQuery($book);
 
 		$comments = $paginator->paginate(
-			$query, $masterRequest->query->getInt('page', 1), $this->getParameter('comments_per_page')
+			$query, $masterRequest->query->getInt('page', 1), self::LIMIT
 		);
 
 		return $this->render('comments/index.html.twig', [

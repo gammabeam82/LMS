@@ -17,6 +17,7 @@ use AppBundle\Service\Sessions;
 
 class SeriesController extends Controller
 {
+    const LIMIT = 15;
 
 	/**
 	 * @Route("/series", name="series")
@@ -55,7 +56,7 @@ class SeriesController extends Controller
 		$query = $seriesService->getFilteredSeries($filter);
 
 		$series = $paginator->paginate(
-			$query, $request->query->getInt('page', 1), $this->getParameter('series_per_page')
+			$query, $request->query->getInt('page', 1), self::LIMIT
 		);
 
 		return $this->render('series/index.html.twig', [

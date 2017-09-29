@@ -20,6 +20,8 @@ class Books
 	use EntityTrait;
 	use ImageThumbnailTrait;
 
+	const ALLOWED_TYPES = ['image/jpeg', 'image/png'];
+
 	/**
 	 * @var RequestStack
 	 */
@@ -116,7 +118,7 @@ class Books
 
 		$uploadedFile->move($this->path, $filename);
 
-		if (false !== in_array($mimeType, ['image/jpeg', 'image/png'])) {
+		if (false !== in_array($mimeType, self::ALLOWED_TYPES)) {
 			$bookFile->setIsImage(true);
 			try {
 				$thumbnail = $this->generateThumbnail($bookFile->getName(), $this->path);

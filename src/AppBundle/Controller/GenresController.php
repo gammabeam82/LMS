@@ -17,6 +17,8 @@ use AppBundle\Service\Sessions;
 
 class GenresController extends Controller
 {
+    const LIMIT = 15;
+
 	/**
 	 * @Route("/genres", name="genres")
 	 *
@@ -54,7 +56,7 @@ class GenresController extends Controller
 		$query = $genresService->getFilteredGenres($filter);
 
 		$genres = $paginator->paginate(
-			$query, $request->query->getInt('page', 1), $this->getParameter('genres_per_page')
+			$query, $request->query->getInt('page', 1), self::LIMIT
 		);
 
 		return $this->render('genres/index.html.twig', [

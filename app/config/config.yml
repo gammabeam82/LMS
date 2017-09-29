@@ -9,11 +9,6 @@ parameters:
     locale: ru
     library: "%kernel.root_dir%/../var/books"
     export: "%kernel.root_dir%/../var/export"
-    comments_per_page: 5
-    books_per_page: 15
-    authors_per_page: 15
-    genres_per_page: 15
-    series_per_page: 15
     session_archive_var: "archive"
     password: "%testuser_password%"
 

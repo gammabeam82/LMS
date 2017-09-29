@@ -20,6 +20,8 @@ use AppBundle\Service\Sessions;
 
 class BooksController extends Controller
 {
+    const LIMIT = 15;
+
 	/**
 	 * @Route("/books", name="books")
 	 *
@@ -57,7 +59,7 @@ class BooksController extends Controller
 		$query = $bookService->getFilteredBooks($filter, $this->getUser());
 
 		$books = $paginator->paginate(
-			$query, $request->query->getInt('page', 1), $this->getParameter('books_per_page')
+			$query, $request->query->getInt('page', 1), self::LIMIT
 		);
 
 		return $this->render('books/index.html.twig', [
