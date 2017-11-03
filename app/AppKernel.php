@@ -23,6 +23,7 @@ class AppKernel extends Kernel
 			new Ruvents\DoctrineFixesBundle\RuventsDoctrineFixesBundle(),
 			new Knp\Bundle\MarkdownBundle\KnpMarkdownBundle(),
 			new Knp\Bundle\TimeBundle\KnpTimeBundle(),
+            new Snc\RedisBundle\SncRedisBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
