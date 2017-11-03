@@ -23,14 +23,13 @@
 							<th>{{ 'book.book' | trans }}</th>
 							<th></th>
 						</tr>
-
-						{% for book in books %}
+						{% for id in books|keys %}
 							<tr>
 								<td class="col-xs-6">
-									<b><a href="{{ path('books_view', {'id': book.id}) }}">{{ book.name }}</a></b>
+									<b><a href="{{ path('books_view', {'id': id }) }}">{{ books[id] }}</a></b>
 								</td>
 								<td class="col-xs-4">
-									<button data-path="{{ path('archive_remove', { 'id': book.id }) }}" class="btn btn-default btn-sm remove-from-archive">
+									<button data-path="{{ path('archive_remove', { 'id': id }) }}" class="btn btn-default btn-sm remove-from-archive">
 										<i class="glyphicon glyphicon-remove"></i> {{ 'actions.delete' | trans }}
 									</button>
 								</td>

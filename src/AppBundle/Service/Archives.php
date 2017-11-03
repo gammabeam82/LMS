@@ -4,10 +4,10 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use LengthException;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use ZipStream\ZipStream;
 
 class Archives
@@ -18,46 +18,27 @@ class Archives
 	 */
 	private $doctrine;
 
-	/**
-	 * @var SessionInterface
-	 */
-	private $session;
+    /**
+     * @var \Predis\Client
+     */
+    private $redis;
 
-	/**
-	 * @var string
-	 */
-	private $varName;
+    /**
+     * @var string
+     */
+    private $key;
 
-	/**
-	 * Archives constructor.
-	 * @param SessionInterface $session
-	 * @param Registry $doctrine
-	 * @param $varName
-	 */
-	public function __construct(SessionInterface $session, Registry $doctrine, $varName)
+    /**
+     * Archives constructor.
+     * @param Registry $doctrine
+     * @param TokenStorageInterface $tokenStorage
+     * @param \Predis\Client $redis
+     */
+	public function __construct(Registry $doctrine, TokenStorageInterface $tokenStorage, \Predis\Client $redis)
 	{
 		$this->doctrine = $doctrine;
-		$this->session = $session;
-		$this->varName = $varName;
-	}
-
-	/**
-	 * @return array
-	 */
-	private function getSessionData()
-	{
-		$session = $this->session;
-		$varName = $this->varName;
-
-		return ($session->get($varName)) ? unserialize($session->get($varName)) : [];
-	}
-
-	/**
-	 * @param array $data
-	 */
-	private function setSessionData($data)
-	{
-		$this->session->set($this->varName, serialize($data));
+		$this->redis = $redis;
+		$this->key = sprintf("archive:%s", $tokenStorage->getToken()->getUser()->getId());
 	}
 
 	/**
@@ -65,7 +46,7 @@ class Archives
 	 */
 	public function getBooksCount()
 	{
-		return count($this->getSessionData());
+		return $this->redis->hlen($this->key);
 	}
 
 	/**
@@ -73,17 +54,7 @@ class Archives
 	 */
 	public function addBookToArchive(Book $book)
 	{
-
-		$data = $this->getSessionData();
-
-		$bookId = $book->getId();
-
-		if (false === in_array($bookId, $data)) {
-			$data[] = $bookId;
-
-			$this->setSessionData($data);
-		}
-
+		$this->redis->hsetnx($this->key, $book->getId(), $book->getName());
 	}
 
 	/**
@@ -91,12 +62,7 @@ class Archives
 	 */
 	public function removeBookFromArchive(Book $book)
 	{
-
-		$data = $this->getSessionData();
-
-		$this->setSessionData(array_diff($data, [
-			$book->getId()
-		]));
+        $this->redis->hdel($this->key, [$book->getId()]);
 	}
 
 	/**
@@ -104,20 +70,11 @@ class Archives
 	 */
 	public function getBooksList()
 	{
-		if (0 == count($this->getSessionData())) {
+		if (0 === $this->redis->hlen($this->key)) {
 			return false;
 		}
 
-		/* @var \Doctrine\ORM\EntityRepository $repo */
-		$repo = $this->doctrine->getRepository(Book::class);
-		$qb = $repo->createQueryBuilder('b');
-
-		$qb->select('b.id, b.name');
-		$qb->where($qb->expr()->in('b.id', $this->getSessionData()));
-
-		$result = $qb->getQuery()->execute();
-
-		return $result;
+        return $this->redis->hgetall($this->key);
 	}
 
 	/**
@@ -125,7 +82,7 @@ class Archives
 	 */
 	public function getBookIds()
 	{
-		return $this->getSessionData();
+		return $this->redis->hkeys($this->key);
 	}
 
 	/**
@@ -133,7 +90,7 @@ class Archives
 	 */
 	public function getArchive()
 	{
-		if (0 == count($this->getSessionData())) {
+		if (0 === $this->redis->hlen($this->key) || false === $this->redis->exists($this->key)) {
 			throw new LengthException();
 		}
 
@@ -143,7 +100,7 @@ class Archives
 		$em = $this->doctrine->getManager();
 
 		$qb = $repo->createQueryBuilder('b');
-		$qb->where($qb->expr()->in('b.id', $this->getSessionData()));
+		$qb->where($qb->expr()->in('b.id', $this->getBookIds()));
 
 		$books = $qb->getQuery()->execute();
 

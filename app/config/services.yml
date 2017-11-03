@@ -42,7 +42,7 @@ services:
 
       app.archives:
           class: AppBundle\Service\Archives
-          arguments: ["@=service('request_stack').getCurrentRequest().getSession()","@doctrine", "%session_archive_var%"]
+          arguments: ["@doctrine", "@security.token_storage", "@snc_redis.default"]
 
 #      app.kernel_event_subscriber:
 #           class: AppBundle\EventListener\KernelEventSubscriber
