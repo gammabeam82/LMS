@@ -31,6 +31,12 @@ class LoginSubscriber implements EventSubscriberInterface
      */
     private $request;
 
+    /**
+     * LoginSubscriber constructor.
+     * @param \Predis\Client $redis
+     * @param TokenStorageInterface $tokenStorage
+     * @param RequestStack $request
+     */
     public function __construct(\Predis\Client $redis, TokenStorageInterface $tokenStorage, RequestStack $request)
     {
         $this->redis = $redis;
