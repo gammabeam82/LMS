@@ -67,6 +67,6 @@ services:
           tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
-      app.logout_listener:
-          class: AppBundle\EventListener\LogoutListener
+      app.logout_handler:
+          class: AppBundle\Security\Handler\LogoutHandler
           arguments: ["@snc_redis.default"]

@@ -126,7 +126,7 @@ $(document).ready(() => {
         $.getJSON($(this).attr('data-path'))
             .then((data) => {
                if(data.length > 0) {
-
+               	//TODO users list
                }
             });
     });

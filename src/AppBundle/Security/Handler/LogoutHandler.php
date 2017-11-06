@@ -1,13 +1,13 @@
 <?php
 
-namespace AppBundle\EventListener;
+namespace AppBundle\Security\Handler;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Logout\LogoutHandlerInterface;
 
-class LogoutListener implements LogoutHandlerInterface
+class LogoutHandler implements LogoutHandlerInterface
 {
     /**
      * @var \Predis\Client

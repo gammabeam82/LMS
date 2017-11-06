@@ -21,7 +21,7 @@ security:
                 csrf_token_generator: security.csrf.token_manager
                 #default_target_path: default_security_target
             logout:
-                handlers: [app.logout_listener]
+                handlers: [app.logout_handler]
             anonymous:    true
 
     access_control:
