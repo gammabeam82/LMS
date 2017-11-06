@@ -3,6 +3,8 @@ $(document).ready(() => {
 	const booksCountContainer = $('.books-count');
 	const errorMessage = $('.common-messages-error').text();
 	const backToTop = $('.back-to-top');
+    const usersCountContainer = $('.users-online-container');
+    const usersLink = $('.users-online');
 
 	const hl = $('.highlight-value');
 	const hl2 = $('.highlight-value-hidden');
@@ -108,5 +110,25 @@ $(document).ready(() => {
 	$('.export').click(function() {
 		setTimeout(() => location.reload(), 3500);
 	});
+
+	setInterval(function () {
+        $.getJSON(usersCountContainer.attr('data-path'))
+            .then((data) => {
+                if (typeof data['usersCount'] !== 'undefined') {
+                    usersCountContainer.html(data['usersCount'])
+                }
+            });
+    }, 30500);
+
+	usersLink.on('click', function (event) {
+	    event.preventDefault();
+
+        $.getJSON($(this).attr('data-path'))
+            .then((data) => {
+               if(data.length > 0) {
+
+               }
+            });
+    });
 
 });

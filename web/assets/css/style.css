@@ -317,3 +317,7 @@ a.like-button {
 	color: #EA6153;
 	outline: none !important;
 }
+
+li > a {
+    outline: none !important;
+}

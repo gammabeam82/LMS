@@ -9,7 +9,7 @@ use AppBundle\Entity\User;
 
 class RequestListener
 {
-    const EXPIRE = 120;
+    const EXPIRE = 30;
 
     /**
      * @var \Predis\Client
