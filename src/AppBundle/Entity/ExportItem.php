@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use \DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ExportItemRepository")
@@ -13,124 +14,125 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ExportItem implements EntityInterface
 {
-	const AUTHOR = 'AppBundle\Entity\Author';
-	const GENRE = 'AppBundle\Entity\Genre';
-	const SERIE = 'AppBundle\Entity\Serie';
+    private const AUTHOR = 'AppBundle\Entity\Author';
+    private const GENRE = 'AppBundle\Entity\Genre';
+    private const SERIE = 'AppBundle\Entity\Serie';
 
-	/**
-	 * @ORM\Id
-	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	protected $id;
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-	/**
-	 * @Gedmo\Timestampable(on="create")
-	 * @ORM\Column(type="datetime")
-	 */
-	private $createdAt;
+    /**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
 
-	/**
-	 * @ORM\Column(type="string", length=250, nullable=false)
-	 * @Assert\NotBlank()
-	 */
-	private $targetEntity;
+    /**
+     * @ORM\Column(type="string", length=250, nullable=false)
+     * @Assert\NotBlank()
+     */
+    private $targetEntity;
 
-	/**
-	 * @ORM\Column(type="string", length=250, nullable=false)
-	 * @Assert\NotBlank()
-	 */
-	private $filename;
+    /**
+     * @ORM\Column(type="string", length=250, nullable=false)
+     * @Assert\NotBlank()
+     */
+    private $filename;
 
 
-	/**
-	 * @param $entityClass
-	 * @return ExportItem
-	 */
-	public function setTargetEntity($entityClass)
-	{
-		if (false === in_array($entityClass, [self::AUTHOR, self::GENRE, self::SERIE])) {
-			throw new \LogicException();
-		}
-		$this->targetEntity = $entityClass;
-		return $this;
-	}
+    /**
+     * @param string $entityClass
+     * @return $this
+     */
+    public function setTargetEntity(string $entityClass): ExportItem
+    {
+        if (false === in_array($entityClass, [self::AUTHOR, self::GENRE, self::SERIE])) {
+            throw new \LogicException();
+        }
+        $this->targetEntity = $entityClass;
 
-	/**
-	 * @ORM\PreRemove
-	 */
-	public function removeFile()
-	{
-		if (false !== file_exists($this->filename)) {
-			unlink($this->filename);
-		}
-	}
+        return $this;
+    }
 
-	/**
-	 * Get id
-	 *
-	 * @return integer
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
+    /**
+     * @ORM\PreRemove
+     */
+    public function removeFile(): void
+    {
+        if (false !== file_exists($this->filename)) {
+            unlink($this->filename);
+        }
+    }
 
-	/**
-	 * Set createdAt
-	 *
-	 * @param \DateTime $createdAt
-	 *
-	 * @return ExportItem
-	 */
-	public function setCreatedAt($createdAt)
-	{
-		$this->createdAt = $createdAt;
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-		return $this;
-	}
+    /**
+     * Set createdAt
+     *
+     * @param DateTime $createdAt
+     *
+     * @return ExportItem
+     */
+    public function setCreatedAt(DateTime $createdAt): ExportItem
+    {
+        $this->createdAt = $createdAt;
 
-	/**
-	 * Get createdAt
-	 *
-	 * @return \DateTime
-	 */
-	public function getCreatedAt()
-	{
-		return $this->createdAt;
-	}
+        return $this;
+    }
 
-	/**
-	 * Get targetEntity
-	 *
-	 * @return string
-	 */
-	public function getTargetEntity()
-	{
-		return $this->targetEntity;
-	}
+    /**
+     * Get createdAt
+     *
+     * @return DateTime
+     */
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
 
-	/**
-	 * Set filename
-	 *
-	 * @param string $filename
-	 *
-	 * @return ExportItem
-	 */
-	public function setFilename($filename)
-	{
-		$this->filename = $filename;
+    /**
+     * Get targetEntity
+     *
+     * @return string
+     */
+    public function getTargetEntity(): string
+    {
+        return $this->targetEntity;
+    }
 
-		return $this;
-	}
+    /**
+     * Set filename
+     *
+     * @param string $filename
+     *
+     * @return ExportItem
+     */
+    public function setFilename(string $filename): ExportItem
+    {
+        $this->filename = $filename;
 
-	/**
-	 * Get filename
-	 *
-	 * @return string
-	 */
-	public function getFilename()
-	{
-		return $this->filename;
-	}
+        return $this;
+    }
+
+    /**
+     * Get filename
+     *
+     * @return string
+     */
+    public function getFilename(): string
+    {
+        return $this->filename;
+    }
 }

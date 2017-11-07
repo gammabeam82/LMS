@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use \DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\FileRepository")
@@ -13,59 +14,59 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class File implements EntityInterface
 {
-	const TXT = "text/plain";
-	const FB2 = "text/xml";
-	const ZIP = "application/zip";
+    public const TXT = "text/plain";
+    public const FB2 = "text/xml";
+    public const ZIP = "application/zip";
 
-	/**
-	 * @ORM\Id
-	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	protected $id;
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-	/**
-	 * @Gedmo\Timestampable(on="create")
-	 * @ORM\Column(type="datetime")
-	 */
-	private $uploadedAt;
+    /**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $uploadedAt;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity="Book", inversedBy="bookFiles")
-	 * @ORM\JoinColumn(name="book_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-	 */
-	private $book;
+    /**
+     * @ORM\ManyToOne(targetEntity="Book", inversedBy="bookFiles")
+     * @ORM\JoinColumn(name="book_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     */
+    private $book;
 
-	/**
-	 * @ORM\Column(type="boolean")
-	 */
-	private $isImage = false;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isImage = false;
 
-	/**
-	 * @ORM\Column(type="string", length=250)
-	 * @Assert\NotBlank()
-	 */
-	private $name;
+    /**
+     * @ORM\Column(type="string", length=250)
+     * @Assert\NotBlank()
+     */
+    private $name;
 
-	/**
-	 * @ORM\Column(type="string", length=250, nullable=true)
-	 */
-	private $thumbnail;
+    /**
+     * @ORM\Column(type="string", length=250, nullable=true)
+     */
+    private $thumbnail;
 
-	/**
-	 * @ORM\Column(type="string", length=100)
-	 */
-	private $type;
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $type;
 
-	/**
-	 * @ORM\Column(type="string", length=250, nullable=true)
-	 */
-	private $mimeType;
+    /**
+     * @ORM\Column(type="string", length=250, nullable=true)
+     */
+    private $mimeType;
 
-	/**
-	 * @ORM\Column(type="integer", options={"default" : 0})
-	 */
-	private $size;
+    /**
+     * @ORM\Column(type="integer", options={"default" : 0})
+     */
+    private $size;
 
 
     /**
@@ -73,7 +74,7 @@ class File implements EntityInterface
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -81,11 +82,11 @@ class File implements EntityInterface
     /**
      * Set uploadedAt
      *
-     * @param \DateTime $uploadedAt
+     * @param DateTime $uploadedAt
      *
      * @return File
      */
-    public function setUploadedAt($uploadedAt)
+    public function setUploadedAt(DateTime $uploadedAt): File
     {
         $this->uploadedAt = $uploadedAt;
 
@@ -95,9 +96,9 @@ class File implements EntityInterface
     /**
      * Get uploadedAt
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getUploadedAt()
+    public function getUploadedAt(): DateTime
     {
         return $this->uploadedAt;
     }
@@ -109,7 +110,7 @@ class File implements EntityInterface
      *
      * @return File
      */
-    public function setIsImage($isImage)
+    public function setIsImage(bool $isImage): File
     {
         $this->isImage = $isImage;
 
@@ -121,7 +122,7 @@ class File implements EntityInterface
      *
      * @return boolean
      */
-    public function getIsImage()
+    public function getIsImage(): bool
     {
         return $this->isImage;
     }
@@ -133,7 +134,7 @@ class File implements EntityInterface
      *
      * @return File
      */
-    public function setName($name)
+    public function setName(string $name): File
     {
         $this->name = $name;
 
@@ -145,7 +146,7 @@ class File implements EntityInterface
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -153,11 +154,11 @@ class File implements EntityInterface
     /**
      * Set book
      *
-     * @param \AppBundle\Entity\Book $book
+     * @param Book $book
      *
      * @return File
      */
-    public function setBook(\AppBundle\Entity\Book $book)
+    public function setBook(Book $book): File
     {
         $this->book = $book;
 
@@ -167,9 +168,9 @@ class File implements EntityInterface
     /**
      * Get book
      *
-     * @return \AppBundle\Entity\Book
+     * @return Book
      */
-    public function getBook()
+    public function getBook(): Book
     {
         return $this->book;
     }
@@ -181,7 +182,7 @@ class File implements EntityInterface
      *
      * @return File
      */
-    public function setType($type)
+    public function setType(string $type): File
     {
         $this->type = $type;
 
@@ -193,24 +194,24 @@ class File implements EntityInterface
      *
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
-	/**
-	 * @ORM\PreRemove
-	 */
-	public function removeFile()
-	{
-		if(false !== file_exists($this->name)) {
-			unlink($this->name);
-		}
+    /**
+     * @ORM\PreRemove
+     */
+    public function removeFile(): void
+    {
+        if (false !== file_exists($this->name)) {
+            unlink($this->name);
+        }
 
-		if(false !== file_exists($this->thumbnail)) {
-			unlink($this->thumbnail);
-		}
-	}
+        if (false !== file_exists($this->thumbnail)) {
+            unlink($this->thumbnail);
+        }
+    }
 
     /**
      * Set size
@@ -219,7 +220,7 @@ class File implements EntityInterface
      *
      * @return File
      */
-    public function setSize($size)
+    public function setSize(int $size): File
     {
         $this->size = $size;
 
@@ -231,18 +232,18 @@ class File implements EntityInterface
      *
      * @return integer
      */
-    public function getSize()
+    public function getSize(): int
     {
         return $this->size;
     }
 
-	/**
-	 * @return string
-	 */
-    public function getSizeInKb()
-	{
-		return sprintf("%s kB", round($this->size / 1024, 0));
-	}
+    /**
+     * @return string
+     */
+    public function getSizeInKb(): string
+    {
+        return sprintf("%s kB", round($this->size / 1024, 0));
+    }
 
     /**
      * Set mimeType
@@ -251,7 +252,7 @@ class File implements EntityInterface
      *
      * @return File
      */
-    public function setMimeType($mimeType)
+    public function setMimeType(string $mimeType): File
     {
         $this->mimeType = $mimeType;
 
@@ -263,7 +264,7 @@ class File implements EntityInterface
      *
      * @return string
      */
-    public function getMimeType()
+    public function getMimeType(): string
     {
         return $this->mimeType;
     }
@@ -275,7 +276,7 @@ class File implements EntityInterface
      *
      * @return File
      */
-    public function setThumbnail($thumbnail)
+    public function setThumbnail(string $thumbnail): File
     {
         $this->thumbnail = $thumbnail;
 
@@ -287,7 +288,7 @@ class File implements EntityInterface
      *
      * @return string
      */
-    public function getThumbnail()
+    public function getThumbnail(): string
     {
         return $this->thumbnail;
     }

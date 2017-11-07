@@ -11,37 +11,37 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Rating
 {
-	/**
-	 * @ORM\Id
-	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	protected $id;
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity="User", inversedBy="ratings")
-	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-	 */
-	private $user;
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="ratings")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     */
+    private $user;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity="Book", inversedBy="ratings")
-	 * @ORM\JoinColumn(name="book_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-	 */
-	private $book;
+    /**
+     * @ORM\ManyToOne(targetEntity="Book", inversedBy="ratings")
+     * @ORM\JoinColumn(name="book_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     */
+    private $book;
 
-	/**
-	 * @ORM\Column(type="integer")
-	 * @Assert\Expression("this.getValue() >= 1 && this.getValue() <= 5")
-	 */
-	private $value;
+    /**
+     * @ORM\Column(type="integer")
+     * @Assert\Expression("this.getValue() >= 1 && this.getValue() <= 5")
+     */
+    private $value;
 
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -53,7 +53,7 @@ class Rating
      *
      * @return Rating
      */
-    public function setValue($value)
+    public function setValue(int $value): Rating
     {
         $this->value = $value;
 
@@ -65,7 +65,7 @@ class Rating
      *
      * @return integer
      */
-    public function getValue()
+    public function getValue(): ?int
     {
         return $this->value;
     }
@@ -77,7 +77,7 @@ class Rating
      *
      * @return Rating
      */
-    public function setUser(User $user)
+    public function setUser(User $user): Rating
     {
         $this->user = $user;
 
@@ -89,7 +89,7 @@ class Rating
      *
      * @return User
      */
-    public function getUser()
+    public function getUser(): User
     {
         return $this->user;
     }
@@ -101,7 +101,7 @@ class Rating
      *
      * @return Rating
      */
-    public function setBook(Book $book)
+    public function setBook(Book $book): Rating
     {
         $this->book = $book;
 
@@ -113,7 +113,7 @@ class Rating
      *
      * @return Book
      */
-    public function getBook()
+    public function getBook(): Book
     {
         return $this->book;
     }

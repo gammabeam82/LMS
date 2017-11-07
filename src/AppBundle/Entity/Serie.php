@@ -6,6 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use \DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SerieRepository")
@@ -17,51 +20,51 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Serie implements EntityInterface
 {
-	/**
-	 * @ORM\Id
-	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	protected $id;
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-	/**
-	 * @Gedmo\Timestampable(on="create")
-	 * @ORM\Column(type="datetime")
-	 */
-	private $createdAt;
+    /**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
 
-	/**
-	 * @ORM\Column(type="string", length=200, unique=true)
-	 * @Assert\NotBlank()
-	 * @Assert\Length(
-	 *      min = 2,
-	 *      max = 50,
-	 *      minMessage = "serie.name_min",
-	 *      maxMessage = "serie.name_max"
-	 * )
-	 */
-	private $name;
+    /**
+     * @ORM\Column(type="string", length=200, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "serie.name_min",
+     *      maxMessage = "serie.name_max"
+     * )
+     */
+    private $name;
 
-	/**
-	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Book", mappedBy="serie")
-	 * @ORM\OrderBy({"name" = "ASC"})
-	 */
-	private $books;
+    /**
+     * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Book", mappedBy="serie")
+     * @ORM\OrderBy({"name" = "ASC"})
+     */
+    private $books;
 
-	/**
-	 * Constructor
-	 */
-	public function __construct()
-	{
-		$this->books = new \Doctrine\Common\Collections\ArrayCollection();
-	}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->books = new ArrayCollection();
+    }
 
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -69,11 +72,11 @@ class Serie implements EntityInterface
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param DateTime $createdAt
      *
      * @return Serie
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(DateTime $createdAt): Serie
     {
         $this->createdAt = $createdAt;
 
@@ -83,9 +86,9 @@ class Serie implements EntityInterface
     /**
      * Get createdAt
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
@@ -97,7 +100,7 @@ class Serie implements EntityInterface
      *
      * @return Serie
      */
-    public function setName($name)
+    public function setName(string $name): Serie
     {
         $this->name = $name;
 
@@ -109,7 +112,7 @@ class Serie implements EntityInterface
      *
      * @return string
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -117,11 +120,11 @@ class Serie implements EntityInterface
     /**
      * Add book
      *
-     * @param \AppBundle\Entity\Book $book
+     * @param Book $book
      *
      * @return Serie
      */
-    public function addBook(\AppBundle\Entity\Book $book)
+    public function addBook(Book $book): Serie
     {
         $this->books[] = $book;
 
@@ -131,9 +134,9 @@ class Serie implements EntityInterface
     /**
      * Remove book
      *
-     * @param \AppBundle\Entity\Book $book
+     * @param Book $book
      */
-    public function removeBook(\AppBundle\Entity\Book $book)
+    public function removeBook(Book $book): void
     {
         $this->books->removeElement($book);
     }
@@ -141,26 +144,26 @@ class Serie implements EntityInterface
     /**
      * Get books
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
-    public function getBooks()
+    public function getBooks(): Collection
     {
         return $this->books;
     }
 
-	/**
-	 * @return int
-	 */
-	public function getBooksCount()
-	{
-		return count($this->getBooks());
-	}
+    /**
+     * @return int
+     */
+    public function getBooksCount(): ?int
+    {
+        return count($this->getBooks());
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function isDeletable()
-	{
-		return count($this->getBooks()) < 1;
-	}
+    /**
+     * @return bool
+     */
+    public function isDeletable(): bool
+    {
+        return count($this->getBooks()) < 1;
+    }
 }

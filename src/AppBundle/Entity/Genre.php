@@ -6,6 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use \DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\GenreRepository")
@@ -17,43 +20,43 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Genre implements EntityInterface
 {
-	/**
-	 * @ORM\Id
-	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	protected $id;
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-	/**
-	 * @Gedmo\Timestampable(on="create")
-	 * @ORM\Column(type="datetime")
-	 */
-	private $createdAt;
+    /**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
 
-	/**
-	 * @ORM\Column(type="string", length=100, unique=true)
-	 * @Assert\NotBlank(message = "blank")
-	 * @Assert\Length(
-	 *      min = 2,
-	 *      max = 50,
-	 *      minMessage = "genre.name_min",
-	 *      maxMessage = "genre.name_max"
-	 * )
-	 */
-	private $name;
+    /**
+     * @ORM\Column(type="string", length=100, unique=true)
+     * @Assert\NotBlank(message = "blank")
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "genre.name_min",
+     *      maxMessage = "genre.name_max"
+     * )
+     */
+    private $name;
 
-	/**
-	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Book", mappedBy="genre")
-	 * @ORM\OrderBy({"name" = "ASC"})
-	 */
-	private $books;
+    /**
+     * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Book", mappedBy="genre")
+     * @ORM\OrderBy({"name" = "ASC"})
+     */
+    private $books;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->books = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->books = new ArrayCollection();
     }
 
     /**
@@ -61,7 +64,7 @@ class Genre implements EntityInterface
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -69,11 +72,11 @@ class Genre implements EntityInterface
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param DateTime $createdAt
      *
      * @return Genre
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(DateTime $createdAt): Genre
     {
         $this->createdAt = $createdAt;
 
@@ -83,9 +86,9 @@ class Genre implements EntityInterface
     /**
      * Get createdAt
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
@@ -97,7 +100,7 @@ class Genre implements EntityInterface
      *
      * @return Genre
      */
-    public function setName($name)
+    public function setName(string $name): Genre
     {
         $this->name = $name;
 
@@ -109,7 +112,7 @@ class Genre implements EntityInterface
      *
      * @return string
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -117,11 +120,11 @@ class Genre implements EntityInterface
     /**
      * Add book
      *
-     * @param \AppBundle\Entity\Book $book
+     * @param Book $book
      *
      * @return Genre
      */
-    public function addBook(\AppBundle\Entity\Book $book)
+    public function addBook(Book $book): Genre
     {
         $this->books[] = $book;
 
@@ -131,9 +134,9 @@ class Genre implements EntityInterface
     /**
      * Remove book
      *
-     * @param \AppBundle\Entity\Book $book
+     * @param Book $book
      */
-    public function removeBook(\AppBundle\Entity\Book $book)
+    public function removeBook(Book $book): void
     {
         $this->books->removeElement($book);
     }
@@ -141,26 +144,26 @@ class Genre implements EntityInterface
     /**
      * Get books
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
-    public function getBooks()
+    public function getBooks(): Collection
     {
         return $this->books;
     }
 
-	/**
-	 * @return int
-	 */
-	public function getBooksCount()
-	{
-		return count($this->getBooks());
-	}
+    /**
+     * @return int
+     */
+    public function getBooksCount(): int
+    {
+        return count($this->getBooks());
+    }
 
-	/**
-	 * @return bool
-	 */
-	public function isDeletable()
-	{
-		return count($this->getBooks()) < 1;
-	}
+    /**
+     * @return bool
+     */
+    public function isDeletable(): bool
+    {
+        return count($this->getBooks()) < 1;
+    }
 }

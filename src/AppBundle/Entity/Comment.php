@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use \DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CommentRepository")
@@ -12,54 +13,54 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Comment
 {
-	/**
-	 * @ORM\Id
-	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	protected $id;
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
-	/**
-	 * @Gedmo\Timestampable(on="create")
-	 * @ORM\Column(type="datetime")
-	 */
-	private $postedAt;
+    /**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $postedAt;
 
-	/**
-	 * @Gedmo\Timestampable(on="update")
-	 * @ORM\Column(type="datetime", nullable=true)
-	 */
-	private $updatedAt;
+    /**
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updatedAt;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
-	 * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-	 */
-	private $user;
+    /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="comments")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     */
+    private $user;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity="Book", inversedBy="comments")
-	 * @ORM\JoinColumn(name="book_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-	 */
-	private $book;
+    /**
+     * @ORM\ManyToOne(targetEntity="Book", inversedBy="comments")
+     * @ORM\JoinColumn(name="book_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     */
+    private $book;
 
-	/**
-	 * @ORM\Column(type="string", length=1000)
-	 * @Assert\Length(
-	 *      min = 2,
-	 *      max = 1000,
-	 *      minMessage = "comment.message_min",
-	 *      maxMessage = "comment.message_max"
-	 * )
-	 */
-	private $message;
+    /**
+     * @ORM\Column(type="string", length=1000)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 1000,
+     *      minMessage = "comment.message_min",
+     *      maxMessage = "comment.message_max"
+     * )
+     */
+    private $message;
 
     /**
      * Get id
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -67,11 +68,11 @@ class Comment
     /**
      * Set postedAt
      *
-     * @param \DateTime $postedAt
+     * @param DateTime $postedAt
      *
      * @return Comment
      */
-    public function setPostedAt($postedAt)
+    public function setPostedAt(DateTime $postedAt): Comment
     {
         $this->postedAt = $postedAt;
 
@@ -81,9 +82,9 @@ class Comment
     /**
      * Get postedAt
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getPostedAt()
+    public function getPostedAt(): DateTime
     {
         return $this->postedAt;
     }
@@ -91,11 +92,11 @@ class Comment
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @param DateTime $updatedAt
      *
      * @return Comment
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(DateTime $updatedAt): Comment
     {
         $this->updatedAt = $updatedAt;
 
@@ -105,9 +106,9 @@ class Comment
     /**
      * Get updatedAt
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): DateTime
     {
         return $this->updatedAt;
     }
@@ -119,7 +120,7 @@ class Comment
      *
      * @return Comment
      */
-    public function setMessage($message)
+    public function setMessage(string $message): Comment
     {
         $this->message = $message;
 
@@ -131,7 +132,7 @@ class Comment
      *
      * @return string
      */
-    public function getMessage()
+    public function getMessage(): ?string
     {
         return $this->message;
     }
@@ -139,11 +140,11 @@ class Comment
     /**
      * Set user
      *
-     * @param \AppBundle\Entity\User $user
+     * @param User $user
      *
      * @return Comment
      */
-    public function setUser(\AppBundle\Entity\User $user)
+    public function setUser(User $user): Comment
     {
         $this->user = $user;
 
@@ -153,9 +154,9 @@ class Comment
     /**
      * Get user
      *
-     * @return \AppBundle\Entity\User
+     * @return User
      */
-    public function getUser()
+    public function getUser(): User
     {
         return $this->user;
     }
@@ -163,11 +164,11 @@ class Comment
     /**
      * Set book
      *
-     * @param \AppBundle\Entity\Book $book
+     * @param Book $book
      *
      * @return Comment
      */
-    public function setBook(\AppBundle\Entity\Book $book)
+    public function setBook(Book $book): Comment
     {
         $this->book = $book;
 
@@ -177,9 +178,9 @@ class Comment
     /**
      * Get book
      *
-     * @return \AppBundle\Entity\Book
+     * @return Book
      */
-    public function getBook()
+    public function getBook(): Book
     {
         return $this->book;
     }

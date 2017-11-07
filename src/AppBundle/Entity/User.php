@@ -3,9 +3,11 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use \DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
@@ -14,80 +16,83 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class User extends BaseUser
 {
-	/**
-	 * @ORM\Id
-	 * @ORM\Column(type="integer")
-	 * @ORM\GeneratedValue(strategy="AUTO")
-	 */
-	protected $id;
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    protected $id;
 
-	/**
-	 * @Gedmo\Timestampable(on="create")
-	 * @ORM\Column(type="datetime")
-	 */
-	private $createdAt;
+    /**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
 
-	/**
-	 * @Gedmo\Timestampable(on="update")
-	 * @ORM\Column(type="datetime")
-	 */
-	private $updatedAt;
+    /**
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updatedAt;
 
-	/**
-	 * @ORM\Column(type="datetime", nullable=true)
-	 */
-	private $deletedAt;
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $deletedAt;
 
-	/**
-	 * @ORM\OneToMany(targetEntity="Book", mappedBy="addedBy")
-	 */
-	private $books;
+    /**
+     * @ORM\OneToMany(targetEntity="Book", mappedBy="addedBy")
+     */
+    private $books;
 
-	/**
-	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Rating", mappedBy="user")
-	 */
-	private $ratings;
+    /**
+     * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Rating", mappedBy="user")
+     */
+    private $ratings;
 
-	/**
-	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Comment", mappedBy="user")
-	 * @ORM\OrderBy({"postedAt" = "DESC"})
-	 */
-	private $comments;
+    /**
+     * @ORM\OneToMany(targetEntity="\AppBundle\Entity\Comment", mappedBy="user")
+     * @ORM\OrderBy({"postedAt" = "DESC"})
+     */
+    private $comments;
 
-	/**
-	 * @var \Doctrine\Common\Collections\Collection|Book[]
-	 *
-	 * @ORM\ManyToMany(targetEntity="Book", inversedBy="users")
-	 * @ORM\JoinTable(
-	 *  name="user_likes",
-	 *  joinColumns={
-	 *      @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-	 *  },
-	 *  inverseJoinColumns={
-	 *      @ORM\JoinColumn(name="book_id", referencedColumnName="id")
-	 *  }
-	 * )
-	 */
-	private $likes;
+    /**
+     * @var \Doctrine\Common\Collections\Collection|Book[]
+     *
+     * @ORM\ManyToMany(targetEntity="Book", inversedBy="users")
+     * @ORM\JoinTable(
+     *  name="user_likes",
+     *  joinColumns={
+     *      @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *  },
+     *  inverseJoinColumns={
+     *      @ORM\JoinColumn(name="book_id", referencedColumnName="id")
+     *  }
+     * )
+     */
+    private $likes;
 
-	public function __construct()
-	{
-		parent::__construct();
+    /**
+     * User constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct();
 
-		$this->books = new ArrayCollection();
-		$this->ratings = new ArrayCollection();
-		$this->comments = new ArrayCollection();
-		$this->likes = new ArrayCollection();
-	}
+        $this->books = new ArrayCollection();
+        $this->ratings = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->likes = new ArrayCollection();
+    }
 
     /**
      * Set createdAt
      *
-     * @param \DateTime $createdAt
+     * @param DateTime $createdAt
      *
      * @return User
      */
-    public function setCreatedAt($createdAt)
+    public function setCreatedAt(DateTime $createdAt): User
     {
         $this->createdAt = $createdAt;
 
@@ -97,9 +102,9 @@ class User extends BaseUser
     /**
      * Get createdAt
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getCreatedAt()
+    public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
@@ -107,11 +112,11 @@ class User extends BaseUser
     /**
      * Set updatedAt
      *
-     * @param \DateTime $updatedAt
+     * @param DateTime $updatedAt
      *
      * @return User
      */
-    public function setUpdatedAt($updatedAt)
+    public function setUpdatedAt(DateTime $updatedAt): User
     {
         $this->updatedAt = $updatedAt;
 
@@ -121,9 +126,9 @@ class User extends BaseUser
     /**
      * Get updatedAt
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt(): DateTime
     {
         return $this->updatedAt;
     }
@@ -131,11 +136,11 @@ class User extends BaseUser
     /**
      * Set deletedAt
      *
-     * @param \DateTime $deletedAt
+     * @param DateTime $deletedAt
      *
      * @return User
      */
-    public function setDeletedAt($deletedAt)
+    public function setDeletedAt(DateTime $deletedAt): User
     {
         $this->deletedAt = $deletedAt;
 
@@ -145,9 +150,9 @@ class User extends BaseUser
     /**
      * Get deletedAt
      *
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getDeletedAt()
+    public function getDeletedAt(): DateTime
     {
         return $this->deletedAt;
     }
@@ -155,11 +160,11 @@ class User extends BaseUser
     /**
      * Add book
      *
-     * @param \AppBundle\Entity\Book $book
+     * @param Book $book
      *
      * @return User
      */
-    public function addBook(\AppBundle\Entity\Book $book)
+    public function addBook(Book $book)
     {
         $this->books[] = $book;
 
@@ -169,9 +174,9 @@ class User extends BaseUser
     /**
      * Remove book
      *
-     * @param \AppBundle\Entity\Book $book
+     * @param Book $book
      */
-    public function removeBook(\AppBundle\Entity\Book $book)
+    public function removeBook(Book $book): void
     {
         $this->books->removeElement($book);
     }
@@ -179,9 +184,9 @@ class User extends BaseUser
     /**
      * Get books
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
-    public function getBooks()
+    public function getBooks(): Collection
     {
         return $this->books;
     }
@@ -189,11 +194,11 @@ class User extends BaseUser
     /**
      * Add rating
      *
-     * @param \AppBundle\Entity\Rating $rating
+     * @param Rating $rating
      *
      * @return User
      */
-    public function addRating(\AppBundle\Entity\Rating $rating)
+    public function addRating(Rating $rating): User
     {
         $this->ratings[] = $rating;
 
@@ -203,9 +208,9 @@ class User extends BaseUser
     /**
      * Remove rating
      *
-     * @param \AppBundle\Entity\Rating $rating
+     * @param Rating $rating
      */
-    public function removeRating(\AppBundle\Entity\Rating $rating)
+    public function removeRating(Rating $rating): void
     {
         $this->ratings->removeElement($rating);
     }
@@ -213,9 +218,9 @@ class User extends BaseUser
     /**
      * Get ratings
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
-    public function getRatings()
+    public function getRatings(): Collection
     {
         return $this->ratings;
     }
@@ -223,11 +228,11 @@ class User extends BaseUser
     /**
      * Add comment
      *
-     * @param \AppBundle\Entity\Comment $comment
+     * @param Comment $comment
      *
      * @return User
      */
-    public function addComment(\AppBundle\Entity\Comment $comment)
+    public function addComment(Comment $comment): User
     {
         $this->comments[] = $comment;
 
@@ -237,9 +242,9 @@ class User extends BaseUser
     /**
      * Remove comment
      *
-     * @param \AppBundle\Entity\Comment $comment
+     * @param Comment $comment
      */
-    public function removeComment(\AppBundle\Entity\Comment $comment)
+    public function removeComment(Comment $comment): void
     {
         $this->comments->removeElement($comment);
     }
@@ -247,44 +252,44 @@ class User extends BaseUser
     /**
      * Get comments
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
-    public function getComments()
+    public function getComments(): Collection
     {
         return $this->comments;
     }
 
-	/**
-	 * @param Book $book
-	 */
-	public function addLike(Book $book)
-	{
-		if (false !== $this->likes->contains($book)) {
-			return;
-		}
+    /**
+     * @param Book $book
+     */
+    public function addLike(Book $book): void
+    {
+        if (false !== $this->likes->contains($book)) {
+            return;
+        }
 
-		$this->likes->add($book);
-		$book->addUser($this);
-	}
+        $this->likes->add($book);
+        $book->addUser($this);
+    }
 
-	/**
-	 * @param Book $book
-	 */
-	public function removeLike(Book $book)
-	{
-		if (false === $this->likes->contains($book)) {
-			return;
-		}
+    /**
+     * @param Book $book
+     */
+    public function removeLike(Book $book): void
+    {
+        if (false === $this->likes->contains($book)) {
+            return;
+        }
 
-		$this->likes->removeElement($book);
-		$book->removeUser($this);
-	}
+        $this->likes->removeElement($book);
+        $book->removeUser($this);
+    }
 
-	/**
-	 * @return Book[]|ArrayCollection|\Doctrine\Common\Collections\Collection
-	 */
-	public function getLikes()
-	{
-		return $this->likes;
-	}
+    /**
+     * @return Collection
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
 }

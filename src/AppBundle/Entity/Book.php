@@ -3,9 +3,11 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use \DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\BookRepository")
@@ -18,7 +20,7 @@ class Book implements EntityInterface
 	 * @ORM\Column(type="integer")
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
-	protected $id;
+	private $id;
 
 	/**
 	 * @Gedmo\Timestampable(on="create")
@@ -113,15 +115,15 @@ class Book implements EntityInterface
 	/**
 	 * @return string
 	 */
-	public function __toString()
+	public function __toString(): string
 	{
 		return sprintf("%s-%s", $this->getAuthor()->getShortName(), $this->name);
 	}
 
 	/**
-	 * @return float|int|string
+	 * @return float
 	 */
-	public function getAverageRating()
+	public function getAverageRating(): float
 	{
 		if (0 !== count($this->ratings)) {
 			$sum = 0;
@@ -131,7 +133,7 @@ class Book implements EntityInterface
 			return round(($sum / count($this->ratings)), 2);
 		}
 
-		return "-";
+		return 0;
 	}
 
 	/**
@@ -139,7 +141,7 @@ class Book implements EntityInterface
 	 *
 	 * @return integer
 	 */
-	public function getId()
+	public function getId(): ?int
 	{
 		return $this->id;
 	}
@@ -147,11 +149,11 @@ class Book implements EntityInterface
 	/**
 	 * Set createdAt
 	 *
-	 * @param \DateTime $createdAt
+	 * @param DateTime $createdAt
 	 *
 	 * @return Book
 	 */
-	public function setCreatedAt($createdAt)
+	public function setCreatedAt(DateTime $createdAt): Book
 	{
 		$this->createdAt = $createdAt;
 
@@ -161,9 +163,9 @@ class Book implements EntityInterface
 	/**
 	 * Get createdAt
 	 *
-	 * @return \DateTime
+	 * @return DateTime
 	 */
-	public function getCreatedAt()
+	public function getCreatedAt(): DateTime
 	{
 		return $this->createdAt;
 	}
@@ -175,7 +177,7 @@ class Book implements EntityInterface
 	 *
 	 * @return Book
 	 */
-	public function setName($name)
+	public function setName(string $name): Book
 	{
 		$this->name = $name;
 
@@ -187,7 +189,7 @@ class Book implements EntityInterface
 	 *
 	 * @return string
 	 */
-	public function getName()
+	public function getName(): ?string
 	{
 		return $this->name;
 	}
@@ -195,11 +197,11 @@ class Book implements EntityInterface
 	/**
 	 * Set author
 	 *
-	 * @param \AppBundle\Entity\Author $author
+	 * @param Author $author
 	 *
 	 * @return Book
 	 */
-	public function setAuthor(\AppBundle\Entity\Author $author)
+	public function setAuthor(Author $author): Book
 	{
 		$this->author = $author;
 
@@ -209,9 +211,9 @@ class Book implements EntityInterface
 	/**
 	 * Get author
 	 *
-	 * @return \AppBundle\Entity\Author
+	 * @return Author
 	 */
-	public function getAuthor()
+	public function getAuthor(): ?Author
 	{
 		return $this->author;
 	}
@@ -219,11 +221,11 @@ class Book implements EntityInterface
 	/**
 	 * Set addedBy
 	 *
-	 * @param \AppBundle\Entity\User $addedBy
+	 * @param User $addedBy
 	 *
 	 * @return Book
 	 */
-	public function setAddedBy(\AppBundle\Entity\User $addedBy)
+	public function setAddedBy(User $addedBy): Book
 	{
 		$this->addedBy = $addedBy;
 
@@ -233,9 +235,9 @@ class Book implements EntityInterface
 	/**
 	 * Get addedBy
 	 *
-	 * @return \AppBundle\Entity\User
+	 * @return User
 	 */
-	public function getAddedBy()
+	public function getAddedBy(): User
 	{
 		return $this->addedBy;
 	}
@@ -243,11 +245,11 @@ class Book implements EntityInterface
 	/**
 	 * Set genre
 	 *
-	 * @param \AppBundle\Entity\Genre $genre
+	 * @param Genre $genre
 	 *
 	 * @return Book
 	 */
-	public function setGenre(\AppBundle\Entity\Genre $genre = null)
+	public function setGenre(Genre $genre = null): Book
 	{
 		$this->genre = $genre;
 
@@ -257,9 +259,9 @@ class Book implements EntityInterface
 	/**
 	 * Get genre
 	 *
-	 * @return \AppBundle\Entity\Genre
+	 * @return Genre
 	 */
-	public function getGenre()
+	public function getGenre(): ?Genre
 	{
 		return $this->genre;
 	}
@@ -271,7 +273,7 @@ class Book implements EntityInterface
 	 *
 	 * @return Book
 	 */
-	public function setViews($views)
+	public function setViews(int $views): Book
 	{
 		$this->views = $views;
 
@@ -283,7 +285,7 @@ class Book implements EntityInterface
 	 *
 	 * @return integer
 	 */
-	public function getViews()
+	public function getViews(): int
 	{
 		return $this->views;
 	}
@@ -291,11 +293,11 @@ class Book implements EntityInterface
 	/**
 	 * Add rating
 	 *
-	 * @param \AppBundle\Entity\Rating $rating
+	 * @param Rating $rating
 	 *
 	 * @return Book
 	 */
-	public function addRating(\AppBundle\Entity\Rating $rating)
+	public function addRating(Rating $rating): Book
 	{
 		$this->ratings[] = $rating;
 
@@ -305,9 +307,9 @@ class Book implements EntityInterface
 	/**
 	 * Remove rating
 	 *
-	 * @param \AppBundle\Entity\Rating $rating
+	 * @param Rating $rating
 	 */
-	public function removeRating(\AppBundle\Entity\Rating $rating)
+	public function removeRating(Rating $rating): void
 	{
 		$this->ratings->removeElement($rating);
 	}
@@ -315,9 +317,9 @@ class Book implements EntityInterface
 	/**
 	 * Get ratings
 	 *
-	 * @return \Doctrine\Common\Collections\Collection
+	 * @return Collection
 	 */
-	public function getRatings()
+	public function getRatings(): Collection
 	{
 		return $this->ratings;
 	}
@@ -325,11 +327,11 @@ class Book implements EntityInterface
 	/**
 	 * Add comment
 	 *
-	 * @param \AppBundle\Entity\Comment $comment
+	 * @param Comment $comment
 	 *
 	 * @return Book
 	 */
-	public function addComment(\AppBundle\Entity\Comment $comment)
+	public function addComment(Comment $comment): Book
 	{
 		$this->comments[] = $comment;
 
@@ -339,9 +341,9 @@ class Book implements EntityInterface
 	/**
 	 * Remove comment
 	 *
-	 * @param \AppBundle\Entity\Comment $comment
+	 * @param Comment $comment
 	 */
-	public function removeComment(\AppBundle\Entity\Comment $comment)
+	public function removeComment(Comment $comment): void
 	{
 		$this->comments->removeElement($comment);
 	}
@@ -349,9 +351,9 @@ class Book implements EntityInterface
 	/**
 	 * Get comments
 	 *
-	 * @return \Doctrine\Common\Collections\Collection
+	 * @return Collection
 	 */
-	public function getComments()
+	public function getComments(): Collection
 	{
 		return $this->comments;
 	}
@@ -363,7 +365,7 @@ class Book implements EntityInterface
 	 *
 	 * @return Book
 	 */
-	public function setAnnotation($annotation)
+	public function setAnnotation(string $annotation): Book
 	{
 		$this->annotation = $annotation;
 
@@ -375,7 +377,7 @@ class Book implements EntityInterface
 	 *
 	 * @return string
 	 */
-	public function getAnnotation()
+	public function getAnnotation(): ?string
 	{
 		return $this->annotation;
 	}
@@ -383,11 +385,11 @@ class Book implements EntityInterface
 	/**
 	 * Set serie
 	 *
-	 * @param \AppBundle\Entity\Serie $serie
+	 * @param Serie $serie
 	 *
 	 * @return Book
 	 */
-	public function setSerie(\AppBundle\Entity\Serie $serie = null)
+	public function setSerie(Serie $serie = null): Book
 	{
 		$this->serie = $serie;
 
@@ -397,14 +399,14 @@ class Book implements EntityInterface
 	/**
 	 * Get serie
 	 *
-	 * @return \AppBundle\Entity\Serie
+	 * @return Serie
 	 */
-	public function getSerie()
+	public function getSerie(): ?Serie
 	{
 		return $this->serie;
 	}
 
-	public function incViews()
+	public function incViews(): void
 	{
 		$this->views++;
 	}
@@ -412,11 +414,11 @@ class Book implements EntityInterface
 	/**
 	 * Add bookFile
 	 *
-	 * @param \AppBundle\Entity\File $bookFile
+	 * @param File $bookFile
 	 *
 	 * @return Book
 	 */
-	public function addBookFile(\AppBundle\Entity\File $bookFile)
+	public function addBookFile(File $bookFile): Book
 	{
 		$this->bookFiles[] = $bookFile;
 
@@ -428,9 +430,9 @@ class Book implements EntityInterface
 	/**
 	 * Remove bookFile
 	 *
-	 * @param \AppBundle\Entity\File $bookFile
+	 * @param File $bookFile
 	 */
-	public function removeBookFile(\AppBundle\Entity\File $bookFile)
+	public function removeBookFile(File $bookFile): void
 	{
 		$this->bookFiles->removeElement($bookFile);
 	}
@@ -438,17 +440,17 @@ class Book implements EntityInterface
 	/**
 	 * Get bookFiles
 	 *
-	 * @return \Doctrine\Common\Collections\Collection
+	 * @return Collection
 	 */
-	public function getBookFiles()
+	public function getBookFiles(): Collection
 	{
 		return $this->bookFiles;
 	}
 
 	/**
-	 * @param  $bookFiles
+	 * @param Collection $bookFiles
 	 */
-	public function setBookFiles($bookFiles)
+	public function setBookFiles($bookFiles): void
 	{
 		$this->bookFiles = $bookFiles;
 	}
@@ -456,7 +458,7 @@ class Book implements EntityInterface
 	/**
 	 * @param User $user
 	 */
-	public function addUser(User $user)
+	public function addUser(User $user): void
 	{
 		if (false !== $this->users->contains($user)) {
 			return;
@@ -469,7 +471,7 @@ class Book implements EntityInterface
 	/**
 	 * @param User $user
 	 */
-	public function removeUser(User $user)
+	public function removeUser(User $user): void
 	{
 		if (false === $this->users->contains($user)) {
 			return;
@@ -480,9 +482,9 @@ class Book implements EntityInterface
 	}
 
 	/**
-	 * @return User[]|ArrayCollection|\Doctrine\Common\Collections\Collection
+	 * @return ArrayCollection
 	 */
-	public function getUsers()
+	public function getUsers(): ArrayCollection
 	{
 		return $this->users;
 	}
@@ -492,7 +494,7 @@ class Book implements EntityInterface
 	 * @param User $user
 	 * @return bool
 	 */
-	public function isLikedBy(User $user)
+	public function isLikedBy(User $user): bool
 	{
 		return false !== $this->users->contains($user);
 	}
@@ -500,7 +502,7 @@ class Book implements EntityInterface
 	/**
 	 * @return array
 	 */
-	public function getImages()
+	public function getImages(): array
 	{
 		return array_filter($this->getBookFiles()->toArray(), function ($file) {
 			/** @var File $file */
