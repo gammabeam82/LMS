@@ -122,3 +122,11 @@ snc_redis:
             alias: default
             dsn: redis://localhost
             logging: "%kernel.debug%"
+
+monolog:
+    handlers:
+        security:
+            level:    debug
+            type:     stream
+            path:     '%kernel.logs_dir%/security.log'
+            channels: [security]

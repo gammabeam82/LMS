@@ -10,6 +10,7 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Psr\Log\LoggerInterface;
 
 class LoginSubscriber implements EventSubscriberInterface
 {
@@ -32,16 +33,22 @@ class LoginSubscriber implements EventSubscriberInterface
     private $request;
 
     /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
      * LoginSubscriber constructor.
      * @param \Predis\Client $redis
      * @param TokenStorageInterface $tokenStorage
      * @param RequestStack $request
      */
-    public function __construct(\Predis\Client $redis, TokenStorageInterface $tokenStorage, RequestStack $request)
+    public function __construct(\Predis\Client $redis, TokenStorageInterface $tokenStorage, RequestStack $request, LoggerInterface $logger)
     {
         $this->redis = $redis;
         $this->tokenStorage = $tokenStorage;
         $this->request = $request;
+        $this->logger = $logger;
     }
 
     /**
@@ -60,7 +67,12 @@ class LoginSubscriber implements EventSubscriberInterface
      */
     public function onAuthenticationFailure(AuthenticationFailureEvent $event): void
     {
-        $this->processLoginAttempt($event);
+        $attempts = $this->processLoginAttempt($event);
+
+        if ($attempts >= self::MAX_ATTEMPTS) {
+            $message = sprintf("user: %s, login attempts: %s", $event->getAuthenticationToken()->getUsername(), $attempts);
+            $this->logger->warning($message);
+        }
     }
 
     /**

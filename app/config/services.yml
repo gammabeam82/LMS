@@ -57,7 +57,7 @@ services:
 
       app.authentication_failure_event_subscriber:
           class: AppBundle\EventListener\LoginSubscriber
-          arguments: ["@snc_redis.default", "@security.token_storage", "@request_stack"]
+          arguments: ["@snc_redis.default", "@security.token_storage", "@request_stack", "@monolog.logger.security"]
           tags:
             - { name: kernel.event_subscriber }
 
