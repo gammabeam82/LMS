@@ -26,7 +26,7 @@ class SerieFilter implements FilterInterface
     private $sortByName;
 
     /**
-     * EntityFilter constructor.
+     * SerieFilter constructor.
      */
     public function __construct()
     {
@@ -36,7 +36,7 @@ class SerieFilter implements FilterInterface
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -44,7 +44,7 @@ class SerieFilter implements FilterInterface
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name = null)
     {
         $this->name = $name;
     }
@@ -52,7 +52,7 @@ class SerieFilter implements FilterInterface
     /**
      * @return bool
      */
-    public function getSortByName()
+    public function getSortByName(): bool
     {
         return $this->sortByName;
     }
@@ -60,7 +60,7 @@ class SerieFilter implements FilterInterface
     /**
      * @param $sortByName
      */
-    public function setSortByName($sortByName)
+    public function setSortByName(bool $sortByName): void
     {
         $this->sortByName = $sortByName;
     }

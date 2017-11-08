@@ -26,7 +26,7 @@ class GenreFilter implements FilterInterface
     private $sortByName;
 
     /**
-     * EntityFilter constructor.
+     * GenreFilter constructor.
      */
     public function __construct()
     {
@@ -36,7 +36,7 @@ class GenreFilter implements FilterInterface
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -44,7 +44,7 @@ class GenreFilter implements FilterInterface
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name = null): void
     {
         $this->name = $name;
     }
@@ -52,15 +52,15 @@ class GenreFilter implements FilterInterface
     /**
      * @return bool
      */
-    public function getSortByName()
+    public function getSortByName(): bool
     {
         return $this->sortByName;
     }
 
     /**
-     * @param $sortByName
+     * @param bool $sortByName
      */
-    public function setSortByName($sortByName)
+    public function setSortByName(bool $sortByName)
     {
         $this->sortByName = $sortByName;
     }
