@@ -13,8 +13,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class LoginSubscriber implements EventSubscriberInterface
 {
-    const PERIOD = 60;
-    const MAX_ATTEMPTS = 3;
+    private const PERIOD = 60;
+    private const MAX_ATTEMPTS = 3;
 
     /**
      * @var \Predis\Client
@@ -58,7 +58,7 @@ class LoginSubscriber implements EventSubscriberInterface
     /**
      * @param AuthenticationFailureEvent $event
      */
-    public function onAuthenticationFailure(AuthenticationFailureEvent $event)
+    public function onAuthenticationFailure(AuthenticationFailureEvent $event): void
     {
         $this->processLoginAttempt($event);
     }
@@ -66,7 +66,7 @@ class LoginSubscriber implements EventSubscriberInterface
     /**
      * @param InteractiveLoginEvent $event
      */
-    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
+    public function onSecurityInteractiveLogin(InteractiveLoginEvent $event): void
     {
         $attempts = $this->processLoginAttempt($event);
 
@@ -84,7 +84,7 @@ class LoginSubscriber implements EventSubscriberInterface
      *
      * @return int
      */
-    private function processLoginAttempt($event)
+    private function processLoginAttempt($event): int
     {
         $timestamp = time();
         $key = $event->getAuthenticationToken()->getUsername();

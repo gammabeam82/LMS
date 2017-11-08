@@ -28,7 +28,7 @@ class LogoutHandler implements LogoutHandlerInterface
      * @param Response $response
      * @param TokenInterface $token
      */
-    public function logout(Request $request, Response $response, TokenInterface $token)
+    public function logout(Request $request, Response $response, TokenInterface $token): void
     {
         $user = $token->getUser();
 

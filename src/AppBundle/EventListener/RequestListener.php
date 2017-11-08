@@ -6,10 +6,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use AppBundle\Entity\User;
 
-
 class RequestListener
 {
-    const EXPIRE = 30;
+    private const EXPIRE = 30;
 
     /**
      * @var \Predis\Client
@@ -36,7 +35,7 @@ class RequestListener
     /**
      * @param GetResponseEvent $event
      */
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(GetResponseEvent $event): void
     {
         $token = $this->tokenStorage->getToken();
 
