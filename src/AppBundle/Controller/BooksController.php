@@ -20,7 +20,7 @@ use AppBundle\Service\Sessions;
 
 class BooksController extends Controller
 {
-    const LIMIT = 15;
+    private const LIMIT = 15;
 
 	/**
 	 * @Route("/books", name="books")
@@ -222,7 +222,7 @@ class BooksController extends Controller
 	{
 		$bookService = $this->get('app.books');
 
-		$isNew = (null === $book->getId()) ? true : false;
+		$isNew = (null === $book->getId());
 
 		$formClass = $isNew ? BookType::class : BookEditType::class;
 

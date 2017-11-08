@@ -17,7 +17,7 @@ use AppBundle\Service\Sessions;
 
 class GenresController extends Controller
 {
-    const LIMIT = 15;
+    private const LIMIT = 15;
 
 	/**
 	 * @Route("/genres", name="genres")
@@ -128,7 +128,7 @@ class GenresController extends Controller
 	{
 		$genreService = $this->get('app.genres');
 
-		$isNew = (null === $genre->getId()) ? true : false;
+		$isNew = (null === $genre->getId());
 
 		$form = $this->createForm(GenreType::class, $genre);
 		$form->handleRequest($request);

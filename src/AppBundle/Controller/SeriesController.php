@@ -17,7 +17,7 @@ use AppBundle\Service\Sessions;
 
 class SeriesController extends Controller
 {
-    const LIMIT = 15;
+    private const LIMIT = 15;
 
 	/**
 	 * @Route("/series", name="series")
@@ -129,7 +129,7 @@ class SeriesController extends Controller
 	{
 		$serieService = $this->get('app.series');
 
-		$isNew = (null === $serie->getId()) ? true : false;
+		$isNew = (null === $serie->getId());
 
 		$form = $this->createForm(SerieType::class, $serie);
 		$form->handleRequest($request);

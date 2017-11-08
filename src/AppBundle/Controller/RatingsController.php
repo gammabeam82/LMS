@@ -13,45 +13,45 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class RatingsController extends Controller
 {
-	/**
-	 * @Route("/books/{id}/rating", name="books_rating")
-	 * @ParamConverter("book")
-	 *
-	 * @param Request $request
-	 * @param Book $book
-	 * @return RedirectResponse|Response
-	 */
-	public function formAction(Request $request, Book $book)
-	{
-		$ratingService = $this->get('app.ratings');
+    /**
+     * @Route("/books/{id}/rating", name="books_rating")
+     * @ParamConverter("book")
+     *
+     * @param Request $request
+     * @param Book $book
+     * @return RedirectResponse|Response
+     */
+    public function formAction(Request $request, Book $book)
+    {
+        $ratingService = $this->get('app.ratings');
 
-		$rating = $ratingService->getRating($book, $this->getUser());
+        $rating = $ratingService->getRating($book, $this->getUser());
 
-		$ratingForm = $this->createForm(RatingType::class, $rating, [
-			'action' => $this->generateUrl('books_rating', [
-				'id' => $book->getId()
-			])
-		]);
+        $ratingForm = $this->createForm(RatingType::class, $rating, [
+            'action' => $this->generateUrl('books_rating', [
+                'id' => $book->getId()
+            ])
+        ]);
 
-		$ratingForm->handleRequest($request);
+        $ratingForm->handleRequest($request);
 
-		if ($ratingForm->isSubmitted() && $ratingForm->isValid()) {
+        if ($ratingForm->isSubmitted() && $ratingForm->isValid()) {
 
-			$translator = $this->get('translator');
+            $translator = $this->get('translator');
 
-			$ratingService->save($this->getUser(), $book, $rating);
+            $ratingService->save($this->getUser(), $book, $rating);
 
-			$this->addFlash('notice', $translator->trans('messages.vote_success'));
+            $this->addFlash('notice', $translator->trans('messages.vote_success'));
 
-			return $this->redirectToRoute('books_view', [
-				'id' => $book->getId()
-			]);
-		}
+            return $this->redirectToRoute('books_view', [
+                'id' => $book->getId()
+            ]);
+        }
 
-		return $this->render('ratings/form.html.twig', [
-			'form' => $ratingForm->createView(),
-			'rating' => $rating
-		]);
+        return $this->render('ratings/form.html.twig', [
+            'form' => $ratingForm->createView(),
+            'rating' => $rating
+        ]);
 
-	}
+    }
 }

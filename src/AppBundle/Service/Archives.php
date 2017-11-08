@@ -44,7 +44,7 @@ class Archives
     /**
      * @return int
      */
-    public function getBooksCount()
+    public function getBooksCount(): int
     {
         return $this->redis->hlen($this->key);
     }
@@ -52,7 +52,7 @@ class Archives
     /**
      * @param Book $book
      */
-    public function addBookToArchive(Book $book)
+    public function addBookToArchive(Book $book): void
     {
         $this->redis->hsetnx($this->key, $book->getId(), $book->getName());
     }
@@ -60,18 +60,18 @@ class Archives
     /**
      * @param Book $book
      */
-    public function removeBookFromArchive(Book $book)
+    public function removeBookFromArchive(Book $book): void
     {
         $this->redis->hdel($this->key, [$book->getId()]);
     }
 
     /**
-     * @return array|bool
+     * @return array
      */
-    public function getBooksList()
+    public function getBooksList(): array
     {
         if (0 === $this->redis->hlen($this->key)) {
-            return false;
+            return [];
         }
 
         return $this->redis->hgetall($this->key);
@@ -80,7 +80,7 @@ class Archives
     /**
      * @return array
      */
-    public function getBookIds()
+    public function getBookIds(): array
     {
         return $this->redis->hkeys($this->key);
     }
@@ -88,7 +88,7 @@ class Archives
     /**
      * @return BinaryFileResponse
      */
-    public function getArchive()
+    public function getArchive(): BinaryFileResponse
     {
         if (0 === $this->redis->hlen($this->key) || false === $this->redis->exists($this->key)) {
             throw new LengthException();

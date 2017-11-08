@@ -14,7 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class CommentsController extends Controller
 {
-    const LIMIT = 5;
+    private const LIMIT = 5;
 
 	/**
 	 * @Route("/books/{id}/comments", name="books_comments")

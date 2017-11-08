@@ -14,9 +14,9 @@ use \DateTime;
  */
 class ExportItem implements EntityInterface
 {
-    private const AUTHOR = 'AppBundle\Entity\Author';
-    private const GENRE = 'AppBundle\Entity\Genre';
-    private const SERIE = 'AppBundle\Entity\Serie';
+    public const AUTHOR = 'AppBundle\Entity\Author';
+    public const GENRE = 'AppBundle\Entity\Genre';
+    public const SERIE = 'AppBundle\Entity\Serie';
 
     /**
      * @ORM\Id

@@ -10,73 +10,74 @@ use Doctrine\Bundle\DoctrineBundle\Registry;
 
 class Ratings
 {
-	use EntityTrait;
+    use EntityTrait;
 
-	/**
-	 * @var Registry
-	 */
-	private $doctrine;
+    /**
+     * @var Registry
+     */
+    private $doctrine;
 
-	/**
-	 * @param Registry $doctrine
-	 */
-	public function __construct(Registry $doctrine)
-	{
-		$this->doctrine = $doctrine;
-	}
+    /**
+     * Ratings constructor.
+     * @param Registry $doctrine
+     */
+    public function __construct(Registry $doctrine)
+    {
+        $this->doctrine = $doctrine;
+    }
 
-	/**
-	 * @param User $user
-	 * @param Book $book
-	 * @param Rating $rating
-	 */
-	public function save(User $user, Book $book, Rating $newRating)
-	{
-		/**
-		 * @var \Doctrine\ORM\EntityRepository $repo
-		 */
-		$repo = $this->doctrine->getRepository(Rating::class);
+    /**
+     * @param User $user
+     * @param Book $book
+     * @param Rating $rating
+     */
+    public function save(User $user, Book $book, Rating $newRating): void
+    {
+        /**
+         * @var \Doctrine\ORM\EntityRepository $repo
+         */
+        $repo = $this->doctrine->getRepository(Rating::class);
 
-		$rating = $repo->findOneBy([
-			'book' => $book,
-			'user' => $user
-		]);
+        $rating = $repo->findOneBy([
+            'book' => $book,
+            'user' => $user
+        ]);
 
-		if(null === $rating) {
-			$newRating->setUser($user);
-			$newRating->setBook($book);
-			$rating = $newRating;
-		} else {
-			$rating->setValue(
-				$newRating->getValue()
-			);
-		}
+        if (null === $rating) {
+            $newRating->setUser($user);
+            $newRating->setBook($book);
+            $rating = $newRating;
+        } else {
+            $rating->setValue(
+                $newRating->getValue()
+            );
+        }
 
-		$this->saveEntity($this->doctrine->getManager(), $rating);
-	}
+        $this->saveEntity($this->doctrine->getManager(), $rating);
+    }
 
-	/**
-	 * @param Book $book
-	 * @param User $user
-	 * @return Rating
-	 */
-	public function getRating(Book $book, User $user)
-	{
-		/**
-		 * @var \Doctrine\ORM\EntityRepository $repo
-		 */
-		$repo = $this->doctrine->getRepository(Rating::class);
+    /**
+     * @param Book $book
+     * @param User $user
+     * @return Rating
+     */
+    public function getRating(Book $book, User $user): Rating
+    {
+        /**
+         * @var \Doctrine\ORM\EntityRepository $repo
+         */
+        $repo = $this->doctrine->getRepository(Rating::class);
 
-		$rating = $repo->findOneBy([
-			'book' => $book,
-			'user' => $user
-		]);
+        $rating = $repo->findOneBy([
+            'book' => $book,
+            'user' => $user
+        ]);
 
-		if(null === $rating) {
-			$rating = new Rating();
-		}
+        if (null === $rating) {
+            $rating = new Rating();
+        }
 
-		return $rating;
-	}
+        return $rating;
+    }
 
 }
