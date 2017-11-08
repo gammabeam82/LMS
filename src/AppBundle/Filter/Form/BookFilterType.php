@@ -25,7 +25,7 @@ class BookFilterType extends AbstractType
 				'label' => 'messages.name',
 				'required' => false
 			])
-			->add('author', EntityType::class, [
+			->add('authors', EntityType::class, [
 				'class' => Author::class,
 				'query_builder' => function (EntityRepository $er) {
 					return $er->createQueryBuilder('a')
@@ -36,7 +36,7 @@ class BookFilterType extends AbstractType
 				'multiple' => true,
 				'required' => false
 			])
-			->add('genre', EntityType::class, [
+			->add('genres', EntityType::class, [
 				'class' => Genre::class,
 				'query_builder' => function (EntityRepository $er) {
 					return $er->createQueryBuilder('g')

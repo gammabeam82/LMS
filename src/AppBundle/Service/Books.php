@@ -164,14 +164,14 @@ class Books
             $qb->setParameter('name', "%" . mb_strtolower($filter->getName()) . "%");
         }
 
-        if (null !== $filter->getAuthor()) {
+        if (null !== $filter->getAuthors()) {
             $qb->andWhere('b.author IN (:author)');
-            $qb->setParameter('author', $filter->getAuthor());
+            $qb->setParameter('author', $filter->getAuthors());
         }
 
-        if (null !== $filter->getGenre()) {
+        if (null !== $filter->getGenres()) {
             $qb->andWhere('b.genre IN (:genre)');
-            $qb->setParameter('genre', $filter->getGenre());
+            $qb->setParameter('genre', $filter->getGenres());
         }
 
         if (null !== $filter->getSerie()) {
