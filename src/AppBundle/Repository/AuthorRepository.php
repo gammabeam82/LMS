@@ -4,19 +4,19 @@ namespace AppBundle\Repository;
 
 class AuthorRepository extends Repository
 {
-	/**
-	 * @param $letter
-	 * @return array
-	 */
-	public function findAllStartsWith($letter)
-	{
-		$qb = $this->createQueryBuilder('a');
+    /**
+     * @param $letter
+     * @return array
+     */
+    public function findAllStartsWith($letter): array
+    {
+        $qb = $this->createQueryBuilder('a');
 
-		$qb->andWhere($qb->expr()->like('LOWER(a.lastName)', ':name'));
-		$qb->setParameter('name', mb_strtolower($letter) . "%");
+        $qb->andWhere($qb->expr()->like('LOWER(a.lastName)', ':name'));
+        $qb->setParameter('name', mb_strtolower($letter) . "%");
 
-		return $qb
-			->getQuery()
-			->getResult();
-	}
+        return $qb
+            ->getQuery()
+            ->getResult();
+    }
 }
