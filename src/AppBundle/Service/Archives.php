@@ -9,19 +9,16 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use LengthException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use ZipStream\ZipStream;
+use AppBundle\Utils\RedisAwareTrait;
 
 class Archives
 {
+    use RedisAwareTrait;
 
     /**
      * @var Registry
      */
     private $doctrine;
-
-    /**
-     * @var \Predis\Client
-     */
-    private $redis;
 
     /**
      * @var string
@@ -32,12 +29,10 @@ class Archives
      * Archives constructor.
      * @param Registry $doctrine
      * @param TokenStorageInterface $tokenStorage
-     * @param \Predis\Client $redis
      */
-    public function __construct(Registry $doctrine, TokenStorageInterface $tokenStorage, \Predis\Client $redis)
+    public function __construct(Registry $doctrine, TokenStorageInterface $tokenStorage)
     {
         $this->doctrine = $doctrine;
-        $this->redis = $redis;
         $this->key = sprintf("archive:%s", $tokenStorage->getToken()->getUser()->getId());
     }
 

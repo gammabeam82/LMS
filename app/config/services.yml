@@ -42,7 +42,11 @@ services:
 
       app.archives:
           class: AppBundle\Service\Archives
-          arguments: ["@doctrine", "@security.token_storage", "@snc_redis.default"]
+          arguments: ["@doctrine", "@security.token_storage"]
+          calls:
+            - method: setRedis
+              arguments:
+                  - "@snc_redis.default_client"
 
 #     app.random_thumbnail:
 #         class: AppBundle\Twig\AppExtension
