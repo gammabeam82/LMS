@@ -9,39 +9,48 @@ use AppBundle\Entity\Author;
 
 class LoadAuthorData extends AbstractFixture implements OrderedFixtureInterface
 {
-	public function load(ObjectManager $manager)
-	{
-		foreach ($this->getAuthors() as $authorData) {
-			$nameParts = explode(" ", $authorData);
-			$author = new Author();
-			$author->setFirstName($nameParts[0]);
-			$author->setLastName($nameParts[1]);
-			$manager->persist($author);
-		}
+    /**
+     * @param ObjectManager $manager
+     */
+    public function load(ObjectManager $manager)
+    {
+        foreach ($this->getAuthors() as $authorData) {
+            $nameParts = explode(" ", $authorData);
+            $author = new Author();
+            $author->setFirstName($nameParts[0]);
+            $author->setLastName($nameParts[1]);
+            $manager->persist($author);
+        }
 
-		$manager->flush();
-	}
+        $manager->flush();
+    }
 
-	public function getOrder()
-	{
-		return 2;
-	}
+    /**
+     * @return int
+     */
+    public function getOrder(): int
+    {
+        return 2;
+    }
 
-	private function getAuthors()
-	{
-		return [
-			'Владимир Сорокин',
-			'Чарльз Буковски',
-			'Луи-Фердинанд Селин',
-			'Питер Уоттс',
-			'Аластер Рейнольдс',
-			'Роберт Уилсон',
-			'Питер Гамильтон',
-			'Джеральд Даррел',
-			'Сергей Довлатов',
-			'Клайв Баркер',
-			'Чарли Стросс',
-			'Владимир Короткевич',
-		];
-	}
+    /**
+     * @return array
+     */
+    private function getAuthors(): array
+    {
+        return [
+            'Владимир Сорокин',
+            'Чарльз Буковски',
+            'Луи-Фердинанд Селин',
+            'Питер Уоттс',
+            'Аластер Рейнольдс',
+            'Роберт Уилсон',
+            'Питер Гамильтон',
+            'Джеральд Даррел',
+            'Сергей Довлатов',
+            'Клайв Баркер',
+            'Чарли Стросс',
+            'Владимир Короткевич',
+        ];
+    }
 }

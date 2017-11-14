@@ -7,15 +7,15 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
 class PDOExceptionListener
 {
-	/**
-	 * @param GetResponseForExceptionEvent $event
-	 */
-	public function onPDOException(GetResponseForExceptionEvent $event)
-	{
-		$exception = $event->getException();
+    /**
+     * @param GetResponseForExceptionEvent $event
+     */
+    public function onPDOException(GetResponseForExceptionEvent $event)
+    {
+        $exception = $event->getException();
 
-		if ($exception instanceof ConnectionException) {
-			//TODO create error page
-		}
-	}
+        if ($exception instanceof ConnectionException) {
+            //TODO create error page
+        }
+    }
 }

@@ -130,7 +130,7 @@ class AuthorsController extends Controller
     {
         $authorService = $this->get('app.authors');
 
-        $isNew = (null === $author->getId()) ? true : false;
+        $isNew = (null === $author->getId());
 
         $form = $this->createForm(AuthorType::class, $author);
         $form->handleRequest($request);

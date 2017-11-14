@@ -118,7 +118,7 @@ $(document).ready(() => {
                     usersCountContainer.html(data['usersCount'])
                 }
             });
-    }, 30500);
+    }, 60500);
 
 	usersLink.on('click', function (event) {
 	    event.preventDefault();

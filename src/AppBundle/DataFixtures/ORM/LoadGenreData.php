@@ -9,35 +9,44 @@ use AppBundle\Entity\Genre;
 
 class LoadGenreData extends AbstractFixture implements OrderedFixtureInterface
 {
-	public function load(ObjectManager $manager)
-	{
-		foreach ($this->getGenres() as $name) {
-			$genre = new Genre();
-			$genre->setName($name);
-			$manager->persist($genre);
-		}
+    /**
+     * @param ObjectManager $manager
+     */
+    public function load(ObjectManager $manager)
+    {
+        foreach ($this->getGenres() as $name) {
+            $genre = new Genre();
+            $genre->setName($name);
+            $manager->persist($genre);
+        }
 
-		$manager->flush();
-	}
+        $manager->flush();
+    }
 
-	public function getOrder()
-	{
-		return 1;
-	}
+    /**
+     * @return int
+     */
+    public function getOrder(): int
+    {
+        return 1;
+    }
 
-	private function getGenres()
-	{
-		return [
-			'НФ',
-			'Программирование',
-			'Приключения',
-			'Современная литература',
-			'Юмор',
-			'Документальная литература',
-			'Справочная литература',
-			'Детектив',
-			'Историческая литература',
-			'Ужасы'
-		];
-	}
+    /**
+     * @return array
+     */
+    private function getGenres(): array
+    {
+        return [
+            'НФ',
+            'Программирование',
+            'Приключения',
+            'Современная литература',
+            'Юмор',
+            'Документальная литература',
+            'Справочная литература',
+            'Детектив',
+            'Историческая литература',
+            'Ужасы'
+        ];
+    }
 }

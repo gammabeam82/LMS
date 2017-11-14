@@ -13,23 +13,25 @@ use Symfony\Component\Form\FormBuilderInterface;
  */
 class CommentType extends AbstractType
 {
-	public function buildForm(FormBuilderInterface $builder, array $options)
-	{
-		$builder
-			->add('message', TextareaType::class, [
-				'label' => 'comment.comment'
-			])
-		;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder
+            ->add('message', TextareaType::class, [
+                'label' => 'comment.comment'
+            ]);
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function configureOptions(OptionsResolver $resolver)
-	{
-		$resolver->setDefaults([
-			'data_class' => Comment::class,
-		]);
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => Comment::class,
+        ]);
+    }
 
 }

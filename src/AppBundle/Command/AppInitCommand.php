@@ -10,38 +10,37 @@ use Symfony\Component\Console\Output\OutputInterface;
 class AppInitCommand extends ContainerAwareCommand
 {
 
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function configure()
-	{
-		$this->setName('app:init');
-	}
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        $this->setName('app:init');
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function execute(InputInterface $input, OutputInterface $output)
-	{
-		$password = $this->getContainer()->getParameter('password');
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
+        $password = $this->getContainer()->getParameter('password');
 
-		$commands = [
-			['command' => 'doctrine:database:create'],
-			['command' => 'doctrine:migrations:migrate'],
-			['command' => 'doctrine:fixtures:load'],
-			['command' => 'fos:user:create', 'username' => 'testuser', 'email' => 'test@example.com', 'password' => $password],
-			['command' => 'fos:user:promote', 'username' => 'testuser', 'role' => 'ROLE_ADMIN'],
-		];
+        $commands = [
+            ['command' => 'doctrine:database:create'],
+            ['command' => 'doctrine:migrations:migrate'],
+            ['command' => 'doctrine:fixtures:load'],
+            ['command' => 'fos:user:create', 'username' => 'testuser', 'email' => 'test@example.com', 'password' => $password],
+            ['command' => 'fos:user:promote', 'username' => 'testuser', 'role' => 'ROLE_ADMIN'],
+        ];
 
-		foreach ($commands as $command) {
+        foreach ($commands as $command) {
 
-			$commandApp = $this->getApplication()->find($command['command']);
+            $commandApp = $this->getApplication()->find($command['command']);
 
-			$arguments = new ArrayInput($command);
+            $arguments = new ArrayInput($command);
 
-			$commandApp->run($arguments, $output);
-		}
-	}
-
+            $commandApp->run($arguments, $output);
+        }
+    }
 
 }

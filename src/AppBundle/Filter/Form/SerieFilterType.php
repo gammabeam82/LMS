@@ -11,6 +11,9 @@ use AppBundle\Filter\DTO\SerieFilter;
 
 class SerieFilterType extends AbstractType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -22,9 +25,11 @@ class SerieFilterType extends AbstractType
                 'label' => 'messages.sort_by_name',
                 'required' => false
             ]);
-        ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

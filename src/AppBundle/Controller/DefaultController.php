@@ -9,28 +9,28 @@ use AppBundle\Filter\DTO\BookFilter;
 
 class DefaultController extends Controller
 {
-	/**
-	 * @Route("/", name="homepage")
-	 *
-	 * @return Response
-	 */
-	public function indexAction()
-	{
-		$paginator = $this->get('knp_paginator');
+    /**
+     * @Route("/", name="homepage")
+     *
+     * @return Response
+     */
+    public function indexAction()
+    {
+        $paginator = $this->get('knp_paginator');
 
-		$bookService = $this->get('app.books');
+        $bookService = $this->get('app.books');
 
-		$commentService = $this->get('app.comments');
+        $commentService = $this->get('app.comments');
 
-		$books = $paginator->paginate($bookService->getFilteredBooks(new BookFilter(), $this->getUser()), 1, 30);
+        $books = $paginator->paginate($bookService->getFilteredBooks(new BookFilter(), $this->getUser()), 1, 30);
 
-		$comments = $paginator->paginate($commentService->getQuery(), 1, 5);
+        $comments = $paginator->paginate($commentService->getQuery(), 1, 5);
 
-		return $this->render('default/index.html.twig',
-			[
-				'books' => $books,
-				'comments' => $comments
-			]
-		);
-	}
+        return $this->render('default/index.html.twig',
+            [
+                'books' => $books,
+                'comments' => $comments
+            ]
+        );
+    }
 }

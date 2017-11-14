@@ -11,6 +11,9 @@ use AppBundle\Filter\DTO\GenreFilter;
 
 class GenreFilterType extends AbstractType
 {
+    /**
+     * {@inheritdoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -22,9 +25,11 @@ class GenreFilterType extends AbstractType
                 'label' => 'messages.sort_by_name',
                 'required' => false
             ]);
-        ;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

@@ -8,7 +8,7 @@ use AppBundle\Entity\User;
 
 class RequestListener
 {
-    private const EXPIRE = 30;
+    private const EXPIRE = 50;
 
     /**
      * @var \Predis\Client

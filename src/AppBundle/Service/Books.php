@@ -13,8 +13,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Validator\Validator\RecursiveValidator;
 use Doctrine\ORM\Query;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Books
 {
@@ -34,7 +34,7 @@ class Books
     private $doctrine;
 
     /**
-     * @var RecursiveValidator
+     * @var ValidatorInterface
      */
     private $validator;
 
@@ -45,12 +45,13 @@ class Books
 
     /**
      * Books constructor.
+     *
      * @param RequestStack $requestStack
      * @param Registry $doctrine
-     * @param RecursiveValidator $validator
+     * @param ValidatorInterface $validator
      * @param $path
      */
-    public function __construct(RequestStack $requestStack, Registry $doctrine, RecursiveValidator $validator, $path)
+    public function __construct(RequestStack $requestStack, Registry $doctrine, ValidatorInterface $validator, $path)
     {
         $this->requestStack = $requestStack;
         $this->doctrine = $doctrine;

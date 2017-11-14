@@ -11,74 +11,74 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 class FilesRemoveCommand extends ContainerAwareCommand
 {
 
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function configure()
-	{
-		$this->setName('app:files-remove');
-	}
+    /**
+     * {@inheritdoc}
+     */
+    protected function configure()
+    {
+        $this->setName('app:files-remove');
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function execute(InputInterface $input, OutputInterface $output)
-	{
+    /**
+     * {@inheritdoc}
+     */
+    protected function execute(InputInterface $input, OutputInterface $output)
+    {
 
-		$io = new SymfonyStyle($input, $output);
+        $io = new SymfonyStyle($input, $output);
 
-		$io->text('Fetching data...');
+        $io->text('Fetching data...');
 
-		$path = $this->getContainer()->getParameter('library');
+        $path = $this->getContainer()->getParameter('library');
 
-		$em = $this->getContainer()->get('doctrine')->getManager();
+        $em = $this->getContainer()->get('doctrine')->getManager();
 
-		$bookFiles = $em->createQueryBuilder()
-			->select('f.name', 'f.thumbnail')
-			->from('AppBundle:File', 'f')
-			->getQuery()
-			->execute();
+        $bookFiles = $em->createQueryBuilder()
+            ->select('f.name', 'f.thumbnail')
+            ->from('AppBundle:File', 'f')
+            ->getQuery()
+            ->execute();
 
-		$bookFiles = array_merge(
-			array_column($bookFiles, 'name'),
-			array_filter(array_column($bookFiles, 'thumbnail'), function ($item) {
-				return !empty($item);
-			})
-		);
+        $bookFiles = array_merge(
+            array_column($bookFiles, 'name'),
+            array_filter(array_column($bookFiles, 'thumbnail'), function ($item) {
+                return !empty($item);
+            })
+        );
 
-		$files = glob(sprintf("%s/*.*", $path));
+        $files = glob(sprintf("%s/*.*", $path));
 
-		$orphanFiles = array_diff($files, $bookFiles);
+        $orphanFiles = array_diff($files, $bookFiles);
 
-		$io->section("Files");
+        $io->section("Files");
 
-		$io->writeln([
-			sprintf("Book files: %s", count($bookFiles)),
-			sprintf("Orphan files: %s", count($orphanFiles)),
-			''
-		]);
+        $io->writeln([
+            sprintf("Book files: %s", count($bookFiles)),
+            sprintf("Orphan files: %s", count($orphanFiles)),
+            ''
+        ]);
 
-		if (0 == count($orphanFiles)) {
-			return;
-		}
+        if (0 == count($orphanFiles)) {
+            return;
+        }
 
-		$helper = $this->getHelper('question');
-		$question = new ConfirmationQuestion('Delete files? (y|n) ', false);
+        $helper = $this->getHelper('question');
+        $question = new ConfirmationQuestion('Delete files? (y|n) ', false);
 
-		if (!$helper->ask($input, $output, $question)) {
-			return;
-		}
+        if (!$helper->ask($input, $output, $question)) {
+            return;
+        }
 
-		$io->writeln(['', 'Executing...', '']);
-		$io->progressStart(count($orphanFiles));
+        $io->writeln(['', 'Executing...', '']);
+        $io->progressStart(count($orphanFiles));
 
-		array_map(function ($file) use ($io) {
-			unlink($file);
-			$io->progressAdvance(1);
-		}, $orphanFiles);
+        array_map(function ($file) use ($io) {
+            unlink($file);
+            $io->progressAdvance(1);
+        }, $orphanFiles);
 
-		$io->progressFinish();
-		$io->success('Done.');
-	}
+        $io->progressFinish();
+        $io->success('Done.');
+    }
 
 }
