@@ -46,7 +46,7 @@ services:
           calls:
             - method: setRedis
               arguments:
-                  - "@snc_redis.default_client"
+                  - "@snc_redis.default"
 
 #     app.random_thumbnail:
 #         class: AppBundle\Twig\AppExtension

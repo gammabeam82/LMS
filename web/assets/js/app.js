@@ -48,11 +48,11 @@ $(document).ready(() => {
 					}
 					booksCountContainer.addClass('animated bounceIn');
 					setTimeout(() => booksCountContainer.removeClass('animated bounceIn'), 600);
-				} else {
-					$.notify(errorMessage, {type: 'danger'});
-					btn.removeClass('disabled');
 				}
-			});
+			})
+            .catch(function (error) {
+                btn.removeClass('disabled');
+            });
 	});
 
 	$('.remove-from-archive').click(function () {
@@ -74,11 +74,11 @@ $(document).ready(() => {
 						booksCountContainer.removeClass('badge-active');
 						setTimeout(() => $('table').remove(), 800);
 					}
-				} else {
-					$.notify(errorMessage, {type: 'danger'});
-					btn.removeClass('disabled');
 				}
-			});
+			})
+            .catch(function (error) {
+                btn.removeClass('disabled');
+            });
 	});
 
 	$(window).scroll(function () {
