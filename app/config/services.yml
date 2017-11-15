@@ -74,16 +74,21 @@ services:
 
       app.authentication_failure_event_subscriber:
           class: AppBundle\EventListener\LoginSubscriber
-          arguments: ["@snc_redis.default", "@security.token_storage", "@request_stack", "@monolog.logger.security"]
+          arguments: ["@security.token_storage", "@request_stack", "@monolog.logger.security"]
+          calls:
+            - [setRedis, ['@snc_redis.default']]
           tags:
             - { name: kernel.event_subscriber }
 
       app.request_litener:
           class: AppBundle\EventListener\RequestListener
-          arguments: ["@snc_redis.default", "@security.token_storage"]
+          calls:
+            - [setRedis, ['@snc_redis.default']]
+          arguments: ["@security.token_storage"]
           tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
       app.logout_handler:
           class: AppBundle\Security\Handler\LogoutHandler
-          arguments: ["@snc_redis.default"]
+          calls:
+            - [setRedis, ['@snc_redis.default']]

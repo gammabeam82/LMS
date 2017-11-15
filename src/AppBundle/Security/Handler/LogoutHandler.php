@@ -6,21 +6,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Logout\LogoutHandlerInterface;
+use AppBundle\Utils\RedisAwareTrait;
 
 class LogoutHandler implements LogoutHandlerInterface
 {
-    /**
-     * @var \Predis\Client
-     */
-    private $redis;
+    use RedisAwareTrait;
 
     /**
      * LogoutListener constructor.
-     * @param \Predis\Client $redis
      */
-    public function __construct(\Predis\Client $redis)
+    public function __construct()
     {
-        $this->redis = $redis;
     }
 
     /**

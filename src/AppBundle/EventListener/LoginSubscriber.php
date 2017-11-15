@@ -11,16 +11,14 @@ use Symfony\Component\Security\Http\SecurityEvents;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Psr\Log\LoggerInterface;
+use AppBundle\Utils\RedisAwareTrait;
 
 class LoginSubscriber implements EventSubscriberInterface
 {
+    use RedisAwareTrait;
+
     private const PERIOD = 60;
     private const MAX_ATTEMPTS = 3;
-
-    /**
-     * @var \Predis\Client
-     */
-    private $redis;
 
     /**
      * @var TokenStorageInterface
@@ -39,13 +37,13 @@ class LoginSubscriber implements EventSubscriberInterface
 
     /**
      * LoginSubscriber constructor.
-     * @param \Predis\Client $redis
+     *
      * @param TokenStorageInterface $tokenStorage
      * @param RequestStack $request
+     * @param LoggerInterface $logger
      */
-    public function __construct(\Predis\Client $redis, TokenStorageInterface $tokenStorage, RequestStack $request, LoggerInterface $logger)
+    public function __construct(TokenStorageInterface $tokenStorage, RequestStack $request, LoggerInterface $logger)
     {
-        $this->redis = $redis;
         $this->tokenStorage = $tokenStorage;
         $this->request = $request;
         $this->logger = $logger;

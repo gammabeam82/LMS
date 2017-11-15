@@ -5,15 +5,13 @@ namespace AppBundle\EventListener;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use AppBundle\Entity\User;
+use AppBundle\Utils\RedisAwareTrait;
 
 class RequestListener
 {
-    private const EXPIRE = 50;
+    use RedisAwareTrait;
 
-    /**
-     * @var \Predis\Client
-     */
-    private $redis;
+    private const EXPIRE = 50;
 
     /**
      * @var TokenStorageInterface
@@ -23,12 +21,10 @@ class RequestListener
     /**
      * RequestListener constructor.
      *
-     * @param \Predis\Client $redis
      * @param TokenStorageInterface $tokenStorage
      */
-    public function __construct(\Predis\Client $redis, TokenStorageInterface $tokenStorage)
+    public function __construct(TokenStorageInterface $tokenStorage)
     {
-        $this->redis = $redis;
         $this->tokenStorage = $tokenStorage;
     }
 
