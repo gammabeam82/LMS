@@ -2,13 +2,11 @@
 
 namespace AppBundle\Service\Export;
 
-use AppBundle\Utils\EntityTrait;
+use AppBundle\Service\AbstractService;
 use AppBundle\Entity\ExportItem;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 
-class Export
+class Export extends AbstractService
 {
-    use EntityTrait;
 
     private const LIMIT = 15;
 
@@ -18,23 +16,16 @@ class Export
     private $path;
 
     /**
-     * @var Registry
-     */
-    private $doctrine;
-
-    /**
      * @var string
      */
     private $filename;
 
     /**
      * Export constructor.
-     * @param Registry $doctrine
      * @param string $path
      */
-    public function __construct(Registry $doctrine, string $path)
+    public function __construct(string $path)
     {
-        $this->doctrine = $doctrine;
         $this->path = $path;
     }
 

@@ -3,7 +3,6 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Book;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use LengthException;
@@ -11,14 +10,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use ZipStream\ZipStream;
 use AppBundle\Utils\RedisAwareTrait;
 
-class Archives
+class Archives extends AbstractService
 {
     use RedisAwareTrait;
-
-    /**
-     * @var Registry
-     */
-    private $doctrine;
 
     /**
      * @var string
@@ -27,12 +21,10 @@ class Archives
 
     /**
      * Archives constructor.
-     * @param Registry $doctrine
      * @param TokenStorageInterface $tokenStorage
      */
-    public function __construct(Registry $doctrine, TokenStorageInterface $tokenStorage)
+    public function __construct(TokenStorageInterface $tokenStorage)
     {
-        $this->doctrine = $doctrine;
         $this->key = sprintf("archive:%s", $tokenStorage->getToken()->getUser()->getId());
     }
 

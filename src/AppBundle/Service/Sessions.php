@@ -5,11 +5,10 @@ namespace AppBundle\Service;
 use AppBundle\Filter\FilterInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use UnexpectedValueException;
 use BadMethodCallException;
 
-class Sessions
+class Sessions extends AbstractService
 {
     /**
      * @var RequestStack
@@ -17,19 +16,12 @@ class Sessions
     private $requestStack;
 
     /**
-     * @var Registry
-     */
-    private $doctrine;
-
-    /**
      * Sessions constructor.
      * @param RequestStack $requestStack
-     * @param Registry $doctrine
      */
-    public function __construct(RequestStack $requestStack, Registry $doctrine)
+    public function __construct(RequestStack $requestStack)
     {
         $this->requestStack = $requestStack;
-        $this->doctrine = $doctrine;
     }
 
     /**

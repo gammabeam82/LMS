@@ -2,19 +2,19 @@
 
 namespace AppBundle\Utils;
 
-use Predis\Client;
+use Predis\ClientInterface;
 
 trait RedisAwareTrait
 {
     /**
-     * @var Client
+     * @var ClientInterface
      */
     protected $redis;
 
     /**
-     * @param Client $redis
+     * @param ClientInterface $redis
      */
-    public function setRedis(Client $redis = null): void
+    public function setRedis(ClientInterface $redis = null): void
     {
         $this->redis = $redis;
     }

@@ -6,19 +6,16 @@ use AppBundle\Entity\Book;
 use AppBundle\Entity\File as BookFile;
 use AppBundle\Entity\User;
 use AppBundle\Filter\DTO\BookFilter;
-use AppBundle\Utils\EntityTrait;
 use AppBundle\Utils\ImageThumbnailTrait;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Doctrine\ORM\Query;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class Books
+class Books extends AbstractService
 {
-    use EntityTrait;
     use ImageThumbnailTrait;
 
     private const IMAGE_TYPES = ['image/jpeg', 'image/png'];
@@ -27,11 +24,6 @@ class Books
      * @var RequestStack
      */
     private $requestStack;
-
-    /**
-     * @var Registry
-     */
-    private $doctrine;
 
     /**
      * @var ValidatorInterface
@@ -47,14 +39,12 @@ class Books
      * Books constructor.
      *
      * @param RequestStack $requestStack
-     * @param Registry $doctrine
      * @param ValidatorInterface $validator
      * @param $path
      */
-    public function __construct(RequestStack $requestStack, Registry $doctrine, ValidatorInterface $validator, $path)
+    public function __construct(RequestStack $requestStack, ValidatorInterface $validator, $path)
     {
         $this->requestStack = $requestStack;
-        $this->doctrine = $doctrine;
         $this->validator = $validator;
         $this->path = $path;
     }

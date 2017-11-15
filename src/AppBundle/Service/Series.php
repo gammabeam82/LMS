@@ -4,22 +4,13 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Serie;
 use AppBundle\Filter\DTO\SerieFilter;
-use AppBundle\Utils\EntityTrait;
-use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\Translation\TranslatorInterface;
 use AppBundle\Service\Export\Export;
 use AppBundle\Service\Export\ExportInterface;
 use Doctrine\ORM\Query;
 
-class Series implements ExportInterface
+class Series extends AbstractService implements ExportInterface
 {
-    use EntityTrait;
-
-    /**
-     * @var Registry
-     */
-    private $doctrine;
-
     /**
      * @var Export
      */
@@ -32,13 +23,12 @@ class Series implements ExportInterface
 
     /**
      * Series constructor.
-     * @param Registry $doctrine
+     *
      * @param Export $export
      * @param TranslatorInterface $translator
      */
-    public function __construct(Registry $doctrine, Export $export, TranslatorInterface $translator)
+    public function __construct(Export $export, TranslatorInterface $translator)
     {
-        $this->doctrine = $doctrine;
         $this->exportService = $export;
         $this->translator = $translator;
     }

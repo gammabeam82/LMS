@@ -218,7 +218,7 @@ class BooksController extends Controller
 	 * @param string $message
 	 * @return RedirectResponse|Response
 	 */
-	private function processForm(Request $request, Book $book, $message)
+	private function processForm(Request $request, Book $book, string $message)
 	{
 		$bookService = $this->get('app.books');
 

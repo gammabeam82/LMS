@@ -5,26 +5,16 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Book;
-use Doctrine\Bundle\DoctrineBundle\Registry;
-use AppBundle\Utils\EntityTrait;
 use Doctrine\ORM\Query;
 
-class Comments
+class Comments extends AbstractService
 {
-    use EntityTrait;
-
-    /**
-     * @var Registry
-     */
-    private $doctrine;
-
     /**
      * Comments constructor.
-     * @param Registry $doctrine
      */
-    public function __construct(Registry $doctrine)
+    public function __construct()
     {
-        $this->doctrine = $doctrine;
+
     }
 
     /**

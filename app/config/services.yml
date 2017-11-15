@@ -10,43 +10,56 @@ services:
 
       app.export:
           class: AppBundle\Service\Export\Export
-          arguments: ["@doctrine", "%export%"]
+          arguments: ["%export%"]
+          calls:
+            - [setDoctrine, ['@doctrine']]
 
       app.authors:
           class: AppBundle\Service\Authors
-          arguments: ["@doctrine", "@app.export", "@translator"]
+          arguments: ["@app.export", "@translator"]
+          calls:
+            - [setDoctrine, ['@doctrine']]
 
       app.books:
           class: AppBundle\Service\Books
-          arguments: ["@request_stack", "@doctrine", "@validator", "%library%"]
+          arguments: ["@request_stack", "@validator", "%library%"]
+          calls:
+            - [setDoctrine, ['@doctrine']]
 
       app.genres:
            class: AppBundle\Service\Genres
-           arguments: ["@doctrine", "@app.export", "@translator"]
+           arguments: ["@app.export", "@translator"]
+           calls:
+            - [setDoctrine, ['@doctrine']]
 
       app.series:
           class: AppBundle\Service\Series
-          arguments: ["@doctrine", "@app.export", "@translator"]
+          arguments: ["@app.export", "@translator"]
+          calls:
+            - [setDoctrine, ['@doctrine']]
 
       app.ratings:
           class: AppBundle\Service\Ratings
-          arguments: ["@doctrine"]
+          calls:
+            - [setDoctrine, ['@doctrine']]
 
       app.comments:
           class: AppBundle\Service\Comments
-          arguments: ["@doctrine"]
+          calls:
+            - [setDoctrine, ['@doctrine']]
 
       app.sessions:
           class: AppBundle\Service\Sessions
-          arguments: ["@request_stack", "@doctrine"]
+          arguments: ["@request_stack"]
+          calls:
+            - [setDoctrine, ['@doctrine']]
 
       app.archives:
           class: AppBundle\Service\Archives
-          arguments: ["@doctrine", "@security.token_storage"]
+          arguments: ["@security.token_storage"]
           calls:
-            - method: setRedis
-              arguments:
-                  - "@snc_redis.default"
+            - [setRedis, ['@snc_redis.default']]
+            - [setDoctrine, ['@doctrine']]
 
 #     app.random_thumbnail:
 #         class: AppBundle\Twig\AppExtension
