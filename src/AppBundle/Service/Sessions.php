@@ -3,10 +3,10 @@
 namespace AppBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
-use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 use UnexpectedValueException;
-use BadMethodCallException;
 
 class Sessions extends AbstractService
 {
@@ -25,16 +25,16 @@ class Sessions extends AbstractService
     }
 
     /**
-     * @param Form $form
+     * @param FormInterface $form
      * @param FilterInterface $filter
      */
-    public function updateFilterFromSession(Form $form, FilterInterface $filter): void
+    public function updateFilterFromSession(FormInterface $form, FilterInterface $filter): void
     {
         $request = $this->requestStack->getCurrentRequest();
 
         $session = $request->getSession();
 
-        $filterName = self::getFilterName($filter);
+        $filterName = $this->getFilterName($filter);
 
         if (null !== $request->get('reset')) {
             $session->remove($filterName);
@@ -48,22 +48,15 @@ class Sessions extends AbstractService
             }
         } else {
             if (null !== $session->get($filterName)) {
-                $data = unserialize($session->get($filterName));
+
+                $restoredFilter = unserialize($session->get($filterName));
                 $em = $this->doctrine->getManager();
+                $accessor = PropertyAccess::createPropertyAccessor();
 
                 foreach ($form as $field) {
-
-                    $fieldName = ucfirst($field->getName());
-                    $getter = 'get' . $fieldName;
-                    $setter = 'set' . $fieldName;
-
-                    if (false === method_exists($data, $getter)) {
-                        throw new BadMethodCallException();
-                    }
-
-                    $value = $data->$getter();
-
-                    if (is_array($value) && isset($value[0]) && is_object($value[0])) {
+                    $property = $field->getName();
+                    $value = $accessor->getValue($restoredFilter, $property);
+                    if (false !== $this->isEntityType($value)) {
                         $entities = [];
                         foreach ($value as $entity) {
                             $entities[] = $em->merge($entity);
@@ -72,15 +65,19 @@ class Sessions extends AbstractService
                     } else {
                         $field->setData($value);
                     }
-
-                    if (false === method_exists($filter, $setter)) {
-                        throw new BadMethodCallException();
-                    }
-
-                    $filter->$setter($value);
+                    $accessor->setValue($filter, $property, $value);
                 }
             }
         }
+    }
+
+    /**
+     * @param mixed $item
+     * @return bool
+     */
+    private function isEntityType($item): bool
+    {
+        return is_array($item) && isset($item[0]) && is_object($item[0]);
     }
 
     /**
