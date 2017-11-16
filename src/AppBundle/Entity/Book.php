@@ -117,7 +117,7 @@ class Book implements EntityInterface
 	 */
 	public function __toString(): string
 	{
-		return sprintf("%s-%s", $this->getAuthor()->getShortName(), $this->name);
+		return $this->name;
 	}
 
 	/**

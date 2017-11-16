@@ -22,7 +22,7 @@ services:
 
       app.books:
           class: AppBundle\Service\Books
-          arguments: ["@request_stack", "@validator", "%library%"]
+          arguments: ["@request_stack", "@validator", "%library%", "@fos_elastica.finder.app.book", "@router"]
           calls:
             - [setDoctrine, ['@doctrine']]
 

@@ -60,6 +60,14 @@ class Genre implements EntityInterface
     }
 
     /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->name;
+    }
+
+    /**
      * Get id
      *
      * @return integer

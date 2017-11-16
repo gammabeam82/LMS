@@ -67,6 +67,14 @@ class Author implements EntityInterface
     }
 
     /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->lastName;
+    }
+
+    /**
      * Get id
      *
      * @return integer

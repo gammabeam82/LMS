@@ -12,7 +12,15 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Doctrine\ORM\Query;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use FOS\ElasticaBundle\Finder\PaginatedFinderInterface;
+use Elastica\Query\BoolQuery;
+use Elastica\Query\Match;
+use AppBundle\Fractal\BookTransformer;
+use League\Fractal\Resource\Collection;
+use League\Fractal\Serializer\ArraySerializer;
+use League\Fractal\Manager;
 
 class Books extends AbstractService
 {
@@ -36,17 +44,32 @@ class Books extends AbstractService
     private $path;
 
     /**
+     * @var PaginatedFinderInterface
+     */
+    private $finder;
+
+    /**
+     * @var RouterInterface
+     */
+
+    private $router;
+
+    /**
      * Books constructor.
      *
      * @param RequestStack $requestStack
      * @param ValidatorInterface $validator
-     * @param $path
+     * @param string $path
+     * @param PaginatedFinderInterface $finder
+     * @param RouterInterface $router
      */
-    public function __construct(RequestStack $requestStack, ValidatorInterface $validator, $path)
+    public function __construct(RequestStack $requestStack, ValidatorInterface $validator, string $path, PaginatedFinderInterface $finder, RouterInterface $router)
     {
         $this->requestStack = $requestStack;
         $this->validator = $validator;
         $this->path = $path;
+        $this->finder = $finder;
+        $this->router = $router;
     }
 
     /**
@@ -287,6 +310,26 @@ class Books extends AbstractService
         $this->save($user, $book);
 
         return $hasLike;
+    }
+
+    /**
+     * @param string $query
+     * @return array
+     */
+    public function search(string $query): array
+    {
+        $boolQuery = new BoolQuery();
+        $fieldQuery = new Match();
+
+        $fieldQuery->setField('name', $query);
+        $boolQuery->addShould($fieldQuery);
+
+        $collection = new Collection($this->finder->find($boolQuery), new BookTransformer($this->router));
+
+        $manager = new Manager();
+        $manager->setSerializer(new ArraySerializer());
+
+        return $manager->createData($collection)->toArray();
     }
 
 }

@@ -10,6 +10,7 @@ use AppBundle\Filter\DTO\BookFilter;
 use AppBundle\Filter\Form\BookFilterType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -252,5 +253,20 @@ class BooksController extends Controller
 			'filterName' => $isNew ? null : Sessions::getFilterName(BookFilter::class)
 		]);
 	}
+
+    /**
+     * @Route("/search", name="books_search")
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function searchAction(Request $request)
+    {
+        $bookService = $this->get('app.books');
+
+        $data = $bookService->search($request->get('query', null));
+
+        return new JsonResponse($data);
+    }
 
 }

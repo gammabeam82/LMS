@@ -1,0 +1,30 @@
+fos_elastica:
+    clients:
+        default: { host: localhost, port: 9200 }
+
+    indexes:
+        app:
+            settings:
+                index:
+                    analysis:
+                        analyzer:
+                            my_analyzer:
+                                type: custom
+                                tokenizer: lowercase
+                                filter   : [my_ngram]
+                        filter:
+                            my_ngram:
+                                type: "nGram"
+                                min_gram: 3
+                                max_gram: 5
+            types:
+                book:
+                    properties:
+                        name: { analyzer: my_analyzer }
+                        author: ~
+                        genre: ~
+                    persistence:
+                        driver: orm
+                        model: AppBundle\Entity\Book
+                        provider: ~
+                        finder: ~
