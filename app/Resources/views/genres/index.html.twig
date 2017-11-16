@@ -103,7 +103,7 @@
 							<tr>
 								<td class="highlight">{{ genre.name }}</td>
 								<td>
-									<a href="{{ path('books', {'book_filter[genre][]': genre.id}) }}" class="btn btn-sm {{ genre.books | length ? 'btn-success' : 'btn-default disabled' }}">
+									<a href="{{ path('books', {'book_filter[genres][]': genre.id}) }}" class="btn btn-sm {{ genre.books | length ? 'btn-success' : 'btn-default disabled' }}">
 										{{ genre.books | length }}
 									</a>
 								</td>

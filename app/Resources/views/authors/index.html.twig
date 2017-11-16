@@ -111,7 +111,7 @@
 							<tr>
 								<td class="highlight">{{ author.fullName }}</td>
 								<td>
-									<a href="{{ path('books', {'book_filter[author][]': author.id}) }}" class="btn btn-sm {{ author.books | length ? 'btn-success' : 'btn-default disabled' }}">
+									<a href="{{ path('books', {'book_filter[authors][]': author.id}) }}" class="btn btn-sm {{ author.books | length ? 'btn-success' : 'btn-default disabled' }}">
 										{{ author.booksCount }}
 									</a>
 								</td>
