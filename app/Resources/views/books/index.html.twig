@@ -150,7 +150,7 @@
 									{% endif %}
 								</td>
 								<td>
-									<a href="{{ path('books', {'book_filter[author][]': book.author.id}) }}">{{ book.author.shortName }}</a>
+									<a href="{{ path('books', {'book_filter[authors][]': book.author.id}) }}">{{ book.author.shortName }}</a>
 								</td>
 								<td class="hidden-xs">{{ book.genre ? book.genre.name : "-" }}</td>
 								<td class="visible-lg">{{ book.serie ? book.serie.name : "-" }}</td>

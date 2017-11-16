@@ -28,7 +28,7 @@
 					</li>
 					{% if book.id %}
 						<li>
-							<a href="{{ path('books', {'book_filter[author][]': book.author.id}) }}">{{ book.author.shortName }}</a>
+							<a href="{{ path('books', {'book_filter[authors][]': book.author.id}) }}">{{ book.author.shortName }}</a>
 						</li>
 						<li class="active">
 							{{ book.name }}

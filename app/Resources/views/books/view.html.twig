@@ -18,7 +18,7 @@
 						<a href="{{ path('books', { 'reset': true }) }}">{{ 'navigation.books' | trans }}</a>
 					</li>
 					<li>
-						<a href="{{ path('books', {'book_filter[author][]': book.author.id}) }}">{{ book.author.shortName }}</a>
+						<a href="{{ path('books', {'book_filter[authors][]': book.author.id}) }}">{{ book.author.shortName }}</a>
 					</li>
 					<li class="active">{{ book.name }}</li>
 					{% if is_granted('edit', book) %}
