@@ -4,6 +4,7 @@ namespace AppBundle\Service\Export;
 
 use AppBundle\Service\AbstractService;
 use AppBundle\Entity\ExportItem;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class Export extends AbstractService
 {
@@ -50,11 +51,11 @@ class Export extends AbstractService
         );
 
         $excel = new \PHPExcel();
-
         $sheet = $excel->getActiveSheet();
-
         $col = 0;
         $row = 1;
+
+        $accessor = PropertyAccess::createPropertyAccessor();
 
         foreach ($rows as $title => $getter) {
             $sheet->setCellValueByColumnAndRow($col, $row, $title);
@@ -74,11 +75,8 @@ class Export extends AbstractService
 
         foreach ($exportData as $item) {
             $col = 0;
-            foreach ($rows as $title => $getter) {
-                if (false === method_exists($item, $getter)) {
-                    throw new \BadMethodCallException();
-                }
-                $sheet->setCellValueByColumnAndRow($col, $row, $item->$getter());
+            foreach ($rows as $title => $property) {
+                $sheet->setCellValueByColumnAndRow($col, $row, $accessor->getValue($item, $property));
                 $this->setAutoSize($sheet, $col);
                 $col++;
             }
