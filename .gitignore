@@ -17,3 +17,4 @@
 /node_modules/
 /.idea/*
 /web/assets/vendor/
+/dump.rdb
