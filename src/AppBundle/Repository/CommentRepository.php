@@ -2,7 +2,7 @@
 
 namespace AppBundle\Repository;
 
-class CommentRepository extends Repository
+class CommentRepository extends AbstractRepository
 {
 
 }

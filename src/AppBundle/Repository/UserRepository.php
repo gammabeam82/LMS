@@ -2,7 +2,7 @@
 
 namespace AppBundle\Repository;
 
-class UserRepository extends Repository
+class UserRepository extends AbstractRepository
 {
 
 }

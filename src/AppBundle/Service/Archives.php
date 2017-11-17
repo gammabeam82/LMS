@@ -81,18 +81,14 @@ class Archives extends AbstractService
             throw new LengthException();
         }
 
-        /* @var \Doctrine\ORM\EntityRepository $repo */
         $repo = $this->doctrine->getRepository(Book::class);
 
         $em = $this->doctrine->getManager();
 
-        $qb = $repo->createQueryBuilder('b');
-        $qb->where($qb->expr()->in('b.id', $this->getBookIds()));
-
-        $books = $qb->getQuery()->execute();
+        $books = $repo->findByIds($this->getBookIds());
 
         array_map(function ($book) use ($em) {
-            /* @var \AppBundle\Entity\Book $book */
+            /* @var Book $book */
             $book->incViews();
             $em->persist($book);
         }, $books);

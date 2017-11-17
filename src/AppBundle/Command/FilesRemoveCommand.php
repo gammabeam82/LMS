@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
+use AppBundle\Entity\File;
 
 class FilesRemoveCommand extends ContainerAwareCommand
 {
@@ -31,13 +32,9 @@ class FilesRemoveCommand extends ContainerAwareCommand
 
         $path = $this->getContainer()->getParameter('library');
 
-        $em = $this->getContainer()->get('doctrine')->getManager();
+        $repo = $this->getContainer()->get('doctrine')->getRepository(File::class);
 
-        $bookFiles = $em->createQueryBuilder()
-            ->select('f.name', 'f.thumbnail')
-            ->from('AppBundle:File', 'f')
-            ->getQuery()
-            ->execute();
+        $bookFiles = $repo->findAllFileNames();
 
         $bookFiles = array_merge(
             array_column($bookFiles, 'name'),

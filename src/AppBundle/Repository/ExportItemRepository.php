@@ -2,7 +2,7 @@
 
 namespace AppBundle\Repository;
 
-class ExportItemRepository extends Repository
+class ExportItemRepository extends AbstractRepository
 {
 
 }

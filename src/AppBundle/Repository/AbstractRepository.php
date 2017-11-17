@@ -4,7 +4,7 @@ namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-abstract class Repository extends EntityRepository
+abstract class AbstractRepository extends EntityRepository
 {
     /**
      * @return int
