@@ -56,12 +56,12 @@ class Authors extends AbstractService implements ExportInterface
 
         if (false === empty($filter->getLastName())) {
             $qb->andWhere($qb->expr()->like('LOWER(a.lastName)', ':name'));
-            $qb->setParameter('name', "%" . mb_strtolower($filter->getLastName()) . "%");
+            $qb->setParameter('name', sprintf("%%%s%%", mb_strtolower($filter->getLastName())));
         }
 
         if (false === empty($filter->getFirstLetter())) {
             $qb->andWhere($qb->expr()->like('LOWER(a.lastName)', ':letter'));
-            $qb->setParameter('letter', mb_strtolower($filter->getFirstLetter()) . "%");
+            $qb->setParameter('letter', sprintf("%s%%", mb_strtolower($filter->getFirstLetter())));
         }
 
         if (false !== $filter->getSortByName()) {

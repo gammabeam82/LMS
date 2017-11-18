@@ -152,7 +152,7 @@ class Books extends AbstractService
 
         if (false === empty($filter->getName())) {
             $qb->andWhere($qb->expr()->like('LOWER(b.name)', ':name'));
-            $qb->setParameter('name', "%" . mb_strtolower($filter->getName()) . "%");
+            $qb->setParameter('name', sprintf("%%%s%%", mb_strtolower($filter->getName())));
         }
 
         if (null !== $filter->getAuthors()) {
@@ -177,7 +177,7 @@ class Books extends AbstractService
                 'LOWER(a.lastName) LIKE :sr'
             );
             $qb->andWhere($expr);
-            $qb->setParameter('sr', "%" . mb_strtolower($filter->getSearch()) . "%");
+            $qb->setParameter('sr', sprintf("%%%s%%", mb_strtolower($filter->getSearch())));
         }
 
         if (false === empty($filter->getCreatedAtStart())) {

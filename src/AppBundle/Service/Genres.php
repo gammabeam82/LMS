@@ -47,7 +47,7 @@ class Genres extends AbstractService implements ExportInterface
 
         if (false === empty($filter->getName())) {
             $qb->andWhere($qb->expr()->like('LOWER(g.name)', ':name'));
-            $qb->setParameter('name', "%" . mb_strtolower($filter->getName()) . "%");
+            $qb->setParameter('name', sprintf("%%%s%%", mb_strtolower($filter->getName())));
         }
 
         if (false !== $filter->getSortByName()) {
