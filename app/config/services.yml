@@ -61,6 +61,11 @@ services:
             - [setRedis, ['@snc_redis.default']]
             - [setDoctrine, ['@doctrine']]
 
+      app.online:
+          class: AppBundle\Service\Online\Online
+          calls:
+            - [setRedis, ['@snc_redis.default']]
+
 #     app.random_thumbnail:
 #         class: AppBundle\Twig\AppExtension
 #         arguments: ["@router"]
@@ -82,9 +87,7 @@ services:
 
       app.request_litener:
           class: AppBundle\EventListener\RequestListener
-          calls:
-            - [setRedis, ['@snc_redis.default']]
-          arguments: ["@security.token_storage"]
+          arguments: ["@security.token_storage", "@app.online"]
           tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 

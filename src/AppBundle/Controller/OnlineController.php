@@ -16,11 +16,7 @@ class OnlineController extends Controller
      */
     public function usersOnlineAction()
     {
-        $redis = $this->get('snc_redis.default');
-
-        $users = array_map(function ($key) use ($redis) {
-            return $redis->hgetall($key);
-        }, $redis->keys("user:*"));
+        $users = $this->get('app.online')->getUsersOnline();
 
         return new JsonResponse($users);
     }
@@ -33,9 +29,7 @@ class OnlineController extends Controller
      */
     public function usersCountAction($type)
     {
-        $redis = $this->get('snc_redis.default');
-
-        $usersCount = count($redis->keys("user:*"));
+        $usersCount = $this->get('app.online')->getUsersOnlineCount();
 
         if ($type === 'json') {
             $response = new JsonResponse([

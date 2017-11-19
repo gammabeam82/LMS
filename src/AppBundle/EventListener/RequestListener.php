@@ -5,13 +5,10 @@ namespace AppBundle\EventListener;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use AppBundle\Entity\User;
-use AppBundle\Utils\RedisAwareTrait;
+use AppBundle\Service\Online\OnlineInterface;
 
 class RequestListener
 {
-    use RedisAwareTrait;
-
-    private const EXPIRE = 50;
 
     /**
      * @var TokenStorageInterface
@@ -19,13 +16,20 @@ class RequestListener
     private $tokenStorage;
 
     /**
+     * @var OnlineInterface
+     */
+    private $onlineService;
+
+    /**
      * RequestListener constructor.
      *
      * @param TokenStorageInterface $tokenStorage
+     * @param OnlineInterface $onlineService
      */
-    public function __construct(TokenStorageInterface $tokenStorage)
+    public function __construct(TokenStorageInterface $tokenStorage, OnlineInterface $onlineService)
     {
         $this->tokenStorage = $tokenStorage;
+        $this->onlineService = $onlineService;
     }
 
     /**
@@ -45,15 +49,6 @@ class RequestListener
             return;
         }
 
-        $key = sprintf("user:%s", $user->getId());
-
-        if (1 !== $this->redis->exists($key)) {
-            $this->redis->hmset($key, [
-                'id' => $user->getId(),
-                'name' => $user->getUsername()
-            ]);
-        }
-
-        $this->redis->expire($key, self::EXPIRE);
+        $this->onlineService->storeUser($user);
     }
 }
