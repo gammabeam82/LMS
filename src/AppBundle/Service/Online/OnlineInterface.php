@@ -11,4 +11,6 @@ interface OnlineInterface
     public function getUsersOnlineCount(): int;
 
     public function storeUser(User $user): void;
+
+    public function removeUser(User $user): void;
 }

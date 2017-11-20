@@ -91,5 +91,4 @@ services:
 
       app.logout_handler:
           class: AppBundle\Security\Handler\LogoutHandler
-          calls:
-            - [setRedis, ['@snc_redis.default']]
+          arguments: ["@app.online"]

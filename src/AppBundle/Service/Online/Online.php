@@ -48,4 +48,14 @@ class Online implements OnlineInterface
 
         $this->redis->expire($key, self::EXPIRE);
     }
+
+    /**
+     * @param User $user
+     */
+    public function removeUser(User $user): void
+    {
+        $key = sprintf("%s:%s", self::KEY, $user->getId());
+
+        $this->redis->del([$key]);
+    }
 }
