@@ -11,7 +11,7 @@ use \DateTime;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CommentRepository")
  * @ORM\Table(name="comments")
  */
-class Comment
+class Comment implements EntityInterface
 {
     /**
      * @ORM\Id

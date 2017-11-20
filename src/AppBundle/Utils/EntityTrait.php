@@ -3,14 +3,15 @@
 namespace AppBundle\Utils;
 
 use Doctrine\Common\Persistence\ObjectManager;
+use AppBundle\Entity\EntityInterface;
 
 trait EntityTrait
 {
     /**
      * @param ObjectManager $em
-     * @param $entity
+     * @param EntityInterface $entity
      */
-    public function saveEntity(ObjectManager $em, $entity)
+    public function saveEntity(ObjectManager $em, EntityInterface $entity): void
     {
         $em->persist($entity);
         $em->flush();
@@ -18,9 +19,9 @@ trait EntityTrait
 
     /**
      * @param ObjectManager $em
-     * @param $entity
+     * @param EntityInterface $entity
      */
-    public function removeEntity(ObjectManager $em, $entity)
+    public function removeEntity(ObjectManager $em, EntityInterface $entity): void
     {
         $em->remove($entity);
         $em->flush();

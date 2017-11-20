@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RatingRepository")
  * @ORM\Table(name="ratings")
  */
-class Rating
+class Rating implements EntityInterface
 {
     /**
      * @ORM\Id

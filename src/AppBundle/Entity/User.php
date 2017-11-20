@@ -14,7 +14,7 @@ use \DateTime;
  * @ORM\Table(name="fos_user")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
-class User extends BaseUser
+class User extends BaseUser implements EntityInterface
 {
     /**
      * @ORM\Id
