@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use ZipStream\ZipStream;
 use AppBundle\Utils\RedisAwareTrait;
 
-class Archives extends AbstractService
+class Archives extends BaseService
 {
     use RedisAwareTrait;
 

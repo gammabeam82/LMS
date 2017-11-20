@@ -9,7 +9,7 @@ use Symfony\Component\Translation\TranslatorInterface;
 use AppBundle\Service\Export\ExportInterface;
 use Doctrine\ORM\Query;
 
-class Genres extends AbstractService implements ExportInterface
+class Genres extends BaseService implements ExportInterface
 {
     /**
      * @var Export

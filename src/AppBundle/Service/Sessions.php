@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use UnexpectedValueException;
 
-class Sessions extends AbstractService
+class Sessions extends BaseService
 {
     /**
      * @var RequestStack

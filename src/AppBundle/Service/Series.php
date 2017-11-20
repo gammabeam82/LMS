@@ -9,7 +9,7 @@ use AppBundle\Service\Export\Export;
 use AppBundle\Service\Export\ExportInterface;
 use Doctrine\ORM\Query;
 
-class Series extends AbstractService implements ExportInterface
+class Series extends BaseService implements ExportInterface
 {
     /**
      * @var Export

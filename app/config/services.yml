@@ -8,58 +8,56 @@ services:
       gedmo.listener.softdeleteable:
           class: Gedmo\SoftDeleteable\SoftDeleteableListener
 
+      app.base_service:
+          class: AppBundle\Service\BaseService
+          abstract: true
+          calls:
+            - [setDoctrine, ['@doctrine']]
+
       app.export:
+          parent: app.base_service
           class: AppBundle\Service\Export\Export
           arguments: ["%export%"]
-          calls:
-            - [setDoctrine, ['@doctrine']]
 
       app.authors:
+          parent: app.base_service
           class: AppBundle\Service\Authors
           arguments: ["@app.export", "@translator"]
-          calls:
-            - [setDoctrine, ['@doctrine']]
 
       app.books:
+          parent: app.base_service
           class: AppBundle\Service\Books
           arguments: ["@request_stack", "@validator", "%library%"]
-          calls:
-            - [setDoctrine, ['@doctrine']]
 
       app.genres:
+           parent: app.base_service
            class: AppBundle\Service\Genres
            arguments: ["@app.export", "@translator"]
-           calls:
-            - [setDoctrine, ['@doctrine']]
 
       app.series:
+          parent: app.base_service
           class: AppBundle\Service\Series
           arguments: ["@app.export", "@translator"]
-          calls:
-            - [setDoctrine, ['@doctrine']]
 
       app.ratings:
+          parent: app.base_service
           class: AppBundle\Service\Ratings
-          calls:
-            - [setDoctrine, ['@doctrine']]
 
       app.comments:
+          parent: app.base_service
           class: AppBundle\Service\Comments
-          calls:
-            - [setDoctrine, ['@doctrine']]
 
       app.sessions:
+          parent: app.base_service
           class: AppBundle\Service\Sessions
           arguments: ["@request_stack"]
-          calls:
-            - [setDoctrine, ['@doctrine']]
 
       app.archives:
+          parent: app.base_service
           class: AppBundle\Service\Archives
           arguments: ["@security.token_storage"]
           calls:
             - [setRedis, ['@snc_redis.default']]
-            - [setDoctrine, ['@doctrine']]
 
       app.online:
           class: AppBundle\Service\Online\Online

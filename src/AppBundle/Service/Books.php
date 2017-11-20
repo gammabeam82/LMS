@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Doctrine\ORM\Query;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class Books extends AbstractService
+class Books extends BaseService
 {
     use ImageThumbnailTrait;
 

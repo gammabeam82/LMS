@@ -2,11 +2,11 @@
 
 namespace AppBundle\Service\Export;
 
-use AppBundle\Service\AbstractService;
+use AppBundle\Service\BaseService;
 use AppBundle\Entity\ExportItem;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-class Export extends AbstractService
+class Export extends BaseService
 {
 
     private const LIMIT = 15;

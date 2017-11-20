@@ -7,7 +7,7 @@ use AppBundle\Entity\User;
 use AppBundle\Entity\Book;
 use Doctrine\ORM\Query;
 
-class Comments extends AbstractService
+class Comments extends BaseService
 {
     /**
      * Comments constructor.

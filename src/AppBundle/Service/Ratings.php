@@ -6,7 +6,7 @@ use AppBundle\Entity\Rating;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\User;
 
-class Ratings extends AbstractService
+class Ratings extends BaseService
 {
 
     /**
