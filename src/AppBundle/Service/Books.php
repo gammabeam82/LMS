@@ -40,9 +40,9 @@ class Books extends BaseService
      *
      * @param RequestStack $requestStack
      * @param ValidatorInterface $validator
-     * @param $path
+     * @param string $path
      */
-    public function __construct(RequestStack $requestStack, ValidatorInterface $validator, $path)
+    public function __construct(RequestStack $requestStack, ValidatorInterface $validator, string $path)
     {
         $this->requestStack = $requestStack;
         $this->validator = $validator;
@@ -58,7 +58,6 @@ class Books extends BaseService
         if (null === $book->getId()) {
             $book->setAddedBy($user);
             $book->setViews(0);
-
             foreach ($book->getBookFiles() as $file) {
                 /* @var UploadedFile $uploadedFile */
                 $uploadedFile = $file->getName();
