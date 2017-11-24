@@ -9,11 +9,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Api\Transformer\BookTransformer;
-use AppBundle\Api\Provider\ApiDataProvider;
 
 class BooksApiController extends Controller
 {
-    private const LIMIT = 30;
+    private const LIMIT = 50;
 
     /**
      * @Route("/api/books", name="api_books")
@@ -25,23 +24,15 @@ class BooksApiController extends Controller
      */
     public function indexAction(Request $request): JsonResponse
     {
-        $paginator = $this->get('knp_paginator');
-
         $bookService = $this->get('app.books');
+        $cacheService = $this->get('app.redis_cache');
 
-        $filter = new BookFilter();
+        $query = $bookService->getFilteredBooks(new BookFilter(), $this->getUser());
 
-        $query = $bookService->getFilteredBooks($filter, $this->getUser());
+        $page = $request->query->getInt('page', 1);
 
-        $books = $paginator->paginate(
-            $query, $request->query->getInt('page', 1), self::LIMIT
-        );
+        $data = $cacheService->getData($query, new BookTransformer($this->get('router')), $page, self::LIMIT);
 
-        $provider = new ApiDataProvider([
-            'items' => $books,
-            'transformer' => new BookTransformer($this->get('router'))
-        ]);
-
-        return new JsonResponse($provider->getData());
+        return new JsonResponse($data);
     }
 }

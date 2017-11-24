@@ -92,3 +92,9 @@ services:
       app.logout_handler:
           class: AppBundle\Security\Handler\LogoutHandler
           arguments: ["@app.online"]
+
+      app.redis_cache:
+          class: AppBundle\Api\Cache\RedisCache
+          arguments: ["@knp_paginator"]
+          calls:
+            - [setRedis, ['@snc_redis.cache']]
