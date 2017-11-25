@@ -25,13 +25,13 @@ class GenresApiController extends Controller
     public function indexAction(Request $request): JsonResponse
     {
         $genreService = $this->get('app.genres');
-        $cacheService = $this->get('app.redis_cache');
+        $dataService = $this->get('app.load_api_data');
 
         $query = $genreService->getFilteredGenres(new GenreFilter());
 
         $page = $request->query->getInt('page', 1);
 
-        $data = $cacheService->getData($query, new GenreTransformer(), $page, self::LIMIT);
+        $data = $dataService->getData($query, new GenreTransformer(), $page, self::LIMIT);
 
         return new JsonResponse($data);
     }

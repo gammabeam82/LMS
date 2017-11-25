@@ -25,13 +25,13 @@ class AuthorsApiController extends Controller
     public function indexAction(Request $request): JsonResponse
     {
         $authorService = $this->get('app.authors');
-        $cacheService = $this->get('app.redis_cache');
+        $dataService = $this->get('app.load_api_data');
 
         $query = $authorService->getFilteredAuthors(new AuthorFilter());
 
         $page = $request->query->getInt('page', 1);
 
-        $data = $cacheService->getData($query, new AuthorTransformer(), $page, self::LIMIT);
+        $data = $dataService->getData($query, new AuthorTransformer(), $page, self::LIMIT);
 
         return new JsonResponse($data);
     }

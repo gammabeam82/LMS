@@ -25,13 +25,13 @@ class BooksApiController extends Controller
     public function indexAction(Request $request): JsonResponse
     {
         $bookService = $this->get('app.books');
-        $cacheService = $this->get('app.redis_cache');
+        $dataService = $this->get('app.load_api_data');
 
         $query = $bookService->getFilteredBooks(new BookFilter(), $this->getUser());
 
         $page = $request->query->getInt('page', 1);
 
-        $data = $cacheService->getData($query, new BookTransformer($this->get('router')), $page, self::LIMIT);
+        $data = $dataService->getData($query, new BookTransformer($this->get('router')), $page, self::LIMIT);
 
         return new JsonResponse($data);
     }

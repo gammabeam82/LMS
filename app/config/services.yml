@@ -93,7 +93,7 @@ services:
           class: AppBundle\Security\Handler\LogoutHandler
           arguments: ["@app.online"]
 
-      app.redis_cache:
+      app.load_api_data:
           class: AppBundle\Api\Service\LoadDataService
           arguments: ["@knp_paginator"]
           calls:
