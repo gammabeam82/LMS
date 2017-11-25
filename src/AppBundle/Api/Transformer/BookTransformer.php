@@ -4,6 +4,7 @@ namespace AppBundle\Api\Transformer;
 
 use AppBundle\Entity\Book;
 use AppBundle\Entity\Genre;
+use AppBundle\Entity\Serie;
 use League\Fractal\TransformerAbstract;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -27,6 +28,7 @@ class BookTransformer extends TransformerAbstract implements TransformerInterfac
     public function transform(Book $book): array
     {
         $genre = $book->getGenre();
+        $serie = $book->getSerie();
 
         $authorTransformer = new AuthorTransformer();
 
@@ -38,9 +40,17 @@ class BookTransformer extends TransformerAbstract implements TransformerInterfac
             'author' => $authorTransformer->transform($book->getAuthor())
         ];
 
-        if(false !== $genre instanceof Genre) {
+        $data['genre'] = null;
+        $data['serie'] = null;
+
+        if (false !== $genre instanceof Genre) {
             $genreTransformer = new GenreTransformer();
             $data['genre'] = $genreTransformer->transform($genre);
+        }
+
+        if (false !== $serie instanceof Serie) {
+            $serieTransformer = new SerieTransformer();
+            $data['serie'] = $serieTransformer->transform($serie);
         }
 
         return $data;
