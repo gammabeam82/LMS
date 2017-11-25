@@ -34,16 +34,15 @@ class LoadDataService
      * @param TransformerInterface $transformer
      * @param int $page
      * @param int $limit
+     * @param bool $refreshCache
      *
      * @return array
      */
-    public function getData(Query $query, TransformerInterface $transformer, int $page, int $limit = 30): array
+    public function loadData(Query $query, TransformerInterface $transformer, int $page, int $limit = 30, bool $refreshCache = false): array
     {
         $key = sprintf("cache:%s:%s", substr(md5($query->getSQL()), 0, 20), $page);
 
-        if (1 === $this->redis->exists($key)) {
-            $data = unserialize($this->redis->get($key));
-        } else {
+        if (1 !== $this->redis->exists($key) || false !== $refreshCache) {
             $provider = new ApiDataProvider([
                 'items' => $this->paginator->paginate($query, $page, $limit),
                 'transformer' => $transformer
@@ -53,6 +52,8 @@ class LoadDataService
 
             $this->redis->set($key, serialize($data));
             $this->redis->expire($key, self::EXPIRE);
+        } else {
+            $data = unserialize($this->redis->get($key));
         }
 
         return $data;

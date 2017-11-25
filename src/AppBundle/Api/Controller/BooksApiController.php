@@ -31,7 +31,7 @@ class BooksApiController extends Controller
 
         $page = $request->query->getInt('page', 1);
 
-        $data = $dataService->getData($query, new BookTransformer($this->get('router')), $page, self::LIMIT);
+        $data = $dataService->loadData($query, new BookTransformer($this->get('router')), $page, self::LIMIT);
 
         return new JsonResponse($data);
     }

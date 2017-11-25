@@ -31,7 +31,7 @@ class AuthorsApiController extends Controller
 
         $page = $request->query->getInt('page', 1);
 
-        $data = $dataService->getData($query, new AuthorTransformer(), $page, self::LIMIT);
+        $data = $dataService->loadData($query, new AuthorTransformer(), $page, self::LIMIT);
 
         return new JsonResponse($data);
     }

@@ -31,7 +31,7 @@ class GenresApiController extends Controller
 
         $page = $request->query->getInt('page', 1);
 
-        $data = $dataService->getData($query, new GenreTransformer(), $page, self::LIMIT);
+        $data = $dataService->loadData($query, new GenreTransformer(), $page, self::LIMIT);
 
         return new JsonResponse($data);
     }
