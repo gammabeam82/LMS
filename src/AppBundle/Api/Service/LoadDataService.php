@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Api\Cache;
+namespace AppBundle\Api\Service;
 
 use AppBundle\Utils\RedisAwareTrait;
 use Doctrine\ORM\Query;
@@ -8,7 +8,7 @@ use AppBundle\Api\Transformer\TransformerInterface;
 use AppBundle\Api\Provider\ApiDataProvider;
 use Knp\Component\Pager\PaginatorInterface;
 
-class RedisCache
+class LoadDataService
 {
     use RedisAwareTrait;
 

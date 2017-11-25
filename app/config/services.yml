@@ -94,7 +94,7 @@ services:
           arguments: ["@app.online"]
 
       app.redis_cache:
-          class: AppBundle\Api\Cache\RedisCache
+          class: AppBundle\Api\Service\LoadDataService
           arguments: ["@knp_paginator"]
           calls:
             - [setRedis, ['@snc_redis.cache']]
