@@ -11,6 +11,7 @@ parameters:
     export: "%kernel.root_dir%/../var/export"
     session_archive_var: "archive"
     password: "%testuser_password%"
+    admin_email: "qqq@uoiuo9879ijasghjas.com"
 
 framework:
     #esi:             ~

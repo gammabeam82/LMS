@@ -98,3 +98,9 @@ services:
           arguments: ["@knp_paginator"]
           calls:
             - [setRedis, ['@snc_redis.cache']]
+
+      app.book_subscriber:
+          class: AppBundle\EventListener\BookSubscriber
+          arguments: ["@mailer", "@templating", "@router.default","%admin_email%"]
+          tags:
+            - { name: kernel.event_subscriber }

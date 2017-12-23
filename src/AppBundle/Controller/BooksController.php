@@ -2,8 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\BookEvents;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\File;
+use AppBundle\Event\BookEvent;
 use AppBundle\Form\BookEditType;
 use AppBundle\Form\BookType;
 use AppBundle\Filter\DTO\BookFilter;
@@ -237,6 +239,12 @@ class BooksController extends Controller
 
 			try {
 				$bookService->save($this->getUser(), $book);
+
+				if(false !== $isNew) {
+				    $dispatcher = $this->get('event_dispatcher');
+				    $dispatcher->dispatch(BookEvents::BOOK_CREATED, new BookEvent($book));
+                }
+
 				$this->addFlash('notice', $translator->trans($message));
 				return $this->redirectToRoute($route, [
 					'id' => $book->getId()
