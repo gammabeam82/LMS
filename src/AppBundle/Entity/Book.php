@@ -509,4 +509,15 @@ class Book implements EntityInterface
 			return false !== $file->getIsImage();
 		});
 	}
+
+    /**
+     * @return array
+     */
+    public function getTextFiles(): array
+    {
+        return array_filter($this->getBookFiles()->toArray(), function ($file) {
+            /** @var File $file */
+            return false === $file->getIsImage();
+        });
+    }
 }

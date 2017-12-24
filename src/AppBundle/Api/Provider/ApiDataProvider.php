@@ -16,7 +16,8 @@ class ApiDataProvider
     private $options;
 
     /**
-     * DataProvider constructor.
+     * ApiDataProvider constructor.
+     *
      * @param array $options
      */
     public function __construct(array $options)

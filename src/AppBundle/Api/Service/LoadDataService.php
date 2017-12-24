@@ -20,7 +20,7 @@ class LoadDataService
     private $paginator;
 
     /**
-     * RedisCache constructor.
+     * LoadDataService constructor.
      *
      * @param PaginatorInterface $paginator
      */

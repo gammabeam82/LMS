@@ -31,13 +31,17 @@ class BookTransformer extends TransformerAbstract implements TransformerInterfac
         $serie = $book->getSerie();
 
         $authorTransformer = new AuthorTransformer();
+        $fileTransformer = new FileTransformer($this->router);
 
         $data = [
             'id' => $book->getId(),
             'name' => $book->getName(),
             'createdAt' => $book->getCreatedAt()->getTimestamp(),
             'url' => $this->router->generate('books_view', ['id' => $book->getId()], UrlGeneratorInterface::ABSOLUTE_URL),
-            'author' => $authorTransformer->transform($book->getAuthor())
+            'author' => $authorTransformer->transform($book->getAuthor()),
+            'files' => array_map(function ($file) use ($fileTransformer) {
+                return $fileTransformer->transform($file);
+            }, array_values($book->getTextFiles()))
         ];
 
         $data['genre'] = null;
