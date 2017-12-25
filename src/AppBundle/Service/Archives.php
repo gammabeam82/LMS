@@ -74,6 +74,8 @@ class Archives extends BaseService
 
     /**
      * @return BinaryFileResponse
+     * @throws \ZipStream\Exception\FileNotFoundException
+     * @throws \ZipStream\Exception\FileNotReadableException
      */
     public function getArchive(): BinaryFileResponse
     {
@@ -108,6 +110,7 @@ class Archives extends BaseService
             }
         }
 
+        /** @noinspection PhpVoidFunctionResultUsedInspection */
         $response = new BinaryFileResponse($zipStream->finish());
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT);
 

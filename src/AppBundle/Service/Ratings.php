@@ -20,7 +20,7 @@ class Ratings extends BaseService
     /**
      * @param User $user
      * @param Book $book
-     * @param Rating $rating
+     * @param Rating $newRating
      */
     public function save(User $user, Book $book, Rating $newRating): void
     {

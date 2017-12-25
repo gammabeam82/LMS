@@ -27,6 +27,7 @@ class Sessions extends BaseService
     /**
      * @param FormInterface $form
      * @param FilterInterface $filter
+     * @throws \TypeError
      */
     public function updateFilterFromSession(FormInterface $form, FilterInterface $filter): void
     {
