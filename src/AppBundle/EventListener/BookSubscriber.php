@@ -13,6 +13,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class BookSubscriber implements EventSubscriberInterface
 {
+    private const ON_BOOK_CREATED = 'onBookCreated';
+
     /**
      * @var SwiftMailer
      */
@@ -54,7 +56,7 @@ class BookSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            BookEvents::BOOK_CREATED => 'onBookCreated',
+            BookEvents::BOOK_CREATED => self::ON_BOOK_CREATED,
         ];
     }
 
@@ -71,7 +73,8 @@ class BookSubscriber implements EventSubscriberInterface
             ->setBody($this->twig->render('email/notification.html.twig', [
                 'book' => $book,
                 'url' => $this->router->generate('books_view', ['id' => $book->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
-            ]), 'text/html');
+            ]))
+            ->setContentType('text/html');
 
         $this->mailer->send($message);
     }

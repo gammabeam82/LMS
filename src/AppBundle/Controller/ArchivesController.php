@@ -9,7 +9,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
-use LengthException;
 
 class ArchivesController extends Controller
 {
@@ -31,7 +30,7 @@ class ArchivesController extends Controller
     /**
      * @Route("/archive/download", name="archive_download")
      *
-     * @return BinaryFileResponse|\Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     * @return BinaryFileResponse
      */
     public function downloadAction()
     {
@@ -41,7 +40,7 @@ class ArchivesController extends Controller
 
         try {
             $response = $archiveService->getArchive();
-        } catch (LengthException $e) {
+        } catch (\Exception $e) {
             $translator = $this->get('translator');
             throw $this->createNotFoundException($translator->trans('messages.file_not_found'));
         }

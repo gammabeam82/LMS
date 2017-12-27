@@ -27,7 +27,6 @@ class Sessions extends BaseService
     /**
      * @param FormInterface $form
      * @param FilterInterface $filter
-     * @throws \TypeError
      */
     public function updateFilterFromSession(FormInterface $form, FilterInterface $filter): void
     {
@@ -66,7 +65,11 @@ class Sessions extends BaseService
                     } else {
                         $field->setData($value);
                     }
-                    $accessor->setValue($filter, $property, $value);
+                    try {
+                        $accessor->setValue($filter, $property, $value);
+                    } catch (\TypeError $e) {
+                        throw new UnexpectedValueException('messages.filter_error');
+                    }
                 }
             }
         }
