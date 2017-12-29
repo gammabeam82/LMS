@@ -6,20 +6,20 @@ use AppBundle\BookEvents;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\File;
 use AppBundle\Event\BookEvent;
-use AppBundle\Form\BookEditType;
-use AppBundle\Form\BookType;
 use AppBundle\Filter\DTO\BookFilter;
 use AppBundle\Filter\Form\BookFilterType;
+use AppBundle\Form\BookEditType;
+use AppBundle\Form\BookType;
+use AppBundle\Service\Sessions;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use UnexpectedValueException;
-use AppBundle\Service\Sessions;
 
 class BooksController extends Controller
 {
@@ -119,6 +119,9 @@ class BooksController extends Controller
 		$this->get('app.archives')->removeBookFromArchive($book);
 
 		$this->get('app.books')->remove($book);
+
+        $dispatcher = $this->get('event_dispatcher');
+        $dispatcher->dispatch(BookEvents::BOOK_DELETED, new BookEvent($book));
 
 		$this->addFlash('notice', $translator->trans('messages.book_deleted'));
 

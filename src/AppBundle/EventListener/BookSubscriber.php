@@ -11,6 +11,7 @@ use AppBundle\Event\BookEvent;
 class BookSubscriber implements EventSubscriberInterface
 {
     private const ON_BOOK_CREATED = 'onBookCreated';
+    private const ON_BOOK_DELETED = 'onBookDeleted';
 
     /**
      * @var MailerInterface
@@ -41,6 +42,7 @@ class BookSubscriber implements EventSubscriberInterface
     {
         return [
             BookEvents::BOOK_CREATED => self::ON_BOOK_CREATED,
+            BookEvents::BOOK_DELETED => self::ON_BOOK_DELETED,
         ];
     }
 
@@ -52,6 +54,16 @@ class BookSubscriber implements EventSubscriberInterface
         $book = $event->getBook();
 
         $this->mailer->sendNotification($book);
-        $this->logger->info(sprintf("Book: %s User: %s", $book->getName(), $book->getAddedBy()->getUsername()));
+        $this->logger->info(sprintf("New: [Book: %s User: %s]", $book->getName(), $book->getAddedBy()->getUsername()));
+    }
+
+    /**
+     * @param BookEvent $event
+     */
+    public function onBookDeleted(BookEvent $event): void
+    {
+        $book = $event->getBook();
+
+        $this->logger->info(sprintf("Deleted: [Book: %s User: %s]", $book->getName(), $book->getAddedBy()->getUsername()));
     }
 }
