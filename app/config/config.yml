@@ -140,12 +140,18 @@ snc_redis:
         client: session
 
 monolog:
+    channels: [library]
     handlers:
         security:
             level:    debug
             type:     stream
             path:     '%kernel.logs_dir%/security.log'
             channels: [security]
+        library:
+            level:    info
+            type:     stream
+            path:     '%kernel.logs_dir%/library.log'
+            channels: [library]
 
 lexik_jwt_authentication:
     private_key_path: '%jwt_private_key_path%'

@@ -3,51 +3,35 @@
 namespace AppBundle\EventListener;
 
 use AppBundle\BookEvents;
+use AppBundle\Service\Mail\MailerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use AppBundle\Event\BookEvent;
-use Swift_Mailer as SwiftMailer;
-use Swift_Message as SwiftMessage;
-use Symfony\Component\Templating\EngineInterface;
-use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class BookSubscriber implements EventSubscriberInterface
 {
     private const ON_BOOK_CREATED = 'onBookCreated';
 
     /**
-     * @var SwiftMailer
+     * @var MailerInterface
      */
     private $mailer;
 
     /**
-     * @var EngineInterface
+     * @var LoggerInterface
      */
-    private $twig;
-
-    /**
-     * @var RouterInterface
-     */
-    private $router;
-
-    /**
-     * @var string
-     */
-    private $email;
+    private $logger;
 
     /**
      * BookSubscriber constructor.
-     * @param SwiftMailer $mailer
-     * @param EngineInterface $twig
-     * @param RouterInterface $router
-     * @param string $email
+     *
+     * @param MailerInterface $mailer
+     * @param LoggerInterface $logger
      */
-    public function __construct(SwiftMailer $mailer, EngineInterface $twig, RouterInterface $router, string $email)
+    public function __construct(MailerInterface $mailer, LoggerInterface $logger)
     {
         $this->mailer = $mailer;
-        $this->twig = $twig;
-        $this->router = $router;
-        $this->email = $email;
+        $this->logger = $logger;
     }
 
     /**
@@ -66,16 +50,8 @@ class BookSubscriber implements EventSubscriberInterface
     public function onBookCreated(BookEvent $event): void
     {
         $book = $event->getBook();
-        $message = new SwiftMessage();
-        $message
-            ->setFrom('noreply@lms')
-            ->setTo($this->email)
-            ->setBody($this->twig->render('email/notification.html.twig', [
-                'book' => $book,
-                'url' => $this->router->generate('books_view', ['id' => $book->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
-            ]))
-            ->setContentType('text/html');
 
-        $this->mailer->send($message);
+        $this->mailer->sendNotification($book);
+        $this->logger->info(sprintf("Book: %s User: %s", $book->getName(), $book->getAddedBy()->getUsername()));
     }
 }

@@ -99,8 +99,12 @@ services:
           calls:
             - [setRedis, ['@snc_redis.cache']]
 
+      app.mailer:
+          class: AppBundle\Service\Mail\Mailer
+          arguments: ["@mailer", "@templating", "@router.default","%admin_email%"]
+
       app.book_subscriber:
           class: AppBundle\EventListener\BookSubscriber
-          arguments: ["@mailer", "@templating", "@router.default","%admin_email%"]
+          arguments: ["@app.mailer", "@monolog.logger.library"]
           tags:
             - { name: kernel.event_subscriber }
