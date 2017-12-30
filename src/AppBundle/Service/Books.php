@@ -7,11 +7,12 @@ use AppBundle\Entity\File as BookFile;
 use AppBundle\Entity\User;
 use AppBundle\Filter\DTO\BookFilter;
 use AppBundle\Utils\ImageThumbnailTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Query;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Doctrine\ORM\Query;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class Books extends BaseService
@@ -55,21 +56,24 @@ class Books extends BaseService
      */
     public function save(User $user, Book $book): void
     {
+        $request = $this->requestStack->getCurrentRequest();
+
+        /* @var \Symfony\Component\HttpFoundation\FileBag $fileBag */
+        $fileBag = $request->files;
+
         if (null === $book->getId()) {
+            $newFiles = $fileBag->get('book')['bookFiles'];
+
             $book->setAddedBy($user);
             $book->setViews(0);
-            foreach ($book->getBookFiles() as $file) {
+            $book->setBookFiles(new ArrayCollection());
+            foreach ($newFiles as $file) {
                 /* @var UploadedFile $uploadedFile */
-                $uploadedFile = $file->getName();
+                $uploadedFile = $file['name'];
 
-                $this->saveFile($book, $uploadedFile, $file);
+                $this->saveFile($book, $uploadedFile);
             }
         } else {
-            $request = $this->requestStack->getCurrentRequest();
-
-            /* @var \Symfony\Component\HttpFoundation\FileBag $fileBag */
-            $fileBag = $request->files;
-
             $newFiles = $fileBag->get('book_edit')['bookFiles'];
 
             if (0 !== count($newFiles)) {
