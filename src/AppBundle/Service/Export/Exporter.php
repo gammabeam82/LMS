@@ -6,9 +6,8 @@ use AppBundle\Service\BaseService;
 use AppBundle\Entity\ExportItem;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-class Export extends BaseService
+class Exporter extends BaseService
 {
-
     private const LIMIT = 15;
 
     /**
@@ -34,6 +33,9 @@ class Export extends BaseService
      * @param string $entityClass
      * @param array $rows
      * @return string
+     * @throws \PHPExcel_Exception
+     * @throws \PHPExcel_Reader_Exception
+     * @throws \PHPExcel_Writer_Exception
      */
     public function export(string $entityClass, array $rows): string
     {
@@ -112,8 +114,6 @@ class Export extends BaseService
 
     public function purge(): void
     {
-        //array_map(function ($file) { unlink($file); }, glob(sprintf("%s/*.xlsx", $this->path)));
-
         $repo = $this->doctrine->getRepository(ExportItem::class);
         $em = $this->doctrine->getManager();
 

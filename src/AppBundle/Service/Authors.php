@@ -4,7 +4,7 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Author;
 use AppBundle\Filter\DTO\AuthorFilter;
-use AppBundle\Service\Export\Export;
+use AppBundle\Service\Export\Exporter;
 use Symfony\Component\Translation\TranslatorInterface;
 use AppBundle\Service\Export\ExportInterface;
 use Doctrine\ORM\Query;
@@ -13,7 +13,7 @@ class Authors extends BaseService implements ExportInterface
 {
 
     /**
-     * @var Export
+     * @var Exporter
      */
     private $exportService;
 
@@ -25,10 +25,10 @@ class Authors extends BaseService implements ExportInterface
     /**
      * Authors constructor.
      *
-     * @param Export $export
+     * @param Exporter $export
      * @param TranslatorInterface $translator
      */
-    public function __construct(Export $export, TranslatorInterface $translator)
+    public function __construct(Exporter $export, TranslatorInterface $translator)
     {
         $this->exportService = $export;
         $this->translator = $translator;
@@ -83,6 +83,9 @@ class Authors extends BaseService implements ExportInterface
 
     /**
      * @return string
+     * @throws \PHPExcel_Exception
+     * @throws \PHPExcel_Reader_Exception
+     * @throws \PHPExcel_Writer_Exception
      */
     public function export(): string
     {

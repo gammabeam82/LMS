@@ -16,7 +16,7 @@ services:
 
       app.export:
           parent: app.base_service
-          class: AppBundle\Service\Export\Export
+          class: AppBundle\Service\Export\Exporter
           arguments: ["%export%"]
 
       app.authors:
