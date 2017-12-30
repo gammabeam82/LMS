@@ -102,18 +102,14 @@ class Books extends BaseService
     /**
      * @param Book $book
      * @param UploadedFile $uploadedFile
-     * @param BookFile|null $bookFile
      */
-    private function saveFile(Book $book, UploadedFile $uploadedFile, BookFile $bookFile = null): void
+    private function saveFile(Book $book, UploadedFile $uploadedFile): void
     {
         $type = $uploadedFile->guessExtension();
+        $mimeType = $uploadedFile->getMimeType();
         $filename = sprintf("%s-%s.%s", $book->getName(), uniqid(), $type);
 
-        if (false === $bookFile instanceof BookFile) {
-            $bookFile = new BookFile();
-        }
-
-        $mimeType = $uploadedFile->getMimeType();
+        $bookFile = new BookFile();
 
         $bookFile->setBook($book);
         $bookFile->setType($type);
