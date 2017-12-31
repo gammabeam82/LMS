@@ -8,7 +8,6 @@ use AppBundle\Entity\File;
 use AppBundle\Event\BookEvent;
 use AppBundle\Filter\DTO\BookFilter;
 use AppBundle\Filter\Form\BookFilterType;
-use AppBundle\Form\BookEditType;
 use AppBundle\Form\BookType;
 use AppBundle\Service\Sessions;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -230,9 +229,7 @@ class BooksController extends Controller
 
 		$isNew = (null === $book->getId());
 
-		$formClass = $isNew ? BookType::class : BookEditType::class;
-
-		$form = $this->createForm($formClass, $book);
+		$form = $this->createForm(BookType::class, $book);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid()) {
@@ -253,7 +250,7 @@ class BooksController extends Controller
 				return $this->redirectToRoute($route, [
 					'id' => $book->getId()
 				]);
-			} catch (UnexpectedValueException $e) {
+			} catch (\UnexpectedValueException $e) {
 				$this->addFlash('error', $translator->trans('messages.upload_error'));
 			}
 		}
