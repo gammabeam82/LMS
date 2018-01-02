@@ -26,7 +26,7 @@ class Books extends BaseService
     private $requestStack;
 
     /**
-     * @var ValidatorInterface
+     * @var \Symfony\Component\Validator\Validator\RecursiveValidator
      */
     private $validator;
 
@@ -61,24 +61,31 @@ class Books extends BaseService
         $fileBag = $request->files;
         $files = $fileBag->get('book')['bookFiles'];
 
+        if (false === $this->checkFilesCount($book, $files)) {
+            throw new \LogicException();
+        }
+
         if (null === $book->getId()) {
             $book->setAddedBy($user);
             $book->setViews(0);
         }
 
-        foreach ($files as $file) {
-            /* @var UploadedFile $uploadedFile */
-            $uploadedFile = $file['name'];
-            $this->saveFile($book, $uploadedFile);
-        }
-
-        foreach ($book->getBookFiles() as $bookFile) {
-            if (0 !== count($this->validator->validate($bookFile))) {
-                if (false !== file_exists($bookFile->getName())) {
-                    unlink($bookFile->getName());
-                }
-                throw new \UnexpectedValueException();
+        if (0 !== count($files)) {
+            foreach ($files as $file) {
+                /* @var UploadedFile $uploadedFile */
+                $uploadedFile = $file['name'];
+                $this->saveFile($book, $uploadedFile);
             }
+
+            foreach ($book->getBookFiles() as $bookFile) {
+                if (0 !== count($this->validator->validate($bookFile))) {
+                    if (false !== file_exists($bookFile->getName())) {
+                        unlink($bookFile->getName());
+                    }
+                    throw new \UnexpectedValueException();
+                }
+            }
+
         }
 
         $this->saveEntity($this->doctrine->getManager(), $book);
@@ -91,17 +98,21 @@ class Books extends BaseService
      */
     private function saveFile(Book $book, UploadedFile $uploadedFile): void
     {
+        if (false === file_exists($uploadedFile)) {
+            return;
+        }
+
         $type = $uploadedFile->guessExtension();
         $mimeType = $uploadedFile->getMimeType();
         $filename = sprintf("%s-%s.%s", $book->getName(), uniqid(), $type);
 
         $bookFile = new BookFile();
 
-        $bookFile->setBook($book);
-        $bookFile->setType($type);
-        $bookFile->setMimeType($mimeType);
-        $bookFile->setSize($uploadedFile->getSize());
-        $bookFile->setName(sprintf("%s/%s", $this->path, $filename));
+        $bookFile->setBook($book)
+            ->setType($type)
+            ->setMimeType($mimeType)
+            ->setSize($uploadedFile->getSize())
+            ->setName(sprintf("%s/%s", $this->path, $filename));
 
         $uploadedFile->move($this->path, $filename);
 
@@ -115,9 +126,7 @@ class Books extends BaseService
             }
         }
 
-        if (false === $book->getBookFiles()->contains($bookFile)) {
-            $book->addBookFile($bookFile);
-        }
+        $book->addBookFile($bookFile);
     }
 
     /**
@@ -272,6 +281,20 @@ class Books extends BaseService
         $this->save($user, $book);
 
         return $hasLike;
+    }
+
+    /**
+     * @param Book $book
+     * @param array $files
+     * @return bool
+     */
+    private function checkFilesCount(Book $book, array $files): bool
+    {
+        $metaData = $this->validator
+            ->getMetadataFor(Book::class)
+            ->properties['bookFiles'];
+
+        return (count($book->getBookFiles()) + count($files)) <= $metaData->constraints[0]->max;
     }
 
 }

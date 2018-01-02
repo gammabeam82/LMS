@@ -250,7 +250,7 @@ class BooksController extends Controller
 				return $this->redirectToRoute($route, [
 					'id' => $book->getId()
 				]);
-			} catch (\UnexpectedValueException $e) {
+			} catch (\Exception $e) {
 				$this->addFlash('error', $translator->trans('messages.upload_error'));
 			}
 		}

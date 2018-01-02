@@ -25,20 +25,7 @@
 
 		<div class="row">
 			<div class="col-xs-12">
-				{% for flash_message in app.session.flashBag.get('notice') %}
-					<div class="panel panel-default">
-						<div class="panel-body bg-success">
-							{{ flash_message }}
-						</div>
-					</div>
-				{% endfor %}
-				{% for flash_message in app.session.flashBag.get('error') %}
-					<div class="panel panel-default">
-						<div class="panel-body bg-danger">
-							{{ flash_message }}
-						</div>
-					</div>
-				{% endfor %}
+                {% include('partials/flash-messages.html.twig') %}
 			</div>
 		</div>
 

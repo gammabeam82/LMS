@@ -74,7 +74,7 @@ class Book implements EntityInterface
 	 * @ORM\Column(type="string", length=2000, nullable=true)
 	 * @Assert\Length(
 	 *      max = 1000,
-	 *      maxMessage = "annotation.message_max"
+	 *      maxMessage = "book.annotation_max"
 	 * )
 	 */
 	private $annotation;
@@ -91,6 +91,10 @@ class Book implements EntityInterface
 
 	/**
 	 * @ORM\OneToMany(targetEntity="\AppBundle\Entity\File", mappedBy="book", cascade={"persist", "remove"})
+     * @Assert\Count(
+     *      max = 10,
+     *      maxMessage = "book.files_max"
+     * )
 	 */
 	private $bookFiles;
 
