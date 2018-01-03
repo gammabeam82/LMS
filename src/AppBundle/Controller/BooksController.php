@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\BookEvents;
+use AppBundle\Events;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\File;
 use AppBundle\Event\BookEvent;
@@ -120,7 +120,7 @@ class BooksController extends Controller
 		$this->get('app.books')->remove($book);
 
         $dispatcher = $this->get('event_dispatcher');
-        $dispatcher->dispatch(BookEvents::BOOK_DELETED, new BookEvent($book));
+        $dispatcher->dispatch(Events::BOOK_DELETED, new BookEvent($book));
 
 		$this->addFlash('notice', $translator->trans('messages.book_deleted'));
 
@@ -243,7 +243,7 @@ class BooksController extends Controller
 
 				if(false !== $isNew) {
 				    $dispatcher = $this->get('event_dispatcher');
-				    $dispatcher->dispatch(BookEvents::BOOK_CREATED, new BookEvent($book));
+				    $dispatcher->dispatch(Events::BOOK_CREATED, new BookEvent($book));
                 }
 
 				$this->addFlash('notice', $translator->trans($message));

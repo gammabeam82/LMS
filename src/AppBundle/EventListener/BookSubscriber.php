@@ -2,7 +2,7 @@
 
 namespace AppBundle\EventListener;
 
-use AppBundle\BookEvents;
+use AppBundle\Events;
 use AppBundle\Service\Mail\MailerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -41,8 +41,8 @@ class BookSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            BookEvents::BOOK_CREATED => self::ON_BOOK_CREATED,
-            BookEvents::BOOK_DELETED => self::ON_BOOK_DELETED,
+            Events::BOOK_CREATED => self::ON_BOOK_CREATED,
+            Events::BOOK_DELETED => self::ON_BOOK_DELETED,
         ];
     }
 
