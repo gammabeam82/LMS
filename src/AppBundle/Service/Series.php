@@ -4,13 +4,16 @@ namespace AppBundle\Service;
 
 use AppBundle\Entity\Serie;
 use AppBundle\Filter\DTO\SerieFilter;
-use Symfony\Component\Translation\TranslatorInterface;
 use AppBundle\Service\Export\Exporter;
 use AppBundle\Service\Export\ExportInterface;
+use AppBundle\Utils\SanitizeQueryTrait;
 use Doctrine\ORM\Query;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class Series extends BaseService implements ExportInterface
 {
+    use SanitizeQueryTrait;
+
     /**
      * @var Exporter
      */
@@ -47,7 +50,7 @@ class Series extends BaseService implements ExportInterface
 
         if (false === empty($filter->getName())) {
             $qb->andWhere($qb->expr()->like('LOWER(s.name)', ':name'));
-            $qb->setParameter('name', sprintf("%%%s%%", mb_strtolower($filter->getName())));
+            $qb->setParameter('name', sprintf("%%%s%%", $this->sanitizeQuery($filter->getName())));
         }
 
         if (false !== $filter->getSortByName()) {

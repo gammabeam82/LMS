@@ -5,12 +5,14 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Author;
 use AppBundle\Filter\DTO\AuthorFilter;
 use AppBundle\Service\Export\Exporter;
-use Symfony\Component\Translation\TranslatorInterface;
 use AppBundle\Service\Export\ExportInterface;
+use AppBundle\Utils\SanitizeQueryTrait;
 use Doctrine\ORM\Query;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class Authors extends BaseService implements ExportInterface
 {
+    use SanitizeQueryTrait;
 
     /**
      * @var Exporter
@@ -56,7 +58,7 @@ class Authors extends BaseService implements ExportInterface
 
         if (false === empty($filter->getLastName())) {
             $qb->andWhere($qb->expr()->like('LOWER(a.lastName)', ':name'));
-            $qb->setParameter('name', sprintf("%%%s%%", mb_strtolower($filter->getLastName())));
+            $qb->setParameter('name', sprintf("%%%s%%", $this->sanitizeQuery($filter->getLastName())));
         }
 
         if (false === empty($filter->getFirstLetter())) {

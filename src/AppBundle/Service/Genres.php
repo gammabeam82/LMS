@@ -3,14 +3,17 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Genre;
-use AppBundle\Service\Export\Exporter;
 use AppBundle\Filter\DTO\GenreFilter;
-use Symfony\Component\Translation\TranslatorInterface;
+use AppBundle\Service\Export\Exporter;
 use AppBundle\Service\Export\ExportInterface;
+use AppBundle\Utils\SanitizeQueryTrait;
 use Doctrine\ORM\Query;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class Genres extends BaseService implements ExportInterface
 {
+    use SanitizeQueryTrait;
+
     /**
      * @var Exporter
      */
@@ -47,7 +50,7 @@ class Genres extends BaseService implements ExportInterface
 
         if (false === empty($filter->getName())) {
             $qb->andWhere($qb->expr()->like('LOWER(g.name)', ':name'));
-            $qb->setParameter('name', sprintf("%%%s%%", mb_strtolower($filter->getName())));
+            $qb->setParameter('name', sprintf("%%%s%%", $this->sanitizeQuery($filter->getName())));
         }
 
         if (false !== $filter->getSortByName()) {

@@ -7,6 +7,7 @@ use AppBundle\Entity\File as BookFile;
 use AppBundle\Entity\User;
 use AppBundle\Filter\DTO\BookFilter;
 use AppBundle\Utils\ImageThumbnailTrait;
+use AppBundle\Utils\SanitizeQueryTrait;
 use Doctrine\ORM\Query;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -17,6 +18,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class Books extends BaseService
 {
     use ImageThumbnailTrait;
+    use SanitizeQueryTrait;
 
     private const IMAGE_TYPES = ['image/jpeg', 'image/png'];
 
@@ -146,7 +148,7 @@ class Books extends BaseService
 
         if (false === empty($filter->getName())) {
             $qb->andWhere($qb->expr()->like('LOWER(b.name)', ':name'));
-            $qb->setParameter('name', sprintf("%%%s%%", mb_strtolower($filter->getName())));
+            $qb->setParameter('name', sprintf("%%%s%%", $this->sanitizeQuery($filter->getName())));
         }
 
         if (null !== $filter->getAuthors()) {
@@ -171,7 +173,7 @@ class Books extends BaseService
                 'LOWER(a.lastName) LIKE :sr'
             );
             $qb->andWhere($expr);
-            $qb->setParameter('sr', sprintf("%%%s%%", mb_strtolower($filter->getSearch())));
+            $qb->setParameter('sr', sprintf("%%%s%%", $this->sanitizeQuery($filter->getSearch())));
         }
 
         if (false === empty($filter->getCreatedAtStart())) {
