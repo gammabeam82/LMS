@@ -2,16 +2,18 @@
 
 namespace AppBundle\Api\Controller;
 
+use AppBundle\Api\Transformer\BookTransformer;
+use AppBundle\Entity\Book;
 use AppBundle\Entity\File;
 use AppBundle\Filter\DTO\BookFilter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use AppBundle\Security\Actions;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use AppBundle\Api\Transformer\BookTransformer;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Request;
 
 class BooksApiController extends Controller
 {
@@ -27,6 +29,8 @@ class BooksApiController extends Controller
      */
     public function indexAction(Request $request): JsonResponse
     {
+        $this->denyAccessUnlessGranted(Actions::VIEW, new Book());
+
         $bookService = $this->get('app.books');
         $dataService = $this->get('app.load_api_data');
 
@@ -48,6 +52,8 @@ class BooksApiController extends Controller
      */
     public function getFileAction(File $file)
     {
+        $this->denyAccessUnlessGranted(Actions::VIEW, new Book());
+
         $bookService = $this->get('app.books');
         $response = $bookService->downloadFile($file);
 

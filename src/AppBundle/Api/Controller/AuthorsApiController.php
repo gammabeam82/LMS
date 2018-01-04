@@ -2,13 +2,15 @@
 
 namespace AppBundle\Api\Controller;
 
-use AppBundle\Filter\DTO\AuthorFilter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Api\Transformer\AuthorTransformer;
+use AppBundle\Entity\Author;
+use AppBundle\Filter\DTO\AuthorFilter;
+use AppBundle\Security\Actions;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class AuthorsApiController extends Controller
 {
@@ -24,6 +26,8 @@ class AuthorsApiController extends Controller
      */
     public function indexAction(Request $request): JsonResponse
     {
+        $this->denyAccessUnlessGranted(Actions::VIEW, new Author());
+
         $authorService = $this->get('app.authors');
         $dataService = $this->get('app.load_api_data');
 

@@ -2,7 +2,9 @@
 
 namespace AppBundle\Api\Controller;
 
+use AppBundle\Entity\Genre;
 use AppBundle\Filter\DTO\GenreFilter;
+use AppBundle\Security\Actions;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -24,6 +26,8 @@ class GenresApiController extends Controller
      */
     public function indexAction(Request $request): JsonResponse
     {
+        $this->denyAccessUnlessGranted(Actions::VIEW, new Genre());
+
         $genreService = $this->get('app.genres');
         $dataService = $this->get('app.load_api_data');
 
