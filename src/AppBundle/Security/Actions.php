@@ -11,4 +11,20 @@ final class Actions
     public const EXPORT = 'export';
     public const DOWNLOAD = 'download';
     public const SUBSCRIBE = 'subscribe';
+
+    /**
+     * @return array
+     */
+    public static function getAllActions(): array
+    {
+        return [
+            self::VIEW,
+            self::CREATE,
+            self::EDIT,
+            self::DELETE,
+            self::EXPORT,
+            self::DOWNLOAD,
+            self::SUBSCRIBE
+        ];
+    }
 }

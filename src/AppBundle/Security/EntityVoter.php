@@ -16,7 +16,7 @@ abstract class EntityVoter extends Voter
      */
     protected function supports($attribute, $subject): bool
     {
-        if (false === in_array($attribute, [Actions::EDIT, Actions::DELETE, Actions::CREATE, Actions::VIEW])) {
+        if (false === in_array($attribute, Actions::getAllActions())) {
             return false;
         }
 
@@ -50,6 +50,8 @@ abstract class EntityVoter extends Voter
                 return $this->canCreate($user);
             case Actions::VIEW:
                 return $this->canView($user);
+            case Actions::EXPORT:
+                return $this->canExport($user);
         }
 
         throw new \LogicException('This code should not be reached!');
@@ -89,5 +91,14 @@ abstract class EntityVoter extends Voter
     private function canView(User $user): bool
     {
         return $user->hasRole('ROLE_USER');
+    }
+
+    /**
+     * @param User $user
+     * @return bool
+     */
+    private function canExport(User $user): bool
+    {
+        return $user->hasRole('ROLE_ADMIN');
     }
 }

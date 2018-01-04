@@ -2,7 +2,11 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Author;
 use AppBundle\Entity\ExportItem;
+use AppBundle\Entity\Genre;
+use AppBundle\Entity\Serie;
+use AppBundle\Security\Actions;
 use AppBundle\Service\Export\ExportInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -36,6 +40,8 @@ class ExportsController extends Controller
      */
     public function authorsExportAction(): BinaryFileResponse
     {
+        $this->denyAccessUnlessGranted(Actions::EXPORT, new Author());
+
         return $this->processExport($this->get('app.authors'));
     }
 
@@ -46,6 +52,8 @@ class ExportsController extends Controller
      */
     public function genresExportAction(): BinaryFileResponse
     {
+        $this->denyAccessUnlessGranted(Actions::EXPORT, new Genre());
+
         return $this->processExport($this->get('app.genres'));
     }
 
@@ -56,6 +64,8 @@ class ExportsController extends Controller
      */
     public function seriesExportAction(): BinaryFileResponse
     {
+        $this->denyAccessUnlessGranted(Actions::EXPORT, new Serie());
+
         return $this->processExport($this->get('app.series'));
     }
 
