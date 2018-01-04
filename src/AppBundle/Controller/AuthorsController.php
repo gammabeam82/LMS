@@ -71,7 +71,7 @@ class AuthorsController extends Controller
     }
 
     /**
-     * @Route("/authors/{id}", name="authors_view")
+     * @Route("/authors/view/{id}", name="authors_view")
      * @ParamConverter("author")
      *
      * @param Author $author

@@ -52,9 +52,12 @@ security:
         - { path: ^/books$, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/books/download/, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/books/view/, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/books/like/, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/books/, role: ROLE_ADMIN }
 
         - { path: ^/authors$, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/authors/view/, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/authors/subscribe/, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/authors/, role: ROLE_ADMIN }
 
         - { path: ^/genres$, role: IS_AUTHENTICATED_FULLY }
