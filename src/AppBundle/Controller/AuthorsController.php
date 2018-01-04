@@ -2,19 +2,20 @@
 
 namespace AppBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Author;
-use AppBundle\Form\AuthorType;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Filter\DTO\AuthorFilter;
 use AppBundle\Filter\Form\AuthorFilterType;
-use UnexpectedValueException;
-use AppBundle\Utils\MbRangeTrait;
+use AppBundle\Form\AuthorType;
 use AppBundle\Service\Sessions;
+use AppBundle\Utils\MbRangeTrait;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use UnexpectedValueException;
 
 class AuthorsController extends Controller
 {
@@ -69,6 +70,22 @@ class AuthorsController extends Controller
     }
 
     /**
+     * @Route("/authors/{id}", name="authors_view")
+     * @ParamConverter("author")
+     *
+     * @param Author $author
+     * @return Response
+     */
+    public function viewAction(Author $author): Response
+    {
+        $this->denyAccessUnlessGranted('view', $author);
+
+        return $this->render('authors/view.html.twig', [
+            'author' => $author
+        ]);
+    }
+
+    /**
      * @Route("/authors/add", name="authors_add")
      *
      * @param Request $request
@@ -118,6 +135,29 @@ class AuthorsController extends Controller
         $this->addFlash('notice', $translator->trans('messages.author_deleted'));
 
         return $this->redirectToRoute('authors');
+    }
+
+    /**
+     * @Route("/authors/subscribe/{id}", name="authors_subscribe")
+     * @ParamConverter("author")
+     *
+     * @param Request $request
+     * @param Author $author
+     * @return JsonResponse|RedirectResponse
+     */
+    public function toggleSubscriptionAction(Request $request, Author $author)
+    {
+        $this->denyAccessUnlessGranted('view', $author);
+
+        if (false === $request->isXmlHttpRequest()) {
+            return $this->redirectToRoute('authors');
+        }
+
+        $authorService = $this->get('app.authors');
+
+        return $this->json([
+            'subscribed' => $authorService->toggleSubscription($author, $this->getUser())
+        ]);
     }
 
     /**

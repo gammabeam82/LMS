@@ -3,6 +3,7 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Author;
+use AppBundle\Entity\User;
 use AppBundle\Filter\DTO\AuthorFilter;
 use AppBundle\Service\Export\Exporter;
 use AppBundle\Service\Export\ExportInterface;
@@ -100,5 +101,26 @@ class Authors extends BaseService implements ExportInterface
         ];
 
         return $this->exportService->export(Author::class, $rows);
+    }
+
+    /**
+     * @param Author $author
+     * @param User $user
+     * @return bool
+     */
+    public function toggleSubscription(Author $author, User $user): bool
+    {
+        $subscribed = false;
+
+        if (false === $user->getSubscriptions()->contains($author)) {
+            $author->addSubscriber($user);
+            $subscribed = true;
+        } else {
+            $author->removeSubscriber($user);
+        }
+
+        $this->save($author);
+
+        return $subscribed;
     }
 }

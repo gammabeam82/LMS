@@ -59,11 +59,19 @@ class Author implements EntityInterface
     private $books;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection|User[]
+     *
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="subscriptions")
+     */
+    private $subscribers;
+
+    /**
      * Author constructor.
      */
     public function __construct()
     {
         $this->books = new ArrayCollection();
+        $this->subscribers = new ArrayCollection();
     }
 
     /**
@@ -222,4 +230,46 @@ class Author implements EntityInterface
         return count($this->getBooks()) < 1;
     }
 
+    /**
+     * @param User $user
+     */
+    public function addSubscriber(User $user): void
+    {
+        if (false !== $this->subscribers->contains($user)) {
+            return;
+        }
+
+        $this->subscribers->add($user);
+        $user->addSubscription($this);
+    }
+
+    /**
+     * @param User $user
+     */
+    public function removeSubscriber(User $user): void
+    {
+        if (false === $this->subscribers->contains($user)) {
+            return;
+        }
+
+        $this->subscribers->removeElement($user);
+        $user->removeSubscription($this);
+    }
+
+    /**
+     * @return User[]|ArrayCollection|Collection
+     */
+    public function getSubscribers()
+    {
+        return $this->subscribers;
+    }
+
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function isSubscribed(User $user)
+    {
+        return $this->subscribers->contains($user);
+    }
 }

@@ -64,6 +64,8 @@ author:
   edit: 'Редактирование автора'
   first_name: 'Имя'
   last_name: 'Фамилия'
+  subscribe: 'Подписаться'
+  unsubscribe: 'Отписаться'
 
 genre:
   genre: 'Жанр'

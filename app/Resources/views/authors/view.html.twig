@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ author.fullName }}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid content">
+
+        <div class="row">
+            <div class="col-xs-12">
+                <ol class="breadcrumb">
+                    <li><a href="{{ path('authors', { 'reset': true }) }}">{{ 'author.authors' | trans }}</a></li>
+                    <li class="active">
+                        {{ author.shortName }}
+                    </li>
+                    <li>
+                        <a href="{{ path('authors_subscribe', { 'id': author.id }) }}" class="subscribe">
+                            {{ author.isSubscribed(app.user) ? 'author.unsubscribe' | trans : 'author.subscribe' | trans }}
+                        </a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="hidden">
+        <span class="messages-subscribe">{{ 'author.subscribe' | trans }}</span>
+        <span class="messages-unsubscribe">{{ 'author.unsubscribe' | trans }}</span>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/js/authors-view.js') }}"></script>
+{% endblock %}

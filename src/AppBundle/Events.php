@@ -4,6 +4,6 @@ namespace AppBundle;
 
 final class Events
 {
-    const BOOK_CREATED = 'book.created';
-    const BOOK_DELETED = 'book.deleted';
+    public const BOOK_CREATED = 'book.created';
+    public const BOOK_DELETED = 'book.deleted';
 }

@@ -321,3 +321,7 @@ a.like-button {
 li > a {
     outline: none !important;
 }
+
+a.subscribe {
+    text-decoration: none;
+}

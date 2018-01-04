@@ -73,6 +73,22 @@ class User extends BaseUser implements EntityInterface
     private $likes;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection|Author[]
+     *
+     * @ORM\ManyToMany(targetEntity="Author", inversedBy="subscribers")
+     * @ORM\JoinTable(
+     *  name="subscriptions",
+     *  joinColumns={
+     *      @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *  },
+     *  inverseJoinColumns={
+     *      @ORM\JoinColumn(name="author_id", referencedColumnName="id")
+     *  }
+     * )
+     */
+    private $subscriptions;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -83,6 +99,7 @@ class User extends BaseUser implements EntityInterface
         $this->ratings = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->likes = new ArrayCollection();
+        $this->subscriptions = new ArrayCollection();
     }
 
     /**
@@ -291,5 +308,39 @@ class User extends BaseUser implements EntityInterface
     public function getLikes(): Collection
     {
         return $this->likes;
+    }
+
+    /**
+     * @param Author $author
+     */
+    public function addSubscription(Author $author): void
+    {
+        if (false !== $this->subscriptions->contains($author)) {
+            return;
+        }
+
+        $this->subscriptions->add($author);
+        $author->addSubscriber($this);
+    }
+
+    /**
+     * @param Author $author
+     */
+    public function removeSubscription(Author $author): void
+    {
+        if (false === $this->subscriptions->contains($author)) {
+            return;
+        }
+
+        $this->subscriptions->removeElement($author);
+        $author->removeSubscriber($this);
+    }
+
+    /**
+     * @return Author[]|ArrayCollection|Collection
+     */
+    public function getSubscriptions()
+    {
+        return $this->subscriptions;
     }
 }
