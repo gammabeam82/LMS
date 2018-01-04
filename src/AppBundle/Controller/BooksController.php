@@ -9,6 +9,7 @@ use AppBundle\Event\BookEvent;
 use AppBundle\Filter\DTO\BookFilter;
 use AppBundle\Filter\Form\BookFilterType;
 use AppBundle\Form\BookType;
+use AppBundle\Security\Actions;
 use AppBundle\Service\Sessions;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -32,7 +33,7 @@ class BooksController extends Controller
 	 */
 	public function indexAction(Request $request)
 	{
-		$this->denyAccessUnlessGranted('view', new Book());
+		$this->denyAccessUnlessGranted(Actions::VIEW, new Book());
 
 		$paginator = $this->get('knp_paginator');
 
@@ -82,7 +83,7 @@ class BooksController extends Controller
 	{
 		$book = new Book();
 
-		$this->denyAccessUnlessGranted('create', $book);
+		$this->denyAccessUnlessGranted(Actions::CREATE, $book);
 
 		return $this->processForm($request, $book, 'messages.book_added');
 	}
@@ -97,7 +98,7 @@ class BooksController extends Controller
 	 */
 	public function editAction(Request $request, Book $book)
 	{
-		$this->denyAccessUnlessGranted('edit', $book);
+		$this->denyAccessUnlessGranted(Actions::EDIT, $book);
 
 		return $this->processForm($request, $book, 'messages.changes_accepted');
 	}
@@ -111,7 +112,7 @@ class BooksController extends Controller
 	 */
 	public function deleteAction(Book $book)
 	{
-		$this->denyAccessUnlessGranted('delete', $book);
+		$this->denyAccessUnlessGranted(Actions::DELETE, $book);
 
 		$translator = $this->get('translator');
 
@@ -136,7 +137,7 @@ class BooksController extends Controller
 	 */
 	public function deleteBookFileAction(File $file)
 	{
-		$this->denyAccessUnlessGranted('delete', $file->getBook());
+		$this->denyAccessUnlessGranted(Actions::DELETE, $file->getBook());
 
 		$bookService = $this->get('app.books');
 
@@ -161,7 +162,7 @@ class BooksController extends Controller
 	 */
 	public function getFileAction(Request $request, File $file)
 	{
-		$this->denyAccessUnlessGranted('view', $file->getBook());
+		$this->denyAccessUnlessGranted(Actions::VIEW, $file->getBook());
 
 		$bookService = $this->get('app.books');
 
@@ -184,7 +185,7 @@ class BooksController extends Controller
 	 */
 	public function viewAction(Book $book)
 	{
-		$this->denyAccessUnlessGranted('view', $book);
+		$this->denyAccessUnlessGranted(Actions::VIEW, $book);
 
 		$bookService = $this->get('app.books');
 
@@ -204,7 +205,7 @@ class BooksController extends Controller
 	 */
 	public function toggleLikeAction(Request $request, Book $book)
 	{
-		$this->denyAccessUnlessGranted('view', $book);
+		$this->denyAccessUnlessGranted(Actions::VIEW, $book);
 
 		if(false === $request->isXmlHttpRequest()) {
 			return $this->redirectToRoute('books');

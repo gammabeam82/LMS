@@ -9,11 +9,6 @@ use AppBundle\Entity\EntityInterface;
 
 abstract class EntityVoter extends Voter
 {
-    protected const VIEW = 'view';
-    protected const EDIT = 'edit';
-    protected const DELETE = 'delete';
-    protected const CREATE = 'create';
-
     /**
      * @param string $attribute
      * @param EntityInterface $subject
@@ -21,7 +16,7 @@ abstract class EntityVoter extends Voter
      */
     protected function supports($attribute, $subject): bool
     {
-        if (false === in_array($attribute, [self::EDIT, self::DELETE, self::CREATE, self::VIEW])) {
+        if (false === in_array($attribute, [Actions::EDIT, Actions::DELETE, Actions::CREATE, Actions::VIEW])) {
             return false;
         }
 
@@ -47,13 +42,13 @@ abstract class EntityVoter extends Voter
         }
 
         switch ($attribute) {
-            case self::EDIT:
+            case Actions::EDIT:
                 return $this->canEdit($user);
-            case self::DELETE:
+            case Actions::DELETE:
                 return $this->canDelete($user);
-            case self::CREATE:
+            case Actions::CREATE:
                 return $this->canCreate($user);
-            case self::VIEW:
+            case Actions::VIEW:
                 return $this->canView($user);
         }
 

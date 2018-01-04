@@ -9,9 +9,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class CommentVoter extends Voter
 {
-    private const EDIT = 'edit';
-    private const DELETE = 'delete';
-
     /**
      * @param string $attribute
      * @param Comment $subject
@@ -19,7 +16,7 @@ class CommentVoter extends Voter
      */
     protected function supports($attribute, $subject): bool
     {
-        if (false === in_array($attribute, [self::EDIT, self::DELETE])) {
+        if (false === in_array($attribute, [Actions::EDIT, Actions::DELETE])) {
             return false;
         }
 
@@ -47,9 +44,9 @@ class CommentVoter extends Voter
         $comment = $subject;
 
         switch ($attribute) {
-            case self::EDIT:
+            case Actions::EDIT:
                 return $this->canEdit($comment, $user);
-            case self::DELETE:
+            case Actions::DELETE:
                 return $this->canDelete($user);
         }
 

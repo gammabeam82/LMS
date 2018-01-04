@@ -2,15 +2,16 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Book;
+use AppBundle\Entity\Comment;
+use AppBundle\Form\CommentType;
+use AppBundle\Security\Actions;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Entity\Comment;
-use AppBundle\Entity\Book;
-use AppBundle\Form\CommentType;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CommentsController extends Controller
 {
@@ -90,7 +91,7 @@ class CommentsController extends Controller
      */
     public function deleteAction(Book $book, Comment $comment)
     {
-        $this->denyAccessUnlessGranted('delete', $comment);
+        $this->denyAccessUnlessGranted(Actions::DELETE, $comment);
 
         $commentService = $this->get('app.comments');
 
@@ -117,7 +118,7 @@ class CommentsController extends Controller
      */
     public function editAction(Request $request, Book $book, Comment $comment)
     {
-        $this->denyAccessUnlessGranted('edit', $comment);
+        $this->denyAccessUnlessGranted(Actions::EDIT, $comment);
 
         $commentForm = $this->createForm(CommentType::class, $comment, [
             'action' => $this->generateUrl('comments_edit', [

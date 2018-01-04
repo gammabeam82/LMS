@@ -6,6 +6,7 @@ use AppBundle\Entity\Author;
 use AppBundle\Filter\DTO\AuthorFilter;
 use AppBundle\Filter\Form\AuthorFilterType;
 use AppBundle\Form\AuthorType;
+use AppBundle\Security\Actions;
 use AppBundle\Service\Sessions;
 use AppBundle\Utils\MbRangeTrait;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -31,7 +32,7 @@ class AuthorsController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $this->denyAccessUnlessGranted('view', new Author());
+        $this->denyAccessUnlessGranted(Actions::VIEW, new Author());
 
         $paginator = $this->get('knp_paginator');
 
@@ -78,7 +79,7 @@ class AuthorsController extends Controller
      */
     public function viewAction(Author $author): Response
     {
-        $this->denyAccessUnlessGranted('view', $author);
+        $this->denyAccessUnlessGranted(Actions::VIEW, $author);
 
         return $this->render('authors/view.html.twig', [
             'author' => $author
@@ -95,7 +96,7 @@ class AuthorsController extends Controller
     {
         $author = new Author();
 
-        $this->denyAccessUnlessGranted('create', $author);
+        $this->denyAccessUnlessGranted(Actions::CREATE, $author);
 
         return $this->processForm($request, $author, 'messages.author_added');
     }
@@ -110,7 +111,7 @@ class AuthorsController extends Controller
      */
     public function editAction(Request $request, Author $author)
     {
-        $this->denyAccessUnlessGranted('edit', $author);
+        $this->denyAccessUnlessGranted(Actions::EDIT, $author);
 
         return $this->processForm($request, $author, 'messages.changes_accepted');
     }
@@ -124,7 +125,7 @@ class AuthorsController extends Controller
      */
     public function deleteAction(Author $author)
     {
-        $this->denyAccessUnlessGranted('delete', $author);
+        $this->denyAccessUnlessGranted(Actions::DELETE, $author);
 
         $authorService = $this->get('app.authors');
 
@@ -147,7 +148,7 @@ class AuthorsController extends Controller
      */
     public function toggleSubscriptionAction(Request $request, Author $author)
     {
-        $this->denyAccessUnlessGranted('view', $author);
+        $this->denyAccessUnlessGranted(Actions::VIEW, $author);
 
         if (false === $request->isXmlHttpRequest()) {
             return $this->redirectToRoute('authors');

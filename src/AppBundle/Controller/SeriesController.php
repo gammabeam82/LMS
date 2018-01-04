@@ -2,18 +2,19 @@
 
 namespace AppBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Serie;
-use AppBundle\Form\SerieType;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Filter\DTO\SerieFilter;
 use AppBundle\Filter\Form\SerieFilterType;
-use UnexpectedValueException;
+use AppBundle\Form\SerieType;
+use AppBundle\Security\Actions;
 use AppBundle\Service\Sessions;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use UnexpectedValueException;
 
 class SeriesController extends Controller
 {
@@ -27,7 +28,7 @@ class SeriesController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $this->denyAccessUnlessGranted('view', new Serie());
+        $this->denyAccessUnlessGranted(Actions::VIEW, new Serie());
 
         $paginator = $this->get('knp_paginator');
 
@@ -76,7 +77,7 @@ class SeriesController extends Controller
     {
         $serie = new Serie();
 
-        $this->denyAccessUnlessGranted('create', $serie);
+        $this->denyAccessUnlessGranted(Actions::CREATE, $serie);
 
         return $this->processForm($request, $serie, 'messages.serie_added');
     }
@@ -91,7 +92,7 @@ class SeriesController extends Controller
      */
     public function editAction(Request $request, Serie $serie)
     {
-        $this->denyAccessUnlessGranted('edit', $serie);
+        $this->denyAccessUnlessGranted(Actions::EDIT, $serie);
 
         return $this->processForm($request, $serie, 'messages.changes_accepted');
     }
@@ -106,7 +107,7 @@ class SeriesController extends Controller
 
     public function deleteAction(Serie $serie)
     {
-        $this->denyAccessUnlessGranted('delete', $serie);
+        $this->denyAccessUnlessGranted(Actions::DELETE, $serie);
 
         $seriesService = $this->get('app.series');
 

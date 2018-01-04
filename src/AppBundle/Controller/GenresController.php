@@ -2,18 +2,19 @@
 
 namespace AppBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Genre;
-use AppBundle\Form\GenreType;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use AppBundle\Filter\DTO\GenreFilter;
 use AppBundle\Filter\Form\GenreFilterType;
-use UnexpectedValueException;
+use AppBundle\Form\GenreType;
+use AppBundle\Security\Actions;
 use AppBundle\Service\Sessions;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use UnexpectedValueException;
 
 class GenresController extends Controller
 {
@@ -27,7 +28,7 @@ class GenresController extends Controller
 	 */
 	public function indexAction(Request $request)
 	{
-		$this->denyAccessUnlessGranted('view', new Genre());
+		$this->denyAccessUnlessGranted(Actions::VIEW, new Genre());
 
 		$paginator = $this->get('knp_paginator');
 
@@ -76,7 +77,7 @@ class GenresController extends Controller
 	{
 		$genre = new Genre();
 
-		$this->denyAccessUnlessGranted('create', $genre);
+		$this->denyAccessUnlessGranted(Actions::CREATE, $genre);
 
 		return $this->processForm($request, $genre, 'messages.genre_added');
 	}
@@ -91,7 +92,7 @@ class GenresController extends Controller
 	 */
 	public function editAction(Request $request, Genre $genre)
 	{
-		$this->denyAccessUnlessGranted('edit', $genre);
+		$this->denyAccessUnlessGranted(Actions::EDIT, $genre);
 
 		return $this->processForm($request, $genre, 'messages.changes_accepted');
 	}
@@ -105,7 +106,7 @@ class GenresController extends Controller
 	 */
 	public function deleteAction(Genre $genre)
 	{
-		$this->denyAccessUnlessGranted('delete', $genre);
+		$this->denyAccessUnlessGranted(Actions::DELETE, $genre);
 
 		$genreService = $this->get('app.genres');
 
