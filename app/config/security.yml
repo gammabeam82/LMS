@@ -50,7 +50,7 @@ security:
         - { path: ^/admin/, role: ROLE_ADMIN }
 
         - { path: ^/books$, role: IS_AUTHENTICATED_FULLY }
-        - { path: ^/books/download/, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/books/file/download/, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/books/view/, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/books/like/, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/books/, role: ROLE_ADMIN }
