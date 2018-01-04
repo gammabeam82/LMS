@@ -105,6 +105,6 @@ services:
 
       app.book_subscriber:
           class: AppBundle\EventListener\BookSubscriber
-          arguments: ["@app.mailer", "@monolog.logger.library"]
+          arguments: ["@app.mailer", "@monolog.logger.library", "%kernel.environment%"]
           tags:
             - { name: kernel.event_subscriber }

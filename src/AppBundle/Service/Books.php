@@ -61,7 +61,7 @@ class Books extends BaseService
 
         /* @var \Symfony\Component\HttpFoundation\FileBag $fileBag */
         $fileBag = $request->files;
-        $files = $fileBag->get('book')['bookFiles'];
+        $files = $fileBag->get('book')['bookFiles'] ?? [];
 
         if (false === $this->checkFilesCount($book, $files)) {
             throw new \LogicException();

@@ -24,15 +24,21 @@ class BookSubscriber implements EventSubscriberInterface
     private $logger;
 
     /**
+     * @var string
+     */
+    private $environment;
+
+    /**
      * BookSubscriber constructor.
      *
      * @param MailerInterface $mailer
      * @param LoggerInterface $logger
      */
-    public function __construct(MailerInterface $mailer, LoggerInterface $logger)
+    public function __construct(MailerInterface $mailer, LoggerInterface $logger, string $environment)
     {
         $this->mailer = $mailer;
         $this->logger = $logger;
+        $this->environment = $environment;
     }
 
     /**
@@ -53,8 +59,10 @@ class BookSubscriber implements EventSubscriberInterface
     {
         $book = $event->getBook();
 
-        $this->mailer->sendNotification($book);
-        $this->logger->info(sprintf("New: [Book: %s User: %s]", $book->getName(), $book->getAddedBy()->getUsername()));
+        if ($this->environment !== 'test') {
+            $this->mailer->sendNotification($book);
+            $this->logger->info(sprintf("New: [Book: %s User: %s]", $book->getName(), $book->getAddedBy()->getUsername()));
+        }
     }
 
     /**
