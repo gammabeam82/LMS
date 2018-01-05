@@ -74,14 +74,26 @@ doctrine:
 
 # Swiftmailer Configuration
 swiftmailer:
-    transport: "%mailer_transport%"
-    host:      "%mailer_host%"
-    username:  "%mailer_user%"
-    password:  "%mailer_password%"
-    port:      "%mailer_port%"
-    encryption: "%mailer_encryption%"
-    auth_mode: "%mailer_auth_mode%"
-    spool:     { type: memory }
+    default_mailer: default
+    mailers:
+        default:
+            transport: "%mailer_transport%"
+            host:      "%mailer_host%"
+            username:  "%mailer_user%"
+            password:  "%mailer_password%"
+            port:      "%mailer_port%"
+            encryption: "%mailer_encryption%"
+            auth_mode: "%mailer_auth_mode%"
+            spool:     { type: memory }
+        rabbitmq:
+             transport: "%mailer_transport%"
+             host:      "%mailer_host%"
+             username:  "%mailer_user%"
+             password:  "%mailer_password%"
+             port:      "%mailer_port%"
+             encryption: "%mailer_encryption%"
+             auth_mode: "%mailer_auth_mode%"
+
 
 fos_user:
     db_driver: orm # other valid values are 'mongodb' and 'couchdb'
@@ -194,4 +206,4 @@ old_sound_rabbit_mq:
             connection:       default
             exchange_options: { name: 'notification.subscription', type: direct }
             queue_options:    { name: 'notification.subscription' }
-            callback:         app.consumer.mail_sender
+            callback:         app.consumer.mail

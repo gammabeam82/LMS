@@ -8,7 +8,7 @@ use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 
 
-class MailSenderConsumer implements ConsumerInterface
+class MailConsumer implements ConsumerInterface
 {
     /**
      * @var MailerInterface
@@ -23,6 +23,8 @@ class MailSenderConsumer implements ConsumerInterface
     public function __construct(MailerInterface $mailer)
     {
         $this->mailer = $mailer;
+
+        echo "Ready to accept messages...\n\n";
     }
 
     /**
@@ -33,13 +35,12 @@ class MailSenderConsumer implements ConsumerInterface
     {
         $data = unserialize($msg->getBody());
 
-        /** @var Book $book  */
+        /** @var Book $book */
         $book = $data['book'];
         $email = $data['email'];
 
         $this->mailer->sendNotification($book, $email);
 
-        echo "Notification sent to ${email}";
-        echo PHP_EOL;
+        printf("%s - notification sent to %s \n", date("d.m.Y H:i:s"), $email);
     }
 }

@@ -2,11 +2,12 @@
 
 namespace AppBundle\EventListener;
 
+use AppBundle\Entity\Book;
+use AppBundle\Event\BookEvent;
 use AppBundle\Events;
+use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use AppBundle\Event\BookEvent;
-use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 
 class BookSubscriber implements EventSubscriberInterface
 {
@@ -62,20 +63,13 @@ class BookSubscriber implements EventSubscriberInterface
         if ($this->environment !== 'test') {
 
             $this->logger->info(sprintf("New: [Book: %s User: %s]", $book->getName(), $book->getAddedBy()->getUsername()));
-
-            $this->producer->publish(serialize([
-                'book' => $book,
-                'email' => $this->adminMail
-            ]));
+            $this->producer->publish($this->prepareData($book, $this->adminMail));
 
             $subscribers = $book->getAuthor()->getSubscribers();
 
-            if(count($subscribers)) {
-                foreach($subscribers as $subscriber) {
-                    $this->producer->publish(serialize([
-                        'book' => $book,
-                        'email' => $subscriber->getEmail()
-                    ]));
+            foreach ($subscribers as $subscriber) {
+                if ($subscriber->getEmail() !== $this->adminMail) {
+                    $this->producer->publish($this->prepareData($book, $subscriber->getEmail()));
                 }
             }
         }
@@ -89,5 +83,19 @@ class BookSubscriber implements EventSubscriberInterface
         $book = $event->getBook();
 
         $this->logger->info(sprintf("Deleted: [Book: %s User: %s]", $book->getName(), $book->getAddedBy()->getUsername()));
+    }
+
+    /**
+     * @param Book $book
+     * @param string $email
+     *
+     * @return string
+     */
+    private function prepareData(Book $book, string $email): string
+    {
+        return serialize([
+            'book' => $book,
+            'email' => $email
+        ]);
     }
 }
