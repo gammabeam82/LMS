@@ -101,10 +101,14 @@ services:
 
       app.mailer:
           class: AppBundle\Service\Mail\Mailer
-          arguments: ["@mailer", "@templating", "@router.default","%admin_email%"]
+          arguments: ["@mailer", "@templating", "@router.default"]
+
+      app.consumer.mail_sender:
+          class: AppBundle\Consumer\MailSenderConsumer
+          arguments: ["@app.mailer"]
 
       app.book_subscriber:
           class: AppBundle\EventListener\BookSubscriber
-          arguments: ["@app.mailer", "@monolog.logger.library", "%kernel.environment%"]
+          arguments: ["@monolog.logger.library", "@old_sound_rabbit_mq.send_email_producer", "%kernel.environment%", "%admin_email%"]
           tags:
             - { name: kernel.event_subscriber }

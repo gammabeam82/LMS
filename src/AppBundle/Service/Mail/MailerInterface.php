@@ -6,5 +6,5 @@ use AppBundle\Entity\Book;
 
 interface MailerInterface
 {
-    public function sendNotification(Book $book): void;
+    public function sendNotification(Book $book, string $email): void;
 }

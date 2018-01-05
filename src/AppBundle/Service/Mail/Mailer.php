@@ -27,35 +27,28 @@ class Mailer implements MailerInterface
     private $router;
 
     /**
-     * @var string
-     */
-    private $email;
-
-    /**
      * Mail constructor.
      *
      * @param SwiftMailer $mailer
      * @param EngineInterface $twig
      * @param RouterInterface $router
-     * @param string $email
      */
-    public function __construct(SwiftMailer $mailer, EngineInterface $twig, RouterInterface $router, string $email)
+    public function __construct(SwiftMailer $mailer, EngineInterface $twig, RouterInterface $router)
     {
         $this->mailer = $mailer;
         $this->twig = $twig;
         $this->router = $router;
-        $this->email = $email;
     }
 
     /**
      * @param Book $book
      */
-    public function sendNotification(Book $book): void
+    public function sendNotification(Book $book, string $email): void
     {
         $message = new SwiftMessage();
         $message
             ->setFrom('noreply@lms')
-            ->setTo($this->email)
+            ->setTo($email)
             ->setBody($this->twig->render('email/notification.html.twig', [
                 'book' => $book,
                 'url' => $this->router->generate('books_view', ['id' => $book->getId()], UrlGeneratorInterface::ABSOLUTE_URL)

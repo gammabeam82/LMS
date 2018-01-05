@@ -3,10 +3,10 @@
 namespace AppBundle\EventListener;
 
 use AppBundle\Events;
-use AppBundle\Service\Mail\MailerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use AppBundle\Event\BookEvent;
+use OldSound\RabbitMqBundle\RabbitMq\ProducerInterface;
 
 class BookSubscriber implements EventSubscriberInterface
 {
@@ -14,14 +14,14 @@ class BookSubscriber implements EventSubscriberInterface
     private const ON_BOOK_DELETED = 'onBookDeleted';
 
     /**
-     * @var MailerInterface
-     */
-    private $mailer;
-
-    /**
      * @var LoggerInterface
      */
     private $logger;
+
+    /**
+     * @var ProducerInterface
+     */
+    private $producer;
 
     /**
      * @var string
@@ -29,16 +29,16 @@ class BookSubscriber implements EventSubscriberInterface
     private $environment;
 
     /**
-     * BookSubscriber constructor.
-     *
-     * @param MailerInterface $mailer
-     * @param LoggerInterface $logger
+     * @var string
      */
-    public function __construct(MailerInterface $mailer, LoggerInterface $logger, string $environment)
+    private $adminMail;
+
+    public function __construct(LoggerInterface $logger, ProducerInterface $producer, string $environment, string $adminMail)
     {
-        $this->mailer = $mailer;
         $this->logger = $logger;
+        $this->producer = $producer;
         $this->environment = $environment;
+        $this->adminMail = $adminMail;
     }
 
     /**
@@ -60,8 +60,24 @@ class BookSubscriber implements EventSubscriberInterface
         $book = $event->getBook();
 
         if ($this->environment !== 'test') {
-            $this->mailer->sendNotification($book);
+
             $this->logger->info(sprintf("New: [Book: %s User: %s]", $book->getName(), $book->getAddedBy()->getUsername()));
+
+            $this->producer->publish(serialize([
+                'book' => $book,
+                'email' => $this->adminMail
+            ]));
+
+            $subscribers = $book->getAuthor()->getSubscribers();
+
+            if(count($subscribers)) {
+                foreach($subscribers as $subscriber) {
+                    $this->producer->publish(serialize([
+                        'book' => $book,
+                        'email' => $subscriber->getEmail()
+                    ]));
+                }
+            }
         }
     }
 
