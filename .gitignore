@@ -18,3 +18,4 @@
 /.idea/*
 /web/assets/vendor/
 /dump.rdb
+/start.sh

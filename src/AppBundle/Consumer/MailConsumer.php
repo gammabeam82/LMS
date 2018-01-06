@@ -16,8 +16,8 @@ class MailConsumer implements ConsumerInterface
     private $mailer;
 
     /**
-     * MailSenderConsumer constructor
-     * .
+     * MailConsumer constructor.
+     *
      * @param MailerInterface $mailer
      */
     public function __construct(MailerInterface $mailer)
@@ -28,8 +28,7 @@ class MailConsumer implements ConsumerInterface
     }
 
     /**
-     * @var AMQPMessage $msg
-     * @return void
+     * @param AMQPMessage $msg
      */
     public function execute(AMQPMessage $msg): void
     {

@@ -48,6 +48,7 @@ class Mailer implements MailerInterface
         $message = new SwiftMessage();
         $message
             ->setFrom('noreply@lms')
+            ->setSubject('New book')
             ->setTo($email)
             ->setBody($this->twig->render('email/notification.html.twig', [
                 'book' => $book,
