@@ -13,8 +13,11 @@
     </php>
 
     <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>tests</directory>
+        <testsuite name="App">
+            <file>tests/AppBundle/AppAvailabilityTest.php</file>
+        </testsuite>
+        <testsuite name="Controllers">
+            <directory>tests/AppBundle/Controller</directory>
         </testsuite>
     </testsuites>
 
@@ -28,4 +31,5 @@
             </exclude>
         </whitelist>
     </filter>
+
 </phpunit>

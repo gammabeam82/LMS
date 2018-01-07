@@ -8,6 +8,10 @@ parameters:
     database_name:     symfony
     database_user:     postgres
     database_password: ~
+
+    test_database_name:     lms-test
+    test_database_user:     postgres
+    test_database_password: ~
     # You should uncomment this if you want use pdo_sqlite
     # database_path: "%kernel.root_dir%/data.db3"
 

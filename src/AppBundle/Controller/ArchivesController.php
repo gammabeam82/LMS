@@ -2,12 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Book;
+use AppBundle\Security\Actions;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AppBundle\Entity\Book;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ArchivesController extends Controller
@@ -34,7 +35,7 @@ class ArchivesController extends Controller
      */
     public function downloadAction()
     {
-        $this->denyAccessUnlessGranted('view', new Book());
+        $this->denyAccessUnlessGranted(Actions::VIEW, new Book());
 
         $archiveService = $this->get('app.archives');
 
@@ -72,7 +73,7 @@ class ArchivesController extends Controller
      */
     public function addAction(Request $request, Book $book)
     {
-        $this->denyAccessUnlessGranted('view', $book);
+        $this->denyAccessUnlessGranted(Actions::VIEW, $book);
 
         if (false === $request->isXmlHttpRequest()) {
             return $this->redirectToRoute('books');
@@ -100,7 +101,7 @@ class ArchivesController extends Controller
      */
     public function removeAction(Request $request, Book $book)
     {
-        $this->denyAccessUnlessGranted('view', $book);
+        $this->denyAccessUnlessGranted(Actions::VIEW, $book);
 
         if (false === $request->isXmlHttpRequest()) {
             return $this->redirectToRoute('books');
