@@ -2,12 +2,13 @@
 
 namespace AppBundle\Command;
 
+use AppBundle\Entity\ExportItem;
+use AppBundle\Entity\File;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use AppBundle\Entity\File;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class FilesRemoveCommand extends ContainerAwareCommand
 {
@@ -30,11 +31,13 @@ class FilesRemoveCommand extends ContainerAwareCommand
 
         $io->text('Fetching data...');
 
-        $path = $this->getContainer()->getParameter('library');
-
+        $libraryPath = $this->getContainer()->getParameter('library');
         $repo = $this->getContainer()->get('doctrine')->getRepository(File::class);
-
         $bookFiles = $repo->findAllFileNames();
+
+        $exportPath = $this->getContainer()->getParameter('export');
+        $repo = $this->getContainer()->get('doctrine')->getRepository(ExportItem::class);
+        $exportFiles = array_column($repo->findAllFileNames(), 'filename');
 
         $bookFiles = array_merge(
             array_column($bookFiles, 'name'),
@@ -43,14 +46,19 @@ class FilesRemoveCommand extends ContainerAwareCommand
             })
         );
 
-        $files = glob(sprintf("%s/*.*", $path));
+        $allBookFiles = glob(sprintf("%s/*.*", $libraryPath));
+        $allExportFiles = glob(sprintf("%s/*.*", $exportPath));
 
-        $orphanFiles = array_diff($files, $bookFiles);
+        $orphanBookFiles = array_diff($allBookFiles, $bookFiles);
+        $orphanExportFiles = array_diff($allExportFiles, $exportFiles);
+
+        $orphanFiles = array_merge($orphanBookFiles, $orphanExportFiles);
 
         $io->section("Files");
 
         $io->writeln([
             sprintf("Book files: %s", count($bookFiles)),
+            sprintf("Export files: %s", count($exportFiles)),
             sprintf("Orphan files: %s", count($orphanFiles)),
             ''
         ]);
