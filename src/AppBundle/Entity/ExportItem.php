@@ -2,10 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
-use \DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ExportItemRepository")
@@ -50,7 +50,7 @@ class ExportItem implements EntityInterface
      */
     public function setTargetEntity(string $entityClass): ExportItem
     {
-        if (false === in_array($entityClass, [self::AUTHOR, self::GENRE, self::SERIE])) {
+        if (false === in_array($entityClass, self::getAllowedEntitiesList())) {
             throw new \LogicException();
         }
         $this->targetEntity = $entityClass;
@@ -134,5 +134,17 @@ class ExportItem implements EntityInterface
     public function getFilename(): string
     {
         return $this->filename;
+    }
+
+    /**
+     * @return array
+     */
+    public static function getAllowedEntitiesList(): array
+    {
+        return [
+            self::AUTHOR,
+            self::GENRE,
+            self::SERIE
+        ];
     }
 }
