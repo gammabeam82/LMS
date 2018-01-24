@@ -3,6 +3,7 @@
 namespace AppBundle\Service\Export;
 
 use AppBundle\Entity\ExportItem;
+use AppBundle\Factories\ExportItemFactory;
 use AppBundle\Service\BaseService;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 

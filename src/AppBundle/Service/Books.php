@@ -5,6 +5,7 @@ namespace AppBundle\Service;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\File as BookFile;
 use AppBundle\Entity\User;
+use AppBundle\Factories\BookFileFactory;
 use AppBundle\Filter\DTO\BookFilter;
 use AppBundle\Utils\ImageThumbnailTrait;
 use AppBundle\Utils\SanitizeQueryTrait;
@@ -104,21 +105,11 @@ class Books extends BaseService
             return;
         }
 
-        $type = $uploadedFile->guessExtension();
-        $mimeType = $uploadedFile->getMimeType();
-        $filename = sprintf("%s-%s.%s", $book->getName(), uniqid(), $type);
+        $bookFile = BookFileFactory::get($uploadedFile, $book, $this->path);
 
-        $bookFile = new BookFile();
+        $uploadedFile->move($this->path, basename($bookFile->getName()));
 
-        $bookFile->setBook($book)
-            ->setType($type)
-            ->setMimeType($mimeType)
-            ->setSize($uploadedFile->getSize())
-            ->setName(sprintf("%s/%s", $this->path, $filename));
-
-        $uploadedFile->move($this->path, $filename);
-
-        if (false !== in_array($mimeType, self::IMAGE_TYPES)) {
+        if (false !== in_array($bookFile->getMimeType(), self::IMAGE_TYPES)) {
             $bookFile->setIsImage(true);
             try {
                 $thumbnail = $this->generateThumbnail($bookFile->getName(), $this->path);

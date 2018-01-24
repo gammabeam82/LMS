@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Service\Export;
+namespace AppBundle\Factories;
 
 use AppBundle\Entity\ExportItem;
 
