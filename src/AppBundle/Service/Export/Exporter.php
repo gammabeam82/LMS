@@ -2,8 +2,8 @@
 
 namespace AppBundle\Service\Export;
 
-use AppBundle\Service\BaseService;
 use AppBundle\Entity\ExportItem;
+use AppBundle\Service\BaseService;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class Exporter extends BaseService
@@ -36,10 +36,11 @@ class Exporter extends BaseService
      * @throws \PHPExcel_Exception
      * @throws \PHPExcel_Reader_Exception
      * @throws \PHPExcel_Writer_Exception
+     * @throws \ReflectionException
      */
     public function export(string $entityClass, array $rows): string
     {
-        if (false === in_array($entityClass, [ExportItem::AUTHOR, ExportItem::GENRE, ExportItem::SERIE])) {
+        if (false === in_array($entityClass, ExportItem::getAllowedEntitiesList())) {
             throw new \LogicException();
         }
 
@@ -91,9 +92,7 @@ class Exporter extends BaseService
 
         copy($tmpFile, $this->filename);
 
-        $exportItem = new ExportItem();
-        $exportItem->setFilename($this->filename);
-        $exportItem->setTargetEntity($entityClass);
+        $exportItem = ExportItemFactory::get($this->filename, $entityClass);
 
         $this->saveEntity($this->doctrine->getManager(), $exportItem);
 
