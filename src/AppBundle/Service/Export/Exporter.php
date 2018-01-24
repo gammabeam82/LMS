@@ -9,6 +9,7 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 class Exporter extends BaseService
 {
     private const LIMIT = 15;
+    private const WRITER_TYPE = 'Excel2007';
 
     /**
      * @var string
@@ -41,7 +42,11 @@ class Exporter extends BaseService
     public function export(string $entityClass, array $rows): string
     {
         if (false === in_array($entityClass, ExportItem::getAllowedEntitiesList())) {
-            throw new \LogicException();
+            throw new \UnexpectedValueException();
+        }
+
+        if (0 === $this->doctrine->getRepository($entityClass)->count()) {
+           throw new  \LogicException();
         }
 
         $repo = $this->doctrine->getRepository($entityClass);
@@ -87,7 +92,7 @@ class Exporter extends BaseService
         }
 
         $tmpFile = sprintf("%s/%s.xlsx", sys_get_temp_dir(), uniqid());
-        $objWriter = \PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+        $objWriter = \PHPExcel_IOFactory::createWriter($excel, self::WRITER_TYPE);
         $objWriter->save($tmpFile);
 
         copy($tmpFile, $this->filename);
@@ -146,5 +151,21 @@ class Exporter extends BaseService
     public function remove(ExportItem $item): void
     {
         $this->removeEntity($this->doctrine->getManager(), $item);
+    }
+
+    /**
+     * @return array
+     *
+     * @throws \ReflectionException
+     */
+    public function getItemsCount(): array
+    {
+        $data = [];
+
+        foreach (ExportItem::getAllowedEntitiesList() as $entity) {
+            $data[(new \ReflectionClass($entity))->getShortName()] = $this->doctrine->getRepository($entity)->count();
+        }
+
+        return $data;
     }
 }

@@ -23,13 +23,15 @@ class ExportsController extends Controller
      * @Route("/export", name="export")
      *
      * @return Response
+     * @throws \ReflectionException
      */
     public function indexAction(): Response
     {
         $exportService = $this->get('app.export');
 
         return $this->render('exports/index.html.twig', [
-            'exports' => $exportService->getExportsList()
+            'exports' => $exportService->getExportsList(),
+            'itemsCount' => $exportService->getItemsCount()
         ]);
     }
 
