@@ -6,7 +6,7 @@ use AppBundle\Entity\File;
 use AppBundle\Entity\Book;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class BookFileFactory
+final class BookFileFactory
 {
     /**
      * @param UploadedFile $uploadedFile
