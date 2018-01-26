@@ -9,6 +9,7 @@ class AuthorTransformer extends TransformerAbstract implements TransformerInterf
 {
     /**
      * @param Author $author
+     *
      * @return array
      */
     public function transform(Author $author): array

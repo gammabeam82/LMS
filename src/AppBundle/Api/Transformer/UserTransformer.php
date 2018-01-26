@@ -9,6 +9,7 @@ class UserTransformer extends TransformerAbstract implements TransformerInterfac
 {
     /**
      * @param User $user
+     *
      * @return array
      */
     public function transform(User $user): array

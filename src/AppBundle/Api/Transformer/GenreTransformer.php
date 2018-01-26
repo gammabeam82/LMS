@@ -9,6 +9,7 @@ class GenreTransformer extends TransformerAbstract implements TransformerInterfa
 {
     /**
      * @param Genre $genre
+     *
      * @return array
      */
     public function transform(Genre $genre): array

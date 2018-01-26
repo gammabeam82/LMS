@@ -6,8 +6,8 @@ use AppBundle\Entity\Book;
 use AppBundle\Entity\Genre;
 use AppBundle\Entity\Serie;
 use League\Fractal\TransformerAbstract;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 
 class BookTransformer extends TransformerAbstract implements TransformerInterface
 {
@@ -16,6 +16,10 @@ class BookTransformer extends TransformerAbstract implements TransformerInterfac
      */
     private $router;
 
+    /**
+     * BookTransformer constructor.
+     * @param RouterInterface $router
+     */
     public function __construct(RouterInterface $router)
     {
         $this->router = $router;

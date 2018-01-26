@@ -7,7 +7,11 @@ use League\Fractal\TransformerAbstract;
 
 class SerieTransformer extends TransformerAbstract implements TransformerInterface
 {
-
+    /**
+     * @param Serie $serie
+     *
+     * @return array
+     */
     public function transform(Serie $serie): array
     {
         return [

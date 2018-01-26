@@ -16,6 +16,7 @@ class FileTransformer extends TransformerAbstract implements TransformerInterfac
 
     /**
      * FileTransformer constructor.
+     *
      * @param RouterInterface $router
      */
     public function __construct(RouterInterface $router)
