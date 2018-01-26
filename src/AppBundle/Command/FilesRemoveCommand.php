@@ -12,7 +12,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class FilesRemoveCommand extends ContainerAwareCommand
 {
-
     /**
      * {@inheritdoc}
      */
@@ -26,7 +25,6 @@ class FilesRemoveCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
         $io = new SymfonyStyle($input, $output);
 
         $io->text('Fetching data...');
@@ -85,5 +83,4 @@ class FilesRemoveCommand extends ContainerAwareCommand
         $io->progressFinish();
         $io->success('Done.');
     }
-
 }

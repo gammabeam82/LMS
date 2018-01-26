@@ -54,9 +54,10 @@ class BooksApiController extends Controller
      * @ParamConverter("file")
      *
      * @param File $file
+     *
      * @return BinaryFileResponse
      */
-    public function getFileAction(File $file)
+    public function getFileAction(File $file): BinaryFileResponse
     {
         $this->denyAccessUnlessGranted(Actions::VIEW, new Book());
 

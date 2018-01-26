@@ -27,6 +27,7 @@ class BookTransformer extends TransformerAbstract implements TransformerInterfac
 
     /**
      * @param Book $book
+     *
      * @return array
      */
     public function transform(Book $book): array
@@ -45,11 +46,10 @@ class BookTransformer extends TransformerAbstract implements TransformerInterfac
             'author' => $authorTransformer->transform($book->getAuthor()),
             'files' => array_map(function ($file) use ($fileTransformer) {
                 return $fileTransformer->transform($file);
-            }, array_values($book->getTextFiles()))
+            }, array_values($book->getTextFiles())),
+            'genre' => null,
+            'serie' => null
         ];
-
-        $data['genre'] = null;
-        $data['serie'] = null;
 
         if (false !== $genre instanceof Genre) {
             $genreTransformer = new GenreTransformer();

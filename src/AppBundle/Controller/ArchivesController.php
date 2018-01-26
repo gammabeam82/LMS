@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ArchivesController extends Controller
 {
-
     /**
      * @Route("/archive", name="archive_index")
      *
