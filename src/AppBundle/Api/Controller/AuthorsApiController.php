@@ -2,6 +2,7 @@
 
 namespace AppBundle\Api\Controller;
 
+use AppBundle\Api\Service\Options;
 use AppBundle\Api\Transformer\AuthorTransformer;
 use AppBundle\Entity\Author;
 use AppBundle\Filter\DTO\AuthorFilter;
@@ -31,11 +32,14 @@ class AuthorsApiController extends Controller
         $authorService = $this->get('app.authors');
         $dataService = $this->get('app.load_api_data');
 
-        $query = $authorService->getFilteredAuthors(new AuthorFilter());
+        $options = new Options();
 
-        $page = $request->query->getInt('page', 1);
+        $options->setQuery($authorService->getFilteredAuthors(new AuthorFilter()))
+            ->setTransformer(new AuthorTransformer())
+            ->setPage($request->query->getInt('page', 1))
+            ->setLimit(self::LIMIT);
 
-        $data = $dataService->loadData($query, new AuthorTransformer(), $page, self::LIMIT);
+        $data = $dataService->loadData($options);
 
         return new JsonResponse($data);
     }

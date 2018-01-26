@@ -2,15 +2,16 @@
 
 namespace AppBundle\Api\Controller;
 
+use AppBundle\Api\Service\Options;
+use AppBundle\Api\Transformer\GenreTransformer;
 use AppBundle\Entity\Genre;
 use AppBundle\Filter\DTO\GenreFilter;
 use AppBundle\Security\Actions;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use AppBundle\Api\Transformer\GenreTransformer;
+use Symfony\Component\HttpFoundation\Request;
 
 class GenresApiController extends Controller
 {
@@ -31,11 +32,14 @@ class GenresApiController extends Controller
         $genreService = $this->get('app.genres');
         $dataService = $this->get('app.load_api_data');
 
-        $query = $genreService->getFilteredGenres(new GenreFilter());
+        $options = new Options();
 
-        $page = $request->query->getInt('page', 1);
+        $options->setQuery($genreService->getFilteredGenres(new GenreFilter()))
+            ->setTransformer(new GenreTransformer())
+            ->setPage($request->query->getInt('page', 1))
+            ->setLimit(self::LIMIT);
 
-        $data = $dataService->loadData($query, new GenreTransformer(), $page, self::LIMIT);
+        $data = $dataService->loadData($options);
 
         return new JsonResponse($data);
     }

@@ -3,13 +3,13 @@
 namespace AppBundle\Api\Controller;
 
 use AppBundle\Api\Provider\ApiDataProvider;
+use AppBundle\Api\Transformer\UserTransformer;
 use AppBundle\Entity\User;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use AppBundle\Api\Transformer\UserTransformer;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 class UsersApiController extends Controller
 {

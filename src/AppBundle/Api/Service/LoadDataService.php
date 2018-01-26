@@ -2,10 +2,8 @@
 
 namespace AppBundle\Api\Service;
 
-use AppBundle\Utils\RedisAwareTrait;
-use Doctrine\ORM\Query;
-use AppBundle\Api\Transformer\TransformerInterface;
 use AppBundle\Api\Provider\ApiDataProvider;
+use AppBundle\Utils\RedisAwareTrait;
 use Knp\Component\Pager\PaginatorInterface;
 
 class LoadDataService
@@ -30,22 +28,18 @@ class LoadDataService
     }
 
     /**
-     * @param Query $query
-     * @param TransformerInterface $transformer
-     * @param int $page
-     * @param int $limit
-     * @param bool $refreshCache
+     * @param OptionsInterface $options
      *
      * @return array
      */
-    public function loadData(Query $query, TransformerInterface $transformer, int $page, int $limit = 30, bool $refreshCache = false): array
+    public function loadData(OptionsInterface $options): array
     {
-        $key = sprintf("cache:%s:%s", substr(md5($query->getSQL()), 0, 20), $page);
+        $key = $this->getCacheKey($options);
 
-        if (1 !== $this->redis->exists($key) || false !== $refreshCache) {
+        if (1 !== $this->redis->exists($key) || false !== $options->getRefreshCache()) {
             $provider = new ApiDataProvider([
-                'items' => $this->paginator->paginate($query, $page, $limit),
-                'transformer' => $transformer
+                'items' => $this->paginator->paginate($options->getQuery(), $options->getPage(), $options->getLimit()),
+                'transformer' => $options->getTransformer()
             ]);
 
             $data = $provider->getData();
@@ -57,5 +51,15 @@ class LoadDataService
         }
 
         return $data;
+    }
+
+    /**
+     * @param OptionsInterface $options
+     *
+     * @return string
+     */
+    private function getCacheKey(OptionsInterface $options): string
+    {
+        return sprintf("cache:%s:%s", substr(md5($options->getQuery()->getSQL()), 0, 20), $options->getPage());
     }
 }

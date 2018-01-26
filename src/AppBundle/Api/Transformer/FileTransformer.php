@@ -32,7 +32,7 @@ class FileTransformer extends TransformerAbstract implements TransformerInterfac
         return [
             'id' => $file->getId(),
             'type' => $file->getType(),
-            'size' => $file->getSize(),
+            'size' => $file->getSizeInKb(),
             'url' => $this->router->generate('api_books_file_download', ['id' => $file->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
         ];
     }

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Api\Controller;
 
+use AppBundle\Api\Service\Options;
 use AppBundle\Api\Transformer\BookTransformer;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\File;
@@ -34,11 +35,16 @@ class BooksApiController extends Controller
         $bookService = $this->get('app.books');
         $dataService = $this->get('app.load_api_data');
 
-        $query = $bookService->getFilteredBooks(new BookFilter(), $this->getUser());
+        $transformer = new BookTransformer($this->get('router'));
 
-        $page = $request->query->getInt('page', 1);
+        $options = new Options();
 
-        $data = $dataService->loadData($query, new BookTransformer($this->get('router')), $page, self::LIMIT);
+        $options->setQuery($bookService->getFilteredBooks(new BookFilter()))
+            ->setTransformer($transformer)
+            ->setPage($request->query->getInt('page', 1))
+            ->setLimit(self::LIMIT);
+
+        $data = $dataService->loadData($options);
 
         return new JsonResponse($data);
     }

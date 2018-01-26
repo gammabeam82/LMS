@@ -2,23 +2,16 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Entity\Book;
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\User;
-use AppBundle\Entity\Book;
 use Doctrine\ORM\Query;
 
 class Comments extends BaseService
 {
     /**
-     * Comments constructor.
-     */
-    public function __construct()
-    {
-
-    }
-
-    /**
      * @param Book|null $book
+     *
      * @return Query
      */
     public function getQuery(Book $book = null): Query
@@ -44,7 +37,6 @@ class Comments extends BaseService
      * @param User $user
      * @param Book $book
      * @param Comment $comment
-     * @param bool $isCreating
      */
     public function save(User $user, Book $book, Comment $comment): void
     {
