@@ -89,6 +89,7 @@ class Authors extends BaseService implements ExportInterface
      * @throws \PHPExcel_Exception
      * @throws \PHPExcel_Reader_Exception
      * @throws \PHPExcel_Writer_Exception
+     * @throws \ReflectionException
      */
     public function export(): string
     {

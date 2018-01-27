@@ -1,9 +1,9 @@
 <?php
 
-namespace AppBundle\Factories;
+namespace AppBundle\Factory;
 
-use AppBundle\Entity\File;
 use AppBundle\Entity\Book;
+use AppBundle\Entity\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 final class BookFileFactory
