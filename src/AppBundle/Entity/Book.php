@@ -2,12 +2,12 @@
 
 namespace AppBundle\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
-use \DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\BookRepository")
@@ -27,6 +27,12 @@ class Book implements EntityInterface
 	 * @ORM\Column(type="datetime")
 	 */
 	private $createdAt;
+
+    /**
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime")
+     */
+    private $updatedAt;
 
 	/**
 	 * @ORM\Column(type="string", length=200)
@@ -173,6 +179,26 @@ class Book implements EntityInterface
 	{
 		return $this->createdAt;
 	}
+
+    /**
+     * @return DateTime
+     */
+    public function getUpdatedAt(): DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param DateTime $updatedAt
+     *
+     * @return Book
+     */
+    public function setUpdatedAt(DateTime $updatedAt): Book
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
 
 	/**
 	 * Set name
