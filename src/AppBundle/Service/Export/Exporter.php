@@ -46,7 +46,7 @@ class Exporter extends BaseService
             throw new \UnexpectedValueException();
         }
 
-        if (0 === $this->doctrine->getRepository($entityClass)->count()) {
+        if (0 === $this->doctrine->getRepository($entityClass)->count([])) {
            throw new  \LogicException();
         }
 
@@ -164,7 +164,7 @@ class Exporter extends BaseService
         $data = [];
 
         foreach (ExportItem::getAllowedEntitiesList() as $entity) {
-            $data[(new \ReflectionClass($entity))->getShortName()] = $this->doctrine->getRepository($entity)->count();
+            $data[(new \ReflectionClass($entity))->getShortName()] = $this->doctrine->getRepository($entity)->count([]);
         }
 
         return $data;

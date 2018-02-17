@@ -64,6 +64,12 @@ services:
           calls:
             - [setRedis, ['@snc_redis.default']]
 
+      app.cache_service:
+          class: AppBundle\Service\Cache\CacheService
+          arguments: ["@knp_paginator"]
+          calls:
+            - [setRedis, ['@snc_redis.cache']]
+
 #     app.random_thumbnail:
 #         class: AppBundle\Twig\AppExtension
 #         arguments: ["@router"]
@@ -112,3 +118,9 @@ services:
           arguments: ["@monolog.logger.library", "@old_sound_rabbit_mq.send_email_producer", "%kernel.environment%", "%admin_email%"]
           tags:
             - { name: kernel.event_subscriber }
+
+      app.book_entity_subscriber:
+          class: AppBundle\EventListener\BookEntitySubscriber
+          arguments: ["@app.cache_service"]
+          tags:
+            - { name: doctrine.event_subscriber }

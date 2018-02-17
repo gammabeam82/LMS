@@ -2,14 +2,15 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Events;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\File;
 use AppBundle\Event\BookEvent;
+use AppBundle\Events;
 use AppBundle\Filter\DTO\BookFilter;
 use AppBundle\Filter\Form\BookFilterType;
 use AppBundle\Form\BookType;
 use AppBundle\Security\Actions;
+use AppBundle\Service\Cache\Options;
 use AppBundle\Service\Sessions;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -35,7 +36,7 @@ class BooksController extends Controller
 	{
 		$this->denyAccessUnlessGranted(Actions::VIEW, new Book());
 
-		$paginator = $this->get('knp_paginator');
+        $cacheService = $this->get('app.cache_service');
 
 		$bookService = $this->get('app.books');
 
@@ -45,11 +46,11 @@ class BooksController extends Controller
 
 		$filter = new BookFilter();
 
-		$form = $this->createForm(BookFilterType::class, $filter);
-		$form->handleRequest($request);
+		$filterForm = $this->createForm(BookFilterType::class, $filter);
+        $filterForm->handleRequest($request);
 
 		try {
-			$sessionService->updateFilterFromSession($form, $filter);
+			$sessionService->updateFilterFromSession($filterForm, $filter);
 		} catch (UnexpectedValueException $e) {
 			$translator = $this->get('translator');
 			$this->addFlash('error', $translator->trans($e->getMessage()));
@@ -59,15 +60,17 @@ class BooksController extends Controller
 			return $this->redirectToRoute("books");
 		}
 
-		$query = $bookService->getFilteredBooks($filter, $this->getUser());
+		$options = new Options();
 
-		$books = $paginator->paginate(
-			$query, $request->query->getInt('page', 1), self::LIMIT
-		);
+		$options->setQuery($bookService->getFilteredBooks($filter, $this->getUser()))
+            ->setFilter($filter)
+            ->setLimit(self::LIMIT)
+            ->setRefresh(false)
+            ->setPage($request->query->getInt('page', 1));
 
 		return $this->render('books/index.html.twig', [
-			'form' => $form->createView(),
-			'books' => $books,
+			'form' => $filterForm->createView(),
+			'books' => $cacheService->getData($options),
 			'booksInArchive' => $archiveService->getBookIds(),
 			'filterName' => $sessionService->getFilterName($filter)
 		]);
