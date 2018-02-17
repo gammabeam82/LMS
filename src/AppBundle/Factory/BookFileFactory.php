@@ -19,7 +19,12 @@ final class BookFileFactory
     {
         $type = $uploadedFile->guessExtension();
         $mimeType = $uploadedFile->getMimeType();
-        $filename = sprintf("%s-%s.%s", $book->getName(), uniqid(), $type);
+        $filename = sprintf(
+            "%s-%s.%s",
+            preg_replace('/\s+/', '_', $book->getName()),
+            uniqid(),
+            $type
+        );
 
         $bookFile = new File();
 
@@ -27,6 +32,7 @@ final class BookFileFactory
             ->setType($type)
             ->setMimeType($mimeType)
             ->setSize($uploadedFile->getSize())
+            ->setBasename($filename)
             ->setName(sprintf("%s/%s", $path, $filename));
 
         return $bookFile;

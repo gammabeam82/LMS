@@ -107,7 +107,7 @@ class Books extends BaseService
 
         $bookFile = BookFileFactory::get($uploadedFile, $book, $this->path);
 
-        $uploadedFile->move($this->path, basename($bookFile->getName()));
+        $uploadedFile->move($this->path, $bookFile->getBasename());
 
         if (false !== in_array($bookFile->getMimeType(), self::IMAGE_TYPES)) {
             $bookFile->setIsImage(true);

@@ -2,10 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
-use \DateTime;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\FileRepository")
@@ -68,6 +68,10 @@ class File implements EntityInterface
      */
     private $size;
 
+    /**
+     * @var string
+     */
+    private $basename;
 
     /**
      * Get id
@@ -284,12 +288,30 @@ class File implements EntityInterface
     }
 
     /**
-     * Get thumbnail
-     *
-     * @return string
+     * @return null|string
      */
-    public function getThumbnail(): string
+    public function getThumbnail(): ?string
     {
         return $this->thumbnail;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBasename(): string
+    {
+        return $this->basename;
+    }
+
+    /**
+     * @param string $basename
+     *
+     * @return File
+     */
+    public function setBasename(string $basename): File
+    {
+        $this->basename = $basename;
+
+        return $this;
     }
 }

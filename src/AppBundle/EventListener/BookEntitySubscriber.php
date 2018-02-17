@@ -6,6 +6,7 @@ use AppBundle\Entity\Book;
 use AppBundle\Service\Cache\CacheServiceInterface;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\Events;
 
 class BookEntitySubscriber implements EventSubscriber
 {
@@ -29,7 +30,11 @@ class BookEntitySubscriber implements EventSubscriber
      */
     public function getSubscribedEvents(): array
     {
-        return ['postPersist', 'postUpdate', 'postRemove'];
+        return [
+            Events::postPersist,
+            Events::postUpdate,
+            Events::postRemove
+        ];
     }
 
     /**
