@@ -2,12 +2,12 @@
 
 namespace AppBundle\Api\Controller;
 
-use AppBundle\Api\Service\Options;
 use AppBundle\Api\Transformer\BookTransformer;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\File;
 use AppBundle\Filter\DTO\BookFilter;
 use AppBundle\Security\Actions;
+use AppBundle\Service\Cache\Options;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -33,20 +33,18 @@ class BooksApiController extends Controller
         $this->denyAccessUnlessGranted(Actions::VIEW, new Book());
 
         $bookService = $this->get('app.books');
-        $dataService = $this->get('app.load_api_data');
+        $cacheService = $this->get('app.cache_service');
 
-        $transformer = new BookTransformer($this->get('router'));
-
+        $filter = new BookFilter();
         $options = new Options();
 
-        $options->setQuery($bookService->getFilteredBooks(new BookFilter()))
-            ->setTransformer($transformer)
-            ->setPage($request->query->getInt('page', 1))
-            ->setLimit(self::LIMIT);
+        $options->setQuery($bookService->getFilteredBooks($filter, $this->getUser()))
+            ->setFilter($filter)
+            ->setLimit(self::LIMIT)
+            ->setTransformer(new BookTransformer($this->get('router')))
+            ->setPage($request->query->getInt('page', 1));
 
-        $data = $dataService->loadData($options);
-
-        return new JsonResponse($data);
+        return new JsonResponse($cacheService->getData($options));
     }
 
     /**

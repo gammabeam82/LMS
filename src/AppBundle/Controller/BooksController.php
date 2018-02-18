@@ -65,7 +65,6 @@ class BooksController extends Controller
 		$options->setQuery($bookService->getFilteredBooks($filter, $this->getUser()))
             ->setFilter($filter)
             ->setLimit(self::LIMIT)
-            ->setRefresh(false)
             ->setPage($request->query->getInt('page', 1));
 
 		return $this->render('books/index.html.twig', [

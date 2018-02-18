@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UsersApiController extends Controller
 {
-
     /**
      * @Route("/api/users/{id}", name="api_users_get")
      * @ParamConverter("user")

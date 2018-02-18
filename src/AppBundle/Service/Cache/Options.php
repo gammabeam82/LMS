@@ -2,6 +2,7 @@
 
 namespace AppBundle\Service\Cache;
 
+use AppBundle\Api\Transformer\TransformerInterface;
 use AppBundle\Entity\User;
 use AppBundle\Filter\FilterInterface;
 use Doctrine\ORM\Query;
@@ -34,9 +35,14 @@ class Options implements OptionsInterface
     private $limit;
 
     /**
+     * @var TransformerInterface
+     */
+    private $transformer;
+
+    /**
      * @var bool
      */
-    private $refresh;
+    private $refresh = false;
 
     /**
      * @return FilterInterface
@@ -136,6 +142,26 @@ class Options implements OptionsInterface
         $this->limit = $limit;
 
         return $this;
+    }
+
+    /**
+     * @param TransformerInterface $transformer
+     *
+     * @return Options
+     */
+    public function setTransformer(TransformerInterface $transformer): Options
+    {
+        $this->transformer = $transformer;
+
+        return $this;
+    }
+
+    /**
+     * @return TransformerInterface|null
+     */
+    public function getTransformer(): ?TransformerInterface
+    {
+        return $this->transformer;
     }
 
     /**

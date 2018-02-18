@@ -2,11 +2,11 @@
 
 namespace AppBundle\Api\Controller;
 
-use AppBundle\Api\Service\Options;
 use AppBundle\Api\Transformer\GenreTransformer;
 use AppBundle\Entity\Genre;
 use AppBundle\Filter\DTO\GenreFilter;
 use AppBundle\Security\Actions;
+use AppBundle\Service\Cache\Options;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -30,17 +30,17 @@ class GenresApiController extends Controller
         $this->denyAccessUnlessGranted(Actions::VIEW, new Genre());
 
         $genreService = $this->get('app.genres');
-        $dataService = $this->get('app.load_api_data');
+        $cacheService = $this->get('app.cache_service');
 
+        $filter = new GenreFilter();
         $options = new Options();
 
-        $options->setQuery($genreService->getFilteredGenres(new GenreFilter()))
+        $options->setQuery($genreService->getFilteredGenres($filter))
+            ->setFilter($filter)
+            ->setLimit(self::LIMIT)
             ->setTransformer(new GenreTransformer())
-            ->setPage($request->query->getInt('page', 1))
-            ->setLimit(self::LIMIT);
+            ->setPage($request->query->getInt('page', 1));
 
-        $data = $dataService->loadData($options);
-
-        return new JsonResponse($data);
+        return new JsonResponse($cacheService->getData($options));
     }
 }

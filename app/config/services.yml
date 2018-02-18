@@ -66,7 +66,7 @@ services:
 
       app.cache_service:
           class: AppBundle\Service\Cache\CacheService
-          arguments: ["@knp_paginator"]
+          arguments: ["@knp_paginator", "%kernel.environment%"]
           calls:
             - [setRedis, ['@snc_redis.cache']]
 
@@ -98,12 +98,6 @@ services:
       app.logout_handler:
           class: AppBundle\Security\Handler\LogoutHandler
           arguments: ["@app.online"]
-
-      app.load_api_data:
-          class: AppBundle\Api\Service\LoadDataService
-          arguments: ["@knp_paginator"]
-          calls:
-            - [setRedis, ['@snc_redis.cache']]
 
       app.mailer:
           class: AppBundle\Service\Mail\Mailer

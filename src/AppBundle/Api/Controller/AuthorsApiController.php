@@ -2,11 +2,11 @@
 
 namespace AppBundle\Api\Controller;
 
-use AppBundle\Api\Service\Options;
 use AppBundle\Api\Transformer\AuthorTransformer;
 use AppBundle\Entity\Author;
 use AppBundle\Filter\DTO\AuthorFilter;
 use AppBundle\Security\Actions;
+use AppBundle\Service\Cache\Options;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -30,17 +30,17 @@ class AuthorsApiController extends Controller
         $this->denyAccessUnlessGranted(Actions::VIEW, new Author());
 
         $authorService = $this->get('app.authors');
-        $dataService = $this->get('app.load_api_data');
+        $cacheService = $this->get('app.cache_service');
 
+        $filter = new AuthorFilter();
         $options = new Options();
 
-        $options->setQuery($authorService->getFilteredAuthors(new AuthorFilter()))
+        $options->setQuery($authorService->getFilteredAuthors($filter))
+            ->setFilter($filter)
+            ->setLimit(self::LIMIT)
             ->setTransformer(new AuthorTransformer())
-            ->setPage($request->query->getInt('page', 1))
-            ->setLimit(self::LIMIT);
+            ->setPage($request->query->getInt('page', 1));
 
-        $data = $dataService->loadData($options);
-
-        return new JsonResponse($data);
+        return new JsonResponse($cacheService->getData($options));
     }
 }
