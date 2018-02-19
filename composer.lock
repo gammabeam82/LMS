@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "69951a623887f90cd6a4dae121bb581a",
+    "content-hash": "a5fb4c3bfd2c69e07958316f83ca7b4a",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -1237,12 +1237,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "cb27a67904ff43d883e31edb01db025fb65f310a"
+                "reference": "f72f866fc179725bedcc4bdd689d36c758da15d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/cb27a67904ff43d883e31edb01db025fb65f310a",
-                "reference": "cb27a67904ff43d883e31edb01db025fb65f310a",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/f72f866fc179725bedcc4bdd689d36c758da15d7",
+                "reference": "f72f866fc179725bedcc4bdd689d36c758da15d7",
                 "shasum": ""
             },
             "require": {
@@ -1305,7 +1305,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2018-02-16T15:15:38+00:00"
+            "time": "2018-02-19T13:34:12+00:00"
         },
         {
             "name": "gedmo/doctrine-extensions",
@@ -3779,16 +3779,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v3.3.16",
+            "version": "v3.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "98e128ccee7afff6313dc3e9cce619f6e1caedbc"
+                "reference": "5220b6f9fcdee261c6fdd3e096f3b204fba5d906"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/98e128ccee7afff6313dc3e9cce619f6e1caedbc",
-                "reference": "98e128ccee7afff6313dc3e9cce619f6e1caedbc",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/5220b6f9fcdee261c6fdd3e096f3b204fba5d906",
+                "reference": "5220b6f9fcdee261c6fdd3e096f3b204fba5d906",
                 "shasum": ""
             },
             "require": {
@@ -3805,8 +3805,8 @@
                 "symfony/polyfill-intl-icu": "~1.0",
                 "symfony/polyfill-mbstring": "~1.0",
                 "symfony/polyfill-php56": "~1.0",
-                "symfony/polyfill-php70": "~1.0",
-                "twig/twig": "~1.34|~2.4"
+                "symfony/polyfill-php70": "~1.6",
+                "twig/twig": "^1.35|^2.4.4"
             },
             "conflict": {
                 "phpdocumentor/reflection-docblock": "<3.0||>=3.2.0,<3.2.2",
@@ -3816,6 +3816,7 @@
             "provide": {
                 "psr/cache-implementation": "1.0",
                 "psr/container-implementation": "1.0",
+                "psr/log-implementation": "1.0",
                 "psr/simple-cache-implementation": "1.0"
             },
             "replace": {
@@ -3843,6 +3844,7 @@
                 "symfony/inflector": "self.version",
                 "symfony/intl": "self.version",
                 "symfony/ldap": "self.version",
+                "symfony/lock": "self.version",
                 "symfony/monolog-bridge": "self.version",
                 "symfony/options-resolver": "self.version",
                 "symfony/process": "self.version",
@@ -3883,14 +3885,13 @@
                 "ocramius/proxy-manager": "~0.4|~1.0|~2.0",
                 "phpdocumentor/reflection-docblock": "^3.0|^4.0",
                 "predis/predis": "~1.0",
-                "sensio/framework-extra-bundle": "^3.0.2",
                 "symfony/phpunit-bridge": "~3.4|~4.0",
                 "symfony/security-acl": "~2.8|~3.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.3-dev"
+                    "dev-master": "3.4-dev"
                 }
             },
             "autoload": {
@@ -3928,7 +3929,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2018-01-29T11:42:20+00:00"
+            "time": "2018-01-29T12:30:04+00:00"
         },
         {
             "name": "twig/twig",
@@ -4406,16 +4407,16 @@
         },
         {
             "name": "phpspec/prophecy",
-            "version": "1.7.4",
+            "version": "1.7.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpspec/prophecy.git",
-                "reference": "9f901e29c93dae4aa77c0bb161df4276f9c9a1be"
+                "reference": "dfd6be44111a7c41c2e884a336cc4f461b3b2401"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/9f901e29c93dae4aa77c0bb161df4276f9c9a1be",
-                "reference": "9f901e29c93dae4aa77c0bb161df4276f9c9a1be",
+                "url": "https://api.github.com/repos/phpspec/prophecy/zipball/dfd6be44111a7c41c2e884a336cc4f461b3b2401",
+                "reference": "dfd6be44111a7c41c2e884a336cc4f461b3b2401",
                 "shasum": ""
             },
             "require": {
@@ -4465,7 +4466,7 @@
                 "spy",
                 "stub"
             ],
-            "time": "2018-02-11T18:49:29+00:00"
+            "time": "2018-02-19T10:16:54+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",

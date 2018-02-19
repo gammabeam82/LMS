@@ -1,9 +1,6 @@
 imports:
     - { resource: voters.yml }
 
-parameters:
-#    parameter_name: value
-
 services:
       gedmo.listener.softdeleteable:
           class: Gedmo\SoftDeleteable\SoftDeleteableListener
@@ -15,44 +12,53 @@ services:
             - [setDoctrine, ['@doctrine']]
 
       app.export:
+          public: true
           parent: app.base_service
           class: AppBundle\Service\Export\Exporter
           arguments: ["%export%"]
 
       app.authors:
+          public: true
           parent: app.base_service
           class: AppBundle\Service\Authors
           arguments: ["@app.export", "@translator"]
 
       app.books:
+          public: true
           parent: app.base_service
           class: AppBundle\Service\Books
           arguments: ["@request_stack", "@validator", "%library%"]
 
       app.genres:
+           public: true
            parent: app.base_service
            class: AppBundle\Service\Genres
            arguments: ["@app.export", "@translator"]
 
       app.series:
+          public: true
           parent: app.base_service
           class: AppBundle\Service\Series
           arguments: ["@app.export", "@translator"]
 
       app.ratings:
+          public: true
           parent: app.base_service
           class: AppBundle\Service\Ratings
 
       app.comments:
+          public: true
           parent: app.base_service
           class: AppBundle\Service\Comments
 
       app.sessions:
+          public: true
           parent: app.base_service
           class: AppBundle\Service\Sessions
           arguments: ["@request_stack"]
 
       app.archives:
+          public: true
           parent: app.base_service
           class: AppBundle\Service\Archives
           arguments: ["@security.token_storage"]
@@ -60,11 +66,13 @@ services:
             - [setRedis, ['@snc_redis.default']]
 
       app.online:
+          public: true
           class: AppBundle\Service\Online\Online
           calls:
             - [setRedis, ['@snc_redis.default']]
 
       app.cache_service:
+          public: true
           class: AppBundle\Service\Cache\CacheService
           arguments: ["@knp_paginator", "%kernel.environment%"]
           calls:
@@ -89,7 +97,7 @@ services:
           tags:
             - { name: kernel.event_subscriber }
 
-      app.request_litener:
+      app.request_listener:
           class: AppBundle\EventListener\RequestListener
           arguments: ["@security.token_storage", "@app.online"]
           tags:
@@ -100,6 +108,7 @@ services:
           arguments: ["@app.online"]
 
       app.mailer:
+          public: true
           class: AppBundle\Service\Mail\Mailer
           arguments: ["@swiftmailer.mailer.rabbitmq", "@templating", "@router.default"]
 
