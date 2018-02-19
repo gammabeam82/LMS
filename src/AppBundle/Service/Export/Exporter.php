@@ -5,12 +5,17 @@ namespace AppBundle\Service\Export;
 use AppBundle\Entity\ExportItem;
 use AppBundle\Factory\ExportItemFactory;
 use AppBundle\Service\BaseService;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class Exporter extends BaseService
 {
     private const LIMIT = 15;
-    private const WRITER_TYPE = 'Excel2007';
+    private const BG_COLOR = 'F2C81E';
 
     /**
      * @var string
@@ -35,9 +40,8 @@ class Exporter extends BaseService
      * @param string $entityClass
      * @param array $rows
      * @return string
-     * @throws \PHPExcel_Exception
-     * @throws \PHPExcel_Reader_Exception
-     * @throws \PHPExcel_Writer_Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @throws \ReflectionException
      */
     public function export(string $entityClass, array $rows): string
@@ -47,7 +51,7 @@ class Exporter extends BaseService
         }
 
         if (0 === $this->doctrine->getRepository($entityClass)->count([])) {
-           throw new  \LogicException();
+            throw new  \LogicException();
         }
 
         $repo = $this->doctrine->getRepository($entityClass);
@@ -59,31 +63,34 @@ class Exporter extends BaseService
             date("Y.m.d_H:i:s")
         );
 
-        $excel = new \PHPExcel();
+        $excel = new Spreadsheet();
         $sheet = $excel->getActiveSheet();
-        $col = 0;
+        $col = 1;
         $row = 1;
 
         $accessor = PropertyAccess::createPropertyAccessor();
 
         foreach ($rows as $title => $getter) {
             $sheet->setCellValueByColumnAndRow($col, $row, $title);
+
             $this->setAutoSize($sheet, $col);
+
             $sheet
                 ->getStyleByColumnAndRow($col, $row)
                 ->applyFromArray([
                     'fill' => [
-                        'type' => \PHPExcel_Style_Fill::FILL_SOLID,
-                        'color' => ['rgb' => 'F2C81E']
+                        'fillType' => Fill::FILL_SOLID,
+                        'color' => ['rgb' => self::BG_COLOR]
                     ]
                 ]);
+
             $col++;
         }
 
         $row++;
 
         foreach ($exportData as $item) {
-            $col = 0;
+            $col = 1;
             foreach ($rows as $title => $property) {
                 $sheet->setCellValueByColumnAndRow($col, $row, $accessor->getValue($item, $property));
                 $this->setAutoSize($sheet, $col);
@@ -93,7 +100,7 @@ class Exporter extends BaseService
         }
 
         $tmpFile = sprintf("%s/%s.xlsx", sys_get_temp_dir(), uniqid());
-        $objWriter = \PHPExcel_IOFactory::createWriter($excel, self::WRITER_TYPE);
+        $objWriter = $writer = new Xlsx($excel);
         $objWriter->save($tmpFile);
 
         copy($tmpFile, $this->filename);
@@ -106,12 +113,13 @@ class Exporter extends BaseService
     }
 
     /**
-     * @param \PHPExcel_Worksheet $sheet
+     * @param Worksheet $sheet
      * @param int $column
      */
-    private function setAutoSize(\PHPExcel_Worksheet $sheet, int $column): void
+    private function setAutoSize(Worksheet $sheet, int $column): void
     {
-        $colLetter = \PHPExcel_Cell::stringFromColumnIndex($column);
+        $colLetter = Coordinate::stringFromColumnIndex($column);
+
         $sheet
             ->getColumnDimension($colLetter)
             ->setAutoSize(true);
