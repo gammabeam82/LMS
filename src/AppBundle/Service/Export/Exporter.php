@@ -29,6 +29,7 @@ class Exporter extends BaseService
 
     /**
      * Export constructor.
+     *
      * @param string $path
      */
     public function __construct(string $path)
@@ -39,7 +40,9 @@ class Exporter extends BaseService
     /**
      * @param string $entityClass
      * @param array $rows
+     *
      * @return string
+     *
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @throws \ReflectionException
@@ -70,7 +73,7 @@ class Exporter extends BaseService
 
         $accessor = PropertyAccess::createPropertyAccessor();
 
-        foreach ($rows as $title => $getter) {
+        foreach ($rows as $title => $property) {
             $sheet->setCellValueByColumnAndRow($col, $row, $title);
 
             $this->setAutoSize($sheet, $col);

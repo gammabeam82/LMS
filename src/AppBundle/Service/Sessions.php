@@ -17,6 +17,7 @@ class Sessions extends BaseService
 
     /**
      * Sessions constructor.
+     *
      * @param RequestStack $requestStack
      */
     public function __construct(RequestStack $requestStack)
@@ -77,6 +78,7 @@ class Sessions extends BaseService
 
     /**
      * @param mixed $item
+     *
      * @return bool
      */
     private function isEntityType($item): bool
@@ -86,11 +88,12 @@ class Sessions extends BaseService
 
     /**
      * @param FilterInterface|string $filter
+     *
      * @return string
      */
     public static function getFilterName($filter): string
     {
-        $filterName = (is_object($filter)) ? get_class($filter) : $filter;
+        $filterName = false !== is_object($filter) ? get_class($filter) : $filter;
 
         return substr(md5($filterName), 0, 10);
     }

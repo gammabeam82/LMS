@@ -80,9 +80,9 @@ class Genres extends BaseService implements ExportInterface
 
     /**
      * @return string
-     * @throws \PHPExcel_Exception
-     * @throws \PHPExcel_Reader_Exception
-     * @throws \PHPExcel_Writer_Exception
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @throws \ReflectionException
      */
     public function export(): string
@@ -90,8 +90,8 @@ class Genres extends BaseService implements ExportInterface
         $translator = $this->translator;
 
         $rows = [
-            $translator->trans('messages.name') => 'getName',
-            $translator->trans('book.books') => 'getBooksCount'
+            $translator->trans('messages.name') => 'name',
+            $translator->trans('book.books') => 'booksCount'
         ];
 
         return $this->exportService->export(Genre::class, $rows);

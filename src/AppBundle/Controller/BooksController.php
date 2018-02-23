@@ -30,6 +30,7 @@ class BooksController extends Controller
 	 * @Route("/books", name="books")
 	 *
 	 * @param Request $request
+     *
 	 * @return RedirectResponse|Response
 	 */
 	public function indexAction(Request $request)
@@ -79,6 +80,7 @@ class BooksController extends Controller
 	 * @Route("/books/add", name="books_add")
 	 *
 	 * @param Request $request
+     *
 	 * @return RedirectResponse|Response
 	 */
 	public function addAction(Request $request)
@@ -96,6 +98,7 @@ class BooksController extends Controller
 	 *
 	 * @param Request $request
 	 * @param Book $book
+     *
 	 * @return RedirectResponse|Response
 	 */
 	public function editAction(Request $request, Book $book)
@@ -110,6 +113,7 @@ class BooksController extends Controller
 	 * @ParamConverter("book")
 	 *
 	 * @param Book $book
+     *
 	 * @return RedirectResponse
 	 */
 	public function deleteAction(Book $book)
@@ -135,6 +139,7 @@ class BooksController extends Controller
 	 * @ParamConverter("file")
 	 *
 	 * @param File $file
+     *
 	 * @return RedirectResponse
 	 */
 	public function deleteBookFileAction(File $file)
@@ -160,6 +165,7 @@ class BooksController extends Controller
 	 *
 	 * @param Request $request
 	 * @param File $file
+     *
 	 * @return BinaryFileResponse
 	 */
 	public function getFileAction(Request $request, File $file)
@@ -183,6 +189,7 @@ class BooksController extends Controller
 	 * @ParamConverter("book")
 	 *
 	 * @param Book $book
+     *
 	 * @return Response
 	 */
 	public function viewAction(Book $book)
@@ -203,6 +210,7 @@ class BooksController extends Controller
 	 *
 	 * @param Request $request
 	 * @param Book $book
+     *
 	 * @return JsonResponse|RedirectResponse
 	 */
 	public function toggleLikeAction(Request $request, Book $book)
@@ -224,6 +232,7 @@ class BooksController extends Controller
 	 * @param Request $request
 	 * @param Book $book
 	 * @param string $message
+     *
 	 * @return RedirectResponse|Response
 	 */
 	private function processForm(Request $request, Book $book, string $message)

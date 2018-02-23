@@ -14,7 +14,5 @@ php bin/console doctrine:database:drop --force --if-exists
 php bin/console doctrine:database:create --no-interaction --if-not-exists
 php bin/console doctrine:migrations:migrate --no-interaction
 php bin/console doctrine:fixtures:load --no-interaction
-php bin/console fos:user:create testuser test@test.test p@ssword
-php bin/console fos:user:promote testuser ROLE_ADMIN
 php bin/console cache:clear --env=dev --no-debug --no-warmup
 php bin/console cache:clear --env=prod --no-debug --no-warmup

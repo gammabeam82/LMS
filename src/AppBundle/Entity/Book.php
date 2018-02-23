@@ -61,13 +61,13 @@ class Book implements EntityInterface
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="\AppBundle\Entity\Genre", inversedBy="books")
-	 * @ORM\JoinColumn(name="genre_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+	 * @ORM\JoinColumn(name="genre_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
 	 */
 	private $genre;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="\AppBundle\Entity\Serie", inversedBy="books")
-	 * @ORM\JoinColumn(name="serie_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+	 * @ORM\JoinColumn(name="serie_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
 	 */
 	private $serie;
 
@@ -518,7 +518,6 @@ class Book implements EntityInterface
 	{
 		return $this->users;
 	}
-
 
 	/**
 	 * @param User $user

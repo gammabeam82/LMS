@@ -3,12 +3,13 @@
 namespace AppBundle\Service\Cache;
 
 use AppBundle\Api\Provider\ApiDataProvider;
+use AppBundle\Service\RedisAwareInterface;
 use AppBundle\Utils\RedisAwareTrait;
 use Knp\Bundle\PaginatorBundle\Pagination\SlidingPagination;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
-class CacheService implements CacheServiceInterface
+class CacheService implements CacheServiceInterface, RedisAwareInterface
 {
     use RedisAwareTrait;
 

@@ -3,9 +3,10 @@
 namespace AppBundle\Service\Online;
 
 use AppBundle\Entity\User;
+use AppBundle\Service\RedisAwareInterface;
 use AppBundle\Utils\RedisAwareTrait;
 
-class Online implements OnlineInterface
+class Online implements OnlineInterface, RedisAwareInterface
 {
     use RedisAwareTrait;
 

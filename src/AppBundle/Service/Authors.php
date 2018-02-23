@@ -47,6 +47,7 @@ class Authors extends BaseService implements ExportInterface
 
     /**
      * @param AuthorFilter $filter
+     *
      * @return \Doctrine\ORM\Query
      */
     public function getFilteredAuthors(AuthorFilter $filter): Query
@@ -86,9 +87,9 @@ class Authors extends BaseService implements ExportInterface
 
     /**
      * @return string
-     * @throws \PHPExcel_Exception
-     * @throws \PHPExcel_Reader_Exception
-     * @throws \PHPExcel_Writer_Exception
+     *
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      * @throws \ReflectionException
      */
     public function export(): string
@@ -96,9 +97,9 @@ class Authors extends BaseService implements ExportInterface
         $translator = $this->translator;
 
         $rows = [
-            $translator->trans('author.first_name') => 'getFirstName',
-            $translator->trans('author.last_name') => 'getLastName',
-            $translator->trans('book.books') => 'getBooksCount'
+            $translator->trans('author.first_name') => 'firstName',
+            $translator->trans('author.last_name') => 'lastName',
+            $translator->trans('book.books') => 'booksCount'
         ];
 
         return $this->exportService->export(Author::class, $rows);
@@ -107,21 +108,22 @@ class Authors extends BaseService implements ExportInterface
     /**
      * @param Author $author
      * @param User $user
+     *
      * @return bool
      */
     public function toggleSubscription(Author $author, User $user): bool
     {
-        $subscribed = false;
+        $isSubscribed = false;
 
         if (false === $user->getSubscriptions()->contains($author)) {
             $author->addSubscriber($user);
-            $subscribed = true;
+            $isSubscribed = true;
         } else {
             $author->removeSubscriber($user);
         }
 
         $this->save($author);
 
-        return $subscribed;
+        return $isSubscribed;
     }
 }
