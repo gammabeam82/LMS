@@ -59,7 +59,9 @@ class AuthorsController extends Controller
         $query = $authorService->getFilteredAuthors($filter);
 
         $authors = $paginator->paginate(
-            $query, $request->query->getInt('page', 1), self::LIMIT
+            $query,
+            $request->query->getInt('page', 1),
+            self::LIMIT
         );
 
         return $this->render('authors/index.html.twig', [
@@ -177,7 +179,6 @@ class AuthorsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $translator = $this->get('translator');
 
             $route = $isNew ? 'authors' : 'authors_edit';

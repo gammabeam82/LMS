@@ -60,7 +60,8 @@ class Exporter extends BaseService
         $repo = $this->doctrine->getRepository($entityClass);
         $exportData = $repo->findAll();
 
-        $this->filename = sprintf("%s/%ss-%s.xlsx",
+        $this->filename = sprintf(
+            "%s/%ss-%s.xlsx",
             $this->path,
             strtolower((new \ReflectionClass($exportData[0]))->getShortName()),
             date("Y.m.d_H:i:s")

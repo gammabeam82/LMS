@@ -85,7 +85,6 @@ class LoginSubscriber implements EventSubscriberInterface, RedisAwareInterface
         $attempts = $this->processLoginAttempt($event);
 
         if ($attempts >= self::MAX_ATTEMPTS) {
-
             $this->tokenStorage->setToken(null);
             $this->request->getMasterRequest()->getSession()->invalidate();
 

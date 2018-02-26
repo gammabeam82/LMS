@@ -183,5 +183,4 @@ class Options implements OptionsInterface
 
         return $this;
     }
-
 }

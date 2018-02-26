@@ -7,7 +7,6 @@ use AppBundle\Service\Mail\MailerInterface;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 
-
 class MailConsumer implements ConsumerInterface
 {
     /**

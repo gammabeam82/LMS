@@ -50,7 +50,6 @@ class CommentsController extends Controller
         $commentForm->handleRequest($request);
 
         if ($commentForm->isSubmitted() && $commentForm->isValid()) {
-
             $translator = $this->get('translator');
 
             $commentService->save($this->getUser(), $book, $comment);
@@ -65,7 +64,9 @@ class CommentsController extends Controller
         $query = $commentService->getQuery($book);
 
         $comments = $paginator->paginate(
-            $query, $masterRequest->query->getInt('page', 1), self::LIMIT
+            $query,
+            $masterRequest->query->getInt('page', 1),
+            self::LIMIT
         );
 
         return $this->render('comments/index.html.twig', [
@@ -77,7 +78,6 @@ class CommentsController extends Controller
             ],
             'page' => $masterRequest->query->getInt('page', 1)
         ]);
-
     }
 
     /**
@@ -131,7 +131,6 @@ class CommentsController extends Controller
         $commentForm->handleRequest($request);
 
         if ($commentForm->isSubmitted()) {
-
             $translator = $this->get('translator');
 
             if ($commentForm->isValid()) {

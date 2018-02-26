@@ -26,252 +26,250 @@ class BooksController extends Controller
 {
     private const LIMIT = 15;
 
-	/**
-	 * @Route("/books", name="books")
-	 *
-	 * @param Request $request
+    /**
+     * @Route("/books", name="books")
      *
-	 * @return RedirectResponse|Response
-	 */
-	public function indexAction(Request $request)
-	{
-		$this->denyAccessUnlessGranted(Actions::VIEW, new Book());
+     * @param Request $request
+     *
+     * @return RedirectResponse|Response
+     */
+    public function indexAction(Request $request)
+    {
+        $this->denyAccessUnlessGranted(Actions::VIEW, new Book());
 
         $cacheService = $this->get('app.cache_service');
 
-		$bookService = $this->get('app.books');
+        $bookService = $this->get('app.books');
 
-		$sessionService = $this->get('app.sessions');
+        $sessionService = $this->get('app.sessions');
 
-		$archiveService = $this->get('app.archives');
+        $archiveService = $this->get('app.archives');
 
-		$filter = new BookFilter();
+        $filter = new BookFilter();
 
-		$filterForm = $this->createForm(BookFilterType::class, $filter);
+        $filterForm = $this->createForm(BookFilterType::class, $filter);
         $filterForm->handleRequest($request);
 
-		try {
-			$sessionService->updateFilterFromSession($filterForm, $filter);
-		} catch (UnexpectedValueException $e) {
-			$translator = $this->get('translator');
-			$this->addFlash('error', $translator->trans($e->getMessage()));
-		}
+        try {
+            $sessionService->updateFilterFromSession($filterForm, $filter);
+        } catch (UnexpectedValueException $e) {
+            $translator = $this->get('translator');
+            $this->addFlash('error', $translator->trans($e->getMessage()));
+        }
 
-		if (null !== $request->get('reset') || null !== $request->get('id')) {
-			return $this->redirectToRoute("books");
-		}
+        if (null !== $request->get('reset') || null !== $request->get('id')) {
+            return $this->redirectToRoute("books");
+        }
 
-		$options = new Options();
+        $options = new Options();
 
-		$options->setQuery($bookService->getFilteredBooks($filter, $this->getUser()))
+        $options->setQuery($bookService->getFilteredBooks($filter, $this->getUser()))
             ->setFilter($filter)
             ->setLimit(self::LIMIT)
             ->setPage($request->query->getInt('page', 1));
 
-		return $this->render('books/index.html.twig', [
-			'form' => $filterForm->createView(),
-			'books' => $cacheService->getData($options),
-			'booksInArchive' => $archiveService->getBookIds(),
-			'filterName' => $sessionService->getFilterName($filter)
-		]);
-	}
+        return $this->render('books/index.html.twig', [
+            'form' => $filterForm->createView(),
+            'books' => $cacheService->getData($options),
+            'booksInArchive' => $archiveService->getBookIds(),
+            'filterName' => $sessionService->getFilterName($filter)
+        ]);
+    }
 
-	/**
-	 * @Route("/books/add", name="books_add")
-	 *
-	 * @param Request $request
+    /**
+     * @Route("/books/add", name="books_add")
      *
-	 * @return RedirectResponse|Response
-	 */
-	public function addAction(Request $request)
-	{
-		$book = new Book();
-
-		$this->denyAccessUnlessGranted(Actions::CREATE, $book);
-
-		return $this->processForm($request, $book, 'messages.book_added');
-	}
-
-	/**
-	 * @Route("/books/edit/{id}", name="books_edit")
-	 * @ParamConverter("book")
-	 *
-	 * @param Request $request
-	 * @param Book $book
+     * @param Request $request
      *
-	 * @return RedirectResponse|Response
-	 */
-	public function editAction(Request $request, Book $book)
-	{
-		$this->denyAccessUnlessGranted(Actions::EDIT, $book);
+     * @return RedirectResponse|Response
+     */
+    public function addAction(Request $request)
+    {
+        $book = new Book();
 
-		return $this->processForm($request, $book, 'messages.changes_accepted');
-	}
+        $this->denyAccessUnlessGranted(Actions::CREATE, $book);
 
-	/**
-	 * @Route("/books/delete/{id}", name="books_delete")
-	 * @ParamConverter("book")
-	 *
-	 * @param Book $book
+        return $this->processForm($request, $book, 'messages.book_added');
+    }
+
+    /**
+     * @Route("/books/edit/{id}", name="books_edit")
+     * @ParamConverter("book")
      *
-	 * @return RedirectResponse
-	 */
-	public function deleteAction(Book $book)
-	{
-		$this->denyAccessUnlessGranted(Actions::DELETE, $book);
+     * @param Request $request
+     * @param Book $book
+     *
+     * @return RedirectResponse|Response
+     */
+    public function editAction(Request $request, Book $book)
+    {
+        $this->denyAccessUnlessGranted(Actions::EDIT, $book);
 
-		$translator = $this->get('translator');
+        return $this->processForm($request, $book, 'messages.changes_accepted');
+    }
 
-		$this->get('app.archives')->removeBookFromArchive($book);
+    /**
+     * @Route("/books/delete/{id}", name="books_delete")
+     * @ParamConverter("book")
+     *
+     * @param Book $book
+     *
+     * @return RedirectResponse
+     */
+    public function deleteAction(Book $book)
+    {
+        $this->denyAccessUnlessGranted(Actions::DELETE, $book);
 
-		$this->get('app.books')->remove($book);
+        $translator = $this->get('translator');
+
+        $this->get('app.archives')->removeBookFromArchive($book);
+
+        $this->get('app.books')->remove($book);
 
         $dispatcher = $this->get('event_dispatcher');
         $dispatcher->dispatch(Events::BOOK_DELETED, new BookEvent($book));
 
-		$this->addFlash('notice', $translator->trans('messages.book_deleted'));
+        $this->addFlash('notice', $translator->trans('messages.book_deleted'));
 
-		return $this->redirectToRoute('books');
-	}
+        return $this->redirectToRoute('books');
+    }
 
-	/**
-	 * @Route("/books/file/delete/{id}", name="books_file_delete")
-	 * @ParamConverter("file")
-	 *
-	 * @param File $file
+    /**
+     * @Route("/books/file/delete/{id}", name="books_file_delete")
+     * @ParamConverter("file")
      *
-	 * @return RedirectResponse
-	 */
-	public function deleteBookFileAction(File $file)
-	{
-		$this->denyAccessUnlessGranted(Actions::DELETE, $file->getBook());
-
-		$bookService = $this->get('app.books');
-
-		$translator = $this->get('translator');
-
-		$bookService->removeFile($file);
-
-		$this->addFlash('notice', $translator->trans('messages.changes_accepted'));
-
-		return $this->redirectToRoute('books_edit', [
-			'id' => $file->getBook()->getId()
-		]);
-	}
-
-	/**
-	 * @Route("/books/file/download/{id}", name="books_file_download")
-	 * @ParamConverter("file")
-	 *
-	 * @param Request $request
-	 * @param File $file
+     * @param File $file
      *
-	 * @return BinaryFileResponse
-	 */
-	public function getFileAction(Request $request, File $file)
-	{
-		$this->denyAccessUnlessGranted(Actions::VIEW, $file->getBook());
+     * @return RedirectResponse
+     */
+    public function deleteBookFileAction(File $file)
+    {
+        $this->denyAccessUnlessGranted(Actions::DELETE, $file->getBook());
 
-		$bookService = $this->get('app.books');
+        $bookService = $this->get('app.books');
 
-		try {
-			$response = $bookService->downloadFile($file, $request->query->getInt('thumbnail', 0));
-		} catch (\LogicException $e) {
-			$translator = $this->get('translator');
-			throw $this->createNotFoundException($translator->trans('messages.file_not_found'));
-		}
+        $translator = $this->get('translator');
 
-		return $response;
-	}
+        $bookService->removeFile($file);
 
-	/**
-	 * @Route("/books/view/{id}", name="books_view")
-	 * @ParamConverter("book")
-	 *
-	 * @param Book $book
+        $this->addFlash('notice', $translator->trans('messages.changes_accepted'));
+
+        return $this->redirectToRoute('books_edit', [
+            'id' => $file->getBook()->getId()
+        ]);
+    }
+
+    /**
+     * @Route("/books/file/download/{id}", name="books_file_download")
+     * @ParamConverter("file")
      *
-	 * @return Response
-	 */
-	public function viewAction(Book $book)
-	{
-		$this->denyAccessUnlessGranted(Actions::VIEW, $book);
-
-		$bookService = $this->get('app.books');
-
-		return $this->render('books/view.html.twig', [
-			'book' => $book,
-			'images' => $bookService->getImages($book)
-		]);
-	}
-
-	/**
-	 * @Route("/books/like/{id}", name="books_like")
-	 * @ParamConverter("book")
-	 *
-	 * @param Request $request
-	 * @param Book $book
+     * @param Request $request
+     * @param File $file
      *
-	 * @return JsonResponse|RedirectResponse
-	 */
-	public function toggleLikeAction(Request $request, Book $book)
-	{
-		$this->denyAccessUnlessGranted(Actions::VIEW, $book);
+     * @return BinaryFileResponse
+     */
+    public function getFileAction(Request $request, File $file)
+    {
+        $this->denyAccessUnlessGranted(Actions::VIEW, $file->getBook());
 
-		if(false === $request->isXmlHttpRequest()) {
-			return $this->redirectToRoute('books');
-		}
+        $bookService = $this->get('app.books');
 
-		$bookService = $this->get('app.books');
+        try {
+            $response = $bookService->downloadFile($file, $request->query->getInt('thumbnail', 0));
+        } catch (\LogicException $e) {
+            $translator = $this->get('translator');
+            throw $this->createNotFoundException($translator->trans('messages.file_not_found'));
+        }
 
-		return $this->json([
-			'hasLike' => $bookService->toggleLike($this->getUser(), $book)
-		]);
-	}
+        return $response;
+    }
 
-	/**
-	 * @param Request $request
-	 * @param Book $book
-	 * @param string $message
+    /**
+     * @Route("/books/view/{id}", name="books_view")
+     * @ParamConverter("book")
      *
-	 * @return RedirectResponse|Response
-	 */
-	private function processForm(Request $request, Book $book, string $message)
-	{
-		$bookService = $this->get('app.books');
+     * @param Book $book
+     *
+     * @return Response
+     */
+    public function viewAction(Book $book)
+    {
+        $this->denyAccessUnlessGranted(Actions::VIEW, $book);
 
-		$isNew = (null === $book->getId());
+        $bookService = $this->get('app.books');
 
-		$form = $this->createForm(BookType::class, $book);
-		$form->handleRequest($request);
+        return $this->render('books/view.html.twig', [
+            'book' => $book,
+            'images' => $bookService->getImages($book)
+        ]);
+    }
 
-		if ($form->isSubmitted() && $form->isValid()) {
+    /**
+     * @Route("/books/like/{id}", name="books_like")
+     * @ParamConverter("book")
+     *
+     * @param Request $request
+     * @param Book $book
+     *
+     * @return JsonResponse|RedirectResponse
+     */
+    public function toggleLikeAction(Request $request, Book $book)
+    {
+        $this->denyAccessUnlessGranted(Actions::VIEW, $book);
 
-			$translator = $this->get('translator');
+        if (false === $request->isXmlHttpRequest()) {
+            return $this->redirectToRoute('books');
+        }
 
-			$route = $isNew ? 'books' : 'books_edit';
+        $bookService = $this->get('app.books');
 
-			try {
-				$bookService->save($this->getUser(), $book);
+        return $this->json([
+            'hasLike' => $bookService->toggleLike($this->getUser(), $book)
+        ]);
+    }
 
-				if(false !== $isNew) {
-				    $dispatcher = $this->get('event_dispatcher');
-				    $dispatcher->dispatch(Events::BOOK_CREATED, new BookEvent($book));
+    /**
+     * @param Request $request
+     * @param Book $book
+     * @param string $message
+     *
+     * @return RedirectResponse|Response
+     */
+    private function processForm(Request $request, Book $book, string $message)
+    {
+        $bookService = $this->get('app.books');
+
+        $isNew = (null === $book->getId());
+
+        $form = $this->createForm(BookType::class, $book);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $translator = $this->get('translator');
+
+            $route = $isNew ? 'books' : 'books_edit';
+
+            try {
+                $bookService->save($this->getUser(), $book);
+
+                if (false !== $isNew) {
+                    $dispatcher = $this->get('event_dispatcher');
+                    $dispatcher->dispatch(Events::BOOK_CREATED, new BookEvent($book));
                 }
 
-				$this->addFlash('notice', $translator->trans($message));
-				return $this->redirectToRoute($route, [
-					'id' => $book->getId()
-				]);
-			} catch (\Exception $e) {
-				$this->addFlash('error', $translator->trans('messages.upload_error'));
-			}
-		}
+                $this->addFlash('notice', $translator->trans($message));
+                return $this->redirectToRoute($route, [
+                    'id' => $book->getId()
+                ]);
+            } catch (\Exception $e) {
+                $this->addFlash('error', $translator->trans('messages.upload_error'));
+            }
+        }
 
-		return $this->render('books/form.html.twig', [
-			'form' => $form->createView(),
-			'book' => $book,
-			'filterName' => $isNew ? null : Sessions::getFilterName(BookFilter::class)
-		]);
-	}
-
+        return $this->render('books/form.html.twig', [
+            'form' => $form->createView(),
+            'book' => $book,
+            'filterName' => $isNew ? null : Sessions::getFilterName(BookFilter::class)
+        ]);
+    }
 }

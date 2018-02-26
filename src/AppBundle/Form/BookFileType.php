@@ -3,10 +3,10 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\File;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BookFileType extends AbstractType
 {
@@ -35,5 +35,4 @@ class BookFileType extends AbstractType
             'csrf_protection' => false
         ]);
     }
-
 }

@@ -2,14 +2,14 @@
 
 namespace AppBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Book;
 use AppBundle\Form\RatingType;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class RatingsController extends Controller
 {
@@ -36,7 +36,6 @@ class RatingsController extends Controller
         $ratingForm->handleRequest($request);
 
         if ($ratingForm->isSubmitted() && $ratingForm->isValid()) {
-
             $translator = $this->get('translator');
 
             $ratingService->save($this->getUser(), $book, $rating);
@@ -52,6 +51,5 @@ class RatingsController extends Controller
             'form' => $ratingForm->createView(),
             'rating' => $rating
         ]);
-
     }
 }

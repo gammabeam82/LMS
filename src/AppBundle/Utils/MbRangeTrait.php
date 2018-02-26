@@ -7,9 +7,10 @@ trait MbRangeTrait
     /**
      * @param string $start
      * @param string $end
+     *
      * @return array
      */
-    public function mb_range(string $start, string $end): array
+    public function mb_range(string $start, string $end): array // @codingStandardsIgnoreLine
     {
         if ($start == $end) {
             return [$start];

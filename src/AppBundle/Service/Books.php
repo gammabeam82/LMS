@@ -88,7 +88,6 @@ class Books extends BaseService
                     throw new \UnexpectedValueException();
                 }
             }
-
         }
 
         $this->saveEntity($this->doctrine->getManager(), $book);
@@ -115,7 +114,6 @@ class Books extends BaseService
                 $thumbnail = $this->generateThumbnail($bookFile->getName(), $this->path);
                 $bookFile->setThumbnail($thumbnail);
             } catch (\Exception $e) {
-
             }
         }
 
@@ -289,5 +287,4 @@ class Books extends BaseService
 
         return (count($book->getBookFiles()) + count($files)) <= $metaData->constraints[0]->max;
     }
-
 }

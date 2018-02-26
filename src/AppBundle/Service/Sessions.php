@@ -49,7 +49,6 @@ class Sessions extends BaseService
             }
         } else {
             if (null !== $session->get($filterName)) {
-
                 $restoredFilter = unserialize($session->get($filterName));
                 $em = $this->doctrine->getManager();
                 $accessor = PropertyAccess::createPropertyAccessor();

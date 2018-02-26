@@ -61,7 +61,6 @@ class BookSubscriber implements EventSubscriberInterface
         $book = $event->getBook();
 
         if ($this->environment !== 'test') {
-
             $this->logger->info(sprintf("New: [Book: %s User: %s]", $book->getName(), $book->getAddedBy()->getUsername()));
             $this->producer->publish($this->prepareData($book, $this->adminMail));
 

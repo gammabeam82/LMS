@@ -2,21 +2,12 @@
 
 namespace AppBundle\Service;
 
-use AppBundle\Entity\Rating;
 use AppBundle\Entity\Book;
+use AppBundle\Entity\Rating;
 use AppBundle\Entity\User;
 
 class Ratings extends BaseService
 {
-
-    /**
-     * Ratings constructor.
-     */
-    public function __construct()
-    {
-
-    }
-
     /**
      * @param User $user
      * @param Book $book
@@ -70,5 +61,4 @@ class Ratings extends BaseService
 
         return $rating;
     }
-
 }

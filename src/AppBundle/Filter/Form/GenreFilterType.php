@@ -2,12 +2,12 @@
 
 namespace AppBundle\Filter\Form;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use AppBundle\Filter\DTO\GenreFilter;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class GenreFilterType extends AbstractType
 {
@@ -38,5 +38,4 @@ class GenreFilterType extends AbstractType
             'method' => 'GET'
         ]);
     }
-
 }

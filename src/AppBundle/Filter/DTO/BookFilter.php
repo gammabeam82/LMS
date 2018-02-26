@@ -2,13 +2,13 @@
 
 namespace AppBundle\Filter\DTO;
 
-use AppBundle\Entity\Serie;
-use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Entity\Author;
 use AppBundle\Entity\Genre;
+use AppBundle\Entity\Serie;
 use AppBundle\Filter\FilterInterface;
-use \DateTime;
+use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class BookFilter implements FilterInterface
 {
@@ -101,7 +101,6 @@ class BookFilter implements FilterInterface
     public function addAuthor(Author $author): void
     {
         $this->authors[] = $author;
-
     }
 
     /**
@@ -126,7 +125,6 @@ class BookFilter implements FilterInterface
     public function addGenre(Genre $genre): void
     {
         $this->genres[] = $genre;
-
     }
 
     /**
@@ -231,7 +229,6 @@ class BookFilter implements FilterInterface
     public function addSerie(Serie $serie): void
     {
         $this->serie[] = $serie;
-
     }
 
     /**

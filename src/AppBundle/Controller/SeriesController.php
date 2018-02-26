@@ -57,7 +57,9 @@ class SeriesController extends Controller
         $query = $seriesService->getFilteredSeries($filter);
 
         $series = $paginator->paginate(
-            $query, $request->query->getInt('page', 1), self::LIMIT
+            $query,
+            $request->query->getInt('page', 1),
+            self::LIMIT
         );
 
         return $this->render('series/index.html.twig', [
@@ -136,7 +138,6 @@ class SeriesController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $translator = $this->get('translator');
 
             $route = $isNew ? 'series' : 'series_edit';

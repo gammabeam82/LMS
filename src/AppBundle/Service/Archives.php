@@ -116,5 +116,4 @@ class Archives extends BaseService implements RedisAwareInterface
 
         return $response;
     }
-
 }

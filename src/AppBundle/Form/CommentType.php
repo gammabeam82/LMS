@@ -3,10 +3,10 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Comment;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * {@inheritdoc}
@@ -33,5 +33,4 @@ class CommentType extends AbstractType
             'data_class' => Comment::class,
         ]);
     }
-
 }

@@ -2,10 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Filter\DTO\BookFilter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
@@ -26,7 +26,8 @@ class DefaultController extends Controller
 
         $comments = $paginator->paginate($commentService->getQuery(), 1, 5);
 
-        return $this->render('default/index.html.twig',
+        return $this->render(
+            'default/index.html.twig',
             [
                 'books' => $books,
                 'comments' => $comments

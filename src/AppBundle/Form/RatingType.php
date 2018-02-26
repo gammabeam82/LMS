@@ -3,10 +3,10 @@
 namespace AppBundle\Form;
 
 use AppBundle\Entity\Rating;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RatingType extends AbstractType
 {
@@ -37,5 +37,4 @@ class RatingType extends AbstractType
             'data_class' => Rating::class,
         ]);
     }
-
 }
