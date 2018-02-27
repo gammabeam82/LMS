@@ -6,12 +6,14 @@ use AppBundle\Entity\Author;
 use AppBundle\Entity\Genre;
 use AppBundle\Entity\Serie;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Utils\PopulateFromArrayTrait;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class BookFilter implements FilterInterface
 {
+    use PopulateFromArrayTrait;
 
     /**
      * @var string
@@ -51,7 +53,7 @@ class BookFilter implements FilterInterface
     private $createdAtStart;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @Assert\Expression(
      *     "!this.getCreatedAtEnd() || this.getCreatedAtStart() <= this.getCreatedAtEnd()",

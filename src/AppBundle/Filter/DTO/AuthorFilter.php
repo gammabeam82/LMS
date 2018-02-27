@@ -2,17 +2,19 @@
 
 namespace AppBundle\Filter\DTO;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Utils\PopulateFromArrayTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class AuthorFilter implements FilterInterface
 {
+    use PopulateFromArrayTrait;
 
     /**
      * @var string
      *
      * @Assert\Length(
-     *        min = 2,
+     *      min = 2,
      *      minMessage = "filter.name_min",
      *      max = 100,
      *      maxMessage = "author.last_name_max"

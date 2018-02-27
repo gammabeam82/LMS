@@ -2,11 +2,13 @@
 
 namespace AppBundle\Filter\DTO;
 
-use Symfony\Component\Validator\Constraints as Assert;
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Utils\PopulateFromArrayTrait;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class SerieFilter implements FilterInterface
 {
+    use PopulateFromArrayTrait;
 
     /**
      * @var string
