@@ -8,4 +8,4 @@ php bin/console cache:clear --env=test --no-debug --no-warmup
 
 export SYMFONY_DEPRECATIONS_HELPER=weak
 
-phpunit
+vendor/bin/phpunit
