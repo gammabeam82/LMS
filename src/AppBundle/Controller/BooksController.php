@@ -37,13 +37,7 @@ class BooksController extends Controller
     {
         $this->denyAccessUnlessGranted(Actions::VIEW, new Book());
 
-        $cacheService = $this->get('app.cache_service');
-
-        $bookService = $this->get('app.books');
-
-        $sessionService = $this->get('app.sessions');
-
-        $archiveService = $this->get('app.archives');
+        $serviceFacade = $this->get('app.book_service_facade');
 
         $filter = new BookFilter();
 
@@ -51,7 +45,7 @@ class BooksController extends Controller
         $filterForm->handleRequest($request);
 
         try {
-            $sessionService->updateFilterFromSession($filterForm, $filter);
+            $serviceFacade->sessionService()->updateFilterFromSession($filterForm, $filter);
         } catch (UnexpectedValueException $e) {
             $translator = $this->get('translator');
             $this->addFlash('error', $translator->trans($e->getMessage()));
@@ -63,16 +57,16 @@ class BooksController extends Controller
 
         $options = new Options();
 
-        $options->setQuery($bookService->getFilteredBooks($filter, $this->getUser()))
+        $options->setQuery($serviceFacade->bookService()->getFilteredBooks($filter, $this->getUser()))
             ->setFilter($filter)
             ->setLimit(self::LIMIT)
             ->setPage($request->query->getInt('page', 1));
 
         return $this->render('books/index.html.twig', [
             'form' => $filterForm->createView(),
-            'books' => $cacheService->getData($options),
-            'booksInArchive' => $archiveService->getBookIds(),
-            'filterName' => $sessionService->getFilterName($filter)
+            'books' => $serviceFacade->cacheService()->getData($options),
+            'booksInArchive' => $serviceFacade->archiveService()->getBookIds(),
+            'filterName' => $serviceFacade->sessionService()->getFilterName($filter)
         ]);
     }
 

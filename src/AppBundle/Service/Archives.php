@@ -3,6 +3,7 @@
 namespace AppBundle\Service;
 
 use AppBundle\Entity\Book;
+use AppBundle\Service\Interfaces\ArchiveServiceInterface;
 use AppBundle\Utils\RedisAwareTrait;
 use LengthException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -10,7 +11,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use ZipStream\ZipStream;
 
-class Archives extends BaseService implements RedisAwareInterface
+class Archives extends BaseService implements RedisAwareInterface, ArchiveServiceInterface
 {
     use RedisAwareTrait;
 

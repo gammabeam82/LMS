@@ -3,12 +3,13 @@
 namespace AppBundle\Service;
 
 use AppBundle\Filter\FilterInterface;
+use AppBundle\Service\Interfaces\SessionServiceInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use UnexpectedValueException;
 
-class Sessions extends BaseService
+class Sessions extends BaseService implements SessionServiceInterface
 {
     /**
      * @var RequestStack

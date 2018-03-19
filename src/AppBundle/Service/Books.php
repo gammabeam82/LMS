@@ -7,6 +7,7 @@ use AppBundle\Entity\File as BookFile;
 use AppBundle\Entity\User;
 use AppBundle\Factory\BookFileFactory;
 use AppBundle\Filter\DTO\BookFilter;
+use AppBundle\Service\Interfaces\BookServiceInterface;
 use AppBundle\Utils\ImageThumbnailTrait;
 use AppBundle\Utils\SanitizeQueryTrait;
 use Doctrine\ORM\Query;
@@ -16,7 +17,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class Books extends BaseService
+class Books extends BaseService implements BookServiceInterface
 {
     use ImageThumbnailTrait;
     use SanitizeQueryTrait;

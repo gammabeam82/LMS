@@ -127,3 +127,8 @@ services:
           arguments: ["@app.cache_service"]
           tags:
             - { name: doctrine.event_subscriber }
+
+      app.book_service_facade:
+          public: true
+          class: AppBundle\Service\Facade\BookServiceFacade
+          arguments: ["@app.archives", "@app.books", "@app.cache_service", "@app.sessions"]
