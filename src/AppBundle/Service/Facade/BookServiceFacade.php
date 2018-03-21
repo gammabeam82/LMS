@@ -53,7 +53,7 @@ class BookServiceFacade
      */
     public function __get(string $name): ServiceInterface
     {
-        if(false === property_exists($this, $name)) {
+        if (false === property_exists($this, $name)) {
             throw new \InvalidArgumentException();
         }
 
