@@ -53,6 +53,8 @@
         "squizlabs/php_codesniffer": "*"
     },
     "scripts": {
+        "check": "vendor/bin/phpcs src tests",
+        "fix": "vendor/bin/phpcbf src tests",
         "symfony-scripts": [
             "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",

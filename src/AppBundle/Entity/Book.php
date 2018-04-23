@@ -136,10 +136,11 @@ class Book implements EntityInterface
     public function getAverageRating(): float
     {
         if (0 !== count($this->ratings)) {
-            $sum = 0;
-            foreach ($this->ratings as $rating) {
-                $sum += $rating->getValue();
-            }
+            $sum = array_reduce($this->ratings->toArray(), function ($carry, $rating) {
+                $carry += $rating->getValue();
+                return $carry;
+            }, 0);
+
             return round(($sum / count($this->ratings)), 2);
         }
 
@@ -147,9 +148,7 @@ class Book implements EntityInterface
     }
 
     /**
-     * Get id
-     *
-     * @return integer
+     * @return int|null
      */
     public function getId(): ?int
     {
