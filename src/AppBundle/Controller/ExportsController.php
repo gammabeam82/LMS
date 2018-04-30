@@ -25,11 +25,11 @@ class ExportsController extends Controller
      * @return Response
      * @throws \ReflectionException
      */
-    public function indexAction(): Response
+    public function listAction(): Response
     {
         $exportService = $this->get('app.export');
 
-        return $this->render('exports/index.html.twig', [
+        return $this->render('exports/list.html.twig', [
             'exports' => $exportService->getExportsList(),
             'itemsCount' => $exportService->getItemsCount()
         ]);
@@ -93,6 +93,7 @@ class ExportsController extends Controller
      * @ParamConverter("item")
      *
      * @param ExportItem $item
+     *
      * @return BinaryFileResponse
      */
     public function downloadAction(ExportItem $item): BinaryFileResponse
@@ -108,6 +109,7 @@ class ExportsController extends Controller
      * @ParamConverter("item")
      *
      * @param ExportItem $item
+     *
      * @return RedirectResponse
      */
     public function deleteAction(ExportItem $item): RedirectResponse
@@ -124,6 +126,7 @@ class ExportsController extends Controller
 
     /**
      * @param ExportInterface $service
+     *
      * @return BinaryFileResponse
      */
     private function processExport(ExportInterface $service): BinaryFileResponse

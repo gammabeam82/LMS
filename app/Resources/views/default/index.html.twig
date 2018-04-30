@@ -23,7 +23,7 @@
 							{% for book in books %}
 								{% if loop.index < 6 %}
 									<dt>
-										<a href="{{ path('books_view', { 'id': book.id }) }}">
+										<a href="{{ path('books_show', { 'id': book.id }) }}">
 											{{ book.name }}
 										</a>
 									</dt>
@@ -37,7 +37,7 @@
 										{% if book.getImages %}
 											{% set image = book.getImages | first %}
 											<div class="embed-responsive embed-responsive-4by3">
-												<a href="{{ path('books_view', { 'id': book.id }) }}">
+												<a href="{{ path('books_show', { 'id': book.id }) }}">
 													<img src="{{ path('books_file_download', { 'id': image.id, 'thumbnail': 1 }) }}" class="embed-responsive-item img-responsive"/>
 												</a>
 											</div>
@@ -73,7 +73,7 @@
 										{{ comment.postedAt | date('d.m.Y H:i:s') }}
 									</span>
 									|
-									<a href="{{ path('books_view', { 'id': comment.book.id }) }}#c{{ comment.id }}">
+									<a href="{{ path('books_show', { 'id': comment.book.id }) }}#c{{ comment.id }}">
 										{{ comment.book.name }}
 									</a>
 									<div class="text-justify">

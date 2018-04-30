@@ -19,6 +19,7 @@ class RatingsController extends Controller
      *
      * @param Request $request
      * @param Book $book
+     *
      * @return RedirectResponse|Response
      */
     public function formAction(Request $request, Book $book)
@@ -42,7 +43,7 @@ class RatingsController extends Controller
 
             $this->addFlash('notice', $translator->trans('messages.vote_success'));
 
-            return $this->redirectToRoute('books_view', [
+            return $this->redirectToRoute('books_show', [
                 'id' => $book->getId()
             ]);
         }

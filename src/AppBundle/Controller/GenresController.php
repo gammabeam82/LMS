@@ -24,9 +24,10 @@ class GenresController extends Controller
      * @Route("/genres", name="genres")
      *
      * @param Request $request
+     *
      * @return RedirectResponse|Response
      */
-    public function indexAction(Request $request)
+    public function listAction(Request $request)
     {
         $this->denyAccessUnlessGranted(Actions::VIEW, new Genre());
 
@@ -62,7 +63,7 @@ class GenresController extends Controller
             self::LIMIT
         );
 
-        return $this->render('genres/index.html.twig', [
+        return $this->render('genres/list.html.twig', [
             'genres' => $genres,
             'form' => $form->createView(),
             'filterName' => $sessionService->getFilterName($filter)
@@ -73,6 +74,7 @@ class GenresController extends Controller
      * @Route("/genres/add", name="genres_add")
      *
      * @param Request $request
+     *
      * @return RedirectResponse|Response
      */
     public function addAction(Request $request)
@@ -90,6 +92,7 @@ class GenresController extends Controller
      *
      * @param Request $request
      * @param Genre $genre
+     *
      * @return RedirectResponse|Response
      */
     public function editAction(Request $request, Genre $genre)
@@ -104,6 +107,7 @@ class GenresController extends Controller
      * @ParamConverter("genre")
      *
      * @param Genre $genre
+     *
      * @return RedirectResponse
      */
     public function deleteAction(Genre $genre)

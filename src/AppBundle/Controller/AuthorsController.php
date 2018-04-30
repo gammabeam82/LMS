@@ -28,9 +28,10 @@ class AuthorsController extends Controller
      * @Route("/authors", name="authors")
      *
      * @param Request $request
+     *
      * @return RedirectResponse|Response
      */
-    public function indexAction(Request $request)
+    public function listAction(Request $request)
     {
         $this->denyAccessUnlessGranted(Actions::VIEW, new Author());
 
@@ -64,7 +65,7 @@ class AuthorsController extends Controller
             self::LIMIT
         );
 
-        return $this->render('authors/index.html.twig', [
+        return $this->render('authors/list.html.twig', [
             'authors' => $authors,
             'form' => $form->createView(),
             'filterName' => $sessionService->getFilterName($filter),
@@ -73,17 +74,18 @@ class AuthorsController extends Controller
     }
 
     /**
-     * @Route("/authors/view/{id}", name="authors_view")
+     * @Route("/authors/show/{id}", name="authors_show")
      * @ParamConverter("author")
      *
      * @param Author $author
+     *
      * @return Response
      */
-    public function viewAction(Author $author): Response
+    public function showAction(Author $author): Response
     {
         $this->denyAccessUnlessGranted(Actions::VIEW, $author);
 
-        return $this->render('authors/view.html.twig', [
+        return $this->render('authors/show.html.twig', [
             'author' => $author
         ]);
     }
@@ -92,6 +94,7 @@ class AuthorsController extends Controller
      * @Route("/authors/add", name="authors_add")
      *
      * @param Request $request
+     *
      * @return RedirectResponse|Response
      */
     public function addAction(Request $request)
@@ -109,6 +112,7 @@ class AuthorsController extends Controller
      *
      * @param Request $request
      * @param Author $author
+     *
      * @return RedirectResponse|Response
      */
     public function editAction(Request $request, Author $author)
@@ -146,6 +150,7 @@ class AuthorsController extends Controller
      *
      * @param Request $request
      * @param Author $author
+     *
      * @return JsonResponse|RedirectResponse
      */
     public function toggleSubscriptionAction(Request $request, Author $author)
@@ -167,6 +172,7 @@ class AuthorsController extends Controller
      * @param Request $request
      * @param Author $author
      * @param string $message
+     *
      * @return RedirectResponse|Response
      */
     private function processForm(Request $request, Author $author, $message)

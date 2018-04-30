@@ -128,7 +128,7 @@
 							<tr>
 								<td class="highlight">
 									<b>
-										<a href="{{ path('books_view', {'id': book.id}) }}">{{ book.name }}</a>
+										<a href="{{ path('books_show', {'id': book.id}) }}">{{ book.name }}</a>
 									</b>
 									{% if book.annotation %}
 										<a href="#" data-toggle="modal" data-target="#modal-annotation" class="show-annotation" data-annotation="{{ book.annotation }}">

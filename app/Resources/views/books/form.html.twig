@@ -34,7 +34,7 @@
 							{{ book.name }}
 						</li>
 						<li>
-							<a href="{{ path('books_view', {'id': book.id}) }}">{{ 'actions.go' | trans }}</a>
+							<a href="{{ path('books_show', {'id': book.id}) }}">{{ 'actions.go' | trans }}</a>
 						</li>
 					{% else %}
 						<li class="active">

@@ -25,7 +25,7 @@ class AuthorsApiController extends Controller
      *
      * @return JsonResponse
      */
-    public function indexAction(Request $request): JsonResponse
+    public function listAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted(Actions::VIEW, new Author());
 

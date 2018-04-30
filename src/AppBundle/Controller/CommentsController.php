@@ -23,9 +23,10 @@ class CommentsController extends Controller
      *
      * @param Request $request
      * @param Book $book
+     *
      * @return RedirectResponse|Response
      */
-    public function indexAction(Request $request, Book $book)
+    public function listAction(Request $request, Book $book)
     {
         $masterRequest = $this->get('request_stack')->getMasterRequest();
 
@@ -56,7 +57,7 @@ class CommentsController extends Controller
 
             $this->addFlash('notice.comment', $translator->trans('messages.comment_added'));
 
-            return $this->redirectToRoute('books_view', [
+            return $this->redirectToRoute('books_show', [
                 'id' => $book->getId()
             ]);
         }
@@ -69,7 +70,7 @@ class CommentsController extends Controller
             self::LIMIT
         );
 
-        return $this->render('comments/index.html.twig', [
+        return $this->render('comments/list.html.twig', [
             'comment_form' => $commentForm->createView(),
             'comments' => $comments,
             'commentLength' => [
@@ -87,6 +88,7 @@ class CommentsController extends Controller
      *
      * @param Book $book
      * @param Comment $comment
+     *
      * @return RedirectResponse
      */
     public function deleteAction(Book $book, Comment $comment)
@@ -101,7 +103,7 @@ class CommentsController extends Controller
 
         $this->addFlash('notice.comment', $translator->trans('messages.comment_deleted'));
 
-        return $this->redirectToRoute('books_view', [
+        return $this->redirectToRoute('books_show', [
             'id' => $book->getId()
         ]);
     }
@@ -114,6 +116,7 @@ class CommentsController extends Controller
      * @param Request $request
      * @param Book $book
      * @param Comment $comment
+     *
      * @return RedirectResponse|Response
      */
     public function editAction(Request $request, Book $book, Comment $comment)
@@ -143,7 +146,7 @@ class CommentsController extends Controller
                 $this->addFlash('error.comment', $translator->trans('messages.error'));
             }
 
-            return $this->redirectToRoute('books_view', [
+            return $this->redirectToRoute('books_show', [
                 'id' => $book->getId(),
                 'page' => $request->query->getInt('page', 1)
             ]);

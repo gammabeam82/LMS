@@ -25,6 +25,7 @@ class OnlineController extends Controller
      * @Route("/online/{type}", name="users_count")
      *
      * @param string $type
+     *
      * @return JsonResponse|Response
      */
     public function usersCountAction($type)

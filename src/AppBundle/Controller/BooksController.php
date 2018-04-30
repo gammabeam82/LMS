@@ -33,7 +33,7 @@ class BooksController extends Controller
      *
      * @return RedirectResponse|Response
      */
-    public function indexAction(Request $request)
+    public function listAction(Request $request)
     {
         $this->denyAccessUnlessGranted(Actions::VIEW, new Book());
 
@@ -62,7 +62,7 @@ class BooksController extends Controller
             ->setLimit(self::LIMIT)
             ->setPage($request->query->getInt('page', 1));
 
-        return $this->render('books/index.html.twig', [
+        return $this->render('books/list.html.twig', [
             'form' => $filterForm->createView(),
             'books' => $serviceFacade->cacheService()->getData($options),
             'booksInArchive' => $serviceFacade->archiveService()->getBookIds(),
@@ -179,20 +179,20 @@ class BooksController extends Controller
     }
 
     /**
-     * @Route("/books/view/{id}", name="books_view")
+     * @Route("/books/show/{id}", name="books_show")
      * @ParamConverter("book")
      *
      * @param Book $book
      *
      * @return Response
      */
-    public function viewAction(Book $book)
+    public function showAction(Book $book)
     {
         $this->denyAccessUnlessGranted(Actions::VIEW, $book);
 
         $bookService = $this->get('app.books');
 
-        return $this->render('books/view.html.twig', [
+        return $this->render('books/show.html.twig', [
             'book' => $book,
             'images' => $bookService->getImages($book)
         ]);

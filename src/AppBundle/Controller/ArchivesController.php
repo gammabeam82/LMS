@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,11 +20,11 @@ class ArchivesController extends Controller
      *
      * @return Response
      */
-    public function indexAction()
+    public function listAction()
     {
         $archiveService = $this->get('app.archives');
 
-        return $this->render('archives/index.html.twig', [
+        return $this->render('archives/list.html.twig', [
             'books' => $archiveService->getBooksList()
         ]);
     }
@@ -68,7 +70,8 @@ class ArchivesController extends Controller
      *
      * @param Request $request
      * @param Book $book
-     * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @return JsonResponse|RedirectResponse
      */
     public function addAction(Request $request, Book $book)
     {
@@ -96,7 +99,8 @@ class ArchivesController extends Controller
      *
      * @param Request $request
      * @param Book $book
-     * @return \Symfony\Component\HttpFoundation\JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
+     *
+     * @return JsonResponse|RedirectResponse
      */
     public function removeAction(Request $request, Book $book)
     {

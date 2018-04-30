@@ -24,6 +24,7 @@ class SeriesController extends Controller
      * @Route("/series", name="series")
      *
      * @param Request $request
+     *
      * @return RedirectResponse|Response
      */
     public function indexAction(Request $request)
@@ -62,7 +63,7 @@ class SeriesController extends Controller
             self::LIMIT
         );
 
-        return $this->render('series/index.html.twig', [
+        return $this->render('series/list.html.twig', [
             'series' => $series,
             'form' => $form->createView(),
             'filterName' => $sessionService->getFilterName($filter)
@@ -73,6 +74,7 @@ class SeriesController extends Controller
      * @Route("/series/add", name="series_add")
      *
      * @param Request $request
+     *
      * @return RedirectResponse|Response
      */
     public function addAction(Request $request)
@@ -90,6 +92,7 @@ class SeriesController extends Controller
      *
      * @param Request $request
      * @param Serie $serie
+     *
      * @return RedirectResponse|Response
      */
     public function editAction(Request $request, Serie $serie)
@@ -104,6 +107,7 @@ class SeriesController extends Controller
      * @ParamConverter("serie")
      *
      * @param Serie $serie
+     *
      * @return RedirectResponse
      */
 
@@ -126,6 +130,7 @@ class SeriesController extends Controller
      * @param Request $request
      * @param Serie $serie
      * @param string $message
+     *
      * @return RedirectResponse|Response
      */
     private function processForm(Request $request, Serie $serie, $message)
