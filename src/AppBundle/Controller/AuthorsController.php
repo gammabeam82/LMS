@@ -157,15 +157,25 @@ class AuthorsController extends Controller
     {
         $this->denyAccessUnlessGranted(Actions::VIEW, $author);
 
-        if (false === $request->isXmlHttpRequest()) {
-            return $this->redirectToRoute('authors');
-        }
+        $translator = $this->get('translator');
 
         $authorService = $this->get('app.authors');
 
-        return $this->json([
-            'subscribed' => $authorService->toggleSubscription($author, $this->getUser())
-        ]);
+        $status = $authorService->toggleSubscription($author, $this->getUser());
+
+        if (false !== $request->isXmlHttpRequest()) {
+            return $this->json([
+                'subscribed' => $status
+            ]);
+        }
+
+        $name = $author->getShortName();
+
+        $message = (false !== $status) ? $translator->trans('messages.author_subscribed', ['%name%' => $name]) : $translator->trans('messages.author_unsubscribed', ['%name%' => $name]);
+
+        $this->addFlash('notice', $message);
+
+        return $this->redirectToRoute('authors');
     }
 
     /**

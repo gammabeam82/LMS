@@ -85,6 +85,7 @@
 						<tr>
 							<th>{{ 'author.author' | trans }}</th>
 							<th>{{ 'book.books' | trans }}</th>
+                            <th></th>
 							<th>
 								{% if is_granted('ROLE_ADMIN') %}
 									<a class="btn btn-success btn-sm" href="{{ path('authors_add') }}">
@@ -106,6 +107,19 @@
 										{{ author.booksCount }}
 									</a>
 								</td>
+                                <td>
+                                    {% if author.isSubscribed(app.user) %}
+                                        <a href="{{ path('authors_subscribe', { 'id': author.id }) }}" class="btn btn-sm btn-warning">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                            {{ 'author.unsubscribe' | trans }}
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ path('authors_subscribe', { 'id': author.id }) }}" class="btn btn-sm btn-default">
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                            {{ 'author.subscribe' | trans }}
+                                        </a>
+                                    {% endif %}
+                                </td>
 								<td>
 									{% if is_granted('ROLE_ADMIN') %}
 										<a class="btn btn-primary btn-sm" href="{{ path('authors_edit', {'id': author.id}) }}">

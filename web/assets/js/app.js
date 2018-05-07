@@ -23,7 +23,10 @@ $(document).ready(() => {
 		'showOnBottom': false
 	});
 
-	$(document).ajaxError(() => $.notify(errorMessage, {type: 'danger'}));
+	$(document).ajaxError((event, xhr, options) => {
+		$.notify(errorMessage, {type: 'danger'});
+		console.log(`status: ${xhr.status} \nmessage: ${xhr.statusText} \nurl: ${options.url}`);
+	});
 
 	$('[data-toggle="tooltip"]').tooltip({
 		delay: {

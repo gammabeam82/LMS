@@ -111,6 +111,8 @@ messages:
   author_added: 'Автор добавлен.'
   author_deleted: 'Автор удален.'
   author_delete: 'Действительно удалить автора'
+  author_subscribed: 'Подписка на обновления автора %name% добавлена.'
+  author_unsubscribed: 'Подписка на обновления автора %name% удалена.'
   comment_added: 'Комментарий добавлен.'
   comment_deleted: 'Комментарий удален.'
   comment: 'комментарий'
