@@ -68,4 +68,9 @@ $(document).ready(() => {
 		);
 	});
 
+    $('.qr').on('click', function (event) {
+        event.preventDefault();
+        $('.qr-image').attr('src', $(this).attr('data-img'));
+    });
+
 });

@@ -1,7 +1,7 @@
 <?php
 
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
+use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
 {
@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             new Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle(),
             new Nelmio\CorsBundle\NelmioCorsBundle(),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
+            new Endroid\QrCodeBundle\EndroidQrCodeBundle()
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

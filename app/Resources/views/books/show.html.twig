@@ -9,6 +9,8 @@
 {% endblock %}
 
 {% block body %}
+    {% include('books/modal-qr.html.twig') %}
+
 	<div class="container-fluid content">
 
 		<div class="row">
@@ -55,7 +57,11 @@
 						{{ 'book.files' | trans }}
 					</li>
 					{% for file in book.bookFiles %}
+                        {% set file_url = url('books_file_download', { 'id': file.id }) %}
 						<li class="list-group-item">
+                            <button class="btn btn-default btn-small qr" data-img="{{ qr_code_data_uri(file_url, { 'size': 200 }) }}" data-toggle="modal" data-target="#modal-qr">
+                                <span class="glyphicon glyphicon-qrcode"></span>
+                            </button>
 							<a href="{{ path('books_file_download', { 'id': file.id }) }}">{{ file.name | split("/") | last }}</a>
 							({{ file.getSizeInKb }})
 						</li>
