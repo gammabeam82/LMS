@@ -67,12 +67,12 @@ class GenresControllerTest extends WebTestCase
         return sprintf("%s::%s", self::CLASS_NAME, $method);
     }
 
-    public function testIndex()
+    public function testList()
     {
         $crawler = $this->getCrawler('/genres');
 
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
-        $this->assertEquals($this->getFullMethodName('indexAction'), $this->client->getRequest()->attributes->get('_controller'));
+        $this->assertEquals($this->getFullMethodName('listAction'), $this->client->getRequest()->attributes->get('_controller'));
 
         $form = $crawler->filter('.filter-form')->form();
         $form->setValues([
@@ -185,7 +185,7 @@ class GenresControllerTest extends WebTestCase
         $response = $this->client->getResponse();
 
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
-        $this->assertEquals($this->getFullMethodName('indexAction'), $this->client->getRequest()->attributes->get('_controller'));
+        $this->assertEquals($this->getFullMethodName('listAction'), $this->client->getRequest()->attributes->get('_controller'));
 
         $this->assertContains($this->translator->trans('messages.genre_deleted'), $response->getContent());
     }
