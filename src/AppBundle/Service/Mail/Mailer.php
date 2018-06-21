@@ -5,9 +5,9 @@ namespace AppBundle\Service\Mail;
 use AppBundle\Entity\Book;
 use Swift_Mailer as SwiftMailer;
 use Swift_Message as SwiftMessage;
-use Symfony\Component\Templating\EngineInterface;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Templating\EngineInterface;
 
 class Mailer implements MailerInterface
 {
@@ -52,7 +52,7 @@ class Mailer implements MailerInterface
             ->setTo($email)
             ->setBody($this->twig->render('email/notification.html.twig', [
                 'book' => $book,
-                'url' => $this->router->generate('books_view', ['id' => $book->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
+                'url' => $this->router->generate('books_show', ['id' => $book->getId()], UrlGeneratorInterface::ABSOLUTE_URL)
             ]))
             ->setContentType('text/html');
 
