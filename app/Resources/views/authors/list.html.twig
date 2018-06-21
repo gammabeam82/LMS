@@ -86,6 +86,7 @@
 							<th>{{ 'author.author' | trans }}</th>
 							<th>{{ 'book.books' | trans }}</th>
                             <th></th>
+                            <th></th>
 							<th>
 								{% if is_granted('ROLE_ADMIN') %}
 									<a class="btn btn-success btn-sm" href="{{ path('authors_add') }}">
@@ -117,6 +118,13 @@
                                         <a href="{{ path('authors_subscribe', { 'id': author.id }) }}" class="btn btn-sm btn-default">
                                             <i class="glyphicon glyphicon-ok"></i>
                                             {{ 'author.subscribe' | trans }}
+                                        </a>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <a class="btn btn-default btn-sm" href="{{ path('books_add', { 'author': author.id }) }}">
+                                            <i class="glyphicon glyphicon-plus"></i> {{ 'actions.add_book' | trans }}
                                         </a>
                                     {% endif %}
                                 </td>

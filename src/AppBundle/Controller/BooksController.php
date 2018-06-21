@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Author;
 use AppBundle\Entity\Book;
 use AppBundle\Entity\File;
 use AppBundle\Event\BookEvent;
@@ -71,17 +72,23 @@ class BooksController extends Controller
     }
 
     /**
-     * @Route("/books/add", name="books_add")
+     * @Route("/books/add/{author}", name="books_add")
+     * @ParamConverter("author")
      *
      * @param Request $request
+     * @param Author|null $author
      *
      * @return RedirectResponse|Response
      */
-    public function addAction(Request $request)
+    public function addAction(Request $request, Author $author = null)
     {
         $book = new Book();
 
         $this->denyAccessUnlessGranted(Actions::CREATE, $book);
+
+        if (null !== $author) {
+            $book->setAuthor($author);
+        }
 
         return $this->processForm($request, $book, 'messages.book_added');
     }
@@ -252,6 +259,7 @@ class BooksController extends Controller
                 }
 
                 $this->addFlash('notice', $translator->trans($message));
+
                 return $this->redirectToRoute($route, [
                     'id' => $book->getId()
                 ]);
