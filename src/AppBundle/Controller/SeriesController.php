@@ -27,7 +27,7 @@ class SeriesController extends Controller
      *
      * @return RedirectResponse|Response
      */
-    public function indexAction(Request $request)
+    public function listAction(Request $request)
     {
         $this->denyAccessUnlessGranted(Actions::VIEW, new Serie());
 
@@ -51,7 +51,7 @@ class SeriesController extends Controller
             $this->addFlash('error', $translator->trans($e->getMessage()));
         }
 
-        if (null !== $request->get('reset')) {
+        if (null !== $request->get('reset') || null !== $request->get('id')) {
             return $this->redirectToRoute("series");
         }
 

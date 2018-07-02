@@ -18,9 +18,6 @@ class LoginSubscriber implements EventSubscriberInterface, RedisAwareInterface
 {
     use RedisAwareTrait;
 
-    private const ON_AUTHENTICATION_FAILURE = 'onAuthenticationFailure';
-    private const ON_SECURITY_INTERACTIVE_LOGIN = 'onSecurityInteractiveLogin';
-
     private const PERIOD = 60;
     private const MAX_ATTEMPTS = 3;
 
@@ -59,8 +56,8 @@ class LoginSubscriber implements EventSubscriberInterface, RedisAwareInterface
     public static function getSubscribedEvents()
     {
         return [
-            AuthenticationEvents::AUTHENTICATION_FAILURE => self::ON_AUTHENTICATION_FAILURE,
-            SecurityEvents::INTERACTIVE_LOGIN => self::ON_SECURITY_INTERACTIVE_LOGIN,
+            AuthenticationEvents::AUTHENTICATION_FAILURE => 'onAuthenticationFailure',
+            SecurityEvents::INTERACTIVE_LOGIN => 'onSecurityInteractiveLogin',
         ];
     }
 
