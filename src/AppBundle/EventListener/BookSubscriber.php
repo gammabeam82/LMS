@@ -11,9 +11,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class BookSubscriber implements EventSubscriberInterface
 {
-    private const ON_BOOK_CREATED = 'onBookCreated';
-    private const ON_BOOK_DELETED = 'onBookDeleted';
-
     /**
      * @var LoggerInterface
      */
@@ -34,6 +31,14 @@ class BookSubscriber implements EventSubscriberInterface
      */
     private $adminMail;
 
+    /**
+     * BookSubscriber constructor.
+     *
+     * @param LoggerInterface $logger
+     * @param ProducerInterface $producer
+     * @param string $environment
+     * @param string $adminMail
+     */
     public function __construct(LoggerInterface $logger, ProducerInterface $producer, string $environment, string $adminMail)
     {
         $this->logger = $logger;
@@ -48,8 +53,8 @@ class BookSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            Events::BOOK_CREATED => self::ON_BOOK_CREATED,
-            Events::BOOK_DELETED => self::ON_BOOK_DELETED,
+            Events::BOOK_CREATED => 'onBookCreated',
+            Events::BOOK_DELETED => 'onBookDeleted',
         ];
     }
 
