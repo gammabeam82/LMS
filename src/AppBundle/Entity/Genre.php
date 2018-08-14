@@ -2,13 +2,14 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use AppBundle\Api\Request\Genre\CreateGenreRequest;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use \DateTime;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\GenreRepository")
@@ -52,10 +53,13 @@ class Genre implements EntityInterface
     private $books;
 
     /**
-     * Constructor
+     * Genre constructor.
+     *
+     * @param string|null $name
      */
-    public function __construct()
+    public function __construct(string $name = null)
     {
+        $this->name = $name;
         $this->books = new ArrayCollection();
     }
 
@@ -165,5 +169,15 @@ class Genre implements EntityInterface
     public function isDeletable(): bool
     {
         return count($this->getBooks()) < 1;
+    }
+
+    /**
+     * @param CreateGenreRequest $dto
+     *
+     * @return Genre
+     */
+    public static function createFromDTO(CreateGenreRequest $dto): Genre
+    {
+        return new self($dto->name);
     }
 }

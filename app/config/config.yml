@@ -15,6 +15,8 @@ parameters:
 
 framework:
     #esi:             ~
+    serializer:
+        enabled: true
     translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
@@ -167,9 +169,9 @@ monolog:
 
 lexik_jwt_authentication:
     secret_key: '%jwt_private_key_path%'
-    public_key:  '%jwt_public_key_path%'
-    pass_phrase:      '%jwt_key_pass_phrase%'
-    token_ttl:        '%jwt_token_ttl%'
+    public_key: '%jwt_public_key_path%'
+    pass_phrase: '%jwt_key_pass_phrase%'
+    token_ttl: '%jwt_token_ttl%'
 
 nelmio_cors:
     defaults:

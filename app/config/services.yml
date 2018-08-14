@@ -132,3 +132,20 @@ services:
           public: true
           class: AppBundle\Service\Facade\BookServiceFacade
           arguments: ["@app.archives", "@app.books", "@app.cache_service", "@app.sessions"]
+
+      app.request_object_resolver:
+          class: AppBundle\Api\ArgumentResolver\RequestObjectResolver
+          arguments: ["@validator", "@serializer"]
+          tags:
+            - { name: controller.argument_value_resolver, priority: 50 }
+
+      app.invalid_request_listener:
+          class: AppBundle\Api\EventListener\InvalidRequestExceptionSubscriber
+          tags:
+            - { name: kernel.event_subscriber }
+
+      app.unique_value_validator:
+         class: AppBundle\Api\Validator\Constraints\UniqueValueValidator
+         arguments: ["@doctrine.orm.entity_manager"]
+         tags:
+            - { name: validator.constraint_validator }

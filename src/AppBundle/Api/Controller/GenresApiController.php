@@ -2,6 +2,7 @@
 
 namespace AppBundle\Api\Controller;
 
+use AppBundle\Api\Request\Genre\CreateGenreRequest;
 use AppBundle\Api\Transformer\GenreTransformer;
 use AppBundle\Entity\Genre;
 use AppBundle\Filter\DTO\GenreFilter;
@@ -41,6 +42,24 @@ class GenresApiController extends Controller
             ->setTransformer(new GenreTransformer())
             ->setPage($request->query->getInt('page', 1));
 
-        return new JsonResponse($cacheService->getData($options));
+        return new JsonResponse($cacheService->getData($options), JsonResponse::HTTP_OK);
+    }
+
+    /**
+     * @Route("/api/genres/add", name="api_genres_add")
+     * @Method({"POST"})
+     *
+     * @param CreateGenreRequest $dto
+     *
+     * @return JsonResponse
+     */
+    public function addAction(CreateGenreRequest $dto): JsonResponse
+    {
+        $genre = Genre::createFromDTO($dto);
+
+        $genreService = $this->get('app.genres');
+        $genreService->save($genre);
+
+        return new JsonResponse((new GenreTransformer())->transform($genre), JsonResponse::HTTP_CREATED);
     }
 }
