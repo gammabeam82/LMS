@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Api\Request\Genre\CreateGenreRequest;
+use AppBundle\Api\Request\Genre\UpdateGenreRequest;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -179,5 +180,17 @@ class Genre implements EntityInterface
     public static function createFromDTO(CreateGenreRequest $dto): Genre
     {
         return new self($dto->name);
+    }
+
+    /**
+     * @param UpdateGenreRequest $dto
+     *
+     * @return Genre
+     */
+    public function update(UpdateGenreRequest $dto): Genre
+    {
+        $this->setName($dto->name);
+
+        return $this;
     }
 }

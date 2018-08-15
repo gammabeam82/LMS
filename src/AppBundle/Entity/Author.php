@@ -2,12 +2,14 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Api\Request\Author\CreateAuthorRequest;
+use AppBundle\Api\Request\Author\UpdateAuthorRequest;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
-use \DateTime;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\AuthorRepository")
@@ -67,9 +69,15 @@ class Author implements EntityInterface
 
     /**
      * Author constructor.
+     *
+     * @param string|null $firstName
+     * @param string|null $lastName
      */
-    public function __construct()
+    public function __construct(string $firstName = null, string $lastName = null)
     {
+        $this->firstName = $firstName;
+        $this->lastName = $lastName;
+
         $this->books = new ArrayCollection();
         $this->subscribers = new ArrayCollection();
     }
@@ -271,5 +279,28 @@ class Author implements EntityInterface
     public function isSubscribed(User $user)
     {
         return $this->subscribers->contains($user);
+    }
+
+    /**
+     * @param CreateAuthorRequest $dto
+     *
+     * @return Author
+     */
+    public static function createFromDTO(CreateAuthorRequest $dto): Author
+    {
+        return new self($dto->firstName, $dto->lastName);
+    }
+
+    /**
+     * @param UpdateAuthorRequest $dto
+     *
+     * @return Author
+     */
+    public function update(UpdateAuthorRequest $dto): Author
+    {
+        $this->setFirstName($dto->firstName);
+        $this->setLastName($dto->lastName);
+
+        return $this;
     }
 }
